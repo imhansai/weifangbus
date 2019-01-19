@@ -172,9 +172,7 @@ class _HomePageState extends State<HomePage> {
               appBar: AppBar(
                 title: Text("资讯详情"),
               ),
-              body: new Center(
-                child: new HtmlWidget(_headLines[index].content),
-              ),
+              body: new HtmlWidget(_headLines[index].content),
             );
           }));
         },
