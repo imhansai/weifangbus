@@ -23,21 +23,19 @@ class _HomePageState extends State<HomePage> {
   List<Headline> _headLines = new List();
 
   // 请求首页数据
-  Future getStartUpBasicInfoEntity() async {
+  getStartUpBasicInfoEntity() async {
     try {
-      Response response;
       var uri = "/BusService/Query_StartUpBasicInfo?" + getSignString();
       print('uri::: ' + uri);
-      response = await dio.get(uri);
+      Response response = await dio.get(uri);
       _startupbasicinfoEntity = EntityFactory.generateOBJ<StartupbasicinfoEntity>(response.data);
-      print('请求完毕');
-      // 设置数据，重绘 ui
+      print('请求 _startupbasicinfoEntity 完毕,设置数据，重绘 ui');
       setState(() {
         _slideShows = _startupbasicinfoEntity.slideshow;
         _headLines = _startupbasicinfoEntity.headline;
       });
     } catch (e) {
-      print('获取 startupbasicinfoEntity 出错::: ' + e);
+      print('获取 _startupbasicinfoEntity 出错::: ' + e);
     }
   }
 
@@ -62,7 +60,7 @@ class _HomePageState extends State<HomePage> {
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
                     return new Container(
-                      child: _swiper(),
+                      child: _loopPicWidget(),
                     );
                   },
                   childCount: 1,
@@ -76,7 +74,10 @@ class _HomePageState extends State<HomePage> {
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
                     return new Container(
-                      child: _information(),
+                      color: Colors.white,
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                      child: _informationWidget(),
                     );
                   },
                   childCount: 1,
@@ -97,7 +98,7 @@ class _HomePageState extends State<HomePage> {
                   (BuildContext context, int index) {
                     return new Container(
                       alignment: Alignment.center,
-                      color: Colors.cyan[100 * (index % 9)],
+                      color: Colors.blue,
                       child: new Text('grid item $index'),
                     );
                   },
@@ -112,7 +113,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   // 轮播图
-  Widget _swiper() {
+  Widget _loopPicWidget() {
     if (_slideShows.length > 0) {
       return new Swiper(
         itemBuilder: (BuildContext context, int index) {
@@ -134,30 +135,18 @@ class _HomePageState extends State<HomePage> {
         duration: 300,
         autoplayDelay: 3000,
         pagination: new SwiperPagination(),
-        onTap: (int index) {
-          Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) {
-            return Scaffold(
-              appBar: AppBar(
-                title: Text("图片名称"),
-              ),
-              body: new Center(
-                child: new Text(_slideShows[index].name),
-              ),
-            );
-          }));
-        },
       );
     }
   }
 
   // 资讯信息
-  Widget _information() {
+  Widget _informationWidget() {
     if (_headLines.length > 0) {
       return new Swiper(
         itemBuilder: (BuildContext context, int index) {
           return ClipRRect(
               borderRadius: new BorderRadius.all(new Radius.circular(10)),
-              child: new Text('资讯:' + _headLines[index].title));
+              child: new Text('资讯:   ' + _headLines[index].title));
         },
         scrollDirection: Axis.vertical,
         itemCount: _headLines.length,
