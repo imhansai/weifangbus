@@ -128,7 +128,6 @@ class _HomePageState extends State<HomePage> {
           );
         },
         itemCount: _slideShows.length,
-        index: 0,
         viewportFraction: 0.8,
         scale: 0.9,
         autoplay: true,
@@ -162,7 +161,6 @@ class _HomePageState extends State<HomePage> {
         },
         scrollDirection: Axis.vertical,
         itemCount: _headLines.length,
-        index: 0,
         autoplay: true,
         duration: 300,
         autoplayDelay: 3000,
