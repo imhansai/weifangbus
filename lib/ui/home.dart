@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:weifangbus/entity/startUpBasicInfo_entity.dart';
 import 'package:weifangbus/entity_factory.dart';
 import 'package:weifangbus/utils/dioUtil.dart';
@@ -18,6 +19,9 @@ class _HomePageState extends State<HomePage> {
   // 轮播图初始列表
   List<Slideshow> _slideShows = new List();
 
+  // 资讯信息
+  List<Headline> _headLines = new List();
+
   // 请求首页数据
   Future getStartUpBasicInfoEntity() async {
     try {
@@ -30,6 +34,7 @@ class _HomePageState extends State<HomePage> {
       // 设置数据，重绘 ui
       setState(() {
         _slideShows = _startupbasicinfoEntity.slideshow;
+        _headLines = _startupbasicinfoEntity.headline;
       });
     } catch (e) {
       print('获取 startupbasicinfoEntity 出错::: ' + e);
@@ -58,6 +63,20 @@ class _HomePageState extends State<HomePage> {
                   (context, index) {
                     return new Container(
                       child: _swiper(),
+                    );
+                  },
+                  childCount: 1,
+                ),
+              ),
+            ),
+            SliverPadding(
+              padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+              sliver: SliverFixedExtentList(
+                itemExtent: 50.0,
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    return new Container(
+                      child: _information(),
                     );
                   },
                   childCount: 1,
@@ -101,7 +120,7 @@ class _HomePageState extends State<HomePage> {
             borderRadius: new BorderRadius.all(new Radius.circular(10)),
             child: new FadeInImage.assetNetwork(
               placeholder: 'assets/home/placeholder.png',
-              image: _slideShows[index] != null ? _slideShows[index].bannerurl : 'http://via.placeholder.com/288x188',
+              image: _slideShows[index].bannerurl,
               fadeInCurve: Curves.easeIn,
               fadeInDuration: Duration(seconds: 1),
               fit: BoxFit.fill,
@@ -124,6 +143,37 @@ class _HomePageState extends State<HomePage> {
               ),
               body: new Center(
                 child: new Text(_slideShows[index].name),
+              ),
+            );
+          }));
+        },
+      );
+    }
+  }
+
+  // 资讯信息
+  Widget _information() {
+    if (_headLines.length > 0) {
+      return new Swiper(
+        itemBuilder: (BuildContext context, int index) {
+          return ClipRRect(
+              borderRadius: new BorderRadius.all(new Radius.circular(10)),
+              child: new Text('资讯:' + _headLines[index].title));
+        },
+        scrollDirection: Axis.vertical,
+        itemCount: _headLines.length,
+        index: 0,
+        autoplay: true,
+        duration: 300,
+        autoplayDelay: 3000,
+        onTap: (int index) {
+          Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) {
+            return Scaffold(
+              appBar: AppBar(
+                title: Text("资讯详情"),
+              ),
+              body: new Center(
+                child: new HtmlWidget(_headLines[index].content),
               ),
             );
           }));

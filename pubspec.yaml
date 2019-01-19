@@ -23,6 +23,7 @@ dependencies:
   crypto: ^2.0.6
   intl: ^0.15.7
   flutter_swiper: ^1.1.4
+  flutter_widget_from_html: ^0.1.0
 
 dev_dependencies:
   flutter_test:
