@@ -1,5 +1,10 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:weifangbus/entity/startUpBasicInfo_entity.dart';
+import 'package:weifangbus/entity_factory.dart';
+import 'package:weifangbus/utils/dioUtil.dart';
+import 'package:weifangbus/utils/requestParamsUtil.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -7,7 +12,34 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final _radius = 10.0;
+  // 初始页json数据实体类
+  var _startupbasicinfoEntity = new StartupbasicinfoEntity();
+
+  // 轮播图初始列表
+  List<Slideshow> _slideShows = new List();
+
+  // 请求首页数据
+  Future getStartUpBasicInfoEntity() async {
+    try {
+      Response response;
+      var uri = "/BusService/Query_StartUpBasicInfo?" + getSignString();
+      print('uri::: ' + uri);
+      response = await dio.get(uri);
+      _startupbasicinfoEntity = EntityFactory.generateOBJ<StartupbasicinfoEntity>(response.data);
+      print('请求完毕');
+      // 设置数据，重绘 ui
+      setState(() {
+        _slideShows = _startupbasicinfoEntity.slideshow;
+      });
+    } catch (e) {
+      print('获取 startupbasicinfoEntity 出错::: ' + e);
+    }
+  }
+
+  @override
+  void initState() {
+    getStartUpBasicInfoEntity();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,40 +48,87 @@ class _HomePageState extends State<HomePage> {
         title: new Text('首页'),
       ),
       body: new Container(
-        child: new Column(
-          children: <Widget>[
-            /// 轮播图
-            new Container(
-              padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-              width: MediaQuery.of(context).size.width,
-              height: 200.0,
-              child: new Swiper(
-                itemBuilder: (BuildContext context, int index) {
-                  return ClipRRect(
-                    borderRadius: new BorderRadius.all(new Radius.circular(_radius)),
-                    child: new FadeInImage.assetNetwork(
-                      placeholder: 'assets/home/placeholder.png',
-                      image:
-                          "http://122.4.254.30:3009//erp//InfoIsland//App//banner%E7%AE%A1%E7%90%86_170724112250_%E5%85%B3%E6%B3%A8%E5%B8%82%E6%B0%91%E5%87%BA%E8%A1%8C.jpg",
-                      fadeInCurve: Curves.easeIn,
-                      fadeInDuration: Duration(seconds: 1),
-                      fit: BoxFit.fill,
-                    ),
-                  );
-                },
-                index: 0,
-                autoplay: true,
-                itemCount: 4,
-                viewportFraction: 0.8,
-                scale: 0.9,
-                duration: 300,
-                autoplayDelay: 3000,
-                pagination: new SwiperPagination(),
+        child: CustomScrollView(
+          slivers: <Widget>[
+            SliverPadding(
+              padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+              sliver: SliverFixedExtentList(
+                itemExtent: 180.0,
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    return new Container(
+                      child: _swiper(),
+                    );
+                  },
+                  childCount: 1,
+                ),
+              ),
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.all(10.0),
+              sliver: new SliverGrid(
+                //Grid
+                gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3, // 列数
+                  mainAxisSpacing: 20.0,
+                  crossAxisSpacing: 20.0,
+                  childAspectRatio: 1.0,
+                ),
+                delegate: new SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                    return new Container(
+                      alignment: Alignment.center,
+                      color: Colors.cyan[100 * (index % 9)],
+                      child: new Text('grid item $index'),
+                    );
+                  },
+                  childCount: 11,
+                ),
               ),
             ),
           ],
         ),
       ),
     );
+  }
+
+  // 轮播图
+  Widget _swiper() {
+    if (_slideShows.length > 0) {
+      return new Swiper(
+        itemBuilder: (BuildContext context, int index) {
+          return ClipRRect(
+            borderRadius: new BorderRadius.all(new Radius.circular(10)),
+            child: new FadeInImage.assetNetwork(
+              placeholder: 'assets/home/placeholder.png',
+              image: _slideShows[index] != null ? _slideShows[index].bannerurl : 'http://via.placeholder.com/288x188',
+              fadeInCurve: Curves.easeIn,
+              fadeInDuration: Duration(seconds: 1),
+              fit: BoxFit.fill,
+            ),
+          );
+        },
+        itemCount: _slideShows.length,
+        index: 0,
+        viewportFraction: 0.8,
+        scale: 0.9,
+        autoplay: true,
+        duration: 300,
+        autoplayDelay: 3000,
+        pagination: new SwiperPagination(),
+        onTap: (int index) {
+          Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) {
+            return Scaffold(
+              appBar: AppBar(
+                title: Text("图片名称"),
+              ),
+              body: new Center(
+                child: new Text(_slideShows[index].name),
+              ),
+            );
+          }));
+        },
+      );
+    }
   }
 }

@@ -4,12 +4,22 @@ import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
+import 'package:weifangbus/entity/startUpBasicInfo_entity.dart';
+import 'package:weifangbus/entity_factory.dart';
 import 'package:weifangbus/utils/dioUtil.dart';
 
 Future main() async {
-  Response response;
-  response = await dio.get("/BusService/Require_AllRouteData/?" + getSignString());
-  print(response);
+  try {
+    Response response;
+    var uri = "/BusService/Query_StartUpBasicInfo?" + getSignString();
+    print(uri);
+    response = await dio.get(uri);
+    var startupbasicinfoEntity = EntityFactory.generateOBJ<StartupbasicinfoEntity>(response.data);
+    print(startupbasicinfoEntity.slideshow[0].bannerurl);
+  } catch (e) {
+    print('请求出现问题');
+    print(e);
+  }
 }
 
 /// 获取时间戳
@@ -30,8 +40,8 @@ getSignKey(timeStamp, random) {
   var hmacSha256 = new Hmac(sha256, key);
   var digest = hmacSha256.convert(bytes);
 
-  print("HMAC digest as bytes: ${digest.bytes}");
-  print("HMAC digest as hex string: $digest");
+  // print("HMAC digest as bytes: ${digest.bytes}");
+  // print("HMAC digest as hex string: $digest");
 
   return digest.toString();
 }
