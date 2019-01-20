@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:weifangbus/entity/startUpBasicInfo_entity.dart';
 import 'package:weifangbus/entity_factory.dart';
+import 'package:weifangbus/ui/informationDetail.dart';
 import 'package:weifangbus/utils/dioUtil.dart';
 import 'package:weifangbus/utils/requestParamsUtil.dart';
 
@@ -152,12 +152,10 @@ class _HomePageState extends State<HomePage> {
         duration: 300,
         autoplayDelay: 3000,
         onTap: (int index) {
+          final Headline headLine = _headLines[index];
           Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) {
-            return Scaffold(
-              appBar: AppBar(
-                title: Text("资讯详情"),
-              ),
-              body: new HtmlWidget(_headLines[index].content),
+            return InformationDetail(
+              headLine: headLine,
             );
           }));
         },
