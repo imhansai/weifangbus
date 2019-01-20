@@ -144,9 +144,7 @@ class _HomePageState extends State<HomePage> {
     if (_headLines.length > 0) {
       return new Swiper(
         itemBuilder: (BuildContext context, int index) {
-          return ClipRRect(
-              borderRadius: new BorderRadius.all(new Radius.circular(10)),
-              child: new Text('资讯:   ' + _headLines[index].title));
+          return _informationItemWidget(index);
         },
         scrollDirection: Axis.vertical,
         itemCount: _headLines.length,
@@ -165,5 +163,30 @@ class _HomePageState extends State<HomePage> {
         },
       );
     }
+  }
+
+  Widget _informationItemWidget(int index) {
+    return new Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        DecoratedBox(
+          decoration: BoxDecoration(
+              border: Border.all(color: Colors.deepOrangeAccent), borderRadius: BorderRadius.all(Radius.circular(5))),
+          child: Text(
+            ' 资讯 ',
+            style: TextStyle(
+              color: Colors.deepOrangeAccent,
+            ),
+          ),
+        ),
+        Expanded(
+          child: new Text(
+            ' ' + _headLines[index].title,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ],
+    );
   }
 }
