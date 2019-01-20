@@ -20,7 +20,58 @@ class _InformationDetail extends State<InformationDetail> {
       appBar: AppBar(
         title: Text("资讯详情"),
       ),
-      body: new HtmlWidget(widget.headLine.content),
+      body: new Container(
+        child: new Column(
+          children: <Widget>[
+            new Padding(
+              padding: EdgeInsets.all(15),
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(3.0),
+                  boxShadow: [
+                    BoxShadow(color: Colors.black54, offset: Offset(2.0, 2.0), blurRadius: 4.0),
+                  ],
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(5),
+                  child: new Column(
+                    children: <Widget>[
+                      Text(
+                        '  ' + widget.headLine.title,
+                        style: TextStyle(
+                          // color: Colors.white,
+                          fontSize: 18,
+                        ),
+                      ),
+                      Text(
+                        '发布时间:' + widget.headLine.realeasedatetime,
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 13,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            new Padding(
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 0),
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(3.0),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(3),
+                  child: new HtmlWidget(widget.headLine.content),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      // new HtmlWidget(widget.headLine.content),
     );
   }
 }
