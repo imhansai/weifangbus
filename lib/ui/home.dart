@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -119,9 +120,8 @@ class _HomePageState extends State<HomePage> {
         itemBuilder: (BuildContext context, int index) {
           return ClipRRect(
             borderRadius: new BorderRadius.all(new Radius.circular(10)),
-            child: new FadeInImage.assetNetwork(
-              placeholder: 'assets/home/placeholder.png',
-              image: _slideShows[index].bannerurl,
+            child: CachedNetworkImage(
+              imageUrl: _slideShows[index].bannerurl,
               fadeInCurve: Curves.easeIn,
               fadeInDuration: Duration(seconds: 1),
               fit: BoxFit.fill,
