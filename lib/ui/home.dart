@@ -141,6 +141,7 @@ class _HomePageState extends State<HomePage> {
 
   // 资讯信息
   Widget _informationWidget() {
+    bool autoplay = _headLines.length > 1;
     if (_headLines.length > 0) {
       return new Swiper(
         itemBuilder: (BuildContext context, int index) {
@@ -148,7 +149,7 @@ class _HomePageState extends State<HomePage> {
         },
         scrollDirection: Axis.vertical,
         itemCount: _headLines.length,
-        autoplay: true,
+        autoplay: autoplay,
         duration: 300,
         autoplayDelay: 3000,
         onTap: (int index) {
