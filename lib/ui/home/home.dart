@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:weifangbus/ui/home/loopPicAndInformation.dart';
 
-class HomePage extends StatefulWidget {
+class Home extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomeState createState() => _HomeState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: new AppBar(
         title: new Text('首页'),
@@ -42,13 +43,18 @@ class _HomePageState extends State<HomePage> {
                 ),
                 delegate: new SliverChildBuilderDelegate(
                   (BuildContext context, int index) {
-                    return new Container(
-                      alignment: Alignment.center,
-                      color: Colors.blue,
-                      child: new Text('功能 $index'),
+                    return new GestureDetector(
+                      child: new Container(
+                        alignment: Alignment.center,
+                        color: Colors.blue,
+                        child: new Text('功能 $index'),
+                      ),
+                      onTap: () {
+                        print('功能 $index');
+                      },
                     );
                   },
-                  childCount: 11,
+                  childCount: 4,
                 ),
               ),
             ),
@@ -57,4 +63,7 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
