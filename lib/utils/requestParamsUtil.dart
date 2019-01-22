@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
-import 'package:weifangbus/entity/startUpBasicInfo_entity.dart';
+import 'package:weifangbus/entity/home/startUpBasicInfo.dart';
 import 'package:weifangbus/entity_factory.dart';
 import 'package:weifangbus/utils/dioUtil.dart';
 
@@ -14,8 +14,7 @@ Future main() async {
     var uri = "/BusService/Query_StartUpBasicInfo?" + getSignString();
     print(uri);
     response = await dio.get(uri);
-    var startupbasicinfoEntity = EntityFactory.generateOBJ<StartupbasicinfoEntity>(response.data);
-    print(startupbasicinfoEntity.slideshow[0].bannerurl);
+    EntityFactory.generateOBJ<StartUpBasicInfoEntity>(response.data);
   } catch (e) {
     print('请求出现问题');
     print(e);

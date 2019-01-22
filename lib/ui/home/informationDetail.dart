@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-import 'package:weifangbus/entity/startUpBasicInfo_entity.dart';
+import 'package:weifangbus/entity/home/startUpBasicInfo.dart';
 
 class InformationDetail extends StatefulWidget {
   final Headline headLine;
@@ -38,7 +38,7 @@ class _InformationDetail extends State<InformationDetail> {
                   child: new Column(
                     children: <Widget>[
                       Text(
-                        '  ' + widget.headLine.title,
+                        widget.headLine.title,
                         style: TextStyle(
                           // color: Colors.white,
                           fontSize: 18,

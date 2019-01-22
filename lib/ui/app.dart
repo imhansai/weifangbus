@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weifangbus/ui/home.dart';
+import 'package:weifangbus/ui/home/home.dart';
 
 class WeiFangBusApp extends StatelessWidget {
   @override
