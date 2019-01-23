@@ -20,9 +20,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   @override
   void initState() {
     super.initState();
-    _tabController = new TabController(initialIndex: 0, length: 2, vsync: this);
+    _tabController = new TabController(initialIndex: 0, length: 3, vsync: this);
     _tabController.addListener(() {
-      // setState(() {});
+      setState(() {});
     });
   }
 
@@ -36,6 +36,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           new Center(
             child: new Text('敬请期待!!!'),
           ),
+          new Center(
+            child: new Text('敬请期待!!!'),
+          ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -45,6 +48,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         onTap: _onBottomNavigationBarTap,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.dashboard), title: Text('首页')),
+          BottomNavigationBarItem(icon: Icon(Icons.explore), title: Text('发现')),
           BottomNavigationBarItem(icon: Icon(Icons.more_vert), title: Text('更多'))
         ],
       ),

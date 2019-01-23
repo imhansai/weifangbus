@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:weifangbus/entity/home/startUpBasicInfo.dart';
 import 'package:weifangbus/entity_factory.dart';
@@ -65,7 +66,10 @@ class _LoopPicAndInformation extends State<LoopPicAndInformation> {
                         borderRadius: new BorderRadius.all(new Radius.circular(10)),
                         child: CachedNetworkImage(
                           placeholder: new Center(
-                            child: new CircularProgressIndicator(),
+                            child: SpinKitFadingCube(
+                              color: Theme.of(context).primaryColor,
+                              size: 25.0,
+                            ),
                           ),
                           imageUrl: startUpBasicInfoEntity.slideshow[index].bannerurl,
                           fadeInCurve: Curves.easeIn,
@@ -151,7 +155,23 @@ class _LoopPicAndInformation extends State<LoopPicAndInformation> {
 
         // By default, show a loading spinner
         return new Center(
-          child: CircularProgressIndicator(),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                width: 50.0,
+                height: 50.0,
+                child: SpinKitRotatingPlain(
+                  color: Colors.lightGreen,
+                  size: 25.0,
+                ),
+              ),
+              Container(
+                child: Text('加载中...'),
+              )
+            ],
+          ),
         );
       },
     );
