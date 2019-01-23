@@ -33,29 +33,61 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
             ),
             SliverPadding(
               padding: const EdgeInsets.all(10.0),
-              sliver: new SliverGrid(
-                //Grid
-                gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  mainAxisSpacing: 20.0,
-                  crossAxisSpacing: 20.0,
-                  childAspectRatio: 1.0,
-                ),
-                delegate: new SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                    return new GestureDetector(
+              sliver: new SliverGrid.count(
+                crossAxisCount: 3,
+                mainAxisSpacing: 20.0,
+                crossAxisSpacing: 20.0,
+                childAspectRatio: 1.0,
+                children: <Widget>[
+                  new Container(
+                    child: new GestureDetector(
                       child: new Container(
                         alignment: Alignment.center,
                         color: Colors.blue,
-                        child: new Text('功能 $index'),
+                        child: new Text('功能 1'),
                       ),
                       onTap: () {
-                        print('功能 $index');
+                        print('功能 1');
                       },
-                    );
-                  },
-                  childCount: 4,
-                ),
+                    ),
+                  ),
+                  new Container(
+                    child: new GestureDetector(
+                      child: new Container(
+                        alignment: Alignment.center,
+                        color: Colors.blue,
+                        child: new Text('功能 2'),
+                      ),
+                      onTap: () {
+                        print('功能 2');
+                      },
+                    ),
+                  ),
+                  new Container(
+                    child: new GestureDetector(
+                      child: new Container(
+                        alignment: Alignment.center,
+                        color: Colors.blue,
+                        child: new Text('功能 3'),
+                      ),
+                      onTap: () {
+                        print('功能 3');
+                      },
+                    ),
+                  ),
+                  new Container(
+                    child: new GestureDetector(
+                      child: new Container(
+                        alignment: Alignment.center,
+                        color: Colors.blue,
+                        child: new Text('功能 4'),
+                      ),
+                      onTap: () {
+                        print('功能 4');
+                      },
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
