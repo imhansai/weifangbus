@@ -20,7 +20,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
         child: CustomScrollView(
           slivers: <Widget>[
             SliverPadding(
-              padding: EdgeInsets.all(0),
+              padding: EdgeInsets.all(ScreenUtil().setWidth(0)),
               sliver: SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
@@ -34,11 +34,11 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
               ),
             ),
             SliverPadding(
-              padding: const EdgeInsets.all(10.0),
+              padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
               sliver: new SliverGrid.count(
                 crossAxisCount: 3,
-                mainAxisSpacing: 20.0,
-                crossAxisSpacing: 20.0,
+                mainAxisSpacing: ScreenUtil().setWidth(10),
+                crossAxisSpacing: ScreenUtil().setWidth(10),
                 childAspectRatio: 1.0,
                 children: <Widget>[
                   new GestureDetector(
@@ -48,16 +48,20 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           new Container(
+                            width: ScreenUtil().setWidth(180),
+                            height: ScreenUtil().setHeight(180),
                             child: DecoratedBox(
                               decoration: BoxDecoration(
                                 color: Colors.lightGreen,
                                 shape: BoxShape.circle,
                                 boxShadow: [
-                                  BoxShadow(color: Colors.black54, offset: Offset(2.0, 2.0), blurRadius: 4.0),
+                                  BoxShadow(
+                                      color: Colors.black54,
+                                      offset: Offset(ScreenUtil().setWidth(2), ScreenUtil().setWidth(2)),
+                                      blurRadius: 4.0),
                                 ],
                               ),
-                              child: new Padding(
-                                padding: EdgeInsets.all(15),
+                              child: new Center(
                                 child: Icon(
                                   MyIcons.lineInquiry,
                                   size: ScreenUtil().setWidth(90),
@@ -65,11 +69,9 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                 ),
                               ),
                             ),
-                            width: ScreenUtil().setWidth(180),
-                            height: ScreenUtil().setHeight(180),
                           ),
                           new Padding(
-                            padding: EdgeInsets.all(8),
+                            padding: EdgeInsets.all(ScreenUtil().setWidth(25)),
                             child: Text(
                               '线路查询',
                               style: TextStyle(
@@ -98,11 +100,14 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                 color: Colors.lightBlue,
                                 shape: BoxShape.circle,
                                 boxShadow: [
-                                  BoxShadow(color: Colors.black54, offset: Offset(2.0, 2.0), blurRadius: 4.0),
+                                  BoxShadow(
+                                    color: Colors.black54,
+                                    offset: Offset(ScreenUtil().setWidth(2), ScreenUtil().setWidth(2)),
+                                    blurRadius: 4.0,
+                                  ),
                                 ],
                               ),
-                              child: Padding(
-                                padding: EdgeInsets.all(15),
+                              child: new Center(
                                 child: Icon(
                                   MyIcons.guide,
                                   color: Colors.white,
@@ -112,7 +117,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                             ),
                           ),
                           new Padding(
-                            padding: EdgeInsets.all(8),
+                            padding: EdgeInsets.all(ScreenUtil().setWidth(25)),
                             child: Text(
                               '导乘',
                               style: TextStyle(
@@ -141,11 +146,14 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                 color: Colors.orangeAccent,
                                 shape: BoxShape.circle,
                                 boxShadow: [
-                                  BoxShadow(color: Colors.black54, offset: Offset(2.0, 2.0), blurRadius: 4.0),
+                                  BoxShadow(
+                                    color: Colors.black54,
+                                    offset: Offset(ScreenUtil().setWidth(2), ScreenUtil().setWidth(2)),
+                                    blurRadius: 4.0,
+                                  ),
                                 ],
                               ),
-                              child: Padding(
-                                padding: EdgeInsets.all(15),
+                              child: new Center(
                                 child: Icon(
                                   MyIcons.news,
                                   color: Colors.white,
@@ -155,7 +163,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                             ),
                           ),
                           new Padding(
-                            padding: EdgeInsets.all(8),
+                            padding: EdgeInsets.all(ScreenUtil().setWidth(25)),
                             child: Text(
                               '资讯',
                               style: TextStyle(
