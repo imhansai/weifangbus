@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weifangbus/ui/home/loopPicAndInformation.dart';
+import 'package:weifangbus/utils/fontUtil.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -39,53 +40,134 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                 crossAxisSpacing: 20.0,
                 childAspectRatio: 1.0,
                 children: <Widget>[
-                  new Container(
-                    child: new GestureDetector(
-                      child: new Container(
-                        alignment: Alignment.center,
-                        color: Colors.blue,
-                        child: new Text('功能 1'),
+                  new GestureDetector(
+                    child: new Center(
+                      child: new Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          new Container(
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                color: Colors.lightGreen,
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(color: Colors.black54, offset: Offset(2.0, 2.0), blurRadius: 4.0),
+                                ],
+                              ),
+                              child: new Padding(
+                                padding: EdgeInsets.all(15),
+                                child: Icon(
+                                  MyIcons.lineInquiry,
+                                  size: 32,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                            width: 64,
+                            height: 64,
+                          ),
+                          new Padding(
+                            padding: EdgeInsets.all(8),
+                            child: Text(
+                              '线路查询',
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      onTap: () {
-                        print('功能 1');
-                      },
                     ),
+                    onTap: () {
+                      print('线路查询');
+                    },
                   ),
-                  new Container(
-                    child: new GestureDetector(
-                      child: new Container(
-                        alignment: Alignment.center,
-                        color: Colors.blue,
-                        child: new Text('功能 2'),
+                  new GestureDetector(
+                    child: new Center(
+                      child: new Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          new Container(
+                            width: 64,
+                            height: 64,
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                color: Colors.lightBlue,
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(color: Colors.black54, offset: Offset(2.0, 2.0), blurRadius: 4.0),
+                                ],
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.all(15),
+                                child: Icon(
+                                  MyIcons.guide,
+                                  color: Colors.white,
+                                  size: 32,
+                                ),
+                              ),
+                            ),
+                          ),
+                          new Padding(
+                            padding: EdgeInsets.all(8),
+                            child: Text(
+                              '导乘',
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      onTap: () {
-                        print('功能 2');
-                      },
                     ),
+                    onTap: () {
+                      print('导乘');
+                    },
                   ),
-                  new Container(
-                    child: new GestureDetector(
-                      child: new Container(
-                        alignment: Alignment.center,
-                        color: Colors.blue,
-                        child: new Text('功能 3'),
+                  new GestureDetector(
+                    child: new Center(
+                      child: new Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          new Container(
+                            width: 64,
+                            height: 64,
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                color: Colors.orangeAccent,
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(color: Colors.black54, offset: Offset(2.0, 2.0), blurRadius: 4.0),
+                                ],
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.all(15),
+                                child: Icon(
+                                  MyIcons.news,
+                                  color: Colors.white,
+                                  size: 32,
+                                ),
+                              ),
+                            ),
+                          ),
+                          new Padding(
+                            padding: EdgeInsets.all(8),
+                            child: Text(
+                              '资讯',
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      onTap: () {
-                        print('功能 3');
-                      },
                     ),
-                  ),
-                  new Container(
-                    child: new GestureDetector(
-                      child: new Container(
-                        alignment: Alignment.center,
-                        color: Colors.blue,
-                        child: new Text('功能 4'),
-                      ),
-                      onTap: () {
-                        print('功能 4');
-                      },
-                    ),
+                    onTap: () {
+                      print('资讯');
+                    },
                   ),
                 ],
               ),

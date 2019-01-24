@@ -84,7 +84,7 @@ class _LoopPicAndInformation extends State<LoopPicAndInformation> {
                     autoplay: true,
                     duration: 300,
                     autoplayDelay: 3000,
-                    pagination: new SwiperPagination(),
+                    // pagination: new SwiperPagination(),
                   ),
                 ),
                 flex: 4,
