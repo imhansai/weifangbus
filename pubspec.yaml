@@ -25,6 +25,7 @@ dependencies:
   flutter_swiper: ^1.1.4
   flutter_widget_from_html: ^0.1.0
   flutter_spinkit: ^3.1.0
+  flutter_screenutil: ^0.4.2
 
 dev_dependencies:
   flutter_test:

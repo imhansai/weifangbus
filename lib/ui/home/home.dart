@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:weifangbus/ui/home/loopPicAndInformation.dart';
 import 'package:weifangbus/utils/fontUtil.dart';
 
@@ -20,11 +21,11 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
           slivers: <Widget>[
             SliverPadding(
               padding: EdgeInsets.all(0),
-              sliver: SliverFixedExtentList(
-                itemExtent: 230.0,
+              sliver: SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
                     return new Container(
+                      height: ScreenUtil().setHeight(621),
                       child: LoopPicAndInformation(),
                     );
                   },
@@ -59,20 +60,20 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                 padding: EdgeInsets.all(15),
                                 child: Icon(
                                   MyIcons.lineInquiry,
-                                  size: 32,
+                                  size: ScreenUtil().setWidth(90),
                                   color: Colors.white,
                                 ),
                               ),
                             ),
-                            width: 64,
-                            height: 64,
+                            width: ScreenUtil().setWidth(180),
+                            height: ScreenUtil().setHeight(180),
                           ),
                           new Padding(
                             padding: EdgeInsets.all(8),
                             child: Text(
                               '线路查询',
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: ScreenUtil().setSp(40),
                               ),
                             ),
                           ),
@@ -90,8 +91,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           new Container(
-                            width: 64,
-                            height: 64,
+                            width: ScreenUtil().setWidth(180),
+                            height: ScreenUtil().setHeight(180),
                             child: DecoratedBox(
                               decoration: BoxDecoration(
                                 color: Colors.lightBlue,
@@ -105,7 +106,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                 child: Icon(
                                   MyIcons.guide,
                                   color: Colors.white,
-                                  size: 32,
+                                  size: ScreenUtil().setWidth(90),
                                 ),
                               ),
                             ),
@@ -115,7 +116,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                             child: Text(
                               '导乘',
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: ScreenUtil().setSp(40),
                               ),
                             ),
                           ),
@@ -133,8 +134,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           new Container(
-                            width: 64,
-                            height: 64,
+                            width: ScreenUtil().setWidth(180),
+                            height: ScreenUtil().setHeight(180),
                             child: DecoratedBox(
                               decoration: BoxDecoration(
                                 color: Colors.orangeAccent,
@@ -148,7 +149,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                 child: Icon(
                                   MyIcons.news,
                                   color: Colors.white,
-                                  size: 32,
+                                  size: ScreenUtil().setWidth(90),
                                 ),
                               ),
                             ),
@@ -158,7 +159,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                             child: Text(
                               '资讯',
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: ScreenUtil().setSp(40),
                               ),
                             ),
                           ),
