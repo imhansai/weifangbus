@@ -80,7 +80,7 @@ class _NewsListPageState extends State<NewsListPage> {
             },
           ),
           onRefresh: () async {
-            await new Future.delayed(const Duration(seconds: 5), () {
+            await new Future.delayed(const Duration(seconds: 1), () {
               setState(() {
                 str.clear();
                 str.addAll(addStr);
@@ -88,13 +88,7 @@ class _NewsListPageState extends State<NewsListPage> {
             });
           },
           loadMore: () async {
-            await new Future.delayed(const Duration(seconds: 1), () {
-              if (str.length < 20) {
-                setState(() {
-                  str.addAll(addStr);
-                });
-              }
-            });
+            print('没有分页，已经是全部了，俺也是有底线的');
           },
         ),
       ),
