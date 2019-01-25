@@ -35,12 +35,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         controller: _tabController,
         children: <Widget>[
           Home(),
-          new Center(
-            child: new Text('敬请期待!!!'),
-          ),
-          new Center(
-            child: new Text('敬请期待!!!'),
-          ),
+          Home(),
+          Home(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -49,9 +45,18 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         fixedColor: Colors.black,
         onTap: _onBottomNavigationBarTap,
         items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.dashboard), title: Text('首页')),
-          BottomNavigationBarItem(icon: Icon(Icons.explore), title: Text('发现')),
-          BottomNavigationBarItem(icon: Icon(Icons.more_vert), title: Text('更多'))
+          BottomNavigationBarItem(
+            icon: Icon(Icons.dashboard),
+            title: Text('首页'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.explore),
+            title: Text('发现'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.more_vert),
+            title: Text('更多'),
+          ),
         ],
       ),
     );
