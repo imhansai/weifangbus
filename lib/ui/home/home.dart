@@ -9,6 +9,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
+  List<MenuEntity> menuEntityList = new List();
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -35,150 +37,64 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
             ),
             SliverPadding(
               padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
-              sliver: new SliverGrid.count(
-                crossAxisCount: 3,
-                mainAxisSpacing: ScreenUtil().setWidth(10),
-                crossAxisSpacing: ScreenUtil().setWidth(10),
-                childAspectRatio: 1.0,
-                children: <Widget>[
-                  new GestureDetector(
-                    child: new Center(
-                      child: new Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          new Container(
-                            width: ScreenUtil().setWidth(180),
-                            height: ScreenUtil().setHeight(180),
-                            child: DecoratedBox(
-                              decoration: BoxDecoration(
-                                color: Colors.lightGreen,
-                                shape: BoxShape.circle,
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.black54,
-                                      offset: Offset(ScreenUtil().setWidth(2), ScreenUtil().setWidth(2)),
-                                      blurRadius: 4.0),
-                                ],
-                              ),
-                              child: new Center(
-                                child: Icon(
-                                  MyIcons.lineInquiry,
-                                  size: ScreenUtil().setWidth(90),
-                                  color: Colors.white,
+              sliver: new SliverGrid(
+                gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  mainAxisSpacing: ScreenUtil().setWidth(10),
+                  crossAxisSpacing: ScreenUtil().setWidth(10),
+                  childAspectRatio: 1.0,
+                ),
+                delegate: new SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                    return new GestureDetector(
+                      child: new Center(
+                        child: new Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            new Container(
+                              width: ScreenUtil().setWidth(180),
+                              height: ScreenUtil().setHeight(180),
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                  color: menuEntityList[index].color,
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.black54,
+                                        offset: Offset(ScreenUtil().setWidth(2), ScreenUtil().setWidth(2)),
+                                        blurRadius: 4.0),
+                                  ],
                                 ),
-                              ),
-                            ),
-                          ),
-                          new Padding(
-                            padding: EdgeInsets.all(ScreenUtil().setWidth(25)),
-                            child: Text(
-                              '线路查询',
-                              style: TextStyle(
-                                fontSize: ScreenUtil().setSp(40),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    onTap: () {
-                      print('线路查询');
-                    },
-                  ),
-                  new GestureDetector(
-                    child: new Center(
-                      child: new Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          new Container(
-                            width: ScreenUtil().setWidth(180),
-                            height: ScreenUtil().setHeight(180),
-                            child: DecoratedBox(
-                              decoration: BoxDecoration(
-                                color: Colors.lightBlue,
-                                shape: BoxShape.circle,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black54,
-                                    offset: Offset(ScreenUtil().setWidth(2), ScreenUtil().setWidth(2)),
-                                    blurRadius: 4.0,
+                                child: new Center(
+                                  child: Icon(
+                                    menuEntityList[index].icon,
+                                    size: ScreenUtil().setWidth(90),
+                                    color: Colors.white,
                                   ),
-                                ],
-                              ),
-                              child: new Center(
-                                child: Icon(
-                                  MyIcons.guide,
-                                  color: Colors.white,
-                                  size: ScreenUtil().setWidth(90),
                                 ),
                               ),
                             ),
-                          ),
-                          new Padding(
-                            padding: EdgeInsets.all(ScreenUtil().setWidth(25)),
-                            child: Text(
-                              '导乘',
-                              style: TextStyle(
-                                fontSize: ScreenUtil().setSp(40),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    onTap: () {
-                      print('导乘');
-                    },
-                  ),
-                  new GestureDetector(
-                    child: new Center(
-                      child: new Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          new Container(
-                            width: ScreenUtil().setWidth(180),
-                            height: ScreenUtil().setHeight(180),
-                            child: DecoratedBox(
-                              decoration: BoxDecoration(
-                                color: Colors.orangeAccent,
-                                shape: BoxShape.circle,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black54,
-                                    offset: Offset(ScreenUtil().setWidth(2), ScreenUtil().setWidth(2)),
-                                    blurRadius: 4.0,
-                                  ),
-                                ],
-                              ),
-                              child: new Center(
-                                child: Icon(
-                                  MyIcons.news,
-                                  color: Colors.white,
-                                  size: ScreenUtil().setWidth(90),
+                            new Padding(
+                              padding: EdgeInsets.all(ScreenUtil().setWidth(25)),
+                              child: Text(
+                                menuEntityList[index].menuText,
+                                style: TextStyle(
+                                  fontSize: ScreenUtil().setSp(40),
                                 ),
                               ),
                             ),
-                          ),
-                          new Padding(
-                            padding: EdgeInsets.all(ScreenUtil().setWidth(25)),
-                            child: Text(
-                              '资讯',
-                              style: TextStyle(
-                                fontSize: ScreenUtil().setSp(40),
-                              ),
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    onTap: () {
-                      print('资讯');
-                    },
-                  ),
-                ],
+                      onTap: () {
+                        var onTapWidget = menuEntityList[index].onTapWidget;
+                        print('点击了::: $index');
+                      },
+                    );
+                  },
+                  childCount: 3,
+                ),
               ),
             ),
           ],
@@ -189,4 +105,24 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
 
   @override
   bool get wantKeepAlive => true;
+
+  @override
+  void initState() {
+    MenuEntity lineInquiry = new MenuEntity(Colors.lightGreen, MyIcons.lineInquiry, '线路查询', null);
+    menuEntityList.add(lineInquiry);
+    MenuEntity guide = new MenuEntity(Colors.lightBlue, MyIcons.guide, '导乘', null);
+    menuEntityList.add(guide);
+    MenuEntity news = new MenuEntity(Colors.orangeAccent, MyIcons.news, '资讯', null);
+    menuEntityList.add(news);
+  }
+}
+
+// 菜单实体类
+class MenuEntity {
+  Color color;
+  IconData icon;
+  String menuText;
+  Widget onTapWidget;
+
+  MenuEntity(this.color, this.icon, this.menuText, this.onTapWidget);
 }
