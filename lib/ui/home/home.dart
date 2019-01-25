@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:weifangbus/ui/home/loopPicAndInformation.dart';
+import 'package:weifangbus/ui/home/news_list.dart';
+import 'package:weifangbus/ui/home/loopPicAndNews.dart';
 import 'package:weifangbus/utils/fontUtil.dart';
 
 class Home extends StatefulWidget {
@@ -53,8 +54,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             new Container(
-                              width: ScreenUtil().setWidth(180),
-                              height: ScreenUtil().setHeight(180),
+                              width: ScreenUtil().setWidth(170),
+                              height: ScreenUtil().setHeight(170),
                               child: DecoratedBox(
                                 decoration: BoxDecoration(
                                   color: menuEntityList[index].color,
@@ -69,7 +70,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                 child: new Center(
                                   child: Icon(
                                     menuEntityList[index].icon,
-                                    size: ScreenUtil().setWidth(90),
+                                    size: ScreenUtil().setWidth(80),
                                     color: Colors.white,
                                   ),
                                 ),
@@ -88,8 +89,18 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                         ),
                       ),
                       onTap: () {
-                        var onTapWidget = menuEntityList[index].onTapWidget;
                         print('点击了::: $index');
+                        // todo 先做资讯信息列表
+                        if (index == 2) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) {
+                                return menuEntityList[index].onTapWidget;
+                              },
+                            ),
+                          );
+                        }
                       },
                     );
                   },
@@ -108,11 +119,11 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
 
   @override
   void initState() {
-    MenuEntity lineInquiry = new MenuEntity(Colors.lightGreen, MyIcons.lineInquiry, '线路查询', null);
+    MenuEntity lineInquiry = new MenuEntity(Colors.lightBlue, MyIcons.lineInquiry, '线路查询', null);
     menuEntityList.add(lineInquiry);
-    MenuEntity guide = new MenuEntity(Colors.lightBlue, MyIcons.guide, '导乘', null);
+    MenuEntity guide = new MenuEntity(Colors.lightGreen, MyIcons.guide, '导乘', null);
     menuEntityList.add(guide);
-    MenuEntity news = new MenuEntity(Colors.orangeAccent, MyIcons.news, '资讯', null);
+    MenuEntity news = new MenuEntity(Colors.orangeAccent, MyIcons.news, '资讯', NewsListPage());
     menuEntityList.add(news);
   }
 }

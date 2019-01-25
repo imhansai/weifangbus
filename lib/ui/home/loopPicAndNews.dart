@@ -7,7 +7,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:weifangbus/entity/home/startUpBasicInfo.dart';
 import 'package:weifangbus/entity_factory.dart';
-import 'package:weifangbus/ui/home/informationDetail.dart';
+import 'package:weifangbus/ui/home/news_detail.dart';
 import 'package:weifangbus/utils/dioUtil.dart';
 import 'package:weifangbus/utils/requestParamsUtil.dart';
 
