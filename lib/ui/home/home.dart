@@ -75,11 +75,11 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    width: 50.0,
-                    height: 50.0,
+                    width: ScreenUtil().setWidth(100),
+                    height: ScreenUtil().setWidth(100),
                     child: SpinKitRotatingPlain(
                       color: Colors.lightGreen,
-                      size: 25.0,
+                      size: ScreenUtil().setWidth(100),
                     ),
                   ),
                   Container(
