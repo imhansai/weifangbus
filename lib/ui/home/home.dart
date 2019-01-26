@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:weifangbus/entity/home/startUpBasicInfo.dart';
+import 'package:weifangbus/entity/home/startUpBasicInfo_entity.dart';
 import 'package:weifangbus/entity_factory.dart';
 import 'package:weifangbus/ui/home/news_detail.dart';
 import 'package:weifangbus/ui/home/news_list.dart';

@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
-import 'package:weifangbus/entity/home/startUpBasicInfo.dart';
+import 'package:weifangbus/entity/home/startUpBasicInfo_entity.dart';
 import 'package:weifangbus/entity_factory.dart';
 import 'package:weifangbus/utils/dioUtil.dart';
 

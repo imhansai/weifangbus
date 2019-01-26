@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-import 'package:weifangbus/entity/home/startUpBasicInfo.dart';
+import 'package:weifangbus/entity/home/startUpBasicInfo_entity.dart';
 
 class InformationDetail extends StatefulWidget {
   final Headline headLine;
