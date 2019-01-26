@@ -43,6 +43,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
 
   @override
   void initState() {
+    super.initState();
     MenuEntity lineInquiry = MenuEntity(Colors.lightBlue, MyIcons.lineInquiry, '线路查询', null);
     menuEntityList.add(lineInquiry);
     MenuEntity guide = MenuEntity(Colors.lightGreen, MyIcons.guide, '导乘', null);
