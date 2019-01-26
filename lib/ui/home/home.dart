@@ -139,7 +139,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                         autoplay: true,
                                         duration: 300,
                                         autoplayDelay: 3000,
-                                        // pagination: SwiperPagination(),
                                       ),
                                     ),
                                     flex: 5,

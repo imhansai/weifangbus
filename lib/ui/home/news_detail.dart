@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:weifangbus/entity/home/startUpBasicInfo_entity.dart';
 
@@ -24,31 +25,37 @@ class _InformationDetail extends State<InformationDetail> {
         child: Column(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.all(15),
+              padding: EdgeInsets.all(ScreenUtil().setWidth(35)),
               child: DecoratedBox(
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(3.0),
                   boxShadow: [
-                    BoxShadow(color: Colors.black54, offset: Offset(2.0, 2.0), blurRadius: 4.0),
+                    BoxShadow(
+                        color: Colors.black54,
+                        offset: Offset(
+                          ScreenUtil().setWidth(2),
+                          ScreenUtil().setWidth(2),
+                        ),
+                        blurRadius: 4.0),
                   ],
                 ),
                 child: Padding(
-                  padding: EdgeInsets.all(5),
+                  padding: EdgeInsets.all(ScreenUtil().setWidth(35)),
                   child: Column(
                     children: <Widget>[
                       Text(
                         widget.headLine.title,
                         style: TextStyle(
                           // color: Colors.white,
-                          fontSize: 18,
+                          fontSize: ScreenUtil().setSp(53),
                         ),
                       ),
                       Text(
-                        '发布时间:' + widget.headLine.realeasedatetime,
+                        '发布时间: ' + widget.headLine.realeasedatetime,
                         style: TextStyle(
                           color: Colors.grey,
-                          fontSize: 13,
+                          fontSize: ScreenUtil().setSp(38),
                         ),
                       ),
                     ],
@@ -57,16 +64,11 @@ class _InformationDetail extends State<InformationDetail> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 0),
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(3.0),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.all(3),
-                  child: HtmlWidget(widget.headLine.content),
-                ),
+              padding: EdgeInsets.symmetric(
+                horizontal: ScreenUtil().setWidth(40),
+                vertical: ScreenUtil().setHeight(10),
               ),
+              child: HtmlWidget(widget.headLine.content),
             ),
           ],
         ),
