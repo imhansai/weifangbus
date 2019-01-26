@@ -20,10 +20,10 @@ class _InformationDetail extends State<InformationDetail> {
       appBar: AppBar(
         title: Text("资讯详情"),
       ),
-      body: new Container(
-        child: new Column(
+      body: Container(
+        child: Column(
           children: <Widget>[
-            new Padding(
+            Padding(
               padding: EdgeInsets.all(15),
               child: DecoratedBox(
                 decoration: BoxDecoration(
@@ -35,7 +35,7 @@ class _InformationDetail extends State<InformationDetail> {
                 ),
                 child: Padding(
                   padding: EdgeInsets.all(5),
-                  child: new Column(
+                  child: Column(
                     children: <Widget>[
                       Text(
                         widget.headLine.title,
@@ -56,7 +56,7 @@ class _InformationDetail extends State<InformationDetail> {
                 ),
               ),
             ),
-            new Padding(
+            Padding(
               padding: EdgeInsets.symmetric(horizontal: 12, vertical: 0),
               child: DecoratedBox(
                 decoration: BoxDecoration(
@@ -64,14 +64,13 @@ class _InformationDetail extends State<InformationDetail> {
                 ),
                 child: Padding(
                   padding: EdgeInsets.all(3),
-                  child: new HtmlWidget(widget.headLine.content),
+                  child: HtmlWidget(widget.headLine.content),
                 ),
               ),
             ),
           ],
         ),
       ),
-      // new HtmlWidget(widget.headLine.content),
     );
   }
 }

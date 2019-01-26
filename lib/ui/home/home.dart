@@ -18,7 +18,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
-  List<MenuEntity> menuEntityList = new List();
+  List<MenuEntity> menuEntityList = List();
 
   // 初始页json数据实体类
   var _startUpBasicInfoEntity;
@@ -34,7 +34,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
       return startUpBasicInfoEntity;
     } catch (e) {
       print('获取 _startupbasicinfoEntity 出错::: ' + e);
-      return new StartUpBasicInfoEntity();
+      return StartUpBasicInfoEntity();
     }
   }
 
@@ -43,11 +43,11 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
 
   @override
   void initState() {
-    MenuEntity lineInquiry = new MenuEntity(Colors.lightBlue, MyIcons.lineInquiry, '线路查询', null);
+    MenuEntity lineInquiry = MenuEntity(Colors.lightBlue, MyIcons.lineInquiry, '线路查询', null);
     menuEntityList.add(lineInquiry);
-    MenuEntity guide = new MenuEntity(Colors.lightGreen, MyIcons.guide, '导乘', null);
+    MenuEntity guide = MenuEntity(Colors.lightGreen, MyIcons.guide, '导乘', null);
     menuEntityList.add(guide);
-    MenuEntity news = new MenuEntity(Colors.orangeAccent, MyIcons.news, '资讯', NewsListPage());
+    MenuEntity news = MenuEntity(Colors.orangeAccent, MyIcons.news, '资讯', NewsListPage());
     menuEntityList.add(news);
     _startUpBasicInfoEntity = getStartUpBasicInfoEntity();
   }
@@ -62,14 +62,14 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      appBar: new AppBar(
-        title: new Text('首页'),
+      appBar: AppBar(
+        title: Text('首页'),
       ),
       body: FutureBuilder(
         future: _startUpBasicInfoEntity,
         builder: (context, result) {
           if (result.connectionState == ConnectionState.active || result.connectionState == ConnectionState.waiting) {
-            return new Center(
+            return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -93,7 +93,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
           if (result.connectionState == ConnectionState.done) {
             if (result.hasData) {
               var startUpBasicInfoEntity = result.data as StartUpBasicInfoEntity;
-              return new Container(
+              return Container(
                 child: CustomScrollView(
                   slivers: <Widget>[
                     SliverPadding(
@@ -101,22 +101,29 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                       sliver: SliverList(
                         delegate: SliverChildBuilderDelegate(
                           (context, index) {
-                            return new Container(
-                              height: ScreenUtil().setHeight(621),
-                              child: new Column(
+                            return Container(
+                              height: ScreenUtil().setHeight(609), // 435 + 174
+                              child: Column(
                                 children: <Widget>[
                                   Expanded(
                                     child: Padding(
-                                      padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                                      child: new Swiper(
+                                      padding: EdgeInsets.fromLTRB(
+                                        ScreenUtil().setWidth(0),
+                                        ScreenUtil().setWidth(30),
+                                        ScreenUtil().setWidth(0),
+                                        ScreenUtil().setWidth(30),
+                                      ),
+                                      child: Swiper(
                                         itemBuilder: (BuildContext context, int index) {
                                           return ClipRRect(
-                                            borderRadius: new BorderRadius.all(new Radius.circular(10)),
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(10),
+                                            ),
                                             child: CachedNetworkImage(
-                                              placeholder: new Center(
+                                              placeholder: Center(
                                                 child: SpinKitFadingCube(
                                                   color: Theme.of(context).primaryColor,
-                                                  size: 25.0,
+                                                  size: ScreenUtil().setWidth(25),
                                                 ),
                                               ),
                                               imageUrl: startUpBasicInfoEntity.slideshow[index].bannerurl,
@@ -127,24 +134,29 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                           );
                                         },
                                         itemCount: startUpBasicInfoEntity.slideshow.length,
-                                        viewportFraction: 0.8,
-                                        scale: 0.9,
+                                        viewportFraction: 0.9,
+                                        scale: 0.95,
                                         autoplay: true,
                                         duration: 300,
                                         autoplayDelay: 3000,
-                                        // pagination: new SwiperPagination(),
+                                        // pagination: SwiperPagination(),
                                       ),
                                     ),
-                                    flex: 4,
+                                    flex: 5,
                                   ),
                                   Expanded(
-                                    child: new Container(
+                                    child: Container(
                                       color: Colors.white70,
                                       child: Padding(
-                                        padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
-                                        child: new Swiper(
+                                        padding: EdgeInsets.fromLTRB(
+                                          ScreenUtil().setWidth(30),
+                                          ScreenUtil().setWidth(5),
+                                          ScreenUtil().setWidth(30),
+                                          ScreenUtil().setWidth(5),
+                                        ),
+                                        child: Swiper(
                                           itemBuilder: (BuildContext context, int index) {
-                                            return new Row(
+                                            return Row(
                                               mainAxisAlignment: MainAxisAlignment.center,
                                               children: <Widget>[
                                                 DecoratedBox(
@@ -162,7 +174,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                                   ),
                                                 ),
                                                 Expanded(
-                                                  child: new Text(
+                                                  child: Text(
                                                     ' ' + startUpBasicInfoEntity.headline[index].title,
                                                     maxLines: 1,
                                                     overflow: TextOverflow.ellipsis,
@@ -179,7 +191,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                           onTap: (int index) {
                                             final Headline headLine = startUpBasicInfoEntity.headline[index];
                                             Navigator.of(context).push(
-                                              new MaterialPageRoute(
+                                              MaterialPageRoute(
                                                 builder: (BuildContext context) {
                                                   return InformationDetail(
                                                     headLine: headLine,
@@ -191,6 +203,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                         ),
                                       ),
                                     ),
+                                    flex: 2,
                                   ),
                                 ],
                               ),
@@ -202,22 +215,22 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     ),
                     SliverPadding(
                       padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
-                      sliver: new SliverGrid(
-                        gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                      sliver: SliverGrid(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3,
                           mainAxisSpacing: ScreenUtil().setWidth(10),
                           crossAxisSpacing: ScreenUtil().setWidth(10),
                           childAspectRatio: 1.0,
                         ),
-                        delegate: new SliverChildBuilderDelegate(
+                        delegate: SliverChildBuilderDelegate(
                           (BuildContext context, int index) {
-                            return new GestureDetector(
-                              child: new Center(
-                                child: new Column(
+                            return GestureDetector(
+                              child: Center(
+                                child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: <Widget>[
-                                    new Container(
+                                    Container(
                                       width: ScreenUtil().setWidth(170),
                                       height: ScreenUtil().setHeight(170),
                                       child: DecoratedBox(
@@ -227,11 +240,14 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                           boxShadow: [
                                             BoxShadow(
                                                 color: Colors.black54,
-                                                offset: Offset(ScreenUtil().setWidth(2), ScreenUtil().setWidth(2)),
+                                                offset: Offset(
+                                                  ScreenUtil().setWidth(2),
+                                                  ScreenUtil().setWidth(2),
+                                                ),
                                                 blurRadius: 4.0),
                                           ],
                                         ),
-                                        child: new Center(
+                                        child: Center(
                                           child: Icon(
                                             menuEntityList[index].icon,
                                             size: ScreenUtil().setWidth(80),
@@ -240,7 +256,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                         ),
                                       ),
                                     ),
-                                    new Padding(
+                                    Padding(
                                       padding: EdgeInsets.all(ScreenUtil().setWidth(25)),
                                       child: Text(
                                         menuEntityList[index].menuText,
@@ -276,14 +292,16 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                 ),
               );
             } else if (result.hasError) {
-              return new Center(
+              return Center(
                 child: RaisedButton(
                   color: Colors.blue,
                   highlightColor: Colors.blue[700],
                   colorBrightness: Brightness.dark,
                   splashColor: Colors.grey,
                   child: Text("请检查网络连接后重试"),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
                   onPressed: reTry,
                 ),
               );
