@@ -11,7 +11,7 @@ import 'package:weifangbus/utils/dioUtil.dart';
 Future main() async {
   try {
     Response response;
-    var uri = "/BusService/Query_StartUpBasicInfo?" + getSignString();
+    var uri = "/BusService/Query_ByNewInfoPartNP?index=1&" + getSignString();
     print(uri);
     response = await dio.get(uri);
     EntityFactory.generateOBJ<StartUpBasicInfoEntity>(response.data);
