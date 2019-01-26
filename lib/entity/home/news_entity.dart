@@ -1,63 +1,42 @@
 class NewsEntity {
-	List<News> news;
+	Null istop1;
+	String realeasetime;
+	String content;
+	String contenthtml;
+	String title;
+	Null isscroll;
+	String id;
+	String routeid;
+	String realeasedatetime;
+	String stationid;
 
-	NewsEntity({this.news});
+	NewsEntity({this.istop1, this.realeasetime, this.content, this.contenthtml, this.title, this.isscroll, this.id, this.routeid, this.realeasedatetime, this.stationid});
 
 	NewsEntity.fromJson(Map<String, dynamic> json) {
-		if (json['news'] != null) {
-			news = new List<News>();
-			json['news'].forEach((v) { news.add(new News.fromJson(v)); });
-		}
-	}
-
-	Map<String, dynamic> toJson() {
-		final Map<String, dynamic> data = new Map<String, dynamic>();
-		if (this.news != null) {
-      data['news'] = this.news.map((v) => v.toJson()).toList();
-    }
-		return data;
-	}
-}
-
-class News {
-	String id;
-	String title;
-	String content;
-	String realeasetime;
-	String routeid;
-	String stationid;
-	String realeasedatetime;
-	String contenthtml;
-	Null istop1;
-	Null isscroll;
-
-	News({this.id, this.title, this.content, this.realeasetime, this.routeid, this.stationid, this.realeasedatetime, this.contenthtml, this.istop1, this.isscroll});
-
-	News.fromJson(Map<String, dynamic> json) {
-		id = json['ID'];
-		title = json['Title'];
-		content = json['Content'];
-		realeasetime = json['RealeaseTime'];
-		routeid = json['RouteID'];
-		stationid = json['StationID'];
-		realeasedatetime = json['RealeaseDateTime'];
-		contenthtml = json['ContentHtml'];
 		istop1 = json['istop1'];
+		realeasetime = json['RealeaseTime'];
+		content = json['Content'];
+		contenthtml = json['ContentHtml'];
+		title = json['Title'];
 		isscroll = json['isscroll'];
+		id = json['ID'];
+		routeid = json['RouteID'];
+		realeasedatetime = json['RealeaseDateTime'];
+		stationid = json['StationID'];
 	}
 
 	Map<String, dynamic> toJson() {
 		final Map<String, dynamic> data = new Map<String, dynamic>();
-		data['ID'] = this.id;
-		data['Title'] = this.title;
-		data['Content'] = this.content;
-		data['RealeaseTime'] = this.realeasetime;
-		data['RouteID'] = this.routeid;
-		data['StationID'] = this.stationid;
-		data['RealeaseDateTime'] = this.realeasedatetime;
-		data['ContentHtml'] = this.contenthtml;
 		data['istop1'] = this.istop1;
+		data['RealeaseTime'] = this.realeasetime;
+		data['Content'] = this.content;
+		data['ContentHtml'] = this.contenthtml;
+		data['Title'] = this.title;
 		data['isscroll'] = this.isscroll;
+		data['ID'] = this.id;
+		data['RouteID'] = this.routeid;
+		data['RealeaseDateTime'] = this.realeasedatetime;
+		data['StationID'] = this.stationid;
 		return data;
 	}
 }
