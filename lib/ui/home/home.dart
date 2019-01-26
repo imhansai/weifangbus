@@ -123,7 +123,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                               placeholder: Center(
                                                 child: SpinKitFadingCube(
                                                   color: Theme.of(context).primaryColor,
-                                                  size: ScreenUtil().setWidth(25),
+                                                  size: ScreenUtil().setWidth(80),
                                                 ),
                                               ),
                                               imageUrl: startUpBasicInfoEntity.slideshow[index].bannerurl,
