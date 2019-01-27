@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/phoenix_footer.dart';
 import 'package:flutter_easyrefresh/phoenix_header.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:weifangbus/entity/home/startUpBasicInfo_entity.dart';
 import 'package:weifangbus/entity_factory.dart';
 import 'package:weifangbus/ui/home/news_detail.dart';
@@ -12,12 +11,18 @@ import 'package:weifangbus/utils/requestParamsUtil.dart';
 
 /// 资讯列表页
 class NewsListPage extends StatefulWidget {
+  // 父 widget 传来的列表数据
+  final List<Headline> showNewsList;
+  final ValueChanged<List<Headline>> onChanged;
+
+  const NewsListPage({Key key, this.showNewsList, this.onChanged}) : super(key: key);
+
   @override
   _NewsListPageState createState() => _NewsListPageState();
 }
 
 class _NewsListPageState extends State<NewsListPage> {
-  List<Headline> _newsList = List();
+  List<Headline> newsList = List();
   List<Headline> _showNewsList = List();
   GlobalKey<EasyRefreshState> _easyRefreshKey = new GlobalKey<EasyRefreshState>();
   GlobalKey<RefreshHeaderState> _headerKey = new GlobalKey<RefreshHeaderState>();
@@ -40,6 +45,13 @@ class _NewsListPageState extends State<NewsListPage> {
   }
 
   @override
+  void initState() {
+    print('资讯列表页初始化');
+    super.initState();
+    _showNewsList = widget.showNewsList;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -53,37 +65,6 @@ class _NewsListPageState extends State<NewsListPage> {
           ),
           refreshFooter: PhoenixFooter(
             key: _footerKey,
-          ),
-          firstRefresh: true,
-          firstRefreshWidget: new Container(
-            width: double.infinity,
-            height: double.infinity,
-            color: Colors.black12,
-            child: new Center(
-              child: SizedBox(
-                height: 200.0,
-                width: 300.0,
-                child: Card(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        width: 50.0,
-                        height: 50.0,
-                        child: SpinKitFadingCube(
-                          color: Theme.of(context).primaryColor,
-                          size: 25.0,
-                        ),
-                      ),
-                      Container(
-                        child: Text("玩命加载中..."),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ),
           ),
           child: new ListView.builder(
             //ListView的Item
@@ -118,10 +99,11 @@ class _NewsListPageState extends State<NewsListPage> {
             },
           ),
           onRefresh: () async {
-            _newsList = await getNewsList();
+            newsList = await getNewsList();
+            widget.onChanged(newsList);
+            print("子 widget 设置状态");
             setState(() {
-              _showNewsList.clear();
-              _showNewsList.addAll(_newsList);
+              _showNewsList = newsList;
             });
           },
           loadMore: () async {

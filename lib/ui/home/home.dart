@@ -12,16 +12,28 @@ import 'package:weifangbus/utils/dioUtil.dart';
 import 'package:weifangbus/utils/fontUtil.dart';
 import 'package:weifangbus/utils/requestParamsUtil.dart';
 
+/// 首页
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
+  // 菜单项
   List<MenuEntity> menuEntityList = List();
 
   // 初始页json数据实体类
   var _startUpBasicInfoEntity;
+
+  // 资讯列表
+  List<Headline> _showNewsList = List();
+
+  void _handleNewsListOnRefresh(List<Headline> newsList) {
+    print("父 widget 设置状态");
+    setState(() {
+      _showNewsList = newsList;
+    });
+  }
 
   // 请求首页数据
   Future<StartUpBasicInfoEntity> getStartUpBasicInfoEntity() async {
@@ -30,10 +42,11 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
       print('uri::: ' + uri);
       Response response = await dio.get(uri);
       var startUpBasicInfoEntity = EntityFactory.generateOBJ<StartUpBasicInfoEntity>(response.data);
-      print('请求 _startUpBasicInfoEntity 完毕');
+      _showNewsList = startUpBasicInfoEntity.headline;
+      print("请求首页数据完毕");
       return startUpBasicInfoEntity;
     } catch (e) {
-      print('获取 _startupbasicinfoEntity 出错::: ' + e);
+      print("请求首页数据出错::: " + e.toString());
       return StartUpBasicInfoEntity();
     }
   }
@@ -44,11 +57,11 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     super.initState();
-    MenuEntity lineInquiry = MenuEntity(Colors.lightBlue, MyIcons.lineInquiry, '线路查询', null);
+    MenuEntity lineInquiry = MenuEntity(Colors.lightBlue, MyIcons.lineInquiry, '线路查询');
     menuEntityList.add(lineInquiry);
-    MenuEntity guide = MenuEntity(Colors.lightGreen, MyIcons.guide, '导乘', null);
+    MenuEntity guide = MenuEntity(Colors.lightGreen, MyIcons.guide, '导乘');
     menuEntityList.add(guide);
-    MenuEntity news = MenuEntity(Colors.orangeAccent, MyIcons.news, '资讯', NewsListPage());
+    MenuEntity news = MenuEntity(Colors.orangeAccent, MyIcons.news, '资讯');
     menuEntityList.add(news);
     _startUpBasicInfoEntity = getStartUpBasicInfoEntity();
   }
@@ -69,6 +82,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
       body: FutureBuilder(
         future: _startUpBasicInfoEntity,
         builder: (context, result) {
+          // 加载中.展示加载动画
           if (result.connectionState == ConnectionState.active || result.connectionState == ConnectionState.waiting) {
             return Center(
               child: Column(
@@ -91,12 +105,14 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
             );
           }
 
+          // 加载完成
           if (result.connectionState == ConnectionState.done) {
             if (result.hasData) {
               var startUpBasicInfoEntity = result.data as StartUpBasicInfoEntity;
               return Container(
                 child: CustomScrollView(
                   slivers: <Widget>[
+                    // 轮播图 + 资讯
                     SliverPadding(
                       padding: EdgeInsets.all(ScreenUtil().setWidth(0)),
                       sliver: SliverList(
@@ -175,7 +191,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                                 ),
                                                 Expanded(
                                                   child: Text(
-                                                    ' ' + startUpBasicInfoEntity.headline[index].title,
+                                                    ' ' + _showNewsList[index].title,
                                                     maxLines: 1,
                                                     overflow: TextOverflow.ellipsis,
                                                   ),
@@ -184,12 +200,13 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                             );
                                           },
                                           scrollDirection: Axis.vertical,
-                                          itemCount: startUpBasicInfoEntity.headline.length,
-                                          autoplay: startUpBasicInfoEntity.headline.length > 1,
+                                          itemCount: _showNewsList.length,
+                                          autoplay: _showNewsList.length > 1,
                                           duration: 300,
                                           autoplayDelay: 3000,
                                           onTap: (int index) {
-                                            final Headline headLine = startUpBasicInfoEntity.headline[index];
+                                            // 进入资讯详情
+                                            final Headline headLine = _showNewsList[index];
                                             Navigator.of(context).push(
                                               MaterialPageRoute(
                                                 builder: (BuildContext context) {
@@ -213,6 +230,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                         ),
                       ),
                     ),
+                    // 菜单项
                     SliverPadding(
                       padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
                       sliver: SliverGrid(
@@ -269,14 +287,17 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                 ),
                               ),
                               onTap: () {
-                                print('点击了::: $index');
-                                // todo 先做资讯信息列表
-                                if (index == 2) {
+                                // 进入资讯列表
+                                if (menuEntityList[index].menuText == '资讯') {
+                                  print('准备进入资讯');
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                       builder: (BuildContext context) {
-                                        return menuEntityList[index].onTapWidget;
+                                        return NewsListPage(
+                                          showNewsList: _showNewsList,
+                                          onChanged: _handleNewsListOnRefresh,
+                                        );
                                       },
                                     ),
                                   );
@@ -292,6 +313,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                 ),
               );
             } else if (result.hasError) {
+              // 出现错误,重试机制
               return Center(
                 child: RaisedButton(
                   color: Colors.blue,
@@ -318,7 +340,6 @@ class MenuEntity {
   Color color;
   IconData icon;
   String menuText;
-  Widget onTapWidget;
 
-  MenuEntity(this.color, this.icon, this.menuText, this.onTapWidget);
+  MenuEntity(this.color, this.icon, this.menuText);
 }
