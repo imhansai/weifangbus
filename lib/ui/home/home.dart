@@ -45,9 +45,21 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
       _showNewsList = startUpBasicInfoEntity.headline;
       print("请求首页数据完毕");
       return startUpBasicInfoEntity;
-    } catch (e) {
-      print('请求首页数据出错::: ' + e);
-      return StartUpBasicInfoEntity();
+    } on DioError catch (e) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx and is also not 304.
+      if (e.response != null) {
+        print('response 不为 null');
+        print(e.response.data);
+        print(e.response.headers);
+        print(e.response.request);
+      } else {
+        // Something happened in setting up or sending the request that triggered an Error
+        print('response 为 null');
+        print(e.request);
+        print(e.message);
+      }
+      return Future.error(e);
     }
   }
 

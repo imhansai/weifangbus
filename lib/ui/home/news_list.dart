@@ -38,9 +38,21 @@ class _NewsListPageState extends State<NewsListPage> {
       List<Headline> newsList = list.map((dynamic) => EntityFactory.generateOBJ<Headline>(dynamic)).toList();
       print('请求 newsList 完毕');
       return newsList;
-    } catch (e) {
-      print('获取 newsList 出错::: {}' + e);
-      return List<Headline>();
+    } on DioError catch (e) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx and is also not 304.
+      if (e.response != null) {
+        print('response 不为 null');
+        print(e.response.data);
+        print(e.response.headers);
+        print(e.response.request);
+      } else {
+        // Something happened in setting up or sending the request that triggered an Error
+        print('response 为 null');
+        print(e.request);
+        print(e.message);
+      }
+      return Future.error(e);
     }
   }
 
@@ -99,12 +111,17 @@ class _NewsListPageState extends State<NewsListPage> {
             },
           ),
           onRefresh: () async {
-            newsList = await getNewsList();
-            widget.onChanged(newsList);
-            print("子 widget 设置状态");
-            setState(() {
-              _showNewsList = newsList;
-            });
+            try {
+              newsList = await getNewsList();
+              widget.onChanged(newsList);
+              print("子 widget 设置状态");
+              setState(() {
+                _showNewsList = newsList;
+              });
+            } catch (e) {
+              print('刷新资讯列表出错');
+              print(e);
+            }
           },
           loadMore: () async {
             print('已经是全部了，俺也是有底线的');
