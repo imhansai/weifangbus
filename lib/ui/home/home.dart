@@ -46,7 +46,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
       print("请求首页数据完毕");
       return startUpBasicInfoEntity;
     } catch (e) {
-      print("请求首页数据出错::: " + e.toString());
+      print('请求首页数据出错::: ' + e);
       return StartUpBasicInfoEntity();
     }
   }
