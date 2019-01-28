@@ -39,7 +39,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   Future<StartUpBasicInfoEntity> getStartUpBasicInfoEntity() async {
     try {
       var uri = "/BusService/Query_StartUpBasicInfo?" + getSignString();
-      print('uri::: ' + uri);
       Response response = await dio.get(uri);
       var startUpBasicInfoEntity = EntityFactory.generateOBJ<StartUpBasicInfoEntity>(response.data);
       _showNewsList = startUpBasicInfoEntity.headline;
@@ -49,13 +48,13 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx and is also not 304.
       if (e.response != null) {
-        print('response 不为 null');
+        print('response is not null');
         print(e.response.data);
         print(e.response.headers);
         print(e.response.request);
       } else {
         // Something happened in setting up or sending the request that triggered an Error
-        print('response 为 null');
+        print('response is null');
         print(e.request);
         print(e.message);
       }
@@ -254,7 +253,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                         ),
                         delegate: SliverChildBuilderDelegate(
                           (BuildContext context, int index) {
-                            return GestureDetector(
+                            return InkWell(
                               child: Center(
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,

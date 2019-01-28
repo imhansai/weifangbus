@@ -28,27 +28,26 @@ class _NewsListPageState extends State<NewsListPage> {
   GlobalKey<RefreshHeaderState> _headerKey = new GlobalKey<RefreshHeaderState>();
   GlobalKey<RefreshFooterState> _footerKey = new GlobalKey<RefreshFooterState>();
 
-  // 请求首页数据
+  // 请求资讯列表数据
   Future<List<Headline>> getNewsList() async {
     try {
       var uri = "/BusService/Query_ByNewInfoPartNP?index=1&" + getSignString();
-      print('uri::: ' + uri);
       Response response = await dio.get(uri);
       List<dynamic> list = response.data;
       List<Headline> newsList = list.map((dynamic) => EntityFactory.generateOBJ<Headline>(dynamic)).toList();
-      print('请求 newsList 完毕');
+      print('请求资讯列表数据完毕');
       return newsList;
     } on DioError catch (e) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx and is also not 304.
       if (e.response != null) {
-        print('response 不为 null');
+        print('response is not null');
         print(e.response.data);
         print(e.response.headers);
         print(e.response.request);
       } else {
         // Something happened in setting up or sending the request that triggered an Error
-        print('response 为 null');
+        print('response is null');
         print(e.request);
         print(e.message);
       }
