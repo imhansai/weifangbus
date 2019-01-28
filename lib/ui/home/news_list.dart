@@ -1,3 +1,4 @@
+import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
@@ -40,19 +41,7 @@ class _NewsListPageState extends State<NewsListPage> {
       print('请求资讯列表数据完毕');
       return newsList;
     } on DioError catch (e) {
-      // The request was made and the server responded with a status code
-      // that falls out of the range of 2xx and is also not 304.
-      if (e.response != null) {
-        print('response is not null');
-        print(e.response.data);
-        print(e.response.headers);
-        print(e.response.request);
-      } else {
-        // Something happened in setting up or sending the request that triggered an Error
-        print('response is null');
-        print(e.request);
-        print(e.message);
-      }
+      print('请求资讯列表数据出错::: $e');
       return Future.error(e);
     }
   }
@@ -121,18 +110,22 @@ class _NewsListPageState extends State<NewsListPage> {
             },
           ),
           onRefresh: () async {
-            try {
-              newsList = await getNewsList();
-              widget.onChanged(newsList);
-              print("子 widget 设置状态");
-              setState(() {
-                _showNewsList = newsList;
-              });
-              showSnackBar('刷新成功!');
-            } catch (e) {
-              print('刷新资讯列表出错');
-              print(e);
-              showSnackBar('检测到网络有问题,刷新失败,请重试!');
+            var connectivityResult = await (Connectivity().checkConnectivity());
+            if (connectivityResult != ConnectivityResult.none) {
+              try {
+                newsList = await getNewsList();
+                widget.onChanged(newsList);
+                print("子 widget 设置状态");
+                setState(() {
+                  _showNewsList = newsList;
+                });
+                showSnackBar('刷新成功!');
+              } catch (e) {
+                print('刷新资讯列表出错::: $e');
+                showSnackBar('请求数据失败，请尝试切换网络后重试!');
+              }
+            } else {
+              showSnackBar('设备未连接到任何网络,请连接网络后重试!');
             }
           },
           /*loadMore: () async {

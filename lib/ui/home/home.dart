@@ -24,7 +24,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   List<MenuEntity> menuEntityList = List();
 
   // 初始页json数据实体类
-  var _startUpBasicInfoEntity;
+  Future<StartUpBasicInfoEntity> _startUpBasicInfoEntity;
 
   // 资讯列表
   List<Headline> _showNewsList = List();
@@ -52,29 +52,23 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
 
   // 请求首页数据
   Future<StartUpBasicInfoEntity> getStartUpBasicInfoEntity() async {
-    try {
-      var uri = "/BusService/Query_StartUpBasicInfo?" + getSignString();
-      Response response = await dio.get(uri);
-      var startUpBasicInfoEntity = EntityFactory.generateOBJ<StartUpBasicInfoEntity>(response.data);
-      _showNewsList = startUpBasicInfoEntity.headline;
-      print("请求首页数据完毕");
-      return startUpBasicInfoEntity;
-    } on DioError catch (e) {
-      // The request was made and the server responded with a status code
-      // that falls out of the range of 2xx and is also not 304.
-      if (e.response != null) {
-        print('response is not null');
-        print(e.response.data);
-        print(e.response.headers);
-        print(e.response.request);
-      } else {
-        // Something happened in setting up or sending the request that triggered an Error
-        print('response is null');
-        print(e.request);
-        print(e.message);
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult != ConnectivityResult.none) {
+      try {
+        var uri = "/BusService/Query_StartUpBasicInfo?" + getSignString();
+        Response response = await dio.get(uri);
+        var startUpBasicInfoEntity = EntityFactory.generateOBJ<StartUpBasicInfoEntity>(response.data);
+        _showNewsList = startUpBasicInfoEntity.headline;
+        print("请求首页数据完毕");
+        return startUpBasicInfoEntity;
+      } on DioError catch (e) {
+        print('请求首页数据出错::: $e');
+        showSnackBar('请求数据失败，请尝试切换网络后重试!');
+        return Future.error(e);
       }
-      showSnackBar('检测到网络有问题，请求数据失败，请重试!');
-      return Future.error(e);
+    } else {
+      showSnackBar('设备未连接到任何网络,请连接网络后重试!');
+      return Future.error('设备未连接到任何网络', StackTrace.fromString('设备未连接到任何网络'));
     }
   }
 
@@ -94,14 +88,9 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   }
 
   reTry() async {
-    var connectivityResult = await (Connectivity().checkConnectivity());
-    if (connectivityResult != ConnectivityResult.none) {
-      setState(() {
-        _startUpBasicInfoEntity = getStartUpBasicInfoEntity();
-      });
-    } else {
-      showSnackBar('设备未连接到任何网络,请连接网络后重试!');
-    }
+    setState(() {
+      _startUpBasicInfoEntity = getStartUpBasicInfoEntity();
+    });
   }
 
   @override
