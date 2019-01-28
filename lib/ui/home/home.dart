@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -35,16 +36,16 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     });
   }
 
-  void showSnackBar() {
+  void showSnackBar(String snackStr) {
     Scaffold.of(context).showSnackBar(
       SnackBar(
-        content: Text('检测到网络有问题，请求数据失败，请重试!'),
-        action: SnackBarAction(
+        content: Text(snackStr),
+        /*action: SnackBarAction(
           label: '重试',
           onPressed: () {
             reTry();
           },
-        ),
+        ),*/
       ),
     );
   }
@@ -72,7 +73,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
         print(e.request);
         print(e.message);
       }
-      showSnackBar();
+      showSnackBar('检测到网络有问题，请求数据失败，请重试!');
       return Future.error(e);
     }
   }
@@ -92,10 +93,15 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     _startUpBasicInfoEntity = getStartUpBasicInfoEntity();
   }
 
-  reTry() {
-    setState(() {
-      _startUpBasicInfoEntity = getStartUpBasicInfoEntity();
-    });
+  reTry() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult != ConnectivityResult.none) {
+      setState(() {
+        _startUpBasicInfoEntity = getStartUpBasicInfoEntity();
+      });
+    } else {
+      showSnackBar('设备未连接到任何网络,请连接网络后重试!');
+    }
   }
 
   @override
