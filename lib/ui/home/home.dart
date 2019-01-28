@@ -35,6 +35,20 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     });
   }
 
+  void showSnackBar() {
+    Scaffold.of(context).showSnackBar(
+      SnackBar(
+        content: Text('检测到网络有问题，请求数据失败，请重试!'),
+        action: SnackBarAction(
+          label: '重试',
+          onPressed: () {
+            reTry();
+          },
+        ),
+      ),
+    );
+  }
+
   // 请求首页数据
   Future<StartUpBasicInfoEntity> getStartUpBasicInfoEntity() async {
     try {
@@ -58,6 +72,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
         print(e.request);
         print(e.message);
       }
+      showSnackBar();
       return Future.error(e);
     }
   }

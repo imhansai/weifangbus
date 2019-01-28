@@ -22,6 +22,8 @@ class NewsListPage extends StatefulWidget {
 }
 
 class _NewsListPageState extends State<NewsListPage> {
+  final GlobalKey<ScaffoldState> _newsListKey = GlobalKey<ScaffoldState>();
+
   List<Headline> newsList = List();
   List<Headline> _showNewsList = List();
   GlobalKey<EasyRefreshState> _easyRefreshKey = new GlobalKey<EasyRefreshState>();
@@ -62,9 +64,18 @@ class _NewsListPageState extends State<NewsListPage> {
     _showNewsList = widget.showNewsList;
   }
 
+  void showSnackBar(String snackStr) {
+    _newsListKey.currentState.showSnackBar(
+      SnackBar(
+        content: Text(snackStr),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _newsListKey,
       appBar: AppBar(
         title: Text("资讯列表"),
       ),
@@ -117,14 +128,16 @@ class _NewsListPageState extends State<NewsListPage> {
               setState(() {
                 _showNewsList = newsList;
               });
+              showSnackBar('刷新成功!');
             } catch (e) {
               print('刷新资讯列表出错');
               print(e);
+              showSnackBar('检测到网络有问题,刷新失败,请重试!');
             }
           },
-          loadMore: () async {
+          /*loadMore: () async {
             print('已经是全部了，俺也是有底线的');
-          },
+          },*/
         ),
       ),
     );
