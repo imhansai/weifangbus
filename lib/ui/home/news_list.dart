@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/phoenix_footer.dart';
 import 'package:flutter_easyrefresh/phoenix_header.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:weifangbus/entity/home/startUpBasicInfo_entity.dart';
 import 'package:weifangbus/entity_factory.dart';
 import 'package:weifangbus/ui/home/news_detail.dart';
@@ -27,9 +28,9 @@ class _NewsListPageState extends State<NewsListPage> {
 
   List<Headline> newsList = List();
   List<Headline> _showNewsList = List();
-  GlobalKey<EasyRefreshState> _easyRefreshKey = new GlobalKey<EasyRefreshState>();
-  GlobalKey<RefreshHeaderState> _headerKey = new GlobalKey<RefreshHeaderState>();
-  GlobalKey<RefreshFooterState> _footerKey = new GlobalKey<RefreshFooterState>();
+  GlobalKey<EasyRefreshState> _easyRefreshKey = GlobalKey<EasyRefreshState>();
+  GlobalKey<RefreshHeaderState> _headerKey = GlobalKey<RefreshHeaderState>();
+  GlobalKey<RefreshFooterState> _footerKey = GlobalKey<RefreshFooterState>();
 
   // 请求资讯列表数据
   Future<List<Headline>> getNewsList() async {
@@ -53,9 +54,11 @@ class _NewsListPageState extends State<NewsListPage> {
     _showNewsList = widget.showNewsList;
   }
 
+  // 展示 SnackBar
   void showSnackBar(String snackStr) {
     _newsListKey.currentState.showSnackBar(
       SnackBar(
+        duration: Duration(seconds: 2),
         content: Text(snackStr),
       ),
     );
@@ -69,7 +72,7 @@ class _NewsListPageState extends State<NewsListPage> {
         title: Text("资讯列表"),
       ),
       body: Center(
-        child: new EasyRefresh(
+        child: EasyRefresh(
           key: _easyRefreshKey,
           refreshHeader: PhoenixHeader(
             key: _headerKey,
@@ -77,20 +80,39 @@ class _NewsListPageState extends State<NewsListPage> {
           refreshFooter: PhoenixFooter(
             key: _footerKey,
           ),
-          child: new ListView.builder(
+          child: ListView.builder(
             //ListView的Item
             itemCount: _showNewsList.length,
             itemBuilder: (BuildContext context, int index) {
-              return new GestureDetector(
+              return InkWell(
                 child: Container(
-                  height: 70.0,
+                  height: ScreenUtil().setHeight(210),
                   child: Card(
-                    child: new Center(
-                      child: new Text(
-                        _showNewsList[index].title,
-                        maxLines: 1,
-                        style: new TextStyle(fontSize: 18.0),
-                      ),
+                    child: Column(
+                      children: <Widget>[
+                        Expanded(
+                          child: Row(
+                            children: <Widget>[
+                              Text(
+                                ' 发布日期: ',
+                              ),
+                              Text(
+                                _showNewsList[index].realeasetime,
+                              )
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            ' ' + _showNewsList[index].title,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: ScreenUtil().setSp(45),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),

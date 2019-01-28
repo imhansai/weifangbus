@@ -36,9 +36,11 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     });
   }
 
+  // 展示 SnackBar
   void showSnackBar(String snackStr) {
     Scaffold.of(context).showSnackBar(
       SnackBar(
+        duration: Duration(seconds: 2),
         content: Text(snackStr),
         /*action: SnackBarAction(
           label: '重试',
@@ -68,7 +70,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
       }
     } else {
       showSnackBar('设备未连接到任何网络,请连接网络后重试!');
-      return Future.error('设备未连接到任何网络', StackTrace.fromString('设备未连接到任何网络'));
+      return Future.value(null);
     }
   }
 
@@ -87,10 +89,28 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     _startUpBasicInfoEntity = getStartUpBasicInfoEntity();
   }
 
-  reTry() async {
+  // 重试处理
+  reTry() {
     setState(() {
       _startUpBasicInfoEntity = getStartUpBasicInfoEntity();
     });
+  }
+
+  // 出现错误展示的控件
+  Widget reTryWidget() {
+    return Center(
+      child: RaisedButton(
+        color: Colors.blue,
+        highlightColor: Colors.blue[700],
+        colorBrightness: Brightness.dark,
+        splashColor: Colors.grey,
+        child: Text("请检查网络连接后重试"),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        onPressed: reTry,
+      ),
+    );
   }
 
   @override
@@ -333,21 +353,9 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                   ],
                 ),
               );
-            } else if (result.hasError) {
+            } else {
               // 出现错误,重试机制
-              return Center(
-                child: RaisedButton(
-                  color: Colors.blue,
-                  highlightColor: Colors.blue[700],
-                  colorBrightness: Brightness.dark,
-                  splashColor: Colors.grey,
-                  child: Text("请检查网络连接后重试"),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                  onPressed: reTry,
-                ),
-              );
+              return reTryWidget();
             }
           }
         },
