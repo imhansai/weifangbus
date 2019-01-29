@@ -9,6 +9,7 @@ import 'package:weifangbus/entity/home/startUpBasicInfo_entity.dart';
 import 'package:weifangbus/entity_factory.dart';
 import 'package:weifangbus/ui/home/news_detail.dart';
 import 'package:weifangbus/ui/home/news_list.dart';
+import 'package:weifangbus/ui/home/search_demo.dart';
 import 'package:weifangbus/utils/dioUtil.dart';
 import 'package:weifangbus/utils/fontUtil.dart';
 import 'package:weifangbus/utils/requestParamsUtil.dart';
@@ -328,6 +329,20 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                 ),
                               ),
                               onTap: () {
+                                // 进入导乘页面
+                                if (menuEntityList[index].menuText == '导乘') {
+                                  print('准备进入导乘');
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (BuildContext context) {
+                                        return SearchDemo(
+                                          title: "搜索示例",
+                                        );
+                                      },
+                                    ),
+                                  );
+                                }
                                 // 进入资讯列表
                                 if (menuEntityList[index].menuText == '资讯') {
                                   print('准备进入资讯');

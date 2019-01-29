@@ -15,6 +15,35 @@ class InformationDetail extends StatefulWidget {
 }
 
 class _InformationDetail extends State<InformationDetail> {
+  ScrollController _controller = new ScrollController();
+  bool showToTopBtn = false; // 是否显示“返回到顶部”按钮
+
+  @override
+  void initState() {
+    super.initState();
+    // 监听滚动事件，打印滚动位置
+    _controller.addListener(() {
+      // 打印滚动位置
+      print('偏移量::: ' + _controller.offset.toString());
+      if (_controller.offset < 60 && showToTopBtn) {
+        setState(() {
+          showToTopBtn = false;
+        });
+      } else if (_controller.offset >= 60 && showToTopBtn == false) {
+        setState(() {
+          showToTopBtn = true;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    // 为了避免内存泄露，需要调用_controller.dispose
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,16 +92,32 @@ class _InformationDetail extends State<InformationDetail> {
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: ScreenUtil().setWidth(40),
-                vertical: ScreenUtil().setHeight(10),
+            // 利用 Expanded 使用剩余全部空间，然后里面使用 SingleChildScrollView 防止溢出
+            Expanded(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.fromLTRB(
+                  ScreenUtil().setWidth(40),
+                  ScreenUtil().setHeight(10),
+                  ScreenUtil().setWidth(40),
+                  ScreenUtil().setHeight(200),
+                ),
+                child: HtmlWidget(widget.headLine.content),
+                controller: _controller,
               ),
-              child: HtmlWidget(widget.headLine.content),
             ),
           ],
         ),
       ),
+      floatingActionButton: !showToTopBtn
+          ? null
+          : FloatingActionButton(
+              child: Icon(Icons.arrow_upward),
+              tooltip: '返回顶部',
+              onPressed: () {
+                // 返回到顶部时执行动画
+                _controller.animateTo(.0, duration: Duration(milliseconds: 200), curve: Curves.ease);
+              },
+            ),
     );
   }
 }
