@@ -10,6 +10,7 @@ import 'package:weifangbus/entity_factory.dart';
 import 'package:weifangbus/ui/home/news_detail.dart';
 import 'package:weifangbus/ui/home/news_list.dart';
 import 'package:weifangbus/ui/home/search_demo.dart';
+import 'package:weifangbus/ui/home/search_input.dart';
 import 'package:weifangbus/utils/dioUtil.dart';
 import 'package:weifangbus/utils/fontUtil.dart';
 import 'package:weifangbus/utils/requestParamsUtil.dart';
@@ -114,12 +115,59 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     );
   }
 
+  // 供选择的条目
+  final _names = [
+    'Igor Minar',
+    'Brad Green',
+    'Dave Geddes',
+    'Naomi Black',
+    'Greg Weber',
+    'Dean Sofer',
+    'Wes Alvaro',
+    'John Scott',
+    'Daniel Nadasi',
+  ];
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('首页'),
+        title: Container(
+          height: 40.0,
+          decoration: BoxDecoration(color: Theme.of(context).backgroundColor, borderRadius: BorderRadius.circular(4.0)),
+          child: new Row(
+            children: <Widget>[
+              new Padding(
+                padding: new EdgeInsets.only(right: 10.0, top: 3.0, left: 10.0),
+                child: new Icon(Icons.search, size: 24.0, color: Theme.of(context).accentColor),
+              ),
+              new Expanded(
+                child: new MaterialSearchInput(
+                  placeholder: '搜索线路',
+                  results: _names
+                      .map((String v) => new MaterialSearchResult<String>(
+                            icon: Icons.person,
+                            value: v,
+                            text: "Mr(s). $v",
+                            onTap: () {
+                              print('$v');
+                            },
+                          ))
+                      .toList(),
+                  filter: (dynamic value, String criteria) {
+                    return value.toLowerCase().trim().contains(new RegExp(r'' + criteria.toLowerCase().trim() + ''));
+                  },
+                  onSelect: (dynamic v) {
+                    print(v);
+                  },
+                  validator: (dynamic value) => value == null ? 'Required field' : null,
+                  formatter: (dynamic v) => 'Hello, $v',
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
       body: FutureBuilder(
         future: _startUpBasicInfoEntity,
@@ -224,18 +272,28 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                                       Radius.circular(5),
                                                     ),
                                                   ),
-                                                  child: Text(
-                                                    ' 资讯 ',
-                                                    style: TextStyle(
-                                                      color: Colors.deepOrangeAccent,
+                                                  child: Padding(
+                                                    padding: EdgeInsets.all(
+                                                      ScreenUtil().setWidth(16),
+                                                    ),
+                                                    child: Text(
+                                                      '资讯',
+                                                      style: TextStyle(
+                                                        color: Colors.deepOrangeAccent,
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
                                                 Expanded(
-                                                  child: Text(
-                                                    ' ' + _showNewsList[index].title,
-                                                    maxLines: 1,
-                                                    overflow: TextOverflow.ellipsis,
+                                                  child: Padding(
+                                                    padding: EdgeInsets.all(
+                                                      ScreenUtil().setWidth(12),
+                                                    ),
+                                                    child: Text(
+                                                      _showNewsList[index].title,
+                                                      maxLines: 1,
+                                                      overflow: TextOverflow.ellipsis,
+                                                    ),
                                                   ),
                                                 ),
                                               ],
@@ -329,6 +387,57 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                 ),
                               ),
                               onTap: () {
+                                if (menuEntityList[index].menuText == '线路查询') {
+                                  print('准备进入线路查询');
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute<String>(
+                                      /*settings: new RouteSettings(
+                                        name: 'material_search',
+                                        isInitialRoute: false,
+                                      ),*/
+                                      builder: (BuildContext context) {
+                                        return new Material(
+                                          child: new MaterialSearch<String>(
+                                            placeholder: '搜索线路',
+                                            results: _names
+                                                .map((String v) => new MaterialSearchResult<String>(
+                                                      icon: Icons.person,
+                                                      value: v,
+                                                      text: "Mr(s). $v",
+                                                      onTap: () {
+                                                        print('$v');
+                                                      },
+                                                    ))
+                                                .toList(),
+                                            filter: (dynamic value, String criteria) {
+                                              return value
+                                                  .toLowerCase()
+                                                  .trim()
+                                                  .contains(new RegExp(r'' + criteria.toLowerCase().trim() + ''));
+                                            },
+                                            onSelect: (dynamic value) => Navigator.of(context).pop(value),
+                                            onSubmit: (String value) => Navigator.of(context).pop(value),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ).then((dynamic value) {
+                                    // 回调处理
+                                    if (value != null && value != "") {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (BuildContext context) {
+                                            return SearchDemo(
+                                              title: "搜索示例",
+                                            );
+                                          },
+                                        ),
+                                      );
+                                    }
+                                  });
+                                }
                                 // 进入导乘页面
                                 if (menuEntityList[index].menuText == '导乘') {
                                   print('准备进入导乘');

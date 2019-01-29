@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:intl/intl.dart';
 import 'package:weifangbus/entity/home/startUpBasicInfo_entity.dart';
 
 class InformationDetail extends StatefulWidget {
@@ -24,7 +25,7 @@ class _InformationDetail extends State<InformationDetail> {
     // 监听滚动事件，打印滚动位置
     _controller.addListener(() {
       // 打印滚动位置
-      print('偏移量::: ' + _controller.offset.toString());
+      // print('偏移量::: ' + _controller.offset.toString());
       if (_controller.offset < 60 && showToTopBtn) {
         setState(() {
           showToTopBtn = false;
@@ -80,11 +81,22 @@ class _InformationDetail extends State<InformationDetail> {
                           fontSize: ScreenUtil().setSp(53),
                         ),
                       ),
-                      Text(
-                        '发布时间: ' + widget.headLine.realeasedatetime,
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: ScreenUtil().setSp(38),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(
+                          ScreenUtil().setWidth(0),
+                          ScreenUtil().setHeight(31),
+                          ScreenUtil().setWidth(0),
+                          ScreenUtil().setHeight(0),
+                        ),
+                        child: Text(
+                          '发布时间: ' +
+                              DateFormat("yyyy年MM月dd日 HH点mm分ss秒")
+                                  .format(DateTime.parse(widget.headLine.realeasedatetime))
+                                  .toString(),
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: ScreenUtil().setSp(38),
+                          ),
                         ),
                       ),
                     ],

@@ -5,6 +5,7 @@ import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_easyrefresh/phoenix_footer.dart';
 import 'package:flutter_easyrefresh/phoenix_header.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 import 'package:weifangbus/entity/home/startUpBasicInfo_entity.dart';
 import 'package:weifangbus/entity_factory.dart';
 import 'package:weifangbus/ui/home/news_detail.dart';
@@ -91,24 +92,41 @@ class _NewsListPageState extends State<NewsListPage> {
                     child: Column(
                       children: <Widget>[
                         Expanded(
-                          child: Row(
-                            children: <Widget>[
-                              Text(
-                                ' 发布日期: ',
-                              ),
-                              Text(
-                                _showNewsList[index].realeasetime,
-                              )
-                            ],
+                          child: Padding(
+                            padding: EdgeInsets.fromLTRB(
+                              ScreenUtil().setWidth(31),
+                              ScreenUtil().setHeight(8),
+                              ScreenUtil().setWidth(24),
+                              ScreenUtil().setHeight(8),
+                            ),
+                            child: Row(
+                              children: <Widget>[
+                                Text(
+                                  DateFormat("yyyy年MM月dd日")
+                                      .format(DateTime.parse(_showNewsList[index].realeasetime))
+                                      .toString(),
+                                  style: TextStyle(
+                                    color: Colors.orange,
+                                    fontSize: ScreenUtil().setSp(50),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                         Expanded(
-                          child: Text(
-                            ' ' + _showNewsList[index].title,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: ScreenUtil().setSp(45),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: ScreenUtil().setWidth(31),
+                              vertical: ScreenUtil().setHeight(8),
+                            ),
+                            child: Text(
+                              _showNewsList[index].title,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: ScreenUtil().setSp(45),
+                              ),
                             ),
                           ),
                         ),
