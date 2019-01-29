@@ -273,14 +273,15 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                                     ),
                                                   ),
                                                   child: Padding(
-                                                    padding: EdgeInsets.all(
-                                                      ScreenUtil().setWidth(16),
-                                                    ),
                                                     child: Text(
                                                       '资讯',
                                                       style: TextStyle(
                                                         color: Colors.deepOrangeAccent,
                                                       ),
+                                                    ),
+                                                    padding: EdgeInsets.symmetric(
+                                                      vertical: ScreenUtil().setHeight(8),
+                                                      horizontal: ScreenUtil().setWidth(16),
                                                     ),
                                                   ),
                                                 ),
