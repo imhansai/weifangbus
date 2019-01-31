@@ -23,13 +23,13 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   // 菜单项
-  List<MenuEntity> menuEntityList = List();
+  List<MenuEntity> menuEntityList;
 
   // 初始页json数据实体类
   Future<StartUpBasicInfoEntity> _startUpBasicInfoEntity;
 
   // 资讯列表
-  List<Headline> _showNewsList = List();
+  List<Headline> _showNewsList;
 
   void _handleNewsListOnRefresh(List<Headline> newsList) {
     print("父 widget 设置状态");
@@ -64,6 +64,18 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
         var startUpBasicInfoEntity = EntityFactory.generateOBJ<StartUpBasicInfoEntity>(response.data);
         _showNewsList = startUpBasicInfoEntity.headline;
         print("请求首页数据完毕");
+        // 测试用
+        // StartUpBasicInfoEntity startUpBasicInfoEntity = StartUpBasicInfoEntity();
+        if (startUpBasicInfoEntity == null) {
+          startUpBasicInfoEntity = StartUpBasicInfoEntity();
+        }
+        if (startUpBasicInfoEntity.slideshow == null) {
+          startUpBasicInfoEntity.slideshow = List();
+        }
+        _showNewsList = startUpBasicInfoEntity.headline;
+        if (_showNewsList == null) {
+          _showNewsList = List();
+        }
         return startUpBasicInfoEntity;
       } on DioError catch (e) {
         print('请求首页数据出错::: $e');
@@ -82,6 +94,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     super.initState();
+    menuEntityList = List();
     MenuEntity lineInquiry = MenuEntity(Colors.lightBlue, MyIcons.lineInquiry, '线路查询');
     menuEntityList.add(lineInquiry);
     MenuEntity guide = MenuEntity(Colors.lightGreen, MyIcons.guide, '导乘');
@@ -128,46 +141,62 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     'Daniel Nadasi',
   ];
 
+  // 搜索栏
+  Widget searchBar(BuildContext context) {
+    return Container(
+      height: ScreenUtil().setHeight(103),
+      decoration: BoxDecoration(
+        color: Theme.of(context).backgroundColor,
+        borderRadius: BorderRadius.circular(4.0),
+      ),
+      child: new Row(
+        children: <Widget>[
+          new Padding(
+            padding: new EdgeInsets.only(
+              right: ScreenUtil().setWidth(25),
+              top: ScreenUtil().setHeight(6),
+              left: ScreenUtil().setWidth(25),
+            ),
+            child: new Icon(
+              Icons.search,
+              size: ScreenUtil().setWidth(60),
+              color: Theme.of(context).accentColor,
+            ),
+          ),
+          new Expanded(
+            child: new MaterialSearchInput(
+              placeholder: '搜索线路',
+              results: _names
+                  .map((String v) => new MaterialSearchResult<String>(
+                        icon: Icons.person,
+                        value: v,
+                        text: "Mr(s). $v",
+                        onTap: () {
+                          print('$v');
+                        },
+                      ))
+                  .toList(),
+              filter: (dynamic value, String criteria) {
+                return value.toLowerCase().trim().contains(new RegExp(r'' + criteria.toLowerCase().trim() + ''));
+              },
+              onSelect: (dynamic v) {
+                print(v);
+              },
+              validator: (dynamic value) => value == null ? 'Required field' : null,
+              formatter: (dynamic v) => 'Hello, $v',
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
       appBar: AppBar(
-        title: Container(
-          height: 40.0,
-          decoration: BoxDecoration(color: Theme.of(context).backgroundColor, borderRadius: BorderRadius.circular(4.0)),
-          child: new Row(
-            children: <Widget>[
-              new Padding(
-                padding: new EdgeInsets.only(right: 10.0, top: 3.0, left: 10.0),
-                child: new Icon(Icons.search, size: 24.0, color: Theme.of(context).accentColor),
-              ),
-              new Expanded(
-                child: new MaterialSearchInput(
-                  placeholder: '搜索线路',
-                  results: _names
-                      .map((String v) => new MaterialSearchResult<String>(
-                            icon: Icons.person,
-                            value: v,
-                            text: "Mr(s). $v",
-                            onTap: () {
-                              print('$v');
-                            },
-                          ))
-                      .toList(),
-                  filter: (dynamic value, String criteria) {
-                    return value.toLowerCase().trim().contains(new RegExp(r'' + criteria.toLowerCase().trim() + ''));
-                  },
-                  onSelect: (dynamic v) {
-                    print(v);
-                  },
-                  validator: (dynamic value) => value == null ? 'Required field' : null,
-                  formatter: (dynamic v) => 'Hello, $v',
-                ),
-              ),
-            ],
-          ),
-        ),
+        title: searchBar(context),
       ),
       body: FutureBuilder(
         future: _startUpBasicInfoEntity,
@@ -199,6 +228,16 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
           if (result.connectionState == ConnectionState.done) {
             if (result.hasData) {
               var startUpBasicInfoEntity = result.data as StartUpBasicInfoEntity;
+              // 是否展示轮播图
+              var canShowSlideShow = false;
+              // 是否展示资讯信息
+              var canShowHeadLine = false;
+              if (startUpBasicInfoEntity.slideshow.length > 0) {
+                canShowSlideShow = true;
+              }
+              if (_showNewsList.length > 0) {
+                canShowHeadLine = true;
+              }
               return Container(
                 child: CustomScrollView(
                   slivers: <Widget>[
@@ -220,33 +259,37 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                         ScreenUtil().setWidth(0),
                                         ScreenUtil().setWidth(30),
                                       ),
-                                      child: Swiper(
-                                        itemBuilder: (BuildContext context, int index) {
-                                          return ClipRRect(
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(10),
+                                      child: canShowSlideShow
+                                          ? Swiper(
+                                              itemBuilder: (BuildContext context, int index) {
+                                                return ClipRRect(
+                                                  borderRadius: BorderRadius.all(
+                                                    Radius.circular(10),
+                                                  ),
+                                                  child: CachedNetworkImage(
+                                                    placeholder: Center(
+                                                      child: SpinKitFadingCube(
+                                                        color: Theme.of(context).primaryColor,
+                                                        size: ScreenUtil().setWidth(80),
+                                                      ),
+                                                    ),
+                                                    imageUrl: startUpBasicInfoEntity.slideshow[index].bannerurl,
+                                                    fadeInCurve: Curves.easeIn,
+                                                    fadeInDuration: Duration(seconds: 1),
+                                                    fit: BoxFit.fill,
+                                                  ),
+                                                );
+                                              },
+                                              itemCount: startUpBasicInfoEntity.slideshow.length,
+                                              viewportFraction: 0.9,
+                                              scale: 0.95,
+                                              autoplay: true,
+                                              duration: 300,
+                                              autoplayDelay: 3000,
+                                            )
+                                          : Center(
+                                              child: Text('暂无图片展示'),
                                             ),
-                                            child: CachedNetworkImage(
-                                              placeholder: Center(
-                                                child: SpinKitFadingCube(
-                                                  color: Theme.of(context).primaryColor,
-                                                  size: ScreenUtil().setWidth(80),
-                                                ),
-                                              ),
-                                              imageUrl: startUpBasicInfoEntity.slideshow[index].bannerurl,
-                                              fadeInCurve: Curves.easeIn,
-                                              fadeInDuration: Duration(seconds: 1),
-                                              fit: BoxFit.fill,
-                                            ),
-                                          );
-                                        },
-                                        itemCount: startUpBasicInfoEntity.slideshow.length,
-                                        viewportFraction: 0.9,
-                                        scale: 0.95,
-                                        autoplay: true,
-                                        duration: 300,
-                                        autoplayDelay: 3000,
-                                      ),
                                     ),
                                     flex: 5,
                                   ),
@@ -280,8 +323,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                                       ),
                                                     ),
                                                     padding: EdgeInsets.symmetric(
-                                                      vertical: ScreenUtil().setHeight(8),
-                                                      horizontal: ScreenUtil().setWidth(16),
+                                                      vertical: ScreenUtil().setHeight(3),
+                                                      horizontal: ScreenUtil().setWidth(12),
                                                     ),
                                                   ),
                                                 ),
@@ -290,33 +333,39 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                                     padding: EdgeInsets.all(
                                                       ScreenUtil().setWidth(12),
                                                     ),
-                                                    child: Text(
-                                                      _showNewsList[index].title,
-                                                      maxLines: 1,
-                                                      overflow: TextOverflow.ellipsis,
-                                                    ),
+                                                    child: canShowHeadLine
+                                                        ? Text(
+                                                            _showNewsList[index].title,
+                                                            maxLines: 1,
+                                                            overflow: TextOverflow.ellipsis,
+                                                          )
+                                                        : Text('暂无资讯信息'),
                                                   ),
                                                 ),
                                               ],
                                             );
                                           },
                                           scrollDirection: Axis.vertical,
-                                          itemCount: _showNewsList.length,
+                                          itemCount: _showNewsList.length > 0 ? _showNewsList.length : 1,
                                           autoplay: _showNewsList.length > 1,
                                           duration: 300,
                                           autoplayDelay: 3000,
                                           onTap: (int index) {
                                             // 进入资讯详情
-                                            final Headline headLine = _showNewsList[index];
-                                            Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                builder: (BuildContext context) {
-                                                  return InformationDetail(
-                                                    headLine: headLine,
-                                                  );
-                                                },
-                                              ),
-                                            );
+                                            if (_showNewsList.length > 0) {
+                                              final Headline headLine = _showNewsList[index];
+                                              Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                  builder: (BuildContext context) {
+                                                    return InformationDetail(
+                                                      headLine: headLine,
+                                                    );
+                                                  },
+                                                ),
+                                              );
+                                            } else {
+                                              print('没有资讯信息，不响应点击事件');
+                                            }
                                           },
                                         ),
                                       ),
@@ -337,8 +386,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                       sliver: SliverGrid(
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3,
-                          mainAxisSpacing: ScreenUtil().setWidth(10),
-                          crossAxisSpacing: ScreenUtil().setWidth(10),
+                          mainAxisSpacing: ScreenUtil().setWidth(30),
+                          crossAxisSpacing: ScreenUtil().setWidth(30),
                           childAspectRatio: 1.0,
                         ),
                         delegate: SliverChildBuilderDelegate(
@@ -350,8 +399,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: <Widget>[
                                     Container(
-                                      width: ScreenUtil().setWidth(170),
-                                      height: ScreenUtil().setHeight(170),
+                                      width: ScreenUtil().setWidth(180),
+                                      height: ScreenUtil().setHeight(180),
                                       child: DecoratedBox(
                                         decoration: BoxDecoration(
                                           color: menuEntityList[index].color,
@@ -376,7 +425,12 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.all(ScreenUtil().setWidth(25)),
+                                      padding: EdgeInsets.fromLTRB(
+                                        ScreenUtil().setWidth(0),
+                                        ScreenUtil().setHeight(25),
+                                        ScreenUtil().setWidth(0),
+                                        ScreenUtil().setHeight(0),
+                                      ),
                                       child: Text(
                                         menuEntityList[index].menuText,
                                         style: TextStyle(

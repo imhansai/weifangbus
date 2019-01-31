@@ -214,6 +214,7 @@ class _MaterialSearchState<T> extends State<MaterialSearch> {
         backgroundColor: widget.barBackgroundColor,
         iconTheme: iconTheme,
         title: new TextField(
+          cursorColor: Colors.white70,
           controller: _controller,
           autofocus: true,
           decoration: new InputDecoration.collapsed(hintText: widget.placeholder),
@@ -267,15 +268,26 @@ class MaterialSearchInput<T> extends StatefulWidget {
   });
 
   final FormFieldSetter<T> onSaved;
+
   final FormFieldValidator<T> validator;
+
   final bool autovalidate;
+
+  // 占位符
   final String placeholder;
+
   final FormFieldFormatter<T> formatter;
 
+  // 所有选择项，从中检索出结果
   final List<MaterialSearchResult<T>> results;
+
   final MaterialResultsFinder getResults;
+
+  // 输入过滤筛选
   final MaterialSearchFilter<T> filter;
+
   final MaterialSearchSort<T> sort;
+
   final ValueChanged<T> onSelect;
 
   @override
@@ -294,6 +306,7 @@ class _MaterialSearchInputState<T> extends State<MaterialSearchInput<T>> {
         builder: (BuildContext context) {
           return new Material(
             child: new MaterialSearch<T>(
+              barBackgroundColor: Theme.of(context).primaryColor,
               placeholder: widget.placeholder,
               results: widget.results,
               getResults: widget.getResults,

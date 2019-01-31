@@ -74,6 +74,28 @@ class _NewsListPageState extends State<NewsListPage> {
       ),
       body: Center(
         child: EasyRefresh(
+          emptyWidget: Container(
+            width: double.infinity,
+            height: ScreenUtil().setHeight(1611),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Icon(
+                  Icons.inbox,
+                  size: ScreenUtil().setWidth(130),
+                  color: Colors.grey,
+                ),
+                Text(
+                  "暂无资讯信息",
+                  style: TextStyle(
+                    fontSize: ScreenUtil().setSp(41),
+                    color: Colors.grey,
+                  ),
+                )
+              ],
+            ),
+          ),
           key: _easyRefreshKey,
           refreshHeader: PhoenixHeader(
             key: _headerKey,
