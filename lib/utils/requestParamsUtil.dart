@@ -4,22 +4,20 @@ import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
-import 'package:weifangbus/entity/home/startUpBasicInfo_entity.dart';
+import 'package:weifangbus/entity/home/allRouteData_entity.dart';
 import 'package:weifangbus/entity_factory.dart';
 import 'package:weifangbus/utils/dioUtil.dart';
 
 Future main() async {
   try {
     Response response;
-    var uri = "/BusService/Query_ByNewInfoPartNP?index=1&" + getSignString();
+    var uri = "/BusService/Require_AllRouteData/?" + getSignString();
     print(uri);
     response = await dio.get(uri);
-    List<dynamic> list = response.data;
-    List<Headline> newsList = list.map((dynamic) => EntityFactory.generateOBJ<Headline>(dynamic)).toList();
-    print(newsList.map((news) => print(news.toJson().toString())));
+    AllroutedataEntity allroutedataEntity = EntityFactory.generateOBJ<AllroutedataEntity>(response.data);
+    print(allroutedataEntity.toJson().toString());
   } catch (e) {
-    print('请求出现问题');
-    print(e);
+    print('请求出现问题::: $e');
   }
 }
 
