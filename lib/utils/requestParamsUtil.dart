@@ -22,7 +22,7 @@ Future main() async {
 }
 
 /// 获取时间戳
-getTimeStamp() => new DateFormat("yyyyMMddHHmmss").format(new DateTime.now()).toString();
+getTimeStamp() => DateFormat("yyyyMMddHHmmss").format(DateTime.now()).toString();
 
 /// 获取随机数
 getRandom() => (100 + Random().nextInt(900)).toString();
@@ -36,7 +36,7 @@ getSignKey(timeStamp, random) {
   var bytes = utf8.encode(timeStamp + random);
 
   // HMAC-SHA256
-  var hmacSha256 = new Hmac(sha256, key);
+  var hmacSha256 = Hmac(sha256, key);
   var digest = hmacSha256.convert(bytes);
 
   // print("HMAC digest as bytes: ${digest.bytes}");

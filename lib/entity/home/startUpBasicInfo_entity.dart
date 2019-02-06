@@ -7,27 +7,27 @@ class StartUpBasicInfoEntity {
 
   StartUpBasicInfoEntity.fromJson(Map<String, dynamic> json) {
     if (json['HeadLine'] != null) {
-      headline = new List<Headline>();
+      headline = List<Headline>();
       json['HeadLine'].forEach((v) {
-        headline.add(new Headline.fromJson(v));
+        headline.add(Headline.fromJson(v));
       });
     }
     if (json['SlideShow'] != null) {
-      slideshow = new List<Slideshow>();
+      slideshow = List<Slideshow>();
       json['SlideShow'].forEach((v) {
-        slideshow.add(new Slideshow.fromJson(v));
+        slideshow.add(Slideshow.fromJson(v));
       });
     }
     if (json['LoginPic'] != null) {
-      loginpic = new List<Loginpic>();
+      loginpic = List<Loginpic>();
       json['LoginPic'].forEach((v) {
-        loginpic.add(new Loginpic.fromJson(v));
+        loginpic.add(Loginpic.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     if (this.headline != null) {
       data['HeadLine'] = this.headline.map((v) => v.toJson()).toList();
     }
@@ -79,7 +79,7 @@ class Headline {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['ID'] = this.id;
     data['Title'] = this.title;
     data['Content'] = this.content;
@@ -114,7 +114,7 @@ class Slideshow {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['bannerid'] = this.bannerid;
     data['name'] = this.name;
     data['title'] = this.title;
@@ -145,7 +145,7 @@ class Loginpic {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['bannerid'] = this.bannerid;
     data['name'] = this.name;
     data['title'] = this.title;

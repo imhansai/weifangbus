@@ -27,16 +27,27 @@ class MaterialSearchResult<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new InkWell(
+    return InkWell(
       onTap: this.onTap,
-      child: new Container(
+      child: Container(
         height: 64.0,
         padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 10.0),
-        child: new Row(
+        child: Row(
           children: <Widget>[
-            new Container(width: 30.0, margin: EdgeInsets.only(right: 10), child: new Icon(icon)) ?? null,
-            new Expanded(child: new Text(value, style: Theme.of(context).textTheme.subhead)),
-            new Text(text, style: Theme.of(context).textTheme.subhead)
+            Container(
+                  width: 30.0,
+                  margin: EdgeInsets.only(right: 10),
+                  child: Icon(icon),
+                ) ??
+                null,
+            // Expanded(child: Text(value, style: Theme.of(context).textTheme.subhead)),
+            Expanded(
+              child: Text(
+                text,
+                style: Theme.of(context).textTheme.subhead,
+                maxLines: 2,
+              ),
+            ),
           ],
         ),
       ),
@@ -44,6 +55,7 @@ class MaterialSearchResult<T> extends StatelessWidget {
   }
 }
 
+// 搜索页面
 class MaterialSearch<T> extends StatefulWidget {
   MaterialSearch({
     Key key,
@@ -60,7 +72,7 @@ class MaterialSearch<T> extends StatefulWidget {
     this.leading,
   })  : assert(() {
           if (results == null && getResults == null || results != null && getResults != null) {
-            throw new AssertionError('Either provide a function to get the results, or the results.');
+            throw AssertionError('Either provide a function to get the results, or the results.');
           }
 
           return true;
@@ -70,44 +82,55 @@ class MaterialSearch<T> extends StatefulWidget {
   // 占位符,提示字符
   final String placeholder;
 
-  // 结果项,从中选择条目
+  // 被选项
   final List<MaterialSearchResult<T>> results;
 
+  // 获得被选项的函数
   final MaterialResultsFinder getResults;
 
+  // 过滤
   final MaterialSearchFilter<T> filter;
 
+  // 排序
   final MaterialSearchSort<T> sort;
 
+  // 取多少条显示
   final int limit;
 
+  // 被选择时的处理函数
   final ValueChanged<T> onSelect;
 
+  // 输入法点击完成时的处理函数
   final OnSubmit onSubmit;
 
+  // appBar 的背景色
   final Color barBackgroundColor;
 
+  // 图标的颜色
   final Color iconColor;
 
   final Widget leading;
 
   @override
-  _MaterialSearchState<T> createState() => new _MaterialSearchState<T>();
+  _MaterialSearchState<T> createState() => _MaterialSearchState<T>();
 }
 
 class _MaterialSearchState<T> extends State<MaterialSearch> {
+  // 文本编辑控制器
+  TextEditingController _controller = TextEditingController();
+
   // 是否在加载中
   bool _loading = false;
 
-  //
+  // 如果 widget.results 为空，那么启用该空列表
   List<MaterialSearchResult<T>> _results = [];
 
+  // 用户输入的字符
   String _criteria = '';
-  TextEditingController _controller = new TextEditingController();
 
-  // 过滤结果项
+  // 如果 widget.filter 为空，那么启用该过滤器
   _filter(dynamic v, String c) {
-    return v.toString().toLowerCase().trim().contains(new RegExp(r'' + c.toLowerCase().trim() + ''));
+    return v.toString().toLowerCase().trim().contains(RegExp(r'' + c.toLowerCase().trim() + ''));
   }
 
   @override
@@ -141,7 +164,7 @@ class _MaterialSearchState<T> extends State<MaterialSearch> {
       _resultsTimer.cancel();
     }
 
-    _resultsTimer = new Timer(new Duration(milliseconds: 400), () async {
+    _resultsTimer = Timer(Duration(milliseconds: 400), () async {
       if (!mounted) {
         return;
       }
@@ -175,24 +198,31 @@ class _MaterialSearchState<T> extends State<MaterialSearch> {
     if (_criteria.isEmpty) {
       return History();
     } else if (_loading) {
-      return new Center(
-          child: new Padding(padding: const EdgeInsets.only(top: 50.0), child: new CircularProgressIndicator()));
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 50.0),
+          child: CircularProgressIndicator(),
+        ),
+      );
     }
     if (results.isNotEmpty) {
-      var content = new SingleChildScrollView(child: new Column(children: results));
+      var content = SingleChildScrollView(child: Column(children: results));
       return content;
     }
-    return Center(child: Text("暂无数据"));
+    return Center(
+      child: Text("暂无数据"),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    // 被选项
     var results = (widget.results ?? _results).where((MaterialSearchResult result) {
       if (widget.filter != null) {
         return widget.filter(result.value, _criteria);
       }
-      //only apply default filter if used the `results` option
-      //because getResults may already have applied some filter if `filter` option was omited.
+      // only apply default filter if used the `results` option
+      // because getResults may already have applied some filter if `filter` option was omited.
       else if (widget.results != null) {
         return _filter(result.value, _criteria);
       }
@@ -200,24 +230,26 @@ class _MaterialSearchState<T> extends State<MaterialSearch> {
       return true;
     }).toList();
 
+    // 排序
     if (widget.sort != null) {
       results.sort((a, b) => widget.sort(a.value, b.value, _criteria));
     }
 
+    // 默认取 10 条
     results = results.take(widget.limit).toList();
 
     IconThemeData iconTheme = Theme.of(context).iconTheme.copyWith(color: widget.iconColor);
 
-    return new Scaffold(
-      appBar: new AppBar(
+    return Scaffold(
+      appBar: AppBar(
         leading: widget.leading,
         backgroundColor: widget.barBackgroundColor,
         iconTheme: iconTheme,
-        title: new TextField(
+        title: TextField(
           cursorColor: Colors.white70,
           controller: _controller,
           autofocus: true,
-          decoration: new InputDecoration.collapsed(hintText: widget.placeholder),
+          decoration: InputDecoration.collapsed(hintText: widget.placeholder),
           style: Theme.of(context).textTheme.title,
           onSubmitted: (String value) {
             if (widget.onSubmit != null) {
@@ -228,8 +260,8 @@ class _MaterialSearchState<T> extends State<MaterialSearch> {
         actions: _criteria.length == 0
             ? []
             : [
-                new IconButton(
-                    icon: new Icon(Icons.clear),
+                IconButton(
+                    icon: Icon(Icons.clear),
                     onPressed: () {
                       setState(() {
                         _controller.text = _criteria = '';
@@ -252,6 +284,7 @@ class _MaterialSearchPageRoute<T> extends MaterialPageRoute<T> {
         super(builder: builder, settings: settings, maintainState: maintainState, fullscreenDialog: fullscreenDialog);
 }
 
+// 搜索框
 class MaterialSearchInput<T> extends StatefulWidget {
   MaterialSearchInput({
     Key key,
@@ -286,36 +319,39 @@ class MaterialSearchInput<T> extends StatefulWidget {
   // 输入过滤筛选
   final MaterialSearchFilter<T> filter;
 
+  // 排序
   final MaterialSearchSort<T> sort;
 
+  // 选择条目后响应事件
   final ValueChanged<T> onSelect;
 
   @override
-  _MaterialSearchInputState<T> createState() => new _MaterialSearchInputState<T>();
+  _MaterialSearchInputState<T> createState() => _MaterialSearchInputState<T>();
 }
 
 class _MaterialSearchInputState<T> extends State<MaterialSearchInput<T>> {
-  GlobalKey<FormFieldState<T>> _formFieldKey = new GlobalKey<FormFieldState<T>>();
+  GlobalKey<FormFieldState<T>> _formFieldKey = GlobalKey<FormFieldState<T>>();
 
   _buildMaterialSearchPage(BuildContext context) {
-    return new _MaterialSearchPageRoute<T>(
-        settings: new RouteSettings(
-          name: 'material_search',
-          isInitialRoute: false,
-        ),
-        builder: (BuildContext context) {
-          return new Material(
-            child: new MaterialSearch<T>(
-              barBackgroundColor: Theme.of(context).primaryColor,
-              placeholder: widget.placeholder,
-              results: widget.results,
-              getResults: widget.getResults,
-              filter: widget.filter,
-              sort: widget.sort,
-              onSelect: (dynamic value) => Navigator.of(context).pop(value),
-            ),
-          );
-        });
+    return _MaterialSearchPageRoute<T>(
+      settings: RouteSettings(
+        name: 'material_search',
+        isInitialRoute: false,
+      ),
+      builder: (BuildContext context) {
+        return Material(
+          child: MaterialSearch<T>(
+            barBackgroundColor: Theme.of(context).primaryColor,
+            placeholder: widget.placeholder,
+            results: widget.results,
+            getResults: widget.getResults,
+            filter: widget.filter,
+            sort: widget.sort,
+            onSelect: widget.onSelect,
+          ),
+        );
+      },
+    );
   }
 
   _showMaterialSearch(BuildContext context) {
@@ -338,24 +374,24 @@ class _MaterialSearchInputState<T> extends State<MaterialSearchInput<T>> {
   Widget build(BuildContext context) {
     final TextStyle valueStyle = Theme.of(context).textTheme.subhead;
 
-    return new InkWell(
+    return InkWell(
       onTap: () => _showMaterialSearch(context),
-      child: new FormField<T>(
+      child: FormField<T>(
         key: _formFieldKey,
         validator: widget.validator,
         onSaved: widget.onSaved,
         autovalidate: autovalidate,
         builder: (FormFieldState<T> field) {
-          return new InputDecorator(
+          return InputDecorator(
             isEmpty: _isEmpty(field),
-            decoration: new InputDecoration(
+            decoration: InputDecoration(
               labelText: widget.placeholder,
               border: InputBorder.none,
               errorText: field.errorText,
             ),
             child: _isEmpty(field)
                 ? null
-                : new Text(widget.formatter != null ? widget.formatter(field.value) : field.value.toString(),
+                : Text(widget.formatter != null ? widget.formatter(field.value) : field.value.toString(),
                     style: valueStyle),
           );
         },
@@ -364,7 +400,7 @@ class _MaterialSearchInputState<T> extends State<MaterialSearchInput<T>> {
   }
 }
 
-///搜索框
+/// 搜索框
 class SearchInput extends StatelessWidget {
   final getResults;
 
@@ -376,17 +412,17 @@ class SearchInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Container(
+    return Container(
       height: 40.0,
       decoration: BoxDecoration(color: Theme.of(context).backgroundColor, borderRadius: BorderRadius.circular(4.0)),
-      child: new Row(
+      child: Row(
         children: <Widget>[
-          new Padding(
-            padding: new EdgeInsets.only(right: 10.0, top: 3.0, left: 10.0),
-            child: new Icon(Icons.search, size: 24.0, color: Theme.of(context).accentColor),
+          Padding(
+            padding: EdgeInsets.only(right: 10.0, top: 3.0, left: 10.0),
+            child: Icon(Icons.search, size: 24.0, color: Theme.of(context).accentColor),
           ),
-          new Expanded(
-            child: new MaterialSearchInput(
+          Expanded(
+            child: MaterialSearchInput(
               placeholder: '搜索 flutter 组件',
               getResults: getResults,
             ),
@@ -396,8 +432,8 @@ class SearchInput extends StatelessWidget {
     );
   }
 }
-// wigdet干掉.=> componets
 
+// 历史记录面板
 class History extends StatefulWidget {
   const History() : super();
 
@@ -405,9 +441,6 @@ class History extends StatefulWidget {
   _History createState() => _History();
 }
 
-/*
-* AppBar 默认的实例,有状态
-* */
 class _History extends State<History> {
   @override
   void initState() {
@@ -421,7 +454,7 @@ class _History extends State<History> {
 
   @override
   Widget build(BuildContext context) {
-    return new Center(
+    return Center(
       child: Text('这是一个即将完善的历史记录的面板'),
     );
   }

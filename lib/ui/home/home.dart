@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:weifangbus/entity/home/allRouteData_entity.dart';
 import 'package:weifangbus/entity/home/startUpBasicInfo_entity.dart';
 import 'package:weifangbus/entity_factory.dart';
 import 'package:weifangbus/ui/home/news_detail.dart';
@@ -95,9 +96,9 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   void initState() {
     super.initState();
     menuEntityList = List();
-    MenuEntity lineInquiry = MenuEntity(Colors.lightBlue, MyIcons.lineInquiry, '线路查询');
+    MenuEntity lineInquiry = MenuEntity(Colors.lightGreen, MyIcons.lineInquiry, '线路查询');
     menuEntityList.add(lineInquiry);
-    MenuEntity guide = MenuEntity(Colors.lightGreen, MyIcons.guide, '导乘');
+    MenuEntity guide = MenuEntity(Colors.lightBlue, MyIcons.guide, '导乘');
     menuEntityList.add(guide);
     MenuEntity news = MenuEntity(Colors.orangeAccent, MyIcons.news, '资讯');
     menuEntityList.add(news);
@@ -141,52 +142,73 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     'Daniel Nadasi',
   ];
 
+  Future<List<Routelist>> getAllRoute() async {
+    try {
+      Response response;
+      var uri = "/BusService/Require_AllRouteData/?" + getSignString();
+      response = await dio.get(uri);
+      AllroutedataEntity allRouteDataEntity = EntityFactory.generateOBJ<AllroutedataEntity>(response.data);
+      print('请求所有线路完毕');
+      return allRouteDataEntity.routelist;
+    } catch (e) {
+      print('请求出现问题::: $e');
+      return Future.value(null);
+    }
+  }
+
   // 搜索栏
   Widget searchBar(BuildContext context) {
-    return Container(
-      height: ScreenUtil().setHeight(103),
-      decoration: BoxDecoration(
-        color: Theme.of(context).backgroundColor,
-        borderRadius: BorderRadius.circular(4.0),
-      ),
-      child: new Row(
-        children: <Widget>[
-          new Padding(
-            padding: new EdgeInsets.only(
-              right: ScreenUtil().setWidth(25),
-              top: ScreenUtil().setHeight(6),
-              left: ScreenUtil().setWidth(25),
+    return Center(
+      child: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).backgroundColor,
+          borderRadius: BorderRadius.circular(4.0),
+        ),
+        child: Row(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(
+                right: ScreenUtil().setWidth(25),
+                left: ScreenUtil().setWidth(25),
+              ),
+              child: Icon(
+                Icons.search,
+                size: ScreenUtil().setWidth(60),
+                color: Theme.of(context).accentColor,
+              ),
             ),
-            child: new Icon(
-              Icons.search,
-              size: ScreenUtil().setWidth(60),
-              color: Theme.of(context).accentColor,
+            Expanded(
+              child: MaterialSearchInput(
+                placeholder: '搜索线路',
+                getResults: (value) async {
+                  if (value != '') {
+                    var routeList = await getAllRoute();
+                    return routeList
+                        .map((item) => MaterialSearchResult<String>(
+                              value: item.routename,
+                              icon: Icons.directions_bus,
+                              text: item.routenameext,
+                              onTap: () {
+                                print(item.routename);
+                              },
+                            ))
+                        .toList();
+                  } else {
+                    return null;
+                  }
+                },
+                filter: (dynamic value, String criteria) {
+                  return value.toLowerCase().trim().contains(RegExp(r'' + criteria.toLowerCase().trim() + ''));
+                },
+                onSelect: (dynamic v) {
+                  print(v);
+                },
+                validator: (dynamic value) => value == null ? 'Required field' : null,
+                formatter: (dynamic v) => 'Hello, $v',
+              ),
             ),
-          ),
-          new Expanded(
-            child: new MaterialSearchInput(
-              placeholder: '搜索线路',
-              results: _names
-                  .map((String v) => new MaterialSearchResult<String>(
-                        icon: Icons.person,
-                        value: v,
-                        text: "Mr(s). $v",
-                        onTap: () {
-                          print('$v');
-                        },
-                      ))
-                  .toList(),
-              filter: (dynamic value, String criteria) {
-                return value.toLowerCase().trim().contains(new RegExp(r'' + criteria.toLowerCase().trim() + ''));
-              },
-              onSelect: (dynamic v) {
-                print(v);
-              },
-              validator: (dynamic value) => value == null ? 'Required field' : null,
-              formatter: (dynamic v) => 'Hello, $v',
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -447,16 +469,17 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute<String>(
-                                      /*settings: new RouteSettings(
+                                      settings: RouteSettings(
                                         name: 'material_search',
                                         isInitialRoute: false,
-                                      ),*/
+                                      ),
                                       builder: (BuildContext context) {
-                                        return new Material(
-                                          child: new MaterialSearch<String>(
+                                        return Material(
+                                          child: MaterialSearch<String>(
+                                            barBackgroundColor: Theme.of(context).primaryColor,
                                             placeholder: '搜索线路',
                                             results: _names
-                                                .map((String v) => new MaterialSearchResult<String>(
+                                                .map((String v) => MaterialSearchResult<String>(
                                                       icon: Icons.person,
                                                       value: v,
                                                       text: "Mr(s). $v",
@@ -469,29 +492,18 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                                               return value
                                                   .toLowerCase()
                                                   .trim()
-                                                  .contains(new RegExp(r'' + criteria.toLowerCase().trim() + ''));
+                                                  .contains(RegExp(r'' + criteria.toLowerCase().trim() + ''));
                                             },
                                             onSelect: (dynamic value) => Navigator.of(context).pop(value),
-                                            onSubmit: (String value) => Navigator.of(context).pop(value),
+                                            onSubmit: (String value) {
+                                              // 输入法点击完成后的回调函数
+                                              print(value);
+                                            },
                                           ),
                                         );
                                       },
                                     ),
-                                  ).then((dynamic value) {
-                                    // 回调处理
-                                    if (value != null && value != "") {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (BuildContext context) {
-                                            return SearchDemo(
-                                              title: "搜索示例",
-                                            );
-                                          },
-                                        ),
-                                      );
-                                    }
-                                  });
+                                  );
                                 }
                                 // 进入导乘页面
                                 if (menuEntityList[index].menuText == '导乘') {

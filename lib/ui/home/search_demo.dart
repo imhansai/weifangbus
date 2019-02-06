@@ -7,7 +7,7 @@ class SearchDemo extends StatefulWidget {
   final String title;
 
   @override
-  _SearchDemoState createState() => new _SearchDemoState();
+  _SearchDemoState createState() => _SearchDemoState();
 }
 
 class _SearchDemoState extends State<SearchDemo> {
@@ -27,27 +27,27 @@ class _SearchDemoState extends State<SearchDemo> {
   // 选中的条目,默认 No one
   String _name = 'No one';
 
-  final _formKey = new GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
   _buildMaterialSearchPage(BuildContext context) {
-    return new MaterialPageRoute<String>(
-        settings: new RouteSettings(
+    return MaterialPageRoute<String>(
+        settings: RouteSettings(
           name: 'material_search',
           isInitialRoute: false,
         ),
         builder: (BuildContext context) {
-          return new Material(
-            child: new MaterialSearch<String>(
+          return Material(
+            child: MaterialSearch<String>(
               placeholder: '搜索线路',
               results: _names
-                  .map((String v) => new MaterialSearchResult<String>(
+                  .map((String v) => MaterialSearchResult<String>(
                         icon: Icons.person,
                         value: v,
                         text: "Mr(s). $v",
                       ))
                   .toList(),
               filter: (dynamic value, String criteria) {
-                return value.toLowerCase().trim().contains(new RegExp(r'' + criteria.toLowerCase().trim() + ''));
+                return value.toLowerCase().trim().contains(RegExp(r'' + criteria.toLowerCase().trim() + ''));
               },
               onSelect: (dynamic value) => Navigator.of(context).pop(value),
               onSubmit: (String value) => Navigator.of(context).pop(value),
@@ -64,37 +64,37 @@ class _SearchDemoState extends State<SearchDemo> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text(widget.title),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
         actions: <Widget>[
-          new IconButton(
+          IconButton(
             onPressed: () {
               _showMaterialSearch(context);
             },
             tooltip: 'Search',
-            icon: new Icon(Icons.search),
+            icon: Icon(Icons.search),
           )
         ],
       ),
-      body: new Center(
-        child: new Column(
+      body: Center(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            new Padding(
+            Padding(
               padding: const EdgeInsets.symmetric(vertical: 40.0, horizontal: 50.0),
-              child: new Text("You found: ${_name ?? 'No one'}"),
+              child: Text("You found: ${_name ?? 'No one'}"),
             ),
-            new Padding(
+            Padding(
               padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
-              child: new Form(
+              child: Form(
                 key: _formKey,
-                child: new Column(
+                child: Column(
                   children: <Widget>[
-                    new MaterialSearchInput<String>(
+                    MaterialSearchInput<String>(
                       placeholder: '搜索线路',
                       results: _names
-                          .map((String v) => new MaterialSearchResult<String>(
+                          .map((String v) => MaterialSearchResult<String>(
                                 icon: Icons.person,
                                 value: v,
                                 text: "Mr(s). $v",
@@ -104,7 +104,7 @@ class _SearchDemoState extends State<SearchDemo> {
                         return value
                             .toLowerCase()
                             .trim()
-                            .contains(new RegExp(r'' + criteria.toLowerCase().trim() + ''));
+                            .contains(RegExp(r'' + criteria.toLowerCase().trim() + ''));
                       },
                       onSelect: (dynamic v) {
                         print(v);
@@ -112,8 +112,8 @@ class _SearchDemoState extends State<SearchDemo> {
                       validator: (dynamic value) => value == null ? 'Required field' : null,
                       formatter: (dynamic v) => 'Hello, $v',
                     ),
-                    new MaterialButton(
-                        child: new Text('Validate'),
+                    MaterialButton(
+                        child: Text('Validate'),
                         onPressed: () {
                           _formKey.currentState.validate();
                         }),
@@ -124,12 +124,12 @@ class _SearchDemoState extends State<SearchDemo> {
           ],
         ),
       ),
-      floatingActionButton: new FloatingActionButton(
+      floatingActionButton: FloatingActionButton(
         onPressed: () {
           _showMaterialSearch(context);
         },
         tooltip: 'Search',
-        child: new Icon(Icons.search),
+        child: Icon(Icons.search),
       ),
     );
   }

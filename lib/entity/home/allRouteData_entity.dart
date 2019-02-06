@@ -8,14 +8,14 @@ class AllroutedataEntity {
 	AllroutedataEntity.fromJson(Map<String, dynamic> json) {
 		isnewdata = json['IsNewData'];
 		if (json['RouteList'] != null) {
-			routelist = new List<Routelist>();
-			json['RouteList'].forEach((v) { routelist.add(new Routelist.fromJson(v)); });
+			routelist = List<Routelist>();
+			json['RouteList'].forEach((v) { routelist.add(Routelist.fromJson(v)); });
 		}
 		timestamp = json['TimeStamp'];
 	}
 
 	Map<String, dynamic> toJson() {
-		final Map<String, dynamic> data = new Map<String, dynamic>();
+		final Map<String, dynamic> data = Map<String, dynamic>();
 		data['IsNewData'] = this.isnewdata;
 		if (this.routelist != null) {
       data['RouteList'] = this.routelist.map((v) => v.toJson()).toList();
@@ -41,7 +41,7 @@ class Routelist {
 	}
 
 	Map<String, dynamic> toJson() {
-		final Map<String, dynamic> data = new Map<String, dynamic>();
+		final Map<String, dynamic> data = Map<String, dynamic>();
 		data['RouteID'] = this.routeid;
 		data['RouteName'] = this.routename;
 		data['IsHaveSubRouteCombine'] = this.ishavesubroutecombine;

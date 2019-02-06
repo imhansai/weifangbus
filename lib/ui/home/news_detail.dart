@@ -16,7 +16,7 @@ class InformationDetail extends StatefulWidget {
 }
 
 class _InformationDetail extends State<InformationDetail> {
-  ScrollController _controller = new ScrollController();
+  ScrollController _controller = ScrollController();
   bool showToTopBtn = false; // 是否显示“返回到顶部”按钮
 
   @override

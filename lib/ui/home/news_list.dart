@@ -27,8 +27,8 @@ class NewsListPage extends StatefulWidget {
 class _NewsListPageState extends State<NewsListPage> {
   final GlobalKey<ScaffoldState> _newsListKey = GlobalKey<ScaffoldState>();
 
-  List<Headline> newsList = List();
-  List<Headline> _showNewsList = List();
+  List<Headline> newsList;
+  List<Headline> _showNewsList;
   GlobalKey<EasyRefreshState> _easyRefreshKey = GlobalKey<EasyRefreshState>();
   GlobalKey<RefreshHeaderState> _headerKey = GlobalKey<RefreshHeaderState>();
   GlobalKey<RefreshFooterState> _footerKey = GlobalKey<RefreshFooterState>();
@@ -41,6 +41,9 @@ class _NewsListPageState extends State<NewsListPage> {
       List<dynamic> list = response.data;
       List<Headline> newsList = list.map((dynamic) => EntityFactory.generateOBJ<Headline>(dynamic)).toList();
       print('请求资讯列表数据完毕');
+      if (newsList == null) {
+        newsList = List();
+      }
       return newsList;
     } on DioError catch (e) {
       print('请求资讯列表数据出错::: $e');
