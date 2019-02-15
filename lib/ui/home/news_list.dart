@@ -115,6 +115,7 @@ class _NewsListPageState extends State<NewsListPage> {
                   height: ScreenUtil().setHeight(210),
                   child: Card(
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Expanded(
                           child: Padding(
