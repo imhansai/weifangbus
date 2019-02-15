@@ -17,12 +17,12 @@ import 'package:weifangbus/utils/fontUtil.dart';
 import 'package:weifangbus/utils/requestParamsUtil.dart';
 
 /// 首页
-class Home extends StatefulWidget {
+class HomePage extends StatefulWidget {
   @override
-  _HomeState createState() => _HomeState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
+class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   // 菜单项
   List<MenuEntity> menuEntityList;
 

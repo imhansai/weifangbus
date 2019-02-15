@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:weifangbus/generated/application.dart';
 import 'package:weifangbus/generated/translations.dart';
-import 'package:weifangbus/ui/homePage.dart';
+import 'package:weifangbus/ui/home.dart';
 
 /// 将App设置为Stateful，这让它可以响应刷新事件，调用应用的SetState()
 class WeiFangBusApp extends StatefulWidget {
@@ -42,7 +42,7 @@ class _WeiFangBusApp extends State<WeiFangBusApp> {
       theme: new ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomePage(),
+      home: Home(),
       // 提供地区数据和默认的文字布局
       localizationsDelegates: [
         _localeOverrideDelegate, // 注册一个新的delegate

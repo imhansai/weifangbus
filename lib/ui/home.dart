@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:weifangbus/generated/translations.dart';
-import 'package:weifangbus/ui/home/home.dart';
+import 'package:weifangbus/ui/home/home_page.dart';
+import 'package:weifangbus/ui/more/more.dart';
 
-class HomePage extends StatefulWidget {
+class Home extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomeState createState() => _HomeState();
 }
 
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
+class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
+  final List<Widget> myTabs = <Widget>[
+    HomePage(),
+    MorePage(),
+  ];
+
   // 页面控制
   TabController _tabController;
 
@@ -22,10 +28,16 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(initialIndex: 0, length: 3, vsync: this);
+    _tabController = TabController(initialIndex: 0, length: myTabs.length, vsync: this);
     _tabController.addListener(() {
       setState(() {});
     });
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 
   @override
@@ -34,11 +46,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     return Scaffold(
       body: TabBarView(
         controller: _tabController,
-        children: <Widget>[
-          Home(),
-          Home(),
-          Home(),
-        ],
+        children: myTabs.map((Widget widget) {
+          return widget;
+        }).toList(),
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _tabController.index,
@@ -49,10 +59,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           BottomNavigationBarItem(
             icon: Icon(Icons.dashboard),
             title: Text(Translations.of(context).text('home')),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.explore),
-            title: Text(Translations.of(context).text('explore')),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.more_vert),
