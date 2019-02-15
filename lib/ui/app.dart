@@ -36,7 +36,9 @@ class _WeiFangBusApp extends State<WeiFangBusApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: '潍坊公交',
+      onGenerateTitle: (context) {
+        return Translations.of(context).text('appName');
+      },
       theme: new ThemeData(
         primarySwatch: Colors.blue,
       ),
