@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:weifangbus/generated/translations.dart';
 import 'package:weifangbus/ui/home/home.dart';
 
 class HomePage extends StatefulWidget {
@@ -47,15 +48,15 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.dashboard),
-            title: Text('首页'),
+            title: Text(Translations.of(context).text('home')),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.explore),
-            title: Text('发现'),
+            title: Text(Translations.of(context).text('explore')),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.more_vert),
-            title: Text('更多'),
+            title: Text(Translations.of(context).text('more')),
           ),
         ],
       ),

@@ -4,6 +4,7 @@ import 'package:weifangbus/generated/application.dart';
 import 'package:weifangbus/generated/translations.dart';
 import 'package:weifangbus/ui/homePage.dart';
 
+/// 将App设置为Stateful，这让它可以响应刷新事件，调用应用的SetState()
 class WeiFangBusApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -36,14 +37,18 @@ class _WeiFangBusApp extends State<WeiFangBusApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: '潍坊公交',
+      theme: new ThemeData(
+        primarySwatch: Colors.blue,
+      ),
       home: HomePage(),
+      // 提供地区数据和默认的文字布局
       localizationsDelegates: [
         _localeOverrideDelegate, // 注册一个新的delegate
-        const TranslationsDelegate(),
+        const TranslationsDelegate(), // 指向默认的处理翻译逻辑的库
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate
       ],
-      supportedLocales: applic.supportedLocales(),
+      supportedLocales: applic.supportedLocales(), // 支持的语言列表
     );
   }
 }

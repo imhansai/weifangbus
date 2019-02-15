@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 typedef void LocaleChangeCallback(Locale locale);
 
 class APPLIC {
-  // List of supported languages
+  // 支持的语言列表
   final List<String> supportedLanguages = ['en', 'zh'];
 
-  // Returns the list of supported Locales
+  // 支持的Locales列表
   Iterable<Locale> supportedLocales() => supportedLanguages.map<Locale>((lang) => new Locale(lang, ''));
 
-  // Function to be invoked when changing the working language
+  // 当语言改变时调用的方法
   LocaleChangeCallback onLocaleChanged;
 
   ///
