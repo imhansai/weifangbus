@@ -15,7 +15,7 @@ class _MorePageState extends State<MorePage> with AutomaticKeepAliveClientMixin 
       ),
       body: Container(
         child: Center(
-          child: Text('未完待续'),
+          child: Text('敬请期待'),
         ),
       ),
     );
@@ -23,4 +23,10 @@ class _MorePageState extends State<MorePage> with AutomaticKeepAliveClientMixin 
 
   @override
   bool get wantKeepAlive => true;
+
+  @override
+  void initState() {
+    super.initState();
+    print('更多初始化');
+  }
 }

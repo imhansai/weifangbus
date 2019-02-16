@@ -3,5 +3,9 @@
   "home": "Home",
   "explore": "Explore",
   "more": "More",
-  "noData": "No data"
+  "noData": "No data",
+  "queryLine": "Query Line",
+  "guide": "Guide",
+  "news": "News",
+  "searchLine": "Search Line"
 }

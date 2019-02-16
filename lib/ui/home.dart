@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:weifangbus/generated/translations.dart';
+import 'package:weifangbus/ui/explore/explore_page.dart';
 import 'package:weifangbus/ui/home/home_page.dart';
-import 'package:weifangbus/ui/more/more.dart';
+import 'package:weifangbus/ui/more/more_page.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -12,31 +13,18 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   final List<Widget> myTabs = <Widget>[
     HomePage(),
+    ExplorePage(),
     MorePage(),
   ];
 
-  // 页面控制
-  TabController _tabController;
-
-  // 底部栏切换
-  void _onBottomNavigationBarTap(int index) {
-    setState(() {
-      _tabController.index = index;
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(initialIndex: 0, length: myTabs.length, vsync: this);
-    _tabController.addListener(() {
-      setState(() {});
-    });
-  }
+  int _currentIndex = 0;
+  var _controller = PageController(
+    initialPage: 0,
+  );
 
   @override
   void dispose() {
-    _tabController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -44,25 +32,42 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     ScreenUtil.instance = ScreenUtil(width: 1080, height: 1920, allowFontScaling: true)..init(context);
     return Scaffold(
-      body: TabBarView(
-        controller: _tabController,
+      body: PageView(
+        controller: _controller,
         children: myTabs.map((Widget widget) {
           return widget;
         }).toList(),
+        physics: NeverScrollableScrollPhysics(),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _tabController.index,
+        currentIndex: _currentIndex,
         type: BottomNavigationBarType.fixed,
-        fixedColor: Colors.black,
-        onTap: _onBottomNavigationBarTap,
+        onTap: (index) {
+          _controller.jumpToPage(index);
+          setState(() {
+            _currentIndex = index;
+          });
+        },
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.dashboard),
-            title: Text(Translations.of(context).text('home')),
+            icon: Icon(
+              Icons.home,
+            ),
+            title: Text(
+              Translations.of(context).text('home'),
+            ),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.explore),
+            title: Text(
+              Translations.of(context).text('explore'),
+            ),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.more_vert),
-            title: Text(Translations.of(context).text('more')),
+            title: Text(
+              Translations.of(context).text('more'),
+            ),
           ),
         ],
       ),

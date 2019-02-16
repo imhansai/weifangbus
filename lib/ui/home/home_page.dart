@@ -8,6 +8,7 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:weifangbus/entity/home/allRouteData_entity.dart';
 import 'package:weifangbus/entity/home/startUpBasicInfo_entity.dart';
 import 'package:weifangbus/entity_factory.dart';
+import 'package:weifangbus/generated/translations.dart';
 import 'package:weifangbus/ui/home/news_detail.dart';
 import 'package:weifangbus/ui/home/news_list.dart';
 import 'package:weifangbus/ui/home/search_demo.dart';
@@ -96,11 +97,11 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
   void initState() {
     super.initState();
     menuEntityList = List();
-    MenuEntity lineInquiry = MenuEntity(Colors.lightGreen, MyIcons.lineInquiry, '线路查询');
+    MenuEntity lineInquiry = MenuEntity(Colors.lightGreen, MyIcons.lineInquiry, "queryLine");
     menuEntityList.add(lineInquiry);
-    MenuEntity guide = MenuEntity(Colors.lightBlue, MyIcons.guide, '导乘');
+    MenuEntity guide = MenuEntity(Colors.lightBlue, MyIcons.guide, 'guide');
     menuEntityList.add(guide);
-    MenuEntity news = MenuEntity(Colors.orangeAccent, MyIcons.news, '资讯');
+    MenuEntity news = MenuEntity(Colors.orangeAccent, MyIcons.news, 'news');
     menuEntityList.add(news);
     _startUpBasicInfoEntity = getStartUpBasicInfoEntity();
   }
@@ -179,7 +180,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
             ),
             Expanded(
               child: MaterialSearchInput(
-                placeholder: '搜索线路',
+                placeholder: Translations.of(context).text('searchLine'),
                 getResults: (value) async {
                   if (value != '') {
                     var routeList = await getAllRoute();
@@ -339,7 +340,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                                                   ),
                                                   child: Padding(
                                                     child: Text(
-                                                      '资讯',
+                                                      Translations.of(context).text('news'),
                                                       style: TextStyle(
                                                         color: Colors.deepOrangeAccent,
                                                       ),
@@ -454,7 +455,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                                         ScreenUtil().setHeight(0),
                                       ),
                                       child: Text(
-                                        menuEntityList[index].menuText,
+                                        Translations.of(context).text(menuEntityList[index].menuText),
                                         style: TextStyle(
                                           fontSize: ScreenUtil().setSp(40),
                                         ),
@@ -464,7 +465,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                                 ),
                               ),
                               onTap: () {
-                                if (menuEntityList[index].menuText == '线路查询') {
+                                if (menuEntityList[index].menuText == 'queryLine') {
                                   print('准备进入线路查询');
                                   Navigator.push(
                                     context,
@@ -506,7 +507,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                                   );
                                 }
                                 // 进入导乘页面
-                                if (menuEntityList[index].menuText == '导乘') {
+                                if (menuEntityList[index].menuText == 'guide') {
                                   print('准备进入导乘');
                                   Navigator.push(
                                     context,
@@ -520,7 +521,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                                   );
                                 }
                                 // 进入资讯列表
-                                if (menuEntityList[index].menuText == '资讯') {
+                                if (menuEntityList[index].menuText == 'news') {
                                   print('准备进入资讯');
                                   Navigator.push(
                                     context,

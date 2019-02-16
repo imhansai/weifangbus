@@ -3,5 +3,9 @@
   "home": "首页",
   "explore": "发现",
   "more": "更多",
-  "noData": "没有数据"
+  "noData": "没有数据",
+  "queryLine": "线路查询",
+  "guide": "导乘",
+  "news": "资讯",
+  "searchLine": "搜索线路"
 }
