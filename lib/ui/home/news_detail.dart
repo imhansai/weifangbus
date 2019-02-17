@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:intl/intl.dart';
 import 'package:weifangbus/entity/home/startUpBasicInfo_entity.dart';
+import 'package:weifangbus/generated/translations.dart';
 
 class InformationDetail extends StatefulWidget {
   final Headline headLine;
@@ -49,7 +50,7 @@ class _InformationDetail extends State<InformationDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("资讯详情"),
+        title: Text(Translations.of(context).text('newsDetail')),
       ),
       body: Container(
         child: Column(
@@ -124,7 +125,7 @@ class _InformationDetail extends State<InformationDetail> {
           ? null
           : FloatingActionButton(
               child: Icon(Icons.arrow_upward),
-              tooltip: '返回顶部',
+              tooltip: Translations.of(context).text('backToTop'),
               onPressed: () {
                 // 返回到顶部时执行动画
                 _controller.animateTo(.0, duration: Duration(milliseconds: 200), curve: Curves.ease);

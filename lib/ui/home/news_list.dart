@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:weifangbus/entity/home/startUpBasicInfo_entity.dart';
 import 'package:weifangbus/entity_factory.dart';
+import 'package:weifangbus/generated/translations.dart';
 import 'package:weifangbus/ui/home/news_detail.dart';
 import 'package:weifangbus/utils/dioUtil.dart';
 import 'package:weifangbus/utils/requestParamsUtil.dart';
@@ -73,7 +76,7 @@ class _NewsListPageState extends State<NewsListPage> {
     return Scaffold(
       key: _newsListKey,
       appBar: AppBar(
-        title: Text("资讯列表"),
+        title: Text(Translations.of(context).text('newsList')),
       ),
       body: Center(
         child: EasyRefresh(
@@ -90,7 +93,7 @@ class _NewsListPageState extends State<NewsListPage> {
                   color: Colors.grey,
                 ),
                 Text(
-                  "暂无资讯信息",
+                  Translations.of(context).text('noData'),
                   style: TextStyle(
                     fontSize: ScreenUtil().setSp(41),
                     color: Colors.grey,

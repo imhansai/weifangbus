@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weifangbus/generated/translations.dart';
 
 class ExplorePage extends StatefulWidget {
   @override
@@ -12,20 +13,14 @@ class _ExplorePageState extends State<ExplorePage> with AutomaticKeepAliveClient
     return Scaffold(
       key: PageStorageKey(_ExplorePageState),
       appBar: AppBar(
-        title: Text('发现'),
+        title: Text(Translations.of(context).text('explore')),
       ),
       body: Center(
-        child: Text('探索'),
+        child: Text(Translations.of(context).text('explore')),
       ),
     );
   }
 
   @override
   bool get wantKeepAlive => true;
-
-  @override
-  void initState() {
-    super.initState();
-    print('发现初始化');
-  }
 }

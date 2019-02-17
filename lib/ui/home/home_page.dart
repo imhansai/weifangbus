@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
@@ -62,6 +64,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
     if (connectivityResult != ConnectivityResult.none) {
       try {
         var uri = "/BusService/Query_StartUpBasicInfo?" + getSignString();
+        print(uri);
         Response response = await dio.get(uri);
         var startUpBasicInfoEntity = EntityFactory.generateOBJ<StartUpBasicInfoEntity>(response.data);
         _showNewsList = startUpBasicInfoEntity.headline;
@@ -478,7 +481,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                                         return Material(
                                           child: MaterialSearch<String>(
                                             barBackgroundColor: Theme.of(context).primaryColor,
-                                            placeholder: '搜索线路',
+                                            placeholder: Translations.of(context).text('searchLine'),
                                             results: _names
                                                 .map((String v) => MaterialSearchResult<String>(
                                                       icon: Icons.person,

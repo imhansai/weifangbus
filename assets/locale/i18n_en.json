@@ -7,5 +7,10 @@
   "queryLine": "Query Line",
   "guide": "Guide",
   "news": "News",
-  "searchLine": "Search Line"
+  "searchLine": "Search Line",
+  "searchHistory": "Search History",
+  "stayTuned": "Stay tuned",
+  "newsList": "news List",
+  "newsDetail": "news Detail",
+  "backToTop": "back to top"
 }
