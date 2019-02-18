@@ -467,7 +467,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                                 ),
                               ),
                               onTap: () {
-                                if (menuEntityList[index].menuText == 'queryLine') {
+                                if (index == 0) {
                                   print('准备进入线路查询');
                                   Navigator.push(
                                     context,
@@ -509,7 +509,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                                   );
                                 }
                                 // 进入导乘页面
-                                if (menuEntityList[index].menuText == 'guide') {
+                                if (index == 1) {
                                   print('准备进入导乘');
                                   Navigator.push(
                                     context,
@@ -523,7 +523,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                                   );
                                 }
                                 // 进入资讯列表
-                                if (menuEntityList[index].menuText == 'news') {
+                                if (index == 2) {
                                   print('准备进入资讯');
                                   Navigator.push(
                                     context,

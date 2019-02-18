@@ -112,68 +112,72 @@ class _NewsListPageState extends State<NewsListPage> {
             //ListView的Item
             itemCount: _showNewsList.length,
             itemBuilder: (BuildContext context, int index) {
-              return InkWell(
+              return FlatButton(
+                padding: EdgeInsets.all(0.0),
+                shape: Border.all(
+                  color: Colors.black12,
+                  width: 1.0,
+                  style: BorderStyle.solid,
+                ),
                 child: Container(
                   height: ScreenUtil().setHeight(210),
-                  child: Card(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Expanded(
-                          child: Padding(
-                            padding: EdgeInsets.fromLTRB(
-                              ScreenUtil().setWidth(31),
-                              ScreenUtil().setHeight(8),
-                              ScreenUtil().setWidth(24),
-                              ScreenUtil().setHeight(8),
-                            ),
-                            child: Row(
-                              children: <Widget>[
-                                Text(
-                                  DateFormat("yyyy年MM月dd日")
-                                      .format(DateTime.parse(_showNewsList[index].realeasetime))
-                                      .toString(),
-                                  style: TextStyle(
-                                    color: Colors.orange,
-                                    fontSize: ScreenUtil().setSp(50),
-                                  ),
-                                )
-                              ],
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(
+                            ScreenUtil().setWidth(31),
+                            ScreenUtil().setHeight(8),
+                            ScreenUtil().setWidth(24),
+                            ScreenUtil().setHeight(8),
+                          ),
+                          child: Row(
+                            children: <Widget>[
+                              Text(
+                                DateFormat("yyyy年MM月dd日")
+                                    .format(DateTime.parse(_showNewsList[index].realeasetime))
+                                    .toString(),
+                                style: TextStyle(
+                                  color: Colors.orange,
+                                  fontSize: ScreenUtil().setSp(50),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: ScreenUtil().setWidth(31),
+                            vertical: ScreenUtil().setHeight(8),
+                          ),
+                          child: Text(
+                            _showNewsList[index].title,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: ScreenUtil().setSp(45),
                             ),
                           ),
                         ),
-                        Expanded(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: ScreenUtil().setWidth(31),
-                              vertical: ScreenUtil().setHeight(8),
-                            ),
-                            child: Text(
-                              _showNewsList[index].title,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: ScreenUtil().setSp(45),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (BuildContext context) {
-                        return InformationDetail(
-                          headLine: _showNewsList[index],
-                        );
-                      },
-                    ),
-                  );
-                },
+                onPressed: () => {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) {
+                            return InformationDetail(
+                              headLine: _showNewsList[index],
+                            );
+                          },
+                        ),
+                      ),
+                    },
               );
             },
           ),

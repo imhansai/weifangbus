@@ -13,7 +13,7 @@ class _WeiFangBusApp extends State<WeiFangBusApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "潍坊公交",
-      theme: new ThemeData(
+      theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       home: Home(),

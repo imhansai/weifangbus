@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:weifangbus/widget/list_item.dart';
 
 class MorePage extends StatefulWidget {
   @override
@@ -11,31 +12,61 @@ class _MorePageState extends State<MorePage> with AutomaticKeepAliveClientMixin 
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
+      appBar: AppBar(
+        title: Text('更多'),
+      ),
       body: Container(
-        child: CustomScrollView(
-          slivers: <Widget>[
-            SliverAppBar(
-              pinned: false,
-              expandedHeight: ScreenUtil().setHeight(399),
-              flexibleSpace: FlexibleSpaceBar(
-                background: Image.asset(
-                  "assets/images/more_page.png",
-                  fit: BoxFit.cover,
-                ),
+        child: ListView(
+          children: <Widget>[
+            ListItem(
+              title: "设置",
+              describe: "完美调控，尽在您的掌握",
+              icon: Icon(
+                Icons.settings,
+                color: Colors.orange,
+              ),
+              onPressed: () {},
+            ),
+            Container(
+              width: double.infinity,
+              height: ScreenUtil().setHeight(1),
+              padding: EdgeInsets.only(left: ScreenUtil().setWidth(5), right: ScreenUtil().setWidth(5)),
+              child: Container(
+                color: Colors.black12,
               ),
             ),
-            new SliverFixedExtentList(
-              itemExtent: 80.0,
-              delegate: new SliverChildBuilderDelegate(
-                (BuildContext context, int index) {
-                  //创建列表项
-                  return new Container(
-                    alignment: Alignment.center,
-                    color: Colors.lightBlue[100 * (index % 9)],
-                    child: new Text('list item $index'),
-                  );
-                },
-                childCount: 5, //50个列表项
+            ListItem(
+              title: "潍坊市公共交通总公司",
+              describe: "关于潍坊市公共交通总公司",
+              icon: Icon(
+                Icons.business,
+                color: Colors.grey,
+              ),
+              onPressed: () {},
+            ),
+            Container(
+              width: double.infinity,
+              height: ScreenUtil().setHeight(1),
+              padding: EdgeInsets.only(left: ScreenUtil().setWidth(5), right: ScreenUtil().setWidth(5)),
+              child: Container(
+                color: Colors.black12,
+              ),
+            ),
+            ListItem(
+              title: "关于我",
+              describe: "走进作者",
+              icon: Icon(
+                Icons.info,
+                color: Colors.lightBlue,
+              ),
+              onPressed: () {},
+            ),
+            Container(
+              width: double.infinity,
+              height: ScreenUtil().setHeight(1),
+              padding: EdgeInsets.only(left: ScreenUtil().setWidth(5), right: ScreenUtil().setWidth(5)),
+              child: Container(
+                color: Colors.black12,
               ),
             ),
           ],
