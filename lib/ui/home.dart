@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:weifangbus/generated/translations.dart';
 import 'package:weifangbus/ui/explore/explore_page.dart';
 import 'package:weifangbus/ui/home/home_page.dart';
 import 'package:weifangbus/ui/more/more_page.dart';
@@ -53,21 +52,15 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             icon: Icon(
               Icons.home,
             ),
-            title: Text(
-              Translations.of(context).text('home'),
-            ),
+            title: Text("首页"),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.explore),
-            title: Text(
-              Translations.of(context).text('explore'),
-            ),
+            title: Text("发现"),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.more_vert),
-            title: Text(
-              Translations.of(context).text('more'),
-            ),
+            title: Text("更多"),
           ),
         ],
       ),

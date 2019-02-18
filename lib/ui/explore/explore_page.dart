@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:weifangbus/generated/translations.dart';
 
 class ExplorePage extends StatefulWidget {
   @override
@@ -13,10 +12,10 @@ class _ExplorePageState extends State<ExplorePage> with AutomaticKeepAliveClient
     return Scaffold(
       key: PageStorageKey(_ExplorePageState),
       appBar: AppBar(
-        title: Text(Translations.of(context).text('explore')),
+        title: Text("发现"),
       ),
       body: Center(
-        child: Text(Translations.of(context).text('explore')),
+        child: Text("探索"),
       ),
     );
   }

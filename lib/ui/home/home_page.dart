@@ -10,7 +10,6 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:weifangbus/entity/home/allRouteData_entity.dart';
 import 'package:weifangbus/entity/home/startUpBasicInfo_entity.dart';
 import 'package:weifangbus/entity_factory.dart';
-import 'package:weifangbus/generated/translations.dart';
 import 'package:weifangbus/ui/home/news_detail.dart';
 import 'package:weifangbus/ui/home/news_list.dart';
 import 'package:weifangbus/ui/home/search_demo.dart';
@@ -100,11 +99,11 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
   void initState() {
     super.initState();
     menuEntityList = List();
-    MenuEntity lineInquiry = MenuEntity(Colors.lightGreen, MyIcons.lineInquiry, "queryLine");
+    MenuEntity lineInquiry = MenuEntity(Colors.lightGreen, MyIcons.lineInquiry, "线路查询");
     menuEntityList.add(lineInquiry);
-    MenuEntity guide = MenuEntity(Colors.lightBlue, MyIcons.guide, 'guide');
+    MenuEntity guide = MenuEntity(Colors.lightBlue, MyIcons.guide, '导乘');
     menuEntityList.add(guide);
-    MenuEntity news = MenuEntity(Colors.orangeAccent, MyIcons.news, 'news');
+    MenuEntity news = MenuEntity(Colors.orangeAccent, MyIcons.news, '资讯');
     menuEntityList.add(news);
     _startUpBasicInfoEntity = getStartUpBasicInfoEntity();
   }
@@ -183,7 +182,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
             ),
             Expanded(
               child: MaterialSearchInput(
-                placeholder: Translations.of(context).text('searchLine'),
+                placeholder: "搜索线路",
                 getResults: (value) async {
                   if (value != '') {
                     var routeList = await getAllRoute();
@@ -343,7 +342,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                                                   ),
                                                   child: Padding(
                                                     child: Text(
-                                                      Translations.of(context).text('news'),
+                                                      "资讯",
                                                       style: TextStyle(
                                                         color: Colors.deepOrangeAccent,
                                                       ),
@@ -458,7 +457,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                                         ScreenUtil().setHeight(0),
                                       ),
                                       child: Text(
-                                        Translations.of(context).text(menuEntityList[index].menuText),
+                                        menuEntityList[index].menuText,
                                         style: TextStyle(
                                           fontSize: ScreenUtil().setSp(40),
                                         ),
@@ -481,7 +480,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                                         return Material(
                                           child: MaterialSearch<String>(
                                             barBackgroundColor: Theme.of(context).primaryColor,
-                                            placeholder: Translations.of(context).text('searchLine'),
+                                            placeholder: "搜索线路",
                                             results: _names
                                                 .map((String v) => MaterialSearchResult<String>(
                                                       icon: Icons.person,

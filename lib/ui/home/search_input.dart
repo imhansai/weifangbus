@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
-import 'package:weifangbus/generated/translations.dart';
 
 typedef String FormFieldFormatter<T>(T v);
 typedef bool MaterialSearchFilter<T>(T v, String c);
@@ -457,7 +456,7 @@ class _History extends State<History> {
   Widget build(BuildContext context) {
     return Center(
       child: Text(
-        Translations.of(context).text('searchHistory'),
+        "搜索记录",
       ),
     );
   }
