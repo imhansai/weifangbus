@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:intl/intl.dart';
 import 'package:weifangbus/entity/home/startUpBasicInfo_entity.dart';
 
@@ -113,7 +113,13 @@ class _InformationDetail extends State<InformationDetail> {
                   ScreenUtil().setWidth(40),
                   ScreenUtil().setHeight(200),
                 ),
-                child: HtmlWidget(widget.headLine.content),
+                child: Html(
+                  data: widget.headLine.content,
+                  defaultTextStyle: TextStyle(
+                    fontFamily: 'serif',
+                    fontSize: ScreenUtil().setSp(50),
+                  ),
+                ),
                 controller: _controller,
               ),
             ),
