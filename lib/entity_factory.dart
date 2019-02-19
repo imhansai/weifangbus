@@ -1,6 +1,7 @@
-import 'package:weifangbus/entity/home/allRouteData_entity.dart';
+import 'package:weifangbus/entity/home/all_route_data_entity.dart';
+import 'package:weifangbus/entity/home/headline_entity.dart';
 import 'package:weifangbus/entity/home/install_basic_info_entity.dart';
-import 'package:weifangbus/entity/home/startUpBasicInfo_entity.dart';
+import 'package:weifangbus/entity/home/startup_basic_info_entity.dart';
 
 class EntityFactory {
   static T generateOBJ<T>(json) {

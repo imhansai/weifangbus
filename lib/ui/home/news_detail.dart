@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:weifangbus/entity/home/startUpBasicInfo_entity.dart';
+import 'package:weifangbus/entity/home/headline_entity.dart';
 
 class InformationDetail extends StatefulWidget {
   final Headline headLine;
