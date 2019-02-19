@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:weifangbus/ui/more/about_company.dart';
 import 'package:weifangbus/widget/list_item.dart';
 
 class MorePage extends StatefulWidget {
@@ -42,7 +43,15 @@ class _MorePageState extends State<MorePage> with AutomaticKeepAliveClientMixin 
                 Icons.business,
                 color: Colors.grey,
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return AboutCompany();
+                    },
+                  ),
+                );
+              },
             ),
             Container(
               width: double.infinity,

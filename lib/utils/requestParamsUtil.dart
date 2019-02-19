@@ -5,18 +5,18 @@ import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
-import 'package:weifangbus/entity/home/allRouteData_entity.dart';
+import 'package:weifangbus/entity/home/install_basic_info_entity.dart';
 import 'package:weifangbus/entity_factory.dart';
 import 'package:weifangbus/utils/dioUtil.dart';
 
 Future main() async {
   try {
     Response response;
-    var uri = "/BusService/Require_AllRouteData/?" + getSignString();
+    var uri = "/BusService/Query_InstallBasicInfo?" + getSignString();
     print(uri);
     response = await dio.get(uri);
-    AllroutedataEntity allroutedataEntity = EntityFactory.generateOBJ<AllroutedataEntity>(response.data);
-    print(allroutedataEntity.toJson().toString());
+    InstallBasicInfoEntity installBasicInfoEntity = EntityFactory.generateOBJ<InstallBasicInfoEntity>(response.data);
+    print(installBasicInfoEntity.toJson().toString());
   } catch (e) {
     print('请求出现问题::: $e');
   }

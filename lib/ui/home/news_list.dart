@@ -114,44 +114,33 @@ class _NewsListPageState extends State<NewsListPage> {
             itemBuilder: (BuildContext context, int index) {
               return FlatButton(
                 padding: EdgeInsets.all(0.0),
-                shape: Border.all(
-                  color: Colors.black12,
-                  width: 1.0,
-                  style: BorderStyle.solid,
-                ),
                 child: Container(
                   height: ScreenUtil().setHeight(210),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.fromLTRB(
-                            ScreenUtil().setWidth(31),
-                            ScreenUtil().setHeight(8),
-                            ScreenUtil().setWidth(24),
-                            ScreenUtil().setHeight(8),
-                          ),
-                          child: Row(
-                            children: <Widget>[
-                              Text(
-                                DateFormat("yyyy年MM月dd日")
-                                    .format(DateTime.parse(_showNewsList[index].realeasetime))
-                                    .toString(),
-                                style: TextStyle(
-                                  color: Colors.orange,
-                                  fontSize: ScreenUtil().setSp(50),
-                                ),
-                              )
-                            ],
-                          ),
+                      Padding(
+                        padding: EdgeInsets.all(
+                          ScreenUtil().setWidth(31),
+                        ),
+                        child: Row(
+                          children: <Widget>[
+                            Text(
+                              DateFormat("yyyy年MM月dd日")
+                                  .format(DateTime.parse(_showNewsList[index].realeasetime))
+                                  .toString(),
+                              style: TextStyle(
+                                color: Colors.orange,
+                                fontSize: ScreenUtil().setSp(50),
+                              ),
+                            )
+                          ],
                         ),
                       ),
                       Expanded(
                         child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: ScreenUtil().setWidth(31),
-                            vertical: ScreenUtil().setHeight(8),
+                          padding: EdgeInsets.only(
+                            left: ScreenUtil().setWidth(31),
                           ),
                           child: Text(
                             _showNewsList[index].title,
@@ -161,6 +150,14 @@ class _NewsListPageState extends State<NewsListPage> {
                               fontSize: ScreenUtil().setSp(45),
                             ),
                           ),
+                        ),
+                      ),
+                      Container(
+                        width: double.infinity,
+                        height: ScreenUtil().setHeight(1),
+                        padding: EdgeInsets.only(left: ScreenUtil().setWidth(13), right: ScreenUtil().setWidth(13)),
+                        child: Container(
+                          color: Colors.black12,
                         ),
                       ),
                     ],
