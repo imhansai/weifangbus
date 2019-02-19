@@ -1,15 +1,7 @@
-import 'dart:async';
+import 'dart:io';
 
-import 'package:connectivity/connectivity.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:weifangbus/entity/home/install_basic_info_entity.dart';
-import 'package:weifangbus/entity_factory.dart';
-import 'package:weifangbus/utils/dioUtil.dart';
-import 'package:weifangbus/utils/requestParamsUtil.dart';
 
 class AboutCompany extends StatefulWidget {
   @override
@@ -17,89 +9,62 @@ class AboutCompany extends StatefulWidget {
 }
 
 class _AboutCompanyState extends State<AboutCompany> {
-  // 展示 SnackBar
-  void showSnackBar(String snackStr) {
-    Scaffold.of(context).showSnackBar(
-      SnackBar(
-        duration: Duration(seconds: 2),
-        content: Text(snackStr),
-      ),
-    );
-  }
-
-  Future<InstallBasicInfoEntity> getInstallBasicInfoEntity() async {
-    var connectivityResult = await (Connectivity().checkConnectivity());
-    if (connectivityResult != ConnectivityResult.none) {
-      try {
-        var uri = "/BusService/Query_InstallBasicInfo?" + getSignString();
-        print(uri);
-        Response response = await dio.get(uri);
-        var installBasicInfoEntity = EntityFactory.generateOBJ<InstallBasicInfoEntity>(response.data);
-        print("请求关于企业数据完毕");
-        return installBasicInfoEntity;
-      } on DioError catch (e) {
-        print('请求关于企业数据出错::: $e');
-        showSnackBar('请求数据失败，请尝试切换网络后重试!');
-        return Future.error(e);
-      }
-    } else {
-      showSnackBar('设备未连接到任何网络,请连接网络后重试!');
-      return Future.value(null);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("潍坊市公共交通总公司"),
       ),
-      body: FutureBuilder(
-        future: getInstallBasicInfoEntity(),
-        builder: (context, result) {
-          // 加载中.展示加载动画
-          if (result.connectionState == ConnectionState.active || result.connectionState == ConnectionState.waiting) {
-            return Center(
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.fromLTRB(
+                ScreenUtil().setWidth(40),
+                ScreenUtil().setHeight(40),
+                ScreenUtil().setWidth(40),
+                ScreenUtil().setHeight(200),
+              ),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    width: ScreenUtil().setWidth(100),
-                    height: ScreenUtil().setWidth(100),
-                    child: SpinKitRotatingPlain(
-                      color: Colors.lightGreen,
-                      size: ScreenUtil().setWidth(100),
+                    height: ScreenUtil().setHeight(200),
+                    child: Center(
+                      child: Text(
+                        "潍坊市公共交通总公司简介",
+                        style: TextStyle(
+                          fontSize: ScreenUtil().setSp(60),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ),
                   Container(
-                    child: Text('加载中...'),
-                  )
+                    width: double.infinity,
+                    height: ScreenUtil().setHeight(1),
+                    padding: EdgeInsets.only(left: ScreenUtil().setWidth(13), right: ScreenUtil().setWidth(13)),
+                    child: Container(
+                      color: Colors.black12,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: ScreenUtil().setHeight(31),
+                    ),
+                    child: Text(
+                      "        潍坊市公共交通总公司成立于1972年，是以经营城市客运为主的国有公益性公用企业。\n        现有职工2936人，营运车辆1517台,营运线路96条，线路总长度1876.83千米，线网辐射九区一县(潍城区、奎文区、坊子区、寒亭区、高新技术产业开发区、综合保税区、滨海经济开发区、峡山生态经济开发区、经济技术开发区以及昌乐县)，日客流量达34.5万人次。\n        近年来，我们紧紧围绕城市建设和群众出行需要，内强素质，外树形象，擦亮公交窗口，勇担公益责任，全面提升服务能力和服务水平，公交事业实现又好又快发展。企业先后荣获“山东省先进基层党组织”、“山东省廉政文化示范点”、“山东省服务名牌”、“潍坊市最具社会责任感优秀企业”、“潍坊市平安建设先进单位”、“市级文明单位”等荣誉。",
+                      style: TextStyle(
+                        fontSize: ScreenUtil().setSp(48),
+                        // ignore: unrelated_type_equality_checks
+                        height: Platform.isAndroid ? ScreenUtil().setHeight(5) : ScreenUtil().setHeight(3),
+                      ),
+                    ),
+                  ),
                 ],
               ),
-            );
-          }
-
-          // 加载完成
-          if (result.connectionState == ConnectionState.done) {
-            if (result.hasData) {
-              var installBasicInfoEntity = result.data as InstallBasicInfoEntity;
-              return SingleChildScrollView(
-                child: Html(
-                  padding: EdgeInsets.only(
-                    left: ScreenUtil().setWidth(20),
-                    right: ScreenUtil().setWidth(20),
-                  ),
-                  data: installBasicInfoEntity.aboutus,
-                  defaultTextStyle: TextStyle(
-                    fontFamily: 'serif',
-                    fontSize: ScreenUtil().setSp(50),
-                  ),
-                ),
-              );
-            }
-          }
-        },
+            ),
+          ),
+        ],
       ),
     );
   }
