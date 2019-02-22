@@ -100,11 +100,85 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
   void initState() {
     super.initState();
     menuEntityList = List();
-    MenuEntity lineInquiry = MenuEntity(Colors.lightGreen, MyIcons.lineInquiry, "线路查询");
+    MenuEntity lineInquiry = MenuEntity(
+      Colors.lightGreen,
+      MyIcons.lineInquiry,
+      "线路查询",
+      () {
+        Navigator.push(
+          context,
+          MaterialPageRoute<String>(
+            settings: RouteSettings(
+              name: 'material_search',
+              isInitialRoute: false,
+            ),
+            builder: (BuildContext context) {
+              return Material(
+                child: MaterialSearch<String>(
+                  barBackgroundColor: Theme.of(context).primaryColor,
+                  placeholder: "搜索线路",
+                  results: _names
+                      .map((String v) => MaterialSearchResult<String>(
+                            icon: Icons.person,
+                            value: v,
+                            text: "Mr(s). $v",
+                            onTap: () {
+                              print('$v');
+                            },
+                          ))
+                      .toList(),
+                  filter: (dynamic value, String criteria) {
+                    return value.toLowerCase().trim().contains(RegExp(r'' + criteria.toLowerCase().trim() + ''));
+                  },
+                  onSelect: (dynamic value) => Navigator.of(context).pop(value),
+                  onSubmit: (String value) {
+                    // 输入法点击完成后的回调函数
+                    print(value);
+                  },
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
     menuEntityList.add(lineInquiry);
-    MenuEntity guide = MenuEntity(Colors.lightBlue, MyIcons.guide, '导乘');
+    MenuEntity guide = MenuEntity(
+      Colors.lightBlue,
+      MyIcons.guide,
+      '导乘',
+      () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) {
+              return SearchDemo(
+                title: "搜索示例",
+              );
+            },
+          ),
+        );
+      },
+    );
     menuEntityList.add(guide);
-    MenuEntity news = MenuEntity(Colors.orangeAccent, MyIcons.news, '资讯');
+    MenuEntity news = MenuEntity(
+      Colors.orangeAccent,
+      MyIcons.news,
+      '资讯',
+      () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) {
+              return NewsListPage(
+                showNewsList: _showNewsList,
+                onChanged: _handleNewsListOnRefresh,
+              );
+            },
+          ),
+        );
+      },
+    );
     menuEntityList.add(news);
     _startUpBasicInfoEntity = getStartUpBasicInfoEntity();
   }
@@ -474,81 +548,10 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                                   ],
                                 ),
                               ),
-                              onTap: () {
-                                if (index == 0) {
-                                  print('准备进入线路查询');
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute<String>(
-                                      settings: RouteSettings(
-                                        name: 'material_search',
-                                        isInitialRoute: false,
-                                      ),
-                                      builder: (BuildContext context) {
-                                        return Material(
-                                          child: MaterialSearch<String>(
-                                            barBackgroundColor: Theme.of(context).primaryColor,
-                                            placeholder: "搜索线路",
-                                            results: _names
-                                                .map((String v) => MaterialSearchResult<String>(
-                                                      icon: Icons.person,
-                                                      value: v,
-                                                      text: "Mr(s). $v",
-                                                      onTap: () {
-                                                        print('$v');
-                                                      },
-                                                    ))
-                                                .toList(),
-                                            filter: (dynamic value, String criteria) {
-                                              return value
-                                                  .toLowerCase()
-                                                  .trim()
-                                                  .contains(RegExp(r'' + criteria.toLowerCase().trim() + ''));
-                                            },
-                                            onSelect: (dynamic value) => Navigator.of(context).pop(value),
-                                            onSubmit: (String value) {
-                                              // 输入法点击完成后的回调函数
-                                              print(value);
-                                            },
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  );
-                                }
-                                // 进入导乘页面
-                                if (index == 1) {
-                                  print('准备进入导乘');
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (BuildContext context) {
-                                        return SearchDemo(
-                                          title: "搜索示例",
-                                        );
-                                      },
-                                    ),
-                                  );
-                                }
-                                // 进入资讯列表
-                                if (index == 2) {
-                                  print('准备进入资讯');
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (BuildContext context) {
-                                        return NewsListPage(
-                                          showNewsList: _showNewsList,
-                                          onChanged: _handleNewsListOnRefresh,
-                                        );
-                                      },
-                                    ),
-                                  );
-                                }
-                              },
+                              onTap: menuEntityList[index].function,
                             );
                           },
-                          childCount: 3,
+                          childCount: menuEntityList.length,
                         ),
                       ),
                     ),
@@ -571,6 +574,7 @@ class MenuEntity {
   Color color;
   IconData icon;
   String menuText;
+  Function function;
 
-  MenuEntity(this.color, this.icon, this.menuText);
+  MenuEntity(this.color, this.icon, this.menuText, this.function);
 }
