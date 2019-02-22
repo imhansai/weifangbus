@@ -24,7 +24,7 @@ class _MorePageState extends State<MorePage> with AutomaticKeepAliveClientMixin 
               describe: "完美调控，尽在您的掌握",
               icon: Icon(
                 Icons.settings,
-                color: Colors.orange,
+                color: Colors.blueGrey,
               ),
               onPressed: () {},
             ),

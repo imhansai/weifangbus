@@ -207,8 +207,6 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                 onSelect: (dynamic v) {
                   print(v);
                 },
-                validator: (dynamic value) => value == null ? 'Required field' : null,
-                formatter: (dynamic v) => 'Hello, $v',
               ),
             ),
           ],
@@ -322,78 +320,87 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                                   Expanded(
                                     child: Container(
                                       color: Colors.white70,
-                                      child: Padding(
-                                        padding: EdgeInsets.fromLTRB(
-                                          ScreenUtil().setWidth(30),
-                                          ScreenUtil().setWidth(5),
-                                          ScreenUtil().setWidth(30),
-                                          ScreenUtil().setWidth(5),
-                                        ),
-                                        child: Swiper(
-                                          itemBuilder: (BuildContext context, int index) {
-                                            return Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: <Widget>[
-                                                DecoratedBox(
-                                                  decoration: BoxDecoration(
-                                                    border: Border.all(color: Colors.deepOrangeAccent),
-                                                    borderRadius: BorderRadius.all(
-                                                      Radius.circular(5),
-                                                    ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                              left: ScreenUtil().setWidth(25),
+                                              right: ScreenUtil().setWidth(25),
+                                            ),
+                                            child: DecoratedBox(
+                                              decoration: BoxDecoration(
+                                                border: Border.all(color: Colors.deepOrangeAccent),
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(5),
+                                                ),
+                                                color: Colors.deepOrangeAccent,
+                                              ),
+                                              child: Padding(
+                                                child: Text(
+                                                  "资\n讯",
+                                                  style: TextStyle(
+                                                    color: Colors.white,
                                                   ),
-                                                  child: Padding(
-                                                    child: Text(
-                                                      "资讯",
-                                                      style: TextStyle(
-                                                        color: Colors.deepOrangeAccent,
+                                                ),
+                                                padding: EdgeInsets.symmetric(
+                                                  vertical: ScreenUtil().setHeight(3),
+                                                  horizontal: ScreenUtil().setWidth(12),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Padding(
+                                              padding: EdgeInsets.only(
+                                                right: ScreenUtil().setWidth(31),
+                                              ),
+                                              child: Swiper(
+                                                itemBuilder: (BuildContext context, int index) {
+                                                  return Row(
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    children: <Widget>[
+                                                      Expanded(
+                                                        child: canShowHeadLine
+                                                            ? Text(
+                                                                _showNewsList[index].title,
+                                                                maxLines: 2,
+                                                                overflow: TextOverflow.ellipsis,
+                                                                style: TextStyle(
+                                                                  fontSize: ScreenUtil().setSp(44),
+                                                                ),
+                                                              )
+                                                            : Text('暂无资讯信息'),
                                                       ),
-                                                    ),
-                                                    padding: EdgeInsets.symmetric(
-                                                      vertical: ScreenUtil().setHeight(3),
-                                                      horizontal: ScreenUtil().setWidth(12),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  child: Padding(
-                                                    padding: EdgeInsets.all(
-                                                      ScreenUtil().setWidth(12),
-                                                    ),
-                                                    child: canShowHeadLine
-                                                        ? Text(
-                                                            _showNewsList[index].title,
-                                                            maxLines: 1,
-                                                            overflow: TextOverflow.ellipsis,
-                                                          )
-                                                        : Text('暂无资讯信息'),
-                                                  ),
-                                                ),
-                                              ],
-                                            );
-                                          },
-                                          scrollDirection: Axis.vertical,
-                                          itemCount: _showNewsList.length > 0 ? _showNewsList.length : 1,
-                                          autoplay: _showNewsList.length > 1,
-                                          duration: 300,
-                                          autoplayDelay: 3000,
-                                          onTap: (int index) {
-                                            // 进入资讯详情
-                                            if (_showNewsList.length > 0) {
-                                              final Headline headLine = _showNewsList[index];
-                                              Navigator.of(context).push(
-                                                MaterialPageRoute(
-                                                  builder: (BuildContext context) {
-                                                    return InformationDetail(
-                                                      headLine: headLine,
+                                                    ],
+                                                  );
+                                                },
+                                                scrollDirection: Axis.vertical,
+                                                itemCount: _showNewsList.length > 0 ? _showNewsList.length : 1,
+                                                autoplay: _showNewsList.length > 1,
+                                                duration: 300,
+                                                autoplayDelay: 3000,
+                                                onTap: (int index) {
+                                                  // 进入资讯详情
+                                                  if (_showNewsList.length > 0) {
+                                                    final Headline headLine = _showNewsList[index];
+                                                    Navigator.of(context).push(
+                                                      MaterialPageRoute(
+                                                        builder: (BuildContext context) {
+                                                          return InformationDetail(
+                                                            headLine: headLine,
+                                                          );
+                                                        },
+                                                      ),
                                                     );
-                                                  },
-                                                ),
-                                              );
-                                            } else {
-                                              print('没有资讯信息，不响应点击事件');
-                                            }
-                                          },
-                                        ),
+                                                  } else {
+                                                    print('没有资讯信息，不响应点击事件');
+                                                  }
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                     flex: 2,

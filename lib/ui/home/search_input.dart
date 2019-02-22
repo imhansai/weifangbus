@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta/meta.dart';
 
 typedef String FormFieldFormatter<T>(T v);
@@ -30,22 +31,43 @@ class MaterialSearchResult<T> extends StatelessWidget {
     return InkWell(
       onTap: this.onTap,
       child: Container(
-        height: 64.0,
-        padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 10.0),
-        child: Row(
+        height: ScreenUtil().setHeight(180),
+        padding: EdgeInsets.only(
+          left: ScreenUtil().setWidth(50),
+          right: ScreenUtil().setWidth(50),
+        ),
+        child: Column(
           children: <Widget>[
-            Container(
-                  width: 30.0,
-                  margin: EdgeInsets.only(right: 10),
-                  child: Icon(icon),
-                ) ??
-                null,
-            // Expanded(child: Text(value, style: Theme.of(context).textTheme.subhead)),
             Expanded(
-              child: Text(
-                text,
-                style: Theme.of(context).textTheme.subhead,
-                maxLines: 2,
+              child: Row(
+                children: <Widget>[
+                  Container(
+                        width: ScreenUtil().setWidth(50),
+                        margin: EdgeInsets.only(
+                          right: ScreenUtil().setWidth(50),
+                        ),
+                        child: Icon(icon),
+                      ) ??
+                      null,
+                  // Expanded(child: Text(value, style: Theme.of(context).textTheme.subhead)),
+                  Expanded(
+                    child: Text(
+                      text,
+                      style: TextStyle(
+                        fontSize: ScreenUtil().setSp(48),
+                      ),
+                      maxLines: 2,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              width: double.infinity,
+              height: ScreenUtil().setHeight(1),
+              padding: EdgeInsets.only(left: ScreenUtil().setWidth(13), right: ScreenUtil().setWidth(13)),
+              child: Container(
+                color: Colors.black12,
               ),
             ),
           ],
@@ -334,10 +356,6 @@ class _MaterialSearchInputState<T> extends State<MaterialSearchInput<T>> {
 
   _buildMaterialSearchPage(BuildContext context) {
     return _MaterialSearchPageRoute<T>(
-      settings: RouteSettings(
-        name: 'material_search',
-        isInitialRoute: false,
-      ),
       builder: (BuildContext context) {
         return Material(
           child: MaterialSearch<T>(
@@ -355,12 +373,7 @@ class _MaterialSearchInputState<T> extends State<MaterialSearchInput<T>> {
   }
 
   _showMaterialSearch(BuildContext context) {
-    Navigator.of(context).push(_buildMaterialSearchPage(context)).then((dynamic value) {
-      if (value != null) {
-        _formFieldKey.currentState.didChange(value);
-        widget.onSelect(value);
-      }
-    });
+    Navigator.of(context).push(_buildMaterialSearchPage(context)).then((dynamic value) {});
   }
 
   bool get autovalidate {
@@ -456,7 +469,7 @@ class _History extends State<History> {
   Widget build(BuildContext context) {
     return Center(
       child: Text(
-        "搜索记录",
+        "这是一个即将完善的搜索记录",
       ),
     );
   }
