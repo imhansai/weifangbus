@@ -42,14 +42,12 @@ class MaterialSearchResult<T> extends StatelessWidget {
               child: Row(
                 children: <Widget>[
                   Container(
-                        width: ScreenUtil().setWidth(50),
-                        margin: EdgeInsets.only(
-                          right: ScreenUtil().setWidth(50),
-                        ),
-                        child: Icon(icon),
-                      ) ??
-                      null,
-                  // Expanded(child: Text(value, style: Theme.of(context).textTheme.subhead)),
+                    width: ScreenUtil().setWidth(50),
+                    margin: EdgeInsets.only(
+                      right: ScreenUtil().setWidth(50),
+                    ),
+                    child: Icon(icon),
+                  ),
                   Expanded(
                     child: Text(
                       text,

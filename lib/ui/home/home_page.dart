@@ -108,32 +108,30 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
         Navigator.push(
           context,
           MaterialPageRoute<String>(
-            settings: RouteSettings(
-              name: 'material_search',
-              isInitialRoute: false,
-            ),
             builder: (BuildContext context) {
               return Material(
                 child: MaterialSearch<String>(
                   barBackgroundColor: Theme.of(context).primaryColor,
                   placeholder: "搜索线路",
-                  results: _names
-                      .map((String v) => MaterialSearchResult<String>(
-                            icon: Icons.person,
-                            value: v,
-                            text: "Mr(s). $v",
-                            onTap: () {
-                              print('$v');
-                            },
-                          ))
-                      .toList(),
+                  getResults: (value) async {
+                    if (value != '') {
+                      var routeList = await getAllRoute();
+                      return routeList
+                          .map((item) => MaterialSearchResult<String>(
+                                value: item.routename,
+                                icon: Icons.directions_bus,
+                                text: item.routenameext,
+                                onTap: () {
+                                  print(item.routeid);
+                                },
+                              ))
+                          .toList();
+                    } else {
+                      return null;
+                    }
+                  },
                   filter: (dynamic value, String criteria) {
                     return value.toLowerCase().trim().contains(RegExp(r'' + criteria.toLowerCase().trim() + ''));
-                  },
-                  onSelect: (dynamic value) => Navigator.of(context).pop(value),
-                  onSubmit: (String value) {
-                    // 输入法点击完成后的回调函数
-                    print(value);
                   },
                 ),
               );
@@ -207,19 +205,6 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
     );
   }
 
-  // 供选择的条目
-  final _names = [
-    'Igor Minar',
-    'Brad Green',
-    'Dave Geddes',
-    'Naomi Black',
-    'Greg Weber',
-    'Dean Sofer',
-    'Wes Alvaro',
-    'John Scott',
-    'Daniel Nadasi',
-  ];
-
   Future<List<Routelist>> getAllRoute() async {
     try {
       Response response;
@@ -263,11 +248,11 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                     var routeList = await getAllRoute();
                     return routeList
                         .map((item) => MaterialSearchResult<String>(
-                              value: item.routename,
+                              value: item.routenameext,
                               icon: Icons.directions_bus,
                               text: item.routenameext,
                               onTap: () {
-                                print(item.routename);
+                                print(item.routename.toString());
                               },
                             ))
                         .toList();

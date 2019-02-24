@@ -21,4 +21,18 @@ class MyIcons {
     fontFamily: 'myIcon',
     matchTextDirection: true,
   );
+
+  // QQ
+  static const IconData qq = const IconData(
+    0xe612,
+    fontFamily: 'myIcon',
+    matchTextDirection: true,
+  );
+
+  // github
+  static const IconData github = const IconData(
+    0xe607,
+    fontFamily: 'myIcon',
+    matchTextDirection: true,
+  );
 }
