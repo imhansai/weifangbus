@@ -14,7 +14,7 @@ typedef void OnSubmit(String value);
 class MaterialSearchResult<T> extends StatelessWidget {
   const MaterialSearchResult({Key key, this.value, this.text, this.icon, this.onTap}) : super(key: key);
 
-  // 值（过滤筛选）
+  // 值（过滤及排序）
   final String value;
 
   // 回调函数
@@ -90,42 +90,23 @@ class _MaterialSearchPageRoute<T> extends MaterialPageRoute<T> {
 class MaterialSearchInput<T> extends StatefulWidget {
   MaterialSearchInput({
     Key key,
-    this.onSaved,
-    this.validator,
-    this.autovalidate,
     this.placeholder,
-    this.formatter,
     this.results,
-    this.getResults,
     this.filter,
     this.sort,
-    this.onSelect,
   });
-
-  final FormFieldSetter<T> onSaved;
-
-  final FormFieldValidator<T> validator;
-
-  final bool autovalidate;
 
   // 占位符
   final String placeholder;
 
-  final FormFieldFormatter<T> formatter;
-
   // 所有选择项，从中检索出结果
   final List<MaterialSearchResult<T>> results;
-
-  final MaterialResultsFinder getResults;
 
   // 输入过滤筛选
   final MaterialSearchFilter<T> filter;
 
   // 排序
   final MaterialSearchSort<T> sort;
-
-  // 选择条目后响应事件
-  final ValueChanged<T> onSelect;
 
   @override
   _MaterialSearchInputState<T> createState() => _MaterialSearchInputState<T>();
@@ -142,10 +123,8 @@ class _MaterialSearchInputState<T> extends State<MaterialSearchInput<T>> {
             barBackgroundColor: Theme.of(context).primaryColor,
             placeholder: widget.placeholder,
             results: widget.results,
-            getResults: widget.getResults,
             filter: widget.filter,
             sort: widget.sort,
-            onSelect: widget.onSelect,
           ),
         );
       },
@@ -153,11 +132,7 @@ class _MaterialSearchInputState<T> extends State<MaterialSearchInput<T>> {
   }
 
   _showMaterialSearch(BuildContext context) {
-    Navigator.of(context).push(_buildMaterialSearchPage(context)).then((dynamic value) {});
-  }
-
-  bool get autovalidate {
-    return widget.autovalidate ?? Form.of(context)?.widget?.autovalidate ?? false;
+    Navigator.of(context).push(_buildMaterialSearchPage(context));
   }
 
   bool _isEmpty(field) {
@@ -165,15 +140,10 @@ class _MaterialSearchInputState<T> extends State<MaterialSearchInput<T>> {
   }
 
   Widget build(BuildContext context) {
-    final TextStyle valueStyle = Theme.of(context).textTheme.subhead;
-
     return InkWell(
       onTap: () => _showMaterialSearch(context),
       child: FormField<T>(
         key: _formFieldKey,
-        validator: widget.validator,
-        onSaved: widget.onSaved,
-        autovalidate: autovalidate,
         builder: (FormFieldState<T> field) {
           return InputDecorator(
             isEmpty: _isEmpty(field),
@@ -182,10 +152,7 @@ class _MaterialSearchInputState<T> extends State<MaterialSearchInput<T>> {
               border: InputBorder.none,
               errorText: field.errorText,
             ),
-            child: _isEmpty(field)
-                ? null
-                : Text(widget.formatter != null ? widget.formatter(field.value) : field.value.toString(),
-                    style: valueStyle),
+            child: _isEmpty(field) ? null : Text(field.value.toString()),
           );
         },
       ),
@@ -199,23 +166,12 @@ class MaterialSearch<T> extends StatefulWidget {
     Key key,
     this.placeholder,
     this.results,
-    this.getResults,
     this.filter,
     this.sort,
-    this.limit: 10,
-    this.onSelect,
     this.onSubmit,
     this.barBackgroundColor = Colors.white,
     this.iconColor = Colors.black,
-    this.leading,
-  })  : assert(() {
-          if (results == null && getResults == null || results != null && getResults != null) {
-            throw AssertionError('Either provide a function to get the results, or the results.');
-          }
-
-          return true;
-        }()),
-        super(key: key);
+  }) : super(key: key);
 
   // 占位符,提示字符
   final String placeholder;
@@ -223,20 +179,11 @@ class MaterialSearch<T> extends StatefulWidget {
   // 被选项
   final List<MaterialSearchResult<T>> results;
 
-  // 获得被选项的函数
-  final MaterialResultsFinder getResults;
-
   // 过滤
   final MaterialSearchFilter<T> filter;
 
   // 排序
   final MaterialSearchSort<T> sort;
-
-  // 取多少条显示
-  final int limit;
-
-  // 被选择时的处理函数
-  final ValueChanged<T> onSelect;
 
   // 输入法点击完成时的处理函数
   final OnSubmit onSubmit;
@@ -247,8 +194,6 @@ class MaterialSearch<T> extends StatefulWidget {
   // 图标的颜色
   final Color iconColor;
 
-  final Widget leading;
-
   @override
   _MaterialSearchState<T> createState() => _MaterialSearchState<T>();
 }
@@ -256,9 +201,6 @@ class MaterialSearch<T> extends StatefulWidget {
 class _MaterialSearchState<T> extends State<MaterialSearch> {
   // 文本编辑控制器
   TextEditingController _controller = TextEditingController();
-
-  // 是否在加载中
-  bool _loading = false;
 
   // 如果 widget.results 为空，那么启用该空列表
   List<MaterialSearchResult<T>> _results = [];
@@ -274,78 +216,21 @@ class _MaterialSearchState<T> extends State<MaterialSearch> {
   @override
   void initState() {
     super.initState();
-
-    if (widget.getResults != null) {
-      _getResultsDebounced();
-    }
-
     _controller.addListener(() {
       setState(() {
         _criteria = _controller.value.text;
-        if (widget.getResults != null) {
-          _getResultsDebounced();
-        }
       });
     });
-  }
-
-  Timer _resultsTimer;
-
-  Future _getResultsDebounced() async {
-    if (_results.length == 0) {
-      setState(() {
-        _loading = true;
-      });
-    }
-
-    if (_resultsTimer != null && _resultsTimer.isActive) {
-      _resultsTimer.cancel();
-    }
-
-    _resultsTimer = Timer(Duration(milliseconds: 400), () async {
-      if (!mounted) {
-        return;
-      }
-
-      setState(() {
-        _loading = true;
-      });
-
-      var results = await widget.getResults(_criteria);
-
-      if (!mounted) {
-        return;
-      }
-
-      if (results != null) {
-        setState(() {
-          _loading = false;
-          _results = results;
-        });
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _resultsTimer?.cancel();
   }
 
   Widget buildBody(List results) {
     if (_criteria.isEmpty) {
       return History();
-    } else if (_loading) {
-      return Center(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 50.0),
-          child: CircularProgressIndicator(),
-        ),
-      );
     }
     if (results.isNotEmpty) {
-      var content = SingleChildScrollView(child: Column(children: results));
-      return content;
+      return SingleChildScrollView(
+        child: Column(children: results),
+      );
     }
     return Center(
       child: Text("暂无数据"),
@@ -358,13 +243,9 @@ class _MaterialSearchState<T> extends State<MaterialSearch> {
     var results = (widget.results ?? _results).where((MaterialSearchResult result) {
       if (widget.filter != null) {
         return widget.filter(result.value, _criteria);
-      }
-      // only apply default filter if used the `results` option
-      // because getResults may already have applied some filter if `filter` option was omited.
-      else if (widget.results != null) {
+      } else if (widget.results != null) {
         return _filter(result.value, _criteria);
       }
-
       return true;
     }).toList();
 
@@ -373,14 +254,10 @@ class _MaterialSearchState<T> extends State<MaterialSearch> {
       results.sort((a, b) => widget.sort(a.value, b.value, _criteria));
     }
 
-    // 默认取 10 条
-    results = results.take(widget.limit).toList();
-
     IconThemeData iconTheme = Theme.of(context).iconTheme.copyWith(color: widget.iconColor);
 
     return Scaffold(
       appBar: AppBar(
-        leading: widget.leading,
         backgroundColor: widget.barBackgroundColor,
         iconTheme: iconTheme,
         title: TextField(
