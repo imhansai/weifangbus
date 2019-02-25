@@ -26,6 +26,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  void initState() {
+    super.initState();
+    setMenuEntityList();
+    _startUpBasicInfoEntity = getStartUpBasicInfoEntity();
+    _routeList = List();
+    getAllRoute();
+  }
+
   // 菜单项
   List<MenuEntity> menuEntityList;
 
@@ -35,6 +47,10 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
   // 资讯列表
   List<Headline> _showNewsList;
 
+  // 所有线路
+  List<Routelist> _routeList;
+
+  // 刷新资讯信息
   void _handleNewsListOnRefresh(List<Headline> newsList) {
     print("父 widget 设置状态");
     setState(() {
@@ -48,57 +64,12 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
       SnackBar(
         duration: Duration(seconds: 2),
         content: Text(snackStr),
-        /*action: SnackBarAction(
-          label: '重试',
-          onPressed: () {
-            reTry();
-          },
-        ),*/
       ),
     );
   }
 
-  // 请求首页数据
-  Future<StartUpBasicInfoEntity> getStartUpBasicInfoEntity() async {
-    var connectivityResult = await (Connectivity().checkConnectivity());
-    if (connectivityResult != ConnectivityResult.none) {
-      try {
-        var uri = "/BusService/Query_StartUpBasicInfo?" + getSignString();
-        print(uri);
-        Response response = await dio.get(uri);
-        var startUpBasicInfoEntity = EntityFactory.generateOBJ<StartUpBasicInfoEntity>(response.data);
-        _showNewsList = startUpBasicInfoEntity.headline;
-        print("请求首页数据完毕");
-        // 测试用
-        // StartUpBasicInfoEntity startUpBasicInfoEntity = StartUpBasicInfoEntity();
-        if (startUpBasicInfoEntity == null) {
-          startUpBasicInfoEntity = StartUpBasicInfoEntity();
-        }
-        if (startUpBasicInfoEntity.slideshow == null) {
-          startUpBasicInfoEntity.slideshow = List();
-        }
-        _showNewsList = startUpBasicInfoEntity.headline;
-        if (_showNewsList == null) {
-          _showNewsList = List();
-        }
-        return startUpBasicInfoEntity;
-      } on DioError catch (e) {
-        print('请求首页数据出错::: $e');
-        showSnackBar('请求数据失败，请尝试切换网络后重试!');
-        return Future.error(e);
-      }
-    } else {
-      showSnackBar('设备未连接到任何网络,请连接网络后重试!');
-      return Future.value(null);
-    }
-  }
-
-  @override
-  bool get wantKeepAlive => true;
-
-  @override
-  void initState() {
-    super.initState();
+  // 设置菜单
+  void setMenuEntityList() {
     menuEntityList = List();
     MenuEntity lineInquiry = MenuEntity(
       Colors.lightGreen,
@@ -113,23 +84,16 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                 child: MaterialSearch<String>(
                   barBackgroundColor: Theme.of(context).primaryColor,
                   placeholder: "搜索线路",
-                  getResults: (value) async {
-                    if (value != '') {
-                      var routeList = await getAllRoute();
-                      return routeList
-                          .map((item) => MaterialSearchResult<String>(
-                                value: item.routename,
-                                icon: Icons.directions_bus,
-                                text: item.routenameext,
-                                onTap: () {
-                                  print(item.routeid);
-                                },
-                              ))
-                          .toList();
-                    } else {
-                      return null;
-                    }
-                  },
+                  results: _routeList
+                      .map((item) => MaterialSearchResult<String>(
+                            value: item.routename,
+                            icon: Icons.directions_bus,
+                            text: item.routenameext,
+                            onTap: () {
+                              print(item.routeid);
+                            },
+                          ))
+                      .toList(),
                   filter: (dynamic value, String criteria) {
                     return value.toLowerCase().trim().contains(RegExp(r'' + criteria.toLowerCase().trim() + ''));
                   },
@@ -178,7 +142,52 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
       },
     );
     menuEntityList.add(news);
-    _startUpBasicInfoEntity = getStartUpBasicInfoEntity();
+  }
+
+  // 请求首页数据
+  Future<StartUpBasicInfoEntity> getStartUpBasicInfoEntity() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult != ConnectivityResult.none) {
+      try {
+        var uri = "/BusService/Query_StartUpBasicInfo?" + getSignString();
+        Response response = await dio.get(uri);
+        var startUpBasicInfoEntity = EntityFactory.generateOBJ<StartUpBasicInfoEntity>(response.data);
+        print("请求首页数据完毕");
+        if (startUpBasicInfoEntity == null) {
+          startUpBasicInfoEntity = StartUpBasicInfoEntity();
+        }
+        if (startUpBasicInfoEntity.slideshow == null) {
+          startUpBasicInfoEntity.slideshow = List();
+        }
+        _showNewsList = startUpBasicInfoEntity.headline;
+        if (_showNewsList == null) {
+          _showNewsList = List();
+        }
+        return startUpBasicInfoEntity;
+      } on DioError catch (e) {
+        print('请求首页数据出错::: $e');
+        showSnackBar('请求数据失败，请尝试切换网络后重试!');
+        return Future.error(e);
+      }
+    } else {
+      showSnackBar('设备未连接到任何网络,请连接网络后重试!');
+      return Future.value(null);
+    }
+  }
+
+  void getAllRoute() async {
+    try {
+      Response response;
+      var uri = "/BusService/Require_AllRouteData/?" + getSignString();
+      response = await dio.get(uri);
+      AllroutedataEntity allRouteDataEntity = EntityFactory.generateOBJ<AllroutedataEntity>(response.data);
+      print("请求全部线路完成");
+      setState(() {
+        _routeList = allRouteDataEntity.routelist;
+      });
+    } catch (e) {
+      print('请求出现问题::: $e');
+    }
   }
 
   // 重试处理
@@ -205,20 +214,6 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
     );
   }
 
-  Future<List<Routelist>> getAllRoute() async {
-    try {
-      Response response;
-      var uri = "/BusService/Require_AllRouteData/?" + getSignString();
-      response = await dio.get(uri);
-      AllroutedataEntity allRouteDataEntity = EntityFactory.generateOBJ<AllroutedataEntity>(response.data);
-      print('请求所有线路完毕');
-      return allRouteDataEntity.routelist;
-    } catch (e) {
-      print('请求出现问题::: $e');
-      return Future.value(null);
-    }
-  }
-
   // 搜索栏
   Widget searchBar(BuildContext context) {
     return Center(
@@ -243,23 +238,16 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
             Expanded(
               child: MaterialSearchInput(
                 placeholder: "搜索线路",
-                getResults: (value) async {
-                  if (value != '') {
-                    var routeList = await getAllRoute();
-                    return routeList
-                        .map((item) => MaterialSearchResult<String>(
-                              value: item.routenameext,
-                              icon: Icons.directions_bus,
-                              text: item.routenameext,
-                              onTap: () {
-                                print(item.routename.toString());
-                              },
-                            ))
-                        .toList();
-                  } else {
-                    return null;
-                  }
-                },
+                results: _routeList
+                    .map((item) => MaterialSearchResult<String>(
+                          value: item.routename,
+                          icon: Icons.directions_bus,
+                          text: item.routenameext,
+                          onTap: () {
+                            print(item.routeid);
+                          },
+                        ))
+                    .toList(),
                 filter: (dynamic value, String criteria) {
                   return value.toLowerCase().trim().contains(RegExp(r'' + criteria.toLowerCase().trim() + ''));
                 },
