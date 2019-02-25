@@ -75,7 +75,125 @@ class MaterialSearchResult<T> extends StatelessWidget {
   }
 }
 
-// 搜索页面
+/// 搜索页路由，从搜索框跳往搜索页
+class _MaterialSearchPageRoute<T> extends MaterialPageRoute<T> {
+  _MaterialSearchPageRoute({
+    @required WidgetBuilder builder,
+    RouteSettings settings: const RouteSettings(),
+    maintainState: true,
+    bool fullscreenDialog: false,
+  })  : assert(builder != null),
+        super(builder: builder, settings: settings, maintainState: maintainState, fullscreenDialog: fullscreenDialog);
+}
+
+/// 搜索框，跳往搜索页
+class MaterialSearchInput<T> extends StatefulWidget {
+  MaterialSearchInput({
+    Key key,
+    this.onSaved,
+    this.validator,
+    this.autovalidate,
+    this.placeholder,
+    this.formatter,
+    this.results,
+    this.getResults,
+    this.filter,
+    this.sort,
+    this.onSelect,
+  });
+
+  final FormFieldSetter<T> onSaved;
+
+  final FormFieldValidator<T> validator;
+
+  final bool autovalidate;
+
+  // 占位符
+  final String placeholder;
+
+  final FormFieldFormatter<T> formatter;
+
+  // 所有选择项，从中检索出结果
+  final List<MaterialSearchResult<T>> results;
+
+  final MaterialResultsFinder getResults;
+
+  // 输入过滤筛选
+  final MaterialSearchFilter<T> filter;
+
+  // 排序
+  final MaterialSearchSort<T> sort;
+
+  // 选择条目后响应事件
+  final ValueChanged<T> onSelect;
+
+  @override
+  _MaterialSearchInputState<T> createState() => _MaterialSearchInputState<T>();
+}
+
+class _MaterialSearchInputState<T> extends State<MaterialSearchInput<T>> {
+  GlobalKey<FormFieldState<T>> _formFieldKey = GlobalKey<FormFieldState<T>>();
+
+  _buildMaterialSearchPage(BuildContext context) {
+    return _MaterialSearchPageRoute<T>(
+      builder: (BuildContext context) {
+        return Material(
+          child: MaterialSearch<T>(
+            barBackgroundColor: Theme.of(context).primaryColor,
+            placeholder: widget.placeholder,
+            results: widget.results,
+            getResults: widget.getResults,
+            filter: widget.filter,
+            sort: widget.sort,
+            onSelect: widget.onSelect,
+          ),
+        );
+      },
+    );
+  }
+
+  _showMaterialSearch(BuildContext context) {
+    Navigator.of(context).push(_buildMaterialSearchPage(context)).then((dynamic value) {});
+  }
+
+  bool get autovalidate {
+    return widget.autovalidate ?? Form.of(context)?.widget?.autovalidate ?? false;
+  }
+
+  bool _isEmpty(field) {
+    return field.value == null;
+  }
+
+  Widget build(BuildContext context) {
+    final TextStyle valueStyle = Theme.of(context).textTheme.subhead;
+
+    return InkWell(
+      onTap: () => _showMaterialSearch(context),
+      child: FormField<T>(
+        key: _formFieldKey,
+        validator: widget.validator,
+        onSaved: widget.onSaved,
+        autovalidate: autovalidate,
+        builder: (FormFieldState<T> field) {
+          return InputDecorator(
+            isEmpty: _isEmpty(field),
+            decoration: InputDecoration(
+              labelText: widget.placeholder,
+              border: InputBorder.none,
+              errorText: field.errorText,
+            ),
+            child: _isEmpty(field)
+                ? null
+                : Text(widget.formatter != null ? widget.formatter(field.value) : field.value.toString(),
+                    style: valueStyle),
+          );
+        },
+      ),
+    );
+  }
+}
+
+/// 搜索页面
 class MaterialSearch<T> extends StatefulWidget {
   MaterialSearch({
     Key key,
@@ -294,124 +412,7 @@ class _MaterialSearchState<T> extends State<MaterialSearch> {
   }
 }
 
-class _MaterialSearchPageRoute<T> extends MaterialPageRoute<T> {
-  _MaterialSearchPageRoute({
-    @required WidgetBuilder builder,
-    RouteSettings settings: const RouteSettings(),
-    maintainState: true,
-    bool fullscreenDialog: false,
-  })  : assert(builder != null),
-        super(builder: builder, settings: settings, maintainState: maintainState, fullscreenDialog: fullscreenDialog);
-}
-
-// 搜索框
-class MaterialSearchInput<T> extends StatefulWidget {
-  MaterialSearchInput({
-    Key key,
-    this.onSaved,
-    this.validator,
-    this.autovalidate,
-    this.placeholder,
-    this.formatter,
-    this.results,
-    this.getResults,
-    this.filter,
-    this.sort,
-    this.onSelect,
-  });
-
-  final FormFieldSetter<T> onSaved;
-
-  final FormFieldValidator<T> validator;
-
-  final bool autovalidate;
-
-  // 占位符
-  final String placeholder;
-
-  final FormFieldFormatter<T> formatter;
-
-  // 所有选择项，从中检索出结果
-  final List<MaterialSearchResult<T>> results;
-
-  final MaterialResultsFinder getResults;
-
-  // 输入过滤筛选
-  final MaterialSearchFilter<T> filter;
-
-  // 排序
-  final MaterialSearchSort<T> sort;
-
-  // 选择条目后响应事件
-  final ValueChanged<T> onSelect;
-
-  @override
-  _MaterialSearchInputState<T> createState() => _MaterialSearchInputState<T>();
-}
-
-class _MaterialSearchInputState<T> extends State<MaterialSearchInput<T>> {
-  GlobalKey<FormFieldState<T>> _formFieldKey = GlobalKey<FormFieldState<T>>();
-
-  _buildMaterialSearchPage(BuildContext context) {
-    return _MaterialSearchPageRoute<T>(
-      builder: (BuildContext context) {
-        return Material(
-          child: MaterialSearch<T>(
-            barBackgroundColor: Theme.of(context).primaryColor,
-            placeholder: widget.placeholder,
-            results: widget.results,
-            getResults: widget.getResults,
-            filter: widget.filter,
-            sort: widget.sort,
-            onSelect: widget.onSelect,
-          ),
-        );
-      },
-    );
-  }
-
-  _showMaterialSearch(BuildContext context) {
-    Navigator.of(context).push(_buildMaterialSearchPage(context)).then((dynamic value) {});
-  }
-
-  bool get autovalidate {
-    return widget.autovalidate ?? Form.of(context)?.widget?.autovalidate ?? false;
-  }
-
-  bool _isEmpty(field) {
-    return field.value == null;
-  }
-
-  Widget build(BuildContext context) {
-    final TextStyle valueStyle = Theme.of(context).textTheme.subhead;
-
-    return InkWell(
-      onTap: () => _showMaterialSearch(context),
-      child: FormField<T>(
-        key: _formFieldKey,
-        validator: widget.validator,
-        onSaved: widget.onSaved,
-        autovalidate: autovalidate,
-        builder: (FormFieldState<T> field) {
-          return InputDecorator(
-            isEmpty: _isEmpty(field),
-            decoration: InputDecoration(
-              labelText: widget.placeholder,
-              border: InputBorder.none,
-              errorText: field.errorText,
-            ),
-            child: _isEmpty(field)
-                ? null
-                : Text(widget.formatter != null ? widget.formatter(field.value) : field.value.toString(),
-                    style: valueStyle),
-          );
-        },
-      ),
-    );
-  }
-}
-
-// 历史记录面板
+/// 历史记录面板
 class History extends StatefulWidget {
   const History() : super();
 

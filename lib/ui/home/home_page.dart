@@ -15,7 +15,6 @@ import 'package:weifangbus/ui/home/news_detail.dart';
 import 'package:weifangbus/ui/home/news_list.dart';
 import 'package:weifangbus/ui/home/search_demo.dart';
 import 'package:weifangbus/ui/home/search_input.dart';
-import 'package:weifangbus/ui/more/settings.dart';
 import 'package:weifangbus/utils/dioUtil.dart';
 import 'package:weifangbus/utils/fontUtil.dart';
 import 'package:weifangbus/utils/requestParamsUtil.dart';
