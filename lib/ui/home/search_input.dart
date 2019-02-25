@@ -224,9 +224,9 @@ class _MaterialSearchState<T> extends State<MaterialSearch> {
   }
 
   Widget buildBody(List results) {
-    if (_criteria.isEmpty) {
+    /*if (_criteria.isEmpty) {
       return History();
-    }
+    }*/
     if (results.isNotEmpty) {
       return SingleChildScrollView(
         child: Column(children: results),
