@@ -14,6 +14,7 @@ import 'package:weifangbus/entity_factory.dart';
 import 'package:weifangbus/ui/home/guide.dart';
 import 'package:weifangbus/ui/home/news_detail.dart';
 import 'package:weifangbus/ui/home/news_list.dart';
+import 'package:weifangbus/ui/home/route_detail.dart';
 import 'package:weifangbus/ui/home/search_input.dart';
 import 'package:weifangbus/utils/dioUtil.dart';
 import 'package:weifangbus/utils/fontUtil.dart';
@@ -90,7 +91,13 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                             icon: Icons.directions_bus,
                             text: item.routenameext,
                             onTap: () {
-                              print(item.routeid);
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) {
+                                    return RouteDetail();
+                                  },
+                                ),
+                              );
                             },
                           ))
                       .toList(),
