@@ -14,7 +14,7 @@ typedef void OnSubmit(String value);
 class MaterialSearchResult<T> extends StatelessWidget {
   const MaterialSearchResult({Key key, this.value, this.text, this.icon, this.onTap}) : super(key: key);
 
-  // 值
+  // 值（过滤筛选）
   final String value;
 
   // 回调函数
@@ -406,39 +406,6 @@ class _MaterialSearchInputState<T> extends State<MaterialSearchInput<T>> {
                     style: valueStyle),
           );
         },
-      ),
-    );
-  }
-}
-
-/// 搜索框
-class SearchInput extends StatelessWidget {
-  final getResults;
-
-  final ValueChanged<String> onSubmitted;
-
-  final VoidCallback onSubmitPressed;
-
-  SearchInput(this.getResults, this.onSubmitted, this.onSubmitPressed);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 40.0,
-      decoration: BoxDecoration(color: Theme.of(context).backgroundColor, borderRadius: BorderRadius.circular(4.0)),
-      child: Row(
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(right: 10.0, top: 3.0, left: 10.0),
-            child: Icon(Icons.search, size: 24.0, color: Theme.of(context).accentColor),
-          ),
-          Expanded(
-            child: MaterialSearchInput(
-              placeholder: '搜索 flutter 组件',
-              getResults: getResults,
-            ),
-          ),
-        ],
       ),
     );
   }

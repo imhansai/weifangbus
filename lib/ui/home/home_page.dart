@@ -15,6 +15,7 @@ import 'package:weifangbus/ui/home/news_detail.dart';
 import 'package:weifangbus/ui/home/news_list.dart';
 import 'package:weifangbus/ui/home/search_demo.dart';
 import 'package:weifangbus/ui/home/search_input.dart';
+import 'package:weifangbus/ui/more/settings.dart';
 import 'package:weifangbus/utils/dioUtil.dart';
 import 'package:weifangbus/utils/fontUtil.dart';
 import 'package:weifangbus/utils/requestParamsUtil.dart';
@@ -194,6 +195,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
   reTry() {
     setState(() {
       _startUpBasicInfoEntity = getStartUpBasicInfoEntity();
+      getAllRoute();
     });
   }
 
@@ -250,9 +252,6 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                     .toList(),
                 filter: (dynamic value, String criteria) {
                   return value.toLowerCase().trim().contains(RegExp(r'' + criteria.toLowerCase().trim() + ''));
-                },
-                onSelect: (dynamic v) {
-                  print(v);
                 },
               ),
             ),
@@ -355,8 +354,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                                               viewportFraction: 0.9,
                                               scale: 0.95,
                                               autoplay: true,
-                                              duration: 300,
-                                              autoplayDelay: 3000,
+                                              duration: 400,
+                                              autoplayDelay: 4000,
                                             )
                                           : Center(
                                               child: Text('暂无图片展示'),
@@ -425,8 +424,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                                                 scrollDirection: Axis.vertical,
                                                 itemCount: _showNewsList.length > 0 ? _showNewsList.length : 1,
                                                 autoplay: _showNewsList.length > 1,
-                                                duration: 300,
-                                                autoplayDelay: 3000,
+                                                duration: 600,
+                                                autoplayDelay: 6000,
                                                 onTap: (int index) {
                                                   // 进入资讯详情
                                                   if (_showNewsList.length > 0) {

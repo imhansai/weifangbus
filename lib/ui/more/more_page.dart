@@ -67,7 +67,7 @@ class _MorePageState extends State<MorePage> with AutomaticKeepAliveClientMixin 
                 color: Colors.black12,
               ),
             ),
-            ListItem(
+            /*ListItem(
               title: "项目地址",
               describe: "期待大佬加入",
               icon: Icon(
@@ -85,7 +85,7 @@ class _MorePageState extends State<MorePage> with AutomaticKeepAliveClientMixin 
               child: Container(
                 color: Colors.black12,
               ),
-            ),
+            ),*/
             ListItem(
               title: "潍坊市公共交通总公司",
               describe: "关于潍坊市公共交通总公司",
