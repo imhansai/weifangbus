@@ -11,9 +11,9 @@ import 'package:weifangbus/entity/home/all_route_data_entity.dart';
 import 'package:weifangbus/entity/home/headline_entity.dart';
 import 'package:weifangbus/entity/home/startup_basic_info_entity.dart';
 import 'package:weifangbus/entity_factory.dart';
+import 'package:weifangbus/ui/home/guide.dart';
 import 'package:weifangbus/ui/home/news_detail.dart';
 import 'package:weifangbus/ui/home/news_list.dart';
-import 'package:weifangbus/ui/home/search_demo.dart';
 import 'package:weifangbus/ui/home/search_input.dart';
 import 'package:weifangbus/utils/dioUtil.dart';
 import 'package:weifangbus/utils/fontUtil.dart';
@@ -114,9 +114,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
           context,
           MaterialPageRoute(
             builder: (BuildContext context) {
-              return SearchDemo(
-                title: "搜索示例",
-              );
+              return Guide();
             },
           ),
         );
