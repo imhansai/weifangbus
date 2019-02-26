@@ -250,7 +250,13 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                           icon: Icons.directions_bus,
                           text: item.routenameext,
                           onTap: () {
-                            print(item.routeid);
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (BuildContext context) {
+                                  return RouteDetail();
+                                },
+                              ),
+                            );
                           },
                         ))
                     .toList(),
