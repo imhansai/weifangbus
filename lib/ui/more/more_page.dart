@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:weifangbus/ui/more/about_company.dart';
+import 'package:weifangbus/ui/more/about_me.dart';
 import 'package:weifangbus/ui/more/settings.dart';
 import 'package:weifangbus/utils/fontUtil.dart';
 import 'package:weifangbus/widget/list_item.dart';
@@ -118,7 +119,13 @@ class _MorePageState extends State<MorePage> with AutomaticKeepAliveClientMixin 
                 color: Colors.lightBlue,
               ),
               onPressed: () {
-                launch("https://github.com/hanandjun");
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return AboutMe();
+                    },
+                  ),
+                );
               },
             ),
             Container(
@@ -145,18 +152,11 @@ class _MorePageState extends State<MorePage> with AutomaticKeepAliveClientMixin 
     if (await canLaunch(url)) {
       await launch(url);
     } else {
-      print("异常处理");
-
-      // throw 'Could not launch $url';
       showDialog(
         context: context,
         builder: (_) => AlertDialog(
               content: SingleChildScrollView(
-                child: ListBody(
-                  children: <Widget>[
-                    Text("抱歉，请检查是否已安装QQ客户端"),
-                  ],
-                ),
+                child: Text("抱歉，检测到您还未安装QQ客户端!"),
               ),
               actions: <Widget>[
                 FlatButton(
