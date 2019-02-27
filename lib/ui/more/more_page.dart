@@ -55,8 +55,7 @@ class _MorePageState extends State<MorePage> with AutomaticKeepAliveClientMixin 
                 color: Colors.indigoAccent,
               ),
               onPressed: () {
-                launch(
-                    "mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26k%3D910wjZoyUj0kVCZVo0ecCe1BAGPuyvJR");
+                _joinQQ(context);
               },
             ),
             Container(
@@ -138,4 +137,37 @@ class _MorePageState extends State<MorePage> with AutomaticKeepAliveClientMixin 
 
   @override
   bool get wantKeepAlive => true;
+
+  /// 加入QQ群
+  _joinQQ(BuildContext context) async {
+    const url =
+        "mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26k%3D910wjZoyUj0kVCZVo0ecCe1BAGPuyvJR";
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      print("异常处理");
+
+      // throw 'Could not launch $url';
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    Text("抱歉，请检查是否已安装QQ客户端"),
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('确定'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+      );
+    }
+  }
 }
