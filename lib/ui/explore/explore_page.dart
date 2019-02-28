@@ -13,6 +13,7 @@ class _ExplorePageState extends State<ExplorePage> with AutomaticKeepAliveClient
       key: PageStorageKey(_ExplorePageState),
       appBar: AppBar(
         title: Text("发现"),
+        centerTitle: true,
       ),
       body: Center(
         child: Text("探索"),

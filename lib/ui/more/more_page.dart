@@ -21,6 +21,7 @@ class _MorePageState extends State<MorePage> with AutomaticKeepAliveClientMixin 
     return Scaffold(
       appBar: AppBar(
         title: Text('更多'),
+        centerTitle: true,
       ),
       body: Container(
         child: ListView(
@@ -69,25 +70,6 @@ class _MorePageState extends State<MorePage> with AutomaticKeepAliveClientMixin 
                 color: Colors.black12,
               ),
             ),
-            /*ListItem(
-              title: "项目地址",
-              describe: "期待大佬加入",
-              icon: Icon(
-                MyIcons.github,
-                color: Colors.black87,
-              ),
-              onPressed: () {
-                launch("https://github.com/hanandjun/weifangbus");
-              },
-            ),
-            Container(
-              width: double.infinity,
-              height: ScreenUtil().setHeight(1),
-              padding: EdgeInsets.only(left: ScreenUtil().setWidth(5), right: ScreenUtil().setWidth(5)),
-              child: Container(
-                color: Colors.black12,
-              ),
-            ),*/
             ListItem(
               title: "潍坊市公共交通总公司",
               describe: "关于潍坊市公共交通总公司",
