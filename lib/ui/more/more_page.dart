@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:weifangbus/ui/more/about_company.dart';
 import 'package:weifangbus/ui/more/about_me.dart';
+import 'package:weifangbus/ui/more/about_software.dart';
 import 'package:weifangbus/ui/more/settings.dart';
 import 'package:weifangbus/utils/fontUtil.dart';
 import 'package:weifangbus/widget/list_item.dart';
@@ -110,6 +111,25 @@ class _MorePageState extends State<MorePage> with AutomaticKeepAliveClientMixin 
                     },
                   ),
                 );
+              },
+            ),
+            Container(
+              width: double.infinity,
+              height: ScreenUtil().setHeight(1),
+              padding: EdgeInsets.only(left: ScreenUtil().setWidth(5), right: ScreenUtil().setWidth(5)),
+              child: Container(
+                color: Colors.black12,
+              ),
+            ),
+            ListItem(
+              title: "关于软件",
+              describe: "了解制作此软件的前世今生",
+              icon: Icon(
+                MyIcons.software,
+                color: Colors.black87,
+              ),
+              onPressed: () {
+                showAboutSoftWareDialog(context);
               },
             ),
             Container(
