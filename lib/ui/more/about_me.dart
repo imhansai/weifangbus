@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:weifangbus/utils/fontUtil.dart';
 import 'package:weifangbus/widget/list_item.dart';
@@ -20,10 +21,12 @@ class _AboutMeState extends State<AboutMe> {
           style: TextStyle(color: Colors.white),
         ),
         iconTheme: IconThemeData(color: Colors.white),
+        // 阴影
         elevation: 0.0,
       ),
       body: Stack(
         children: <Widget>[
+          // 为了上下拉时不割裂，对半分颜色
           Container(
             height: double.infinity,
             child: Column(
@@ -54,64 +57,73 @@ class _AboutMeState extends State<AboutMe> {
                   children: <Widget>[
                     Container(
                       width: double.infinity,
-                      height: 220.0,
+                      height: ScreenUtil().setHeight(580),
                       color: Colors.white,
                     ),
                     ClipPath(
-                      clipper: TopBarClipper(MediaQuery.of(context).size.width, 200.0),
+                      clipper: TopBarClipper(
+                        MediaQuery.of(context).size.width,
+                        ScreenUtil().setHeight(450),
+                      ),
                       child: SizedBox(
                         width: double.infinity,
-                        height: 200.0,
+                        height: ScreenUtil().setHeight(450),
                         child: Container(
-                          width: double.infinity,
-                          height: 240.0,
                           color: Theme.of(context).primaryColor,
                         ),
                       ),
                     ),
                     // 名字
                     Container(
-                      margin: EdgeInsets.only(top: 40.0),
+                      margin: EdgeInsets.only(top: ScreenUtil().setHeight(60)),
                       child: Center(
                         child: Text(
                           "hanandjun",
-                          style: TextStyle(fontSize: 30.0, color: Colors.white),
+                          style: TextStyle(fontSize: ScreenUtil().setSp(75), color: Colors.white),
                         ),
                       ),
                     ),
                     // 图标
                     Container(
-                      margin: EdgeInsets.only(top: 100.0),
+                      margin: EdgeInsets.only(top: ScreenUtil().setHeight(200)),
                       child: Center(
-                          child: Container(
-                        width: 100.0,
-                        height: 100.0,
-                        child: PreferredSize(
-                          child: Container(
-                            child: ClipOval(
-                              child: Container(
-                                color: Colors.white,
-                                child: Image.asset(
-                                  "assets/images/head.png",
-                                  fit: BoxFit.fitWidth,
+                        child: Container(
+                          width: ScreenUtil().setWidth(280),
+                          height: ScreenUtil().setHeight(280),
+                          child: PreferredSize(
+                            preferredSize: Size(
+                              ScreenUtil().setWidth(80),
+                              ScreenUtil().setHeight(80),
+                            ),
+                            child: Container(
+                              child: ClipOval(
+                                child: Container(
+                                  color: Colors.white,
+                                  child: Image.asset(
+                                    "assets/images/head.png",
+                                    fit: BoxFit.fitWidth,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                          preferredSize: Size(80.0, 80.0),
                         ),
-                      )),
+                      ),
                     ),
                   ],
                 ),
                 Container(
                   width: double.infinity,
                   color: Colors.white,
-                  padding: EdgeInsets.all(10.0),
+                  padding: EdgeInsets.all(
+                    ScreenUtil().setWidth(28),
+                  ),
                   child: Card(
                       color: Colors.green,
                       child: Container(
-                        padding: EdgeInsets.all(10.0),
+                        padding: EdgeInsets.all(
+                          ScreenUtil().setWidth(28),
+                        ),
                         child: Column(
                           children: <Widget>[
                             ListItem(
@@ -146,11 +158,15 @@ class _AboutMeState extends State<AboutMe> {
                 Container(
                   width: double.infinity,
                   color: Colors.white,
-                  padding: EdgeInsets.all(10.0),
+                  padding: EdgeInsets.all(
+                    ScreenUtil().setWidth(28),
+                  ),
                   child: Card(
                       color: Colors.blue,
                       child: Container(
-                        padding: EdgeInsets.all(10.0),
+                        padding: EdgeInsets.all(
+                          ScreenUtil().setWidth(28),
+                        ),
                         child: Column(
                           children: <Widget>[
                             ListItem(
@@ -187,11 +203,15 @@ class _AboutMeState extends State<AboutMe> {
                 Container(
                   width: double.infinity,
                   color: Colors.white,
-                  padding: EdgeInsets.all(10.0),
+                  padding: EdgeInsets.all(
+                    ScreenUtil().setWidth(28),
+                  ),
                   child: Card(
                       color: Colors.teal,
                       child: Container(
-                        padding: EdgeInsets.all(10.0),
+                        padding: EdgeInsets.all(
+                          ScreenUtil().setWidth(28),
+                        ),
                         child: Column(
                           children: <Widget>[
                             ListItem(
