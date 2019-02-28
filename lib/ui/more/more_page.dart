@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -56,7 +58,7 @@ class _MorePageState extends State<MorePage> with AutomaticKeepAliveClientMixin 
                 color: Colors.indigoAccent,
               ),
               onPressed: () {
-                _joinQQ(context);
+                _joinQQGroup(context);
               },
             ),
             Container(
@@ -146,12 +148,14 @@ class _MorePageState extends State<MorePage> with AutomaticKeepAliveClientMixin 
   bool get wantKeepAlive => true;
 
   /// 加入QQ群
-  _joinQQ(BuildContext context) async {
-    const url =
+  _joinQQGroup(BuildContext context) async {
+    const android_url =
         "mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26k%3D910wjZoyUj0kVCZVo0ecCe1BAGPuyvJR";
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
+    const ios_url =
+        "mqqapi://card/show_pslcard?src_type=internal&version=1&uin=543279223&key=bc939c2996f276c67ab381417dc8440edf516db850e48138b07f3d39a5e7d18f&card_type=group&source=external";
+    try {
+      Platform.isAndroid ? await launch(android_url) : await launch(ios_url);
+    } catch (e) {
       showDialog(
         context: context,
         builder: (_) => AlertDialog(
