@@ -164,7 +164,7 @@ class _AboutMeState extends State<AboutMe> {
                               describeColor: Colors.white,
                               onPressed: () {
                                 launch(
-                                    "mqqwpa://im/chat?chat_type=wpa&uin=72149270&version=1&src_type=web&web_src=qietu.cn");
+                                    "mqqwpa://im/chat?chat_type=wpa&uin=724149270&version=1&src_type=web&web_src=qietu.cn");
                               },
                             ),
                             ListItem(
