@@ -35,7 +35,6 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
     super.initState();
     setMenuEntityList();
     _startUpBasicInfoEntity = getStartUpBasicInfoEntity();
-    _routeList = List();
     getAllRoute();
   }
 
@@ -49,7 +48,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
   List<Headline> _showNewsList;
 
   // 所有线路
-  List<Routelist> _routeList;
+  List<MaterialSearchResult<String>> allRouteList;
 
   // 刷新资讯信息
   void _handleNewsListOnRefresh(List<Headline> newsList) {
@@ -85,22 +84,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                 child: MaterialSearch<String>(
                   barBackgroundColor: Theme.of(context).primaryColor,
                   placeholder: "搜索线路",
-                  results: _routeList
-                      .map((item) => MaterialSearchResult<String>(
-                            value: item.routename,
-                            icon: Icons.directions_bus,
-                            text: item.routenameext,
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) {
-                                    return RouteDetail();
-                                  },
-                                ),
-                              );
-                            },
-                          ))
-                      .toList(),
+                  results: allRouteList,
                   filter: (dynamic value, String criteria) {
                     return value.toLowerCase().trim().contains(RegExp(r'' + criteria.toLowerCase().trim() + ''));
                   },
@@ -188,7 +172,25 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
       AllroutedataEntity allRouteDataEntity = EntityFactory.generateOBJ<AllroutedataEntity>(response.data);
       print("请求全部线路完成");
       setState(() {
-        _routeList = allRouteDataEntity.routelist;
+        allRouteList = allRouteDataEntity.routelist
+            .map((item) => MaterialSearchResult<String>(
+                  value: item.routename,
+                  icon: Icons.directions_bus,
+                  text: item.routenameext,
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (BuildContext context) {
+                          return RouteDetail(
+                            title: item.routenameext,
+                            routeId: item.routeid,
+                          );
+                        },
+                      ),
+                    );
+                  },
+                ))
+            .toList();
       });
     } catch (e) {
       print('请求出现问题::: $e');
@@ -244,22 +246,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
             Expanded(
               child: MaterialSearchInput(
                 placeholder: "搜索线路",
-                results: _routeList
-                    .map((item) => MaterialSearchResult<String>(
-                          value: item.routename,
-                          icon: Icons.directions_bus,
-                          text: item.routenameext,
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (BuildContext context) {
-                                  return RouteDetail();
-                                },
-                              ),
-                            );
-                          },
-                        ))
-                    .toList(),
+                results: allRouteList,
                 filter: (dynamic value, String criteria) {
                   return value.toLowerCase().trim().contains(RegExp(r'' + criteria.toLowerCase().trim() + ''));
                 },

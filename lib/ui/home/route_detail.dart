@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
 class RouteDetail extends StatefulWidget {
+  final String title;
+  final int routeId;
+
+  const RouteDetail({Key key, this.title, this.routeId}) : super(key: key);
+
   @override
   _RouteDetailState createState() => _RouteDetailState();
 }
@@ -10,7 +15,7 @@ class _RouteDetailState extends State<RouteDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("线路详情"),
+        title: Text(widget.title),
       ),
       body: Container(
         child: Center(
