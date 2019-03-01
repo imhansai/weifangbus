@@ -76,7 +76,7 @@ class _MorePageState extends State<MorePage> with AutomaticKeepAliveClientMixin 
               describe: "关于潍坊市公共交通总公司",
               icon: Icon(
                 Icons.business,
-                color: Colors.grey,
+                color: Colors.brown,
               ),
               onPressed: () {
                 Navigator.of(context).push(
@@ -97,8 +97,26 @@ class _MorePageState extends State<MorePage> with AutomaticKeepAliveClientMixin 
               ),
             ),
             ListItem(
+              title: "关于潍坊公交",
+              icon: Icon(
+                MyIcons.software,
+                color: Colors.black54,
+              ),
+              onPressed: () {
+                showAboutSoftWareDialog(context);
+              },
+            ),
+            Container(
+              width: double.infinity,
+              height: ScreenUtil().setHeight(1),
+              padding: EdgeInsets.only(left: ScreenUtil().setWidth(5), right: ScreenUtil().setWidth(5)),
+              child: Container(
+                color: Colors.black12,
+              ),
+            ),
+            ListItem(
               title: "关于我",
-              describe: "走进作者",
+              describe: "走近作者",
               icon: Icon(
                 Icons.info,
                 color: Colors.lightBlue,
@@ -111,25 +129,6 @@ class _MorePageState extends State<MorePage> with AutomaticKeepAliveClientMixin 
                     },
                   ),
                 );
-              },
-            ),
-            Container(
-              width: double.infinity,
-              height: ScreenUtil().setHeight(1),
-              padding: EdgeInsets.only(left: ScreenUtil().setWidth(5), right: ScreenUtil().setWidth(5)),
-              child: Container(
-                color: Colors.black12,
-              ),
-            ),
-            ListItem(
-              title: "关于软件",
-              describe: "了解制作此软件的前世今生",
-              icon: Icon(
-                MyIcons.software,
-                color: Colors.black87,
-              ),
-              onPressed: () {
-                showAboutSoftWareDialog(context);
               },
             ),
             Container(
