@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:weifangbus/ui/more/about_company.dart';
 import 'package:weifangbus/ui/more/about_me.dart';
@@ -130,6 +131,23 @@ class _MorePageState extends State<MorePage> with AutomaticKeepAliveClientMixin 
                   ),
                 );
               },
+            ),
+            Container(
+              width: double.infinity,
+              height: ScreenUtil().setHeight(1),
+              padding: EdgeInsets.only(left: ScreenUtil().setWidth(5), right: ScreenUtil().setWidth(5)),
+              child: Container(
+                color: Colors.black12,
+              ),
+            ),
+            ListItem(
+              title: "分享",
+              describe: "让更多人发现使用",
+              icon: Icon(
+                FontAwesomeIcons.shareAltSquare,
+                color: Colors.teal,
+              ),
+              onPressed: () {},
             ),
             Container(
               width: double.infinity,

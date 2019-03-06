@@ -5,11 +5,44 @@ PODS:
   - device_info (0.0.1):
     - Flutter
   - Flutter (1.0.0)
+  - mob_sharesdk (4.2.3):
+    - mob_sharesdk/ShareSDK (= 4.2.3)
+    - MOBFoundation
+  - mob_sharesdk/ShareSDK (4.2.3):
+    - MOBFoundation
+  - mob_sharesdk/ShareSDKPlatforms/Facebook (4.2.3):
+    - mob_sharesdk/ShareSDK
+    - MOBFoundation
+  - mob_sharesdk/ShareSDKPlatforms/QQ (4.2.3):
+    - mob_sharesdk/ShareSDK
+    - MOBFoundation
+  - mob_sharesdk/ShareSDKPlatforms/SinaWeibo (4.2.3):
+    - mob_sharesdk/ShareSDK
+    - MOBFoundation
+  - mob_sharesdk/ShareSDKPlatforms/Twitter (4.2.3):
+    - mob_sharesdk/ShareSDK
+    - MOBFoundation
+  - mob_sharesdk/ShareSDKPlatforms/WeChat (4.2.3):
+    - mob_sharesdk/ShareSDK
+    - MOBFoundation
+  - mob_sharesdk/ShareSDKUI (4.2.3):
+    - mob_sharesdk/ShareSDK
+    - MOBFoundation
+  - MOBFoundation (3.2.1)
   - path_provider (0.0.1):
     - Flutter
   - Reachability (3.2)
   - shared_preferences (0.0.1):
     - Flutter
+  - sharesdk (0.0.1):
+    - Flutter
+    - mob_sharesdk
+    - mob_sharesdk/ShareSDKPlatforms/Facebook
+    - mob_sharesdk/ShareSDKPlatforms/QQ
+    - mob_sharesdk/ShareSDKPlatforms/SinaWeibo
+    - mob_sharesdk/ShareSDKPlatforms/Twitter
+    - mob_sharesdk/ShareSDKPlatforms/WeChat
+    - mob_sharesdk/ShareSDKUI
   - url_launcher (0.0.1):
     - Flutter
 
@@ -19,10 +52,13 @@ DEPENDENCIES:
   - Flutter (from `.symlinks/flutter/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
+  - sharesdk (from `.symlinks/plugins/sharesdk/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - mob_sharesdk
+    - MOBFoundation
     - Reachability
 
 EXTERNAL SOURCES:
@@ -36,6 +72,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/path_provider/ios"
   shared_preferences:
     :path: ".symlinks/plugins/shared_preferences/ios"
+  sharesdk:
+    :path: ".symlinks/plugins/sharesdk/ios"
   url_launcher:
     :path: ".symlinks/plugins/url_launcher/ios"
 
@@ -43,11 +81,14 @@ SPEC CHECKSUMS:
   connectivity: c72716e202a1225ec4810740d5cb56b8ae3bf4cc
   device_info: 3ebad48f726348f69abd802f3334a8d1ed795fbd
   Flutter: 58dd7d1b27887414a370fcccb9e645c08ffd7a6a
+  mob_sharesdk: e906a03f75d03ba1404fb046e055160c8258242d
+  MOBFoundation: ce2ba976fd435b0cb06897466b2746e639895b7d
   path_provider: f96fff6166a8867510d2c25fdcc346327cc4b259
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   shared_preferences: 1feebfa37bb57264736e16865e7ffae7fc99b523
+  sharesdk: 983dfa124e0133701cae2145240ce8ce61d1e7fc
   url_launcher: 0067ddb8f10d36786672aa0722a21717dba3a298
 
-PODFILE CHECKSUM: ebd43b443038e611b86ede96e613bd6033c49497
+PODFILE CHECKSUM: 972a4a064038e8c68ddd6a5bc7ed0d3059878f79
 
 COCOAPODS: 1.6.1
