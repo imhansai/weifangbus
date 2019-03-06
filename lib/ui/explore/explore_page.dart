@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sharesdk/sharesdk.dart';
@@ -82,7 +80,7 @@ class _ExplorePageState extends State<ExplorePage> with AutomaticKeepAliveClient
           "http://i.y.qq.com/v8/playsong.html?hostuin=0&songid=&songmid=002x5Jje3eUkXT&_wv=1&source=qq&appshare=iphone&media_mid=002x5Jje3eUkXT",
           "http://f1.webshare.mob.com/dvideo/demovideos.mp4",
           SSDKContentTypes.auto);
-    ShareSDK.showMenu(null, params,
+    ShareSDK.showMenu([ShareSDKPlatforms.qq,ShareSDKPlatforms.wechatSession,ShareSDKPlatforms.sina], params,
         (SSDKResponseState state, ShareSDKPlatform platform, Map userData, Map contentEntity, SSDKError error) {
       showAlert(state, error.rawData, context);
     });
@@ -157,39 +155,6 @@ class _ExplorePageState extends State<ExplorePage> with AutomaticKeepAliveClient
           false,
           SSDKContentTypes.auto);
     ShareSDK.share(ShareSDKPlatforms.sina, params,
-        (SSDKResponseState state, Map userdata, Map contentEntity, SSDKError error) {
-      showAlert(state, error.rawData, context);
-    });
-  }
-
-  void shareTwitterCustom(BuildContext context) {
-    SSDKMap params = SSDKMap()
-      ..setTwitter(
-          "text",
-          "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1541659481198&di=80760a9d745a78dab3ed3d5577286682&imgtype=0&src=http%3A%2F%2Fh.hiphotos.baidu.com%2Fbaike%2Fpic%2Fitem%2Fd1a20cf431adcbef011db9bba6af2edda3cc9f66.jpg",
-          null,
-          0.0,
-          0.0,
-          SSDKContentTypes.auto);
-    ShareSDK.share(ShareSDKPlatforms.twitter, params,
-        (SSDKResponseState state, Map userdata, Map contentEntity, SSDKError error) {
-      showAlert(state, error.rawData, context);
-    });
-  }
-
-  void shareFacebookCustom(BuildContext context) {
-    SSDKMap params = SSDKMap()
-      ..setFacebook(
-          "Share SDK Link Desc",
-          "http://ww4.sinaimg.cn/bmiddle/005Q8xv4gw1evlkov50xuj30go0a6mz3.jpg",
-          "http://www.mob.com",
-          "Share SDK",
-          null,
-          null,
-          "#MobData",
-          "Mob官网 - 全球领先的移动开发者服务平台",
-          SSDKContentTypes.webpage);
-    ShareSDK.share(ShareSDKPlatforms.facebook, params,
         (SSDKResponseState state, Map userdata, Map contentEntity, SSDKError error) {
       showAlert(state, error.rawData, context);
     });
@@ -292,22 +257,15 @@ class _ExplorePageState extends State<ExplorePage> with AutomaticKeepAliveClient
     );
   }
 
-  _initRegister() {
-    var isIOS = Platform.isIOS;
-    if (isIOS) {
-      ShareSDKRegister register = ShareSDKRegister();
-
-      register.setupWechat("wx617c77c82218ea2c", "c7253e5289986cf4c4c74d1ccc185fb1");
-      register.setupSinaWeibo("2731709630", "d37986d86e6c7d3c1508ed87086b5b78", "http://www.sharesdk.cn");
-      register.setupQQ("1108255306", "EgcwxLZrBdztOnRY");
-      ShareSDK.regist(register);
-    }
-  }
-
   @override
   void initState() {
     // iOS
-    _initRegister();
+    ShareSDKRegister register = ShareSDKRegister();
+
+    register.setupWechat("wx617c77c82218ea2c", "c7253e5289986cf4c4c74d1ccc185fb1");
+    register.setupSinaWeibo("2731709630", "d37986d86e6c7d3c1508ed87086b5b78", "http://www.sharesdk.cn");
+    register.setupQQ("1108255306", "EgcwxLZrBdztOnRY");
+    ShareSDK.regist(register);
     super.initState();
   }
 
@@ -331,8 +289,6 @@ class _ExplorePageState extends State<ExplorePage> with AutomaticKeepAliveClient
           _creatRow("分享小程序到微信", "测试自定义参数", shareMiniProgram, context),
           _creatRow("分享到微博", "测试自定义参数", shareSinaCustom, context),
           _creatRow("分享到QQ", "测试自定义参数", shareQQCustom, context),
-          _creatRow("分享到Twitter", "测试自定义参数", shareTwitterCustom, context),
-          _creatRow("分享到Facebook", "测试自定义参数", shareFacebookCustom, context),
         ],
       ),
     );
