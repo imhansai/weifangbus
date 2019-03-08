@@ -1,10 +1,11 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sharesdk/sharesdk.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:weifangbus/ui/home/guide.dart';
 import 'package:weifangbus/ui/more/about_company.dart';
 import 'package:weifangbus/ui/more/about_me.dart';
 import 'package:weifangbus/ui/more/about_software.dart';
@@ -18,6 +19,21 @@ class MorePage extends StatefulWidget {
 }
 
 class _MorePageState extends State<MorePage> with AutomaticKeepAliveClientMixin {
+  @override
+  void initState() {
+    super.initState();
+    // iOS
+    ShareSDKRegister register = ShareSDKRegister();
+
+    register.setupWechat("wxe9bd4da0a6e470cb", "41fc6dd58e8ec6c0fde5402cd1ac9158");
+    register.setupSinaWeibo("2731709630", "d37986d86e6c7d3c1508ed87086b5b78", "http://www.sharesdk.cn");
+    register.setupQQ("1108255306", "EgcwxLZrBdztOnRY");
+    ShareSDK.regist(register);
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -117,8 +133,8 @@ class _MorePageState extends State<MorePage> with AutomaticKeepAliveClientMixin 
               ),
             ),
             ListItem(
-              title: "关于我",
-              describe: "走近作者",
+              title: "走近作者",
+              // describe: "走近作者",
               icon: Icon(
                 Icons.info,
                 color: Colors.lightBlue,
@@ -149,13 +165,7 @@ class _MorePageState extends State<MorePage> with AutomaticKeepAliveClientMixin 
                 color: Colors.teal,
               ),
               onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) {
-                      return Guide();
-                    },
-                  ),
-                );
+                showShareMenu(context);
               },
             ),
             Container(
@@ -171,9 +181,6 @@ class _MorePageState extends State<MorePage> with AutomaticKeepAliveClientMixin 
       ),
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 
   /// 加入QQ群
   _joinQQGroup(BuildContext context) async {
@@ -201,5 +208,62 @@ class _MorePageState extends State<MorePage> with AutomaticKeepAliveClientMixin 
             ),
       );
     }
+  }
+
+  void showShareMenu(BuildContext context) {
+    // todo 需要确定参数
+    SSDKMap params = SSDKMap()
+      ..setGeneral(
+          "标题:潍坊公交",
+          "文本:分享自潍坊公交",
+          [
+            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1541565611543&di=4615c8072e155090a2b833059f19ed5b&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201501%2F06%2F20150106003502_Ajcte.jpeg"
+          ],
+          "http://wx3.sinaimg.cn/large/006nLajtly1fpi9ikmj1kj30dw0dwwfq.jpg",
+          null,
+          "http://www.mob.com/",
+          "http://wx4.sinaimg.cn/large/006WfoFPly1fw9612f17sj30dw0dwgnd.jpg",
+          "http://i.y.qq.com/v8/playsong.html?hostuin=0&songid=&songmid=002x5Jje3eUkXT&_wv=1&source=qq&appshare=iphone&media_mid=002x5Jje3eUkXT",
+          "http://f1.webshare.mob.com/dvideo/demovideos.mp4",
+          SSDKContentTypes.auto);
+    ShareSDK.showMenu([ShareSDKPlatforms.qq, ShareSDKPlatforms.wechatSeries, ShareSDKPlatforms.sina], params,
+        (SSDKResponseState state, ShareSDKPlatform platform, Map userData, Map contentEntity, SSDKError error) {
+      showAlert(state, error.rawData, context);
+    });
+  }
+
+  void showAlert(SSDKResponseState state, Map content, BuildContext context) {
+    print("--------------------------> state:" + state.toString());
+    String title = "分享失败";
+    switch (state) {
+      case SSDKResponseState.Success:
+        title = "分享成功";
+        break;
+      case SSDKResponseState.Fail:
+        title = "分享失败";
+        break;
+      case SSDKResponseState.Cancel:
+        title = "取消分享";
+        break;
+      default:
+        title = state.toString();
+        break;
+    }
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => CupertinoAlertDialog(
+            title: new Text(title),
+            content: new Text(content != null ? content.toString() : ""),
+            actions: <Widget>[
+              new FlatButton(
+                child: new Text("OK"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          ),
+    );
   }
 }

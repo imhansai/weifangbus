@@ -46,11 +46,21 @@
 				<string>wb2731709630</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>wxe9bd4da0a6e470cb</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>weixin</string>
+		<string>wechat</string>
 		<string>weibosdk2.5</string>
 		<string>weibosdk</string>
 		<string>sinaweibohdsso</string>
