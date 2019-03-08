@@ -8,7 +8,7 @@ import 'package:flutter_easyrefresh/phoenix_footer.dart';
 import 'package:flutter_easyrefresh/phoenix_header.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:weifangbus/entity/home/headline_entity.dart';
+import 'package:weifangbus/entity/headline_entity.dart';
 import 'package:weifangbus/entity_factory.dart';
 import 'package:weifangbus/ui/home/news_detail.dart';
 import 'package:weifangbus/utils/dioUtil.dart';

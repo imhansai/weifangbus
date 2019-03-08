@@ -1,4 +1,4 @@
-import 'package:weifangbus/entity/home/headline_entity.dart';
+import 'package:weifangbus/entity/headline_entity.dart';
 
 class StartUpBasicInfoEntity {
   List<Headline> headline;
