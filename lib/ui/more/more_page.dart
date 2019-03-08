@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:weifangbus/ui/home/guide.dart';
 import 'package:weifangbus/ui/more/about_company.dart';
 import 'package:weifangbus/ui/more/about_me.dart';
 import 'package:weifangbus/ui/more/about_software.dart';
@@ -147,7 +148,15 @@ class _MorePageState extends State<MorePage> with AutomaticKeepAliveClientMixin 
                 FontAwesomeIcons.shareAltSquare,
                 color: Colors.teal,
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return Guide();
+                    },
+                  ),
+                );
+              },
             ),
             Container(
               width: double.infinity,

@@ -35,6 +35,7 @@ dependencies:
   flutter_easyrefresh: ^1.2.5
   font_awesome_flutter: ^8.4.0
   sharesdk: ^1.0.7
+  jpush_flutter: 0.0.11
 
 dev_dependencies:
   flutter_test:
