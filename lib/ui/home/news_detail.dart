@@ -54,56 +54,6 @@ class _InformationDetail extends State<InformationDetail> {
       body: Container(
         child: Column(
           children: <Widget>[
-            Padding(
-              padding: EdgeInsets.all(ScreenUtil().setWidth(35)),
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(3.0),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.black54,
-                        offset: Offset(
-                          ScreenUtil().setWidth(2),
-                          ScreenUtil().setWidth(2),
-                        ),
-                        blurRadius: 4.0),
-                  ],
-                ),
-                child: Padding(
-                  padding: EdgeInsets.all(ScreenUtil().setWidth(35)),
-                  child: Column(
-                    children: <Widget>[
-                      Text(
-                        widget.headLine.title,
-                        style: TextStyle(
-                          // color: Colors.white,
-                          fontSize: ScreenUtil().setSp(53),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(
-                          ScreenUtil().setWidth(0),
-                          ScreenUtil().setHeight(31),
-                          ScreenUtil().setWidth(0),
-                          ScreenUtil().setHeight(0),
-                        ),
-                        child: Text(
-                          '发布时间: ' +
-                              DateFormat("yyyy年MM月dd日 HH点mm分ss秒")
-                                  .format(DateTime.parse(widget.headLine.realeasedatetime))
-                                  .toString(),
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: ScreenUtil().setSp(38),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
             // 利用 Expanded 使用剩余全部空间，然后里面使用 SingleChildScrollView 防止溢出
             Expanded(
               child: SingleChildScrollView(
@@ -113,12 +63,67 @@ class _InformationDetail extends State<InformationDetail> {
                   ScreenUtil().setWidth(40),
                   ScreenUtil().setHeight(200),
                 ),
-                child: Html(
-                  data: widget.headLine.content,
-                  defaultTextStyle: TextStyle(
-                    fontFamily: 'serif',
-                    fontSize: ScreenUtil().setSp(50),
-                  ),
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.all(ScreenUtil().setWidth(35)),
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(3.0),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.black54,
+                                offset: Offset(
+                                  ScreenUtil().setWidth(2),
+                                  ScreenUtil().setWidth(2),
+                                ),
+                                blurRadius: 4.0),
+                          ],
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(ScreenUtil().setWidth(35)),
+                          child: Column(
+                            children: <Widget>[
+                              Text(
+                                widget.headLine.title,
+                                style: TextStyle(
+                                  // color: Colors.white,
+                                  fontSize: ScreenUtil().setSp(53),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(
+                                  ScreenUtil().setWidth(0),
+                                  ScreenUtil().setHeight(31),
+                                  ScreenUtil().setWidth(0),
+                                  ScreenUtil().setHeight(0),
+                                ),
+                                child: Text(
+                                  '发布时间: ' +
+                                      DateFormat("yyyy年MM月dd日 HH点mm分ss秒")
+                                          .format(DateTime.parse(
+                                              widget.headLine.realeasedatetime))
+                                          .toString(),
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: ScreenUtil().setSp(38),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Html(
+                      data: widget.headLine.content,
+                      defaultTextStyle: TextStyle(
+                        fontFamily: 'serif',
+                        fontSize: ScreenUtil().setSp(50),
+                      ),
+                    ),
+                  ],
                 ),
                 controller: _controller,
               ),
@@ -133,7 +138,8 @@ class _InformationDetail extends State<InformationDetail> {
               tooltip: "返回顶部",
               onPressed: () {
                 // 返回到顶部时执行动画
-                _controller.animateTo(.0, duration: Duration(milliseconds: 200), curve: Curves.ease);
+                _controller.animateTo(.0,
+                    duration: Duration(milliseconds: 200), curve: Curves.ease);
               },
             ),
     );
