@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sharesdk/sharesdk.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:weifangbus/ui/more/about_company.dart';
@@ -161,7 +161,7 @@ class _MorePageState extends State<MorePage> with AutomaticKeepAliveClientMixin 
               title: "分享",
               describe: "让更多人发现使用",
               icon: Icon(
-                FontAwesomeIcons.shareAltSquare,
+                FontAwesome.getIconData("share-alt-square"),
                 color: Colors.teal,
               ),
               onPressed: () {
