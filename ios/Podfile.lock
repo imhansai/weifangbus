@@ -1,4 +1,7 @@
 PODS:
+  - barcode_scan (0.0.1):
+    - Flutter
+    - MTBBarcodeScanner
   - connectivity (0.0.1):
     - Flutter
     - Reachability
@@ -16,16 +19,10 @@ PODS:
     - MOBFoundation
   - mob_sharesdk/ShareSDK (4.2.3):
     - MOBFoundation
-  - mob_sharesdk/ShareSDKPlatforms/Facebook (4.2.3):
-    - mob_sharesdk/ShareSDK
-    - MOBFoundation
   - mob_sharesdk/ShareSDKPlatforms/QQ (4.2.3):
     - mob_sharesdk/ShareSDK
     - MOBFoundation
   - mob_sharesdk/ShareSDKPlatforms/SinaWeibo (4.2.3):
-    - mob_sharesdk/ShareSDK
-    - MOBFoundation
-  - mob_sharesdk/ShareSDKPlatforms/Twitter (4.2.3):
     - mob_sharesdk/ShareSDK
     - MOBFoundation
   - mob_sharesdk/ShareSDKPlatforms/WeChat (4.2.3):
@@ -35,6 +32,7 @@ PODS:
     - mob_sharesdk/ShareSDK
     - MOBFoundation
   - MOBFoundation (3.2.1)
+  - MTBBarcodeScanner (5.0.8)
   - path_provider (0.0.1):
     - Flutter
   - Reachability (3.2)
@@ -43,16 +41,15 @@ PODS:
   - sharesdk (0.0.1):
     - Flutter
     - mob_sharesdk
-    - mob_sharesdk/ShareSDKPlatforms/Facebook
     - mob_sharesdk/ShareSDKPlatforms/QQ
     - mob_sharesdk/ShareSDKPlatforms/SinaWeibo
-    - mob_sharesdk/ShareSDKPlatforms/Twitter
     - mob_sharesdk/ShareSDKPlatforms/WeChat
     - mob_sharesdk/ShareSDKUI
   - url_launcher (0.0.1):
     - Flutter
 
 DEPENDENCIES:
+  - barcode_scan (from `.symlinks/plugins/barcode_scan/ios`)
   - connectivity (from `.symlinks/plugins/connectivity/ios`)
   - device_info (from `.symlinks/plugins/device_info/ios`)
   - Flutter (from `.symlinks/flutter/ios`)
@@ -68,9 +65,12 @@ SPEC REPOS:
     - JPush
     - mob_sharesdk
     - MOBFoundation
+    - MTBBarcodeScanner
     - Reachability
 
 EXTERNAL SOURCES:
+  barcode_scan:
+    :path: ".symlinks/plugins/barcode_scan/ios"
   connectivity:
     :path: ".symlinks/plugins/connectivity/ios"
   device_info:
@@ -89,6 +89,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/url_launcher/ios"
 
 SPEC CHECKSUMS:
+  barcode_scan: 33f586d02270046fc6559135038b34b5754eaa4f
   connectivity: c72716e202a1225ec4810740d5cb56b8ae3bf4cc
   device_info: 3ebad48f726348f69abd802f3334a8d1ed795fbd
   Flutter: 58dd7d1b27887414a370fcccb9e645c08ffd7a6a
@@ -97,10 +98,11 @@ SPEC CHECKSUMS:
   jpush_flutter: d7e3a79466eb9447fd940233f02661b514f137c6
   mob_sharesdk: e906a03f75d03ba1404fb046e055160c8258242d
   MOBFoundation: ce2ba976fd435b0cb06897466b2746e639895b7d
+  MTBBarcodeScanner: 5b97f10a037e2560ff104da413343c5ce9413911
   path_provider: f96fff6166a8867510d2c25fdcc346327cc4b259
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   shared_preferences: 1feebfa37bb57264736e16865e7ffae7fc99b523
-  sharesdk: 983dfa124e0133701cae2145240ce8ce61d1e7fc
+  sharesdk: 2e664f86687c406366eec6185302ecb4f6e64f47
   url_launcher: 0067ddb8f10d36786672aa0722a21717dba3a298
 
 PODFILE CHECKSUM: 972a4a064038e8c68ddd6a5bc7ed0d3059878f79

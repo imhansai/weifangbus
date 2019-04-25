@@ -211,22 +211,20 @@ class _MorePageState extends State<MorePage> with AutomaticKeepAliveClientMixin 
   }
 
   void showShareMenu(BuildContext context) {
-    // todo 需要确定参数
     SSDKMap params = SSDKMap()
       ..setGeneral(
-          "标题:潍坊公交",
-          "文本:分享自潍坊公交",
-          [
-            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1541565611543&di=4615c8072e155090a2b833059f19ed5b&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201501%2F06%2F20150106003502_Ajcte.jpeg"
-          ],
-          "http://wx3.sinaimg.cn/large/006nLajtly1fpi9ikmj1kj30dw0dwwfq.jpg",
+          "潍坊公交",
+          "了解 flutter",
+          ["https://image.shutterstock.com/image-vector/white-bus-vehicle-traveling-route-260nw-627370652.jpg"],
+          "http://flutter.dev",
           null,
-          "http://www.mob.com/",
-          "http://wx4.sinaimg.cn/large/006WfoFPly1fw9612f17sj30dw0dwgnd.jpg",
-          "http://i.y.qq.com/v8/playsong.html?hostuin=0&songid=&songmid=002x5Jje3eUkXT&_wv=1&source=qq&appshare=iphone&media_mid=002x5Jje3eUkXT",
-          "http://f1.webshare.mob.com/dvideo/demovideos.mp4",
+          "http://flutter.dev",
+          "",
+          "",
+          "",
           SSDKContentTypes.auto);
-    ShareSDK.showMenu([ShareSDKPlatforms.qq, ShareSDKPlatforms.wechatSeries, ShareSDKPlatforms.sina], params,
+    ShareSDK.showMenu(
+        [ShareSDKPlatforms.qq, ShareSDKPlatforms.qZone, ShareSDKPlatforms.wechatSeries, ShareSDKPlatforms.sina], params,
         (SSDKResponseState state, ShareSDKPlatform platform, Map userData, Map contentEntity, SSDKError error) {
       showAlert(state, error.rawData, context);
     });
@@ -250,20 +248,22 @@ class _MorePageState extends State<MorePage> with AutomaticKeepAliveClientMixin 
         break;
     }
 
-    showDialog(
-      context: context,
-      builder: (BuildContext context) => CupertinoAlertDialog(
-            title: new Text(title),
-            content: new Text(content != null ? content.toString() : ""),
-            actions: <Widget>[
-              new FlatButton(
-                child: new Text("OK"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              )
-            ],
-          ),
-    );
+    if ("取消分享" != title) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) => CupertinoAlertDialog(
+              title: new Text(title),
+              content: new Text(content != null ? content.toString() : ""),
+              actions: <Widget>[
+                new FlatButton(
+                  child: new Text("OK"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            ),
+      );
+    }
   }
 }
