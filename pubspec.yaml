@@ -10,7 +10,7 @@ description: 潍坊公交查询 APP
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.0.0-dev.68.0 <3.0.0"
+  sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -23,6 +23,7 @@ dependencies:
   url_launcher: ^5.0.1
   device_info: ^0.4.0+1
   connectivity: ^0.4.0
+  quick_actions: ^0.3.0+1
   dio: ^2.0.10
   crypto: ^2.0.6
   intl: ^0.15.7

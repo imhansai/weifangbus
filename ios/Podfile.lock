@@ -19,10 +19,16 @@ PODS:
     - MOBFoundation
   - mob_sharesdk/ShareSDK (4.2.3):
     - MOBFoundation
+  - mob_sharesdk/ShareSDKPlatforms/Facebook (4.2.3):
+    - mob_sharesdk/ShareSDK
+    - MOBFoundation
   - mob_sharesdk/ShareSDKPlatforms/QQ (4.2.3):
     - mob_sharesdk/ShareSDK
     - MOBFoundation
   - mob_sharesdk/ShareSDKPlatforms/SinaWeibo (4.2.3):
+    - mob_sharesdk/ShareSDK
+    - MOBFoundation
+  - mob_sharesdk/ShareSDKPlatforms/Twitter (4.2.3):
     - mob_sharesdk/ShareSDK
     - MOBFoundation
   - mob_sharesdk/ShareSDKPlatforms/WeChat (4.2.3):
@@ -35,14 +41,18 @@ PODS:
   - MTBBarcodeScanner (5.0.8)
   - path_provider (0.0.1):
     - Flutter
+  - quick_actions (0.0.1):
+    - Flutter
   - Reachability (3.2)
   - shared_preferences (0.0.1):
     - Flutter
   - sharesdk (0.0.1):
     - Flutter
     - mob_sharesdk
+    - mob_sharesdk/ShareSDKPlatforms/Facebook
     - mob_sharesdk/ShareSDKPlatforms/QQ
     - mob_sharesdk/ShareSDKPlatforms/SinaWeibo
+    - mob_sharesdk/ShareSDKPlatforms/Twitter
     - mob_sharesdk/ShareSDKPlatforms/WeChat
     - mob_sharesdk/ShareSDKUI
   - url_launcher (0.0.1):
@@ -55,6 +65,7 @@ DEPENDENCIES:
   - Flutter (from `.symlinks/flutter/ios`)
   - jpush_flutter (from `.symlinks/plugins/jpush_flutter/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
+  - quick_actions (from `.symlinks/plugins/quick_actions/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - sharesdk (from `.symlinks/plugins/sharesdk/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
@@ -81,6 +92,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/jpush_flutter/ios"
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
+  quick_actions:
+    :path: ".symlinks/plugins/quick_actions/ios"
   shared_preferences:
     :path: ".symlinks/plugins/shared_preferences/ios"
   sharesdk:
@@ -100,11 +113,12 @@ SPEC CHECKSUMS:
   MOBFoundation: ce2ba976fd435b0cb06897466b2746e639895b7d
   MTBBarcodeScanner: 5b97f10a037e2560ff104da413343c5ce9413911
   path_provider: f96fff6166a8867510d2c25fdcc346327cc4b259
+  quick_actions: 07414f1e5cb71fc4d32a0670b62c460e619366b2
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   shared_preferences: 1feebfa37bb57264736e16865e7ffae7fc99b523
-  sharesdk: 2e664f86687c406366eec6185302ecb4f6e64f47
+  sharesdk: 75d32029801b03cc4ccb73c10c8ab360bdc9017d
   url_launcher: 0067ddb8f10d36786672aa0722a21717dba3a298
 
 PODFILE CHECKSUM: 972a4a064038e8c68ddd6a5bc7ed0d3059878f79
 
-COCOAPODS: 1.6.1
+COCOAPODS: 1.7.0

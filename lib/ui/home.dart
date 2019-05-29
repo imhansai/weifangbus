@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:quick_actions/quick_actions.dart';
 import 'package:weifangbus/ui/explore/explore_page.dart';
 import 'package:weifangbus/ui/home/home_page.dart';
 import 'package:weifangbus/ui/more/more_page.dart';
@@ -65,5 +66,20 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         ],
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    final QuickActions quickActions = const QuickActions();
+    quickActions.initialize((String shortcutType) {
+      if (shortcutType == 'action_main') {
+        print('The user tapped on the "Main view" action.');
+      }
+    });
+
+    quickActions.setShortcutItems(<ShortcutItem>[
+      const ShortcutItem(type: 'action_main', localizedTitle: 'Main view', icon: 'AppIcon'),
+    ]);
   }
 }
