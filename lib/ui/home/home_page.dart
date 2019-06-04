@@ -334,12 +334,12 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                                                     Radius.circular(10),
                                                   ),
                                                   child: CachedNetworkImage(
-                                                    placeholder: Center(
-                                                      child: SpinKitFadingCube(
-                                                        color: Theme.of(context).primaryColor,
-                                                        size: ScreenUtil().setWidth(80),
-                                                      ),
-                                                    ),
+                                                    placeholder: (context, url) => Center(
+                                                          child: SpinKitFadingCube(
+                                                            color: Theme.of(context).primaryColor,
+                                                            size: ScreenUtil().setWidth(80),
+                                                          ),
+                                                        ),
                                                     imageUrl: startUpBasicInfoEntity.slideshow[index].bannerurl,
                                                     fadeInCurve: Curves.easeIn,
                                                     fadeInDuration: Duration(seconds: 1),
