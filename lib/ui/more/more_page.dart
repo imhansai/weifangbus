@@ -2,9 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sharesdk/sharesdk.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:weifangbus/ui/more/about_company.dart';
 import 'package:weifangbus/ui/more/about_me.dart';
@@ -22,13 +20,6 @@ class _MorePageState extends State<MorePage> with AutomaticKeepAliveClientMixin 
   @override
   void initState() {
     super.initState();
-    // iOS
-    ShareSDKRegister register = ShareSDKRegister();
-
-    register.setupWechat("wxe9bd4da0a6e470cb", "41fc6dd58e8ec6c0fde5402cd1ac9158");
-    register.setupSinaWeibo("2731709630", "d37986d86e6c7d3c1508ed87086b5b78", "http://www.sharesdk.cn");
-    register.setupQQ("1108255306", "EgcwxLZrBdztOnRY");
-    ShareSDK.regist(register);
   }
 
   @override
@@ -157,25 +148,6 @@ class _MorePageState extends State<MorePage> with AutomaticKeepAliveClientMixin 
                 color: Colors.black12,
               ),
             ),
-            ListItem(
-              title: "分享",
-              describe: "让更多人发现使用",
-              icon: Icon(
-                FontAwesome.getIconData("share-alt-square"),
-                color: Colors.teal,
-              ),
-              onPressed: () {
-                showShareMenu(context);
-              },
-            ),
-            Container(
-              width: double.infinity,
-              height: ScreenUtil().setHeight(1),
-              padding: EdgeInsets.only(left: ScreenUtil().setWidth(5), right: ScreenUtil().setWidth(5)),
-              child: Container(
-                color: Colors.black12,
-              ),
-            ),
           ],
         ),
       ),
@@ -194,75 +166,18 @@ class _MorePageState extends State<MorePage> with AutomaticKeepAliveClientMixin 
       showDialog(
         context: context,
         builder: (_) => AlertDialog(
-              content: SingleChildScrollView(
-                child: Text("抱歉，检测到您还未安装QQ客户端!"),
-              ),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text('确定'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
+          content: SingleChildScrollView(
+            child: Text("抱歉，检测到您还未安装QQ客户端!"),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('确定'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
             ),
-      );
-    }
-  }
-
-  void showShareMenu(BuildContext context) {
-    SSDKMap params = SSDKMap()
-      ..setGeneral(
-          "潍坊公交",
-          "了解 flutter",
-          ["https://image.shutterstock.com/image-vector/white-bus-vehicle-traveling-route-260nw-627370652.jpg"],
-          "http://flutter.dev",
-          null,
-          "http://flutter.dev",
-          "",
-          "",
-          "",
-          SSDKContentTypes.auto);
-    ShareSDK.showMenu(
-        [ShareSDKPlatforms.qq, ShareSDKPlatforms.qZone, ShareSDKPlatforms.wechatSeries, ShareSDKPlatforms.sina], params,
-        (SSDKResponseState state, ShareSDKPlatform platform, Map userData, Map contentEntity, SSDKError error) {
-      showAlert(state, error.rawData, context);
-    });
-  }
-
-  void showAlert(SSDKResponseState state, Map content, BuildContext context) {
-    print("--------------------------> state:" + state.toString());
-    String title = "分享失败";
-    switch (state) {
-      case SSDKResponseState.Success:
-        title = "分享成功";
-        break;
-      case SSDKResponseState.Fail:
-        title = "分享失败";
-        break;
-      case SSDKResponseState.Cancel:
-        title = "取消分享";
-        break;
-      default:
-        title = state.toString();
-        break;
-    }
-
-    if ("取消分享" != title) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) => CupertinoAlertDialog(
-              title: new Text(title),
-              content: new Text(content != null ? content.toString() : ""),
-              actions: <Widget>[
-                new FlatButton(
-                  child: new Text("OK"),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                )
-              ],
-            ),
+          ],
+        ),
       );
     }
   }
