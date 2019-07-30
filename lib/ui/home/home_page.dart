@@ -265,273 +265,278 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
       appBar: AppBar(
         title: searchBar(context),
       ),
-      body: FutureBuilder(
+      body: FutureBuilder<StartUpBasicInfoEntity>(
         future: _startUpBasicInfoEntity,
-        builder: (context, result) {
-          // 加载中.展示加载动画
-          if (result.connectionState == ConnectionState.active || result.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    width: ScreenUtil().setWidth(100),
-                    height: ScreenUtil().setWidth(100),
-                    child: SpinKitRotatingPlain(
-                      color: Colors.lightGreen,
-                      size: ScreenUtil().setWidth(100),
-                    ),
-                  ),
-                  Container(
-                    child: Text('加载中...'),
-                  )
-                ],
-              ),
-            );
-          }
-
-          // 加载完成
-          if (result.connectionState == ConnectionState.done) {
-            if (result.hasData) {
-              var startUpBasicInfoEntity = result.data as StartUpBasicInfoEntity;
-              // 是否展示轮播图
-              var canShowSlideShow = false;
-              // 是否展示资讯信息
-              var canShowHeadLine = false;
-              if (startUpBasicInfoEntity.slideshow.length > 0) {
-                canShowSlideShow = true;
-              }
-              if (_showNewsList.length > 0) {
-                canShowHeadLine = true;
-              }
-              return Container(
-                child: CustomScrollView(
-                  slivers: <Widget>[
-                    // 轮播图 + 资讯
-                    SliverPadding(
-                      padding: EdgeInsets.all(ScreenUtil().setWidth(0)),
-                      sliver: SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (context, index) {
-                            return Container(
-                              height: ScreenUtil().setHeight(609), // 435 + 174
-                              child: Column(
-                                children: <Widget>[
-                                  Expanded(
-                                    child: Padding(
-                                      padding: EdgeInsets.fromLTRB(
-                                        ScreenUtil().setWidth(0),
-                                        ScreenUtil().setWidth(30),
-                                        ScreenUtil().setWidth(0),
-                                        ScreenUtil().setWidth(30),
-                                      ),
-                                      child: canShowSlideShow
-                                          ? Swiper(
-                                              itemBuilder: (BuildContext context, int index) {
-                                                return ClipRRect(
-                                                  borderRadius: BorderRadius.all(
-                                                    Radius.circular(10),
-                                                  ),
-                                                  child: CachedNetworkImage(
-                                                    placeholder: (context, url) => Center(
-                                                          child: SpinKitFadingCube(
-                                                            color: Theme.of(context).primaryColor,
-                                                            size: ScreenUtil().setWidth(80),
-                                                          ),
-                                                        ),
-                                                    imageUrl: startUpBasicInfoEntity.slideshow[index].bannerurl,
-                                                    fadeInCurve: Curves.easeIn,
-                                                    fadeInDuration: Duration(seconds: 1),
-                                                    fit: BoxFit.fill,
-                                                  ),
-                                                );
-                                              },
-                                              itemCount: startUpBasicInfoEntity.slideshow.length,
-                                              viewportFraction: 0.9,
-                                              scale: 0.95,
-                                              autoplay: true,
-                                              duration: 400,
-                                              autoplayDelay: 4000,
-                                            )
-                                          : Center(
-                                              child: Text('暂无图片展示'),
-                                            ),
-                                    ),
-                                    flex: 5,
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      color: Colors.white70,
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                              left: ScreenUtil().setWidth(25),
-                                              right: ScreenUtil().setWidth(25),
-                                            ),
-                                            child: DecoratedBox(
-                                              decoration: BoxDecoration(
-                                                border: Border.all(color: Colors.deepOrangeAccent),
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(5),
-                                                ),
-                                                color: Colors.deepOrangeAccent,
-                                              ),
-                                              child: Padding(
-                                                child: Text(
-                                                  "资\n讯",
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                                padding: EdgeInsets.symmetric(
-                                                  vertical: ScreenUtil().setHeight(3),
-                                                  horizontal: ScreenUtil().setWidth(12),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Padding(
-                                              padding: EdgeInsets.only(
-                                                right: ScreenUtil().setWidth(31),
-                                              ),
-                                              child: Swiper(
-                                                itemBuilder: (BuildContext context, int index) {
-                                                  return Row(
-                                                    mainAxisAlignment: MainAxisAlignment.start,
-                                                    children: <Widget>[
-                                                      Expanded(
-                                                        child: canShowHeadLine
-                                                            ? Text(
-                                                                _showNewsList[index].title,
-                                                                maxLines: 2,
-                                                                overflow: TextOverflow.ellipsis,
-                                                                style: TextStyle(
-                                                                  fontSize: ScreenUtil().setSp(44),
-                                                                ),
-                                                              )
-                                                            : Text('暂无资讯信息'),
-                                                      ),
-                                                    ],
-                                                  );
-                                                },
-                                                scrollDirection: Axis.vertical,
-                                                itemCount: _showNewsList.length > 0 ? _showNewsList.length : 1,
-                                                autoplay: _showNewsList.length > 1,
-                                                duration: 600,
-                                                autoplayDelay: 6000,
-                                                onTap: (int index) {
-                                                  // 进入资讯详情
-                                                  if (_showNewsList.length > 0) {
-                                                    final Headline headLine = _showNewsList[index];
-                                                    Navigator.of(context).push(
-                                                      MaterialPageRoute(
-                                                        builder: (BuildContext context) {
-                                                          return InformationDetail(
-                                                            headLine: headLine,
-                                                          );
-                                                        },
-                                                      ),
-                                                    );
-                                                  } else {
-                                                    print('没有资讯信息，不响应点击事件');
-                                                  }
-                                                },
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    flex: 2,
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                          childCount: 1,
-                        ),
+        builder: (BuildContext context, AsyncSnapshot<StartUpBasicInfoEntity> snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+              return Text('Press button to start.');
+            case ConnectionState.active:
+            case ConnectionState.waiting:
+              // return Text('Awaiting result...');
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      width: ScreenUtil().setWidth(100),
+                      height: ScreenUtil().setWidth(100),
+                      child: SpinKitRotatingPlain(
+                        color: Colors.lightGreen,
+                        size: ScreenUtil().setWidth(100),
                       ),
                     ),
-                    // 菜单项
-                    SliverPadding(
-                      padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
-                      sliver: SliverGrid(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          mainAxisSpacing: ScreenUtil().setWidth(30),
-                          crossAxisSpacing: ScreenUtil().setWidth(30),
-                          childAspectRatio: 1.0,
-                        ),
-                        delegate: SliverChildBuilderDelegate(
-                          (BuildContext context, int index) {
-                            return InkWell(
-                              child: Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Container(
-                                      width: ScreenUtil().setWidth(180),
-                                      height: ScreenUtil().setHeight(180),
-                                      child: DecoratedBox(
-                                        decoration: BoxDecoration(
-                                          color: menuEntityList[index].color,
-                                          shape: BoxShape.circle,
-                                          boxShadow: [
-                                            BoxShadow(
-                                                color: Colors.black54,
-                                                offset: Offset(
-                                                  ScreenUtil().setWidth(2),
-                                                  ScreenUtil().setWidth(2),
-                                                ),
-                                                blurRadius: 4.0),
-                                          ],
-                                        ),
-                                        child: Center(
-                                          child: Icon(
-                                            menuEntityList[index].icon,
-                                            size: ScreenUtil().setWidth(80),
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.fromLTRB(
-                                        ScreenUtil().setWidth(0),
-                                        ScreenUtil().setHeight(25),
-                                        ScreenUtil().setWidth(0),
-                                        ScreenUtil().setHeight(0),
-                                      ),
-                                      child: Text(
-                                        menuEntityList[index].menuText,
-                                        style: TextStyle(
-                                          fontSize: ScreenUtil().setSp(40),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              onTap: menuEntityList[index].function,
-                            );
-                          },
-                          childCount: menuEntityList.length,
-                        ),
-                      ),
-                    ),
+                    Container(
+                      child: Text('加载中...'),
+                    )
                   ],
                 ),
               );
-            } else {
-              // 出现错误,重试机制
-              return reTryWidget();
-            }
+            case ConnectionState.done:
+              if (snapshot.hasError) {
+                // return Text('Error: ${snapshot.error}');
+                return reTryWidget();
+              }
+              // return Text('Result: ${snapshot.data}');
+              if (snapshot.hasData) {
+                var startUpBasicInfoEntity = snapshot.data as StartUpBasicInfoEntity;
+                // 是否展示轮播图
+                var canShowSlideShow = false;
+                // 是否展示资讯信息
+                var canShowHeadLine = false;
+                if (startUpBasicInfoEntity.slideshow.length > 0) {
+                  canShowSlideShow = true;
+                }
+                if (_showNewsList.length > 0) {
+                  canShowHeadLine = true;
+                }
+                return Container(
+                  child: CustomScrollView(
+                    slivers: <Widget>[
+                      // 轮播图 + 资讯
+                      SliverPadding(
+                        padding: EdgeInsets.all(ScreenUtil().setWidth(0)),
+                        sliver: SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) {
+                              return Container(
+                                height: ScreenUtil().setHeight(609), // 435 + 174
+                                child: Column(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: Padding(
+                                        padding: EdgeInsets.fromLTRB(
+                                          ScreenUtil().setWidth(0),
+                                          ScreenUtil().setWidth(30),
+                                          ScreenUtil().setWidth(0),
+                                          ScreenUtil().setWidth(30),
+                                        ),
+                                        child: canShowSlideShow
+                                            ? Swiper(
+                                                itemBuilder: (BuildContext context, int index) {
+                                                  return ClipRRect(
+                                                    borderRadius: BorderRadius.all(
+                                                      Radius.circular(10),
+                                                    ),
+                                                    child: CachedNetworkImage(
+                                                      placeholder: (context, url) => Center(
+                                                        child: SpinKitFadingCube(
+                                                          color: Theme.of(context).primaryColor,
+                                                          size: ScreenUtil().setWidth(80),
+                                                        ),
+                                                      ),
+                                                      imageUrl: startUpBasicInfoEntity.slideshow[index].bannerurl,
+                                                      fadeInCurve: Curves.easeIn,
+                                                      fadeInDuration: Duration(seconds: 1),
+                                                      fit: BoxFit.fill,
+                                                    ),
+                                                  );
+                                                },
+                                                itemCount: startUpBasicInfoEntity.slideshow.length,
+                                                viewportFraction: 0.9,
+                                                scale: 0.95,
+                                                autoplay: true,
+                                                duration: 400,
+                                                autoplayDelay: 4000,
+                                              )
+                                            : Center(
+                                                child: Text('暂无图片展示'),
+                                              ),
+                                      ),
+                                      flex: 5,
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                        color: Colors.white70,
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                left: ScreenUtil().setWidth(25),
+                                                right: ScreenUtil().setWidth(25),
+                                              ),
+                                              child: DecoratedBox(
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(color: Colors.deepOrangeAccent),
+                                                  borderRadius: BorderRadius.all(
+                                                    Radius.circular(5),
+                                                  ),
+                                                  color: Colors.deepOrangeAccent,
+                                                ),
+                                                child: Padding(
+                                                  child: Text(
+                                                    "资\n讯",
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                  padding: EdgeInsets.symmetric(
+                                                    vertical: ScreenUtil().setHeight(3),
+                                                    horizontal: ScreenUtil().setWidth(12),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Padding(
+                                                padding: EdgeInsets.only(
+                                                  right: ScreenUtil().setWidth(31),
+                                                ),
+                                                child: Swiper(
+                                                  itemBuilder: (BuildContext context, int index) {
+                                                    return Row(
+                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                      children: <Widget>[
+                                                        Expanded(
+                                                          child: canShowHeadLine
+                                                              ? Text(
+                                                                  _showNewsList[index].title,
+                                                                  maxLines: 2,
+                                                                  overflow: TextOverflow.ellipsis,
+                                                                  style: TextStyle(
+                                                                    fontSize: ScreenUtil().setSp(44),
+                                                                  ),
+                                                                )
+                                                              : Text('暂无资讯信息'),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                  scrollDirection: Axis.vertical,
+                                                  itemCount: _showNewsList.length > 0 ? _showNewsList.length : 1,
+                                                  autoplay: _showNewsList.length > 1,
+                                                  duration: 600,
+                                                  autoplayDelay: 6000,
+                                                  onTap: (int index) {
+                                                    // 进入资讯详情
+                                                    if (_showNewsList.length > 0) {
+                                                      final Headline headLine = _showNewsList[index];
+                                                      Navigator.of(context).push(
+                                                        MaterialPageRoute(
+                                                          builder: (BuildContext context) {
+                                                            return InformationDetail(
+                                                              headLine: headLine,
+                                                            );
+                                                          },
+                                                        ),
+                                                      );
+                                                    } else {
+                                                      print('没有资讯信息，不响应点击事件');
+                                                    }
+                                                  },
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      flex: 2,
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                            childCount: 1,
+                          ),
+                        ),
+                      ),
+                      // 菜单项
+                      SliverPadding(
+                        padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
+                        sliver: SliverGrid(
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            mainAxisSpacing: ScreenUtil().setWidth(30),
+                            crossAxisSpacing: ScreenUtil().setWidth(30),
+                            childAspectRatio: 1.0,
+                          ),
+                          delegate: SliverChildBuilderDelegate(
+                            (BuildContext context, int index) {
+                              return InkWell(
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      Container(
+                                        width: ScreenUtil().setWidth(180),
+                                        height: ScreenUtil().setHeight(180),
+                                        child: DecoratedBox(
+                                          decoration: BoxDecoration(
+                                            color: menuEntityList[index].color,
+                                            shape: BoxShape.circle,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color: Colors.black54,
+                                                  offset: Offset(
+                                                    ScreenUtil().setWidth(2),
+                                                    ScreenUtil().setWidth(2),
+                                                  ),
+                                                  blurRadius: 4.0),
+                                            ],
+                                          ),
+                                          child: Center(
+                                            child: Icon(
+                                              menuEntityList[index].icon,
+                                              size: ScreenUtil().setWidth(80),
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.fromLTRB(
+                                          ScreenUtil().setWidth(0),
+                                          ScreenUtil().setHeight(25),
+                                          ScreenUtil().setWidth(0),
+                                          ScreenUtil().setHeight(0),
+                                        ),
+                                        child: Text(
+                                          menuEntityList[index].menuText,
+                                          style: TextStyle(
+                                            fontSize: ScreenUtil().setSp(40),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                onTap: menuEntityList[index].function,
+                              );
+                            },
+                            childCount: menuEntityList.length,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }
           }
+          // return null; // unreachable
+          return reTryWidget();
         },
       ),
     );
