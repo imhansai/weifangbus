@@ -300,7 +300,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
               }
               // return Text('Result: ${snapshot.data}');
               if (snapshot.hasData) {
-                var startUpBasicInfoEntity = snapshot.data as StartUpBasicInfoEntity;
+                var startUpBasicInfoEntity = snapshot.data;
                 // 是否展示轮播图
                 var canShowSlideShow = false;
                 // 是否展示资讯信息
