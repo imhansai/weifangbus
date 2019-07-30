@@ -39,16 +39,16 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
   }
 
   // 菜单项
-  List<MenuEntity> menuEntityList;
+  List<MenuEntity> menuEntityList = List();
 
   // 初始页json数据实体类
   Future<StartUpBasicInfoEntity> _startUpBasicInfoEntity;
 
   // 资讯列表
-  List<Headline> _showNewsList;
+  List<Headline> _showNewsList = List();
 
   // 所有线路
-  List<MaterialSearchResult<String>> allRouteList;
+  List<MaterialSearchResult<String>> allRouteList = List();
 
   // 刷新资讯信息
   void _handleNewsListOnRefresh(List<Headline> newsList) {
@@ -70,7 +70,6 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
 
   // 设置菜单
   void setMenuEntityList() {
-    menuEntityList = List();
     MenuEntity lineInquiry = MenuEntity(
       Colors.lightGreen,
       MyIcons.lineInquiry,
@@ -141,16 +140,18 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
         var uri = "/BusService/Query_StartUpBasicInfo?" + getSignString();
         Response response = await dio.get(uri);
         var startUpBasicInfoEntity = EntityFactory.generateOBJ<StartUpBasicInfoEntity>(response.data);
-        print("请求首页数据完毕");
+        print("请求轮播图完毕");
         if (startUpBasicInfoEntity == null) {
           startUpBasicInfoEntity = StartUpBasicInfoEntity();
         }
-        if (startUpBasicInfoEntity.slideshow == null) {
-          startUpBasicInfoEntity.slideshow = List();
-        }
-        _showNewsList = startUpBasicInfoEntity.headline;
-        if (_showNewsList == null) {
-          _showNewsList = List();
+        if (startUpBasicInfoEntity.headline.length == 0) {
+          var uri = "/BusService/Query_ByNewInfoPartNP?index=1&" + getSignString();
+          Response response = await dio.get(uri);
+          List<dynamic> list = response.data;
+          _showNewsList = list.map((dynamic) => EntityFactory.generateOBJ<Headline>(dynamic)).toList();
+          print("请求资讯信息完毕");
+        } else {
+          _showNewsList = startUpBasicInfoEntity.headline;
         }
         return startUpBasicInfoEntity;
       } on DioError catch (e) {

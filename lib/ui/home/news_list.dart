@@ -164,17 +164,17 @@ class _NewsListPageState extends State<NewsListPage> {
                   ),
                 ),
                 onPressed: () => {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) {
-                            return InformationDetail(
-                              headLine: _showNewsList[index],
-                            );
-                          },
-                        ),
-                      ),
-                    },
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) {
+                        return InformationDetail(
+                          headLine: _showNewsList[index],
+                        );
+                      },
+                    ),
+                  ),
+                },
               );
             },
           ),
