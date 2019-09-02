@@ -31,9 +31,6 @@ class _NewsListPageState extends State<NewsListPage> {
 
   List<Headline> newsList;
   List<Headline> _showNewsList;
-  GlobalKey<EasyRefreshState> _easyRefreshKey = GlobalKey<EasyRefreshState>();
-  GlobalKey<RefreshHeaderState> _headerKey = GlobalKey<RefreshHeaderState>();
-  GlobalKey<RefreshFooterState> _footerKey = GlobalKey<RefreshFooterState>();
 
   // 请求资讯列表数据
   Future<List<Headline>> getNewsList() async {
@@ -78,106 +75,9 @@ class _NewsListPageState extends State<NewsListPage> {
         title: Text("资讯列表"),
       ),
       body: Center(
-        child: EasyRefresh(
-          emptyWidget: Container(
-            width: double.infinity,
-            height: ScreenUtil().setHeight(1611),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Icon(
-                  Icons.inbox,
-                  size: ScreenUtil().setWidth(130),
-                  color: Colors.grey,
-                ),
-                Text(
-                  "暂无资讯信息",
-                  style: TextStyle(
-                    fontSize: ScreenUtil().setSp(41),
-                    color: Colors.grey,
-                  ),
-                )
-              ],
-            ),
-          ),
-          key: _easyRefreshKey,
-          refreshHeader: PhoenixHeader(
-            key: _headerKey,
-          ),
-          refreshFooter: PhoenixFooter(
-            key: _footerKey,
-          ),
-          child: ListView.builder(
-            //ListView的Item
-            itemCount: _showNewsList.length,
-            itemBuilder: (BuildContext context, int index) {
-              return FlatButton(
-                padding: EdgeInsets.all(0.0),
-                child: Container(
-                  height: ScreenUtil().setHeight(210),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.all(
-                          ScreenUtil().setWidth(31),
-                        ),
-                        child: Row(
-                          children: <Widget>[
-                            Text(
-                              DateFormat("yyyy年MM月dd日")
-                                  .format(DateTime.parse(_showNewsList[index].realeasetime))
-                                  .toString(),
-                              style: TextStyle(
-                                color: Colors.orange,
-                                fontSize: ScreenUtil().setSp(50),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            left: ScreenUtil().setWidth(31),
-                          ),
-                          child: Text(
-                            _showNewsList[index].title,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: ScreenUtil().setSp(45),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: double.infinity,
-                        height: ScreenUtil().setHeight(1),
-                        padding: EdgeInsets.only(left: ScreenUtil().setWidth(13), right: ScreenUtil().setWidth(13)),
-                        child: Container(
-                          color: Colors.black12,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                onPressed: () => {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (BuildContext context) {
-                        return InformationDetail(
-                          headLine: _showNewsList[index],
-                        );
-                      },
-                    ),
-                  ),
-                },
-              );
-            },
-          ),
+        child: EasyRefresh.custom(
+          header: PhoenixHeader(),
+          footer: PhoenixFooter(),
           onRefresh: () async {
             var connectivityResult = await (Connectivity().checkConnectivity());
             if (connectivityResult != ConnectivityResult.none) {
@@ -197,9 +97,79 @@ class _NewsListPageState extends State<NewsListPage> {
               showSnackBar('设备未连接到任何网络,请连接网络后重试!');
             }
           },
-          /*loadMore: () async {
-            print('已经是全部了，俺也是有底线的');
-          },*/
+          slivers: <Widget>[
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  return FlatButton(
+                    padding: EdgeInsets.all(0.0),
+                    child: Container(
+                      height: ScreenUtil().setHeight(210),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.all(
+                              ScreenUtil().setWidth(31),
+                            ),
+                            child: Row(
+                              children: <Widget>[
+                                Text(
+                                  DateFormat("yyyy年MM月dd日")
+                                      .format(DateTime.parse(_showNewsList[index].realeasetime))
+                                      .toString(),
+                                  style: TextStyle(
+                                    color: Colors.orange,
+                                    fontSize: ScreenUtil().setSp(50),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                left: ScreenUtil().setWidth(31),
+                              ),
+                              child: Text(
+                                _showNewsList[index].title,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: ScreenUtil().setSp(45),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width: double.infinity,
+                            height: ScreenUtil().setHeight(1),
+                            padding: EdgeInsets.only(left: ScreenUtil().setWidth(13), right: ScreenUtil().setWidth(13)),
+                            child: Container(
+                              color: Colors.black12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    onPressed: () => {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) {
+                            return InformationDetail(
+                              headLine: _showNewsList[index],
+                            );
+                          },
+                        ),
+                      ),
+                    },
+                  );
+                },
+                childCount: _showNewsList.length,
+              ),
+            ),
+          ],
         ),
       ),
     );
