@@ -42,7 +42,7 @@ packages:
       name: connectivity
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.4.3+7"
+    version: "0.4.4"
   convert:
     dependency: transitive
     description:
@@ -110,7 +110,7 @@ packages:
       name: flutter_easyrefresh
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.0.3"
+    version: "2.0.4"
   flutter_html:
     dependency: "direct main"
     description:
@@ -192,7 +192,7 @@ packages:
       name: jpush_flutter
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.0.13"
+    version: "0.1.0"
   matcher:
     dependency: transitive
     description:
