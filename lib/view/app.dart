@@ -3,8 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jpush_flutter/jpush_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:weifangbus/view/home.dart';
+import 'package:weifangbus/view/store/NewsListModel.dart';
 
+/// 设置极光推送及 Provider
 class WeiFangBusApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -24,12 +27,21 @@ class _WeiFangBusApp extends State<WeiFangBusApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "潍坊公交",
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(builder: (_) => NewsListModel()),
+      ],
+      child: Consumer(
+        builder: (context, NewsListModel _showNewsList, _) {
+          return MaterialApp(
+            title: "潍坊公交",
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+            ),
+            home: Home(),
+          );
+        },
       ),
-      home: Home(),
     );
   }
 

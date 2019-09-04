@@ -4,6 +4,7 @@ import 'package:weifangbus/view/explore/explore_page.dart';
 import 'package:weifangbus/view/home/home_page.dart';
 import 'package:weifangbus/view/more/more_page.dart';
 
+/// 主页
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
