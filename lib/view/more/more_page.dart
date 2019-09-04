@@ -4,11 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:weifangbus/ui/more/about_company.dart';
-import 'package:weifangbus/ui/more/about_me.dart';
-import 'package:weifangbus/ui/more/about_software.dart';
-import 'package:weifangbus/ui/more/settings.dart';
-import 'package:weifangbus/utils/fontUtil.dart';
+import 'package:weifangbus/util/fontUtil.dart';
+import 'package:weifangbus/view/more/about_company.dart';
+import 'package:weifangbus/view/more/about_me.dart';
+import 'package:weifangbus/view/more/about_software.dart';
+import 'package:weifangbus/view/more/settings.dart';
 import 'package:weifangbus/widget/list_item.dart';
 
 class MorePage extends StatefulWidget {

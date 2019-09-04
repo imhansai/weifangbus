@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jpush_flutter/jpush_flutter.dart';
-import 'package:weifangbus/ui/home.dart';
+import 'package:weifangbus/view/home.dart';
 
 class WeiFangBusApp extends StatefulWidget {
   @override

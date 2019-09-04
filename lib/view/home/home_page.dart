@@ -11,14 +11,14 @@ import 'package:weifangbus/entity/all_route_data_entity.dart';
 import 'package:weifangbus/entity/headline_entity.dart';
 import 'package:weifangbus/entity/startup_basic_info_entity.dart';
 import 'package:weifangbus/entity_factory.dart';
-import 'package:weifangbus/ui/home/guide.dart';
-import 'package:weifangbus/ui/home/news_detail.dart';
-import 'package:weifangbus/ui/home/news_list.dart';
-import 'package:weifangbus/ui/home/route_detail.dart';
-import 'package:weifangbus/ui/home/search_input.dart';
-import 'package:weifangbus/utils/dioUtil.dart';
-import 'package:weifangbus/utils/fontUtil.dart';
-import 'package:weifangbus/utils/requestParamsUtil.dart';
+import 'package:weifangbus/util/dioUtil.dart';
+import 'package:weifangbus/util/fontUtil.dart';
+import 'package:weifangbus/util/requestParamsUtil.dart';
+import 'package:weifangbus/view/home/guide.dart';
+import 'package:weifangbus/view/home/news_detail.dart';
+import 'package:weifangbus/view/home/news_list.dart';
+import 'package:weifangbus/view/home/route_detail.dart';
+import 'package:weifangbus/view/home/search_input.dart';
 
 /// 首页
 class HomePage extends StatefulWidget {

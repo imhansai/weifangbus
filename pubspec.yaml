@@ -36,6 +36,7 @@ dependencies:
   flutter_easyrefresh: ^2.0.4
   jpush_flutter: 0.1.0
   flutter_icons: ^0.1.4
+  provider: ^3.1.0
 
 dev_dependencies:
   flutter_test:

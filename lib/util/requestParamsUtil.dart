@@ -7,7 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 import 'package:weifangbus/entity/route_stat_data_entity.dart';
 import 'package:weifangbus/entity_factory.dart';
-import 'package:weifangbus/utils/dioUtil.dart';
+import 'package:weifangbus/util/dioUtil.dart';
 
 Future main() async {
   try {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:weifangbus/utils/fontUtil.dart';
+import 'package:weifangbus/util/fontUtil.dart';
 import 'package:weifangbus/widget/list_item.dart';
 
 /// 关于我

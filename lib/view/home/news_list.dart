@@ -10,9 +10,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:weifangbus/entity/headline_entity.dart';
 import 'package:weifangbus/entity_factory.dart';
-import 'package:weifangbus/ui/home/news_detail.dart';
-import 'package:weifangbus/utils/dioUtil.dart';
-import 'package:weifangbus/utils/requestParamsUtil.dart';
+import 'package:weifangbus/util/dioUtil.dart';
+import 'package:weifangbus/util/requestParamsUtil.dart';
+import 'package:weifangbus/view/home/news_detail.dart';
 
 /// 资讯列表页
 class NewsListPage extends StatefulWidget {

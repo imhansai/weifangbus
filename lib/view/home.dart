@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:weifangbus/ui/explore/explore_page.dart';
-import 'package:weifangbus/ui/home/home_page.dart';
-import 'package:weifangbus/ui/more/more_page.dart';
+import 'package:weifangbus/view/explore/explore_page.dart';
+import 'package:weifangbus/view/home/home_page.dart';
+import 'package:weifangbus/view/more/more_page.dart';
 
 class Home extends StatefulWidget {
   @override
