@@ -2,11 +2,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:weifangbus/entity/headline_entity.dart';
 import 'package:weifangbus/entity_factory.dart';
-import 'package:weifangbus/util/dioUtil.dart';
-import 'package:weifangbus/util/requestParamsUtil.dart';
+import 'package:weifangbus/util/dio_util.dart';
+import 'package:weifangbus/util/request_params_util.dart';
 
 // 资讯信息
-class NewsListModel with ChangeNotifier {
+class NewsModel with ChangeNotifier {
   //  资讯信息
   List<Headline> _showNewsList = List();
 

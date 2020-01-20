@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:jpush_flutter/jpush_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:weifangbus/view/home.dart';
-import 'package:weifangbus/view/store/NewsListModel.dart';
+import 'package:weifangbus/view/store/news_model.dart';
 
 /// 设置极光推送及 Provider
 class WeiFangBusApp extends StatefulWidget {
@@ -22,6 +22,8 @@ class _WeiFangBusApp extends State<WeiFangBusApp> {
   @override
   void initState() {
     super.initState();
+    // 强制竖屏
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     initPlatformState();
   }
 
@@ -29,18 +31,14 @@ class _WeiFangBusApp extends State<WeiFangBusApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(builder: (_) => NewsListModel()),
+        ChangeNotifierProvider<NewsModel>(create: (_) => NewsModel()),
       ],
-      child: Consumer(
-        builder: (context, NewsListModel _showNewsList, _) {
-          return MaterialApp(
-            title: "潍坊公交",
-            theme: ThemeData(
-              primarySwatch: Colors.blue,
-            ),
-            home: Home(),
-          );
-        },
+      child: MaterialApp(
+        title: "潍坊公交",
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: Home(),
       ),
     );
   }

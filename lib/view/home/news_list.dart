@@ -7,7 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:weifangbus/view/home/news_detail.dart';
-import 'package:weifangbus/view/store/NewsListModel.dart';
+import 'package:weifangbus/view/store/news_model.dart';
 
 /// 资讯列表页
 class NewsListPage extends StatefulWidget {
@@ -35,13 +35,15 @@ class _NewsListPageState extends State<NewsListPage> {
 
   @override
   Widget build(BuildContext context) {
+    print('_NewsListPageState.build');
+
     return Scaffold(
       key: _newsListKey,
       appBar: AppBar(
         title: Text("资讯列表"),
       ),
-      body: Consumer<NewsListModel>(
-        builder: (context, NewsListModel _showNewsList, _) => Center(
+      body: Consumer<NewsModel>(
+        builder: (context, NewsModel _showNewsList, _) => Center(
           child: EasyRefresh.custom(
             header: PhoenixHeader(),
             footer: PhoenixFooter(),

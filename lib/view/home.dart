@@ -30,7 +30,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.instance = ScreenUtil(width: 1080, height: 1920, allowFontScaling: true)..init(context);
+    ScreenUtil.init(context,width: 1080, height: 1920, allowFontScaling: true);
     return Scaffold(
       body: PageView(
         controller: _controller,

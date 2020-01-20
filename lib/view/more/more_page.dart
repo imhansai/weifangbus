@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:weifangbus/util/fontUtil.dart';
+import 'package:weifangbus/util/font_util.dart';
 import 'package:weifangbus/view/more/about_company.dart';
 import 'package:weifangbus/view/more/about_me.dart';
 import 'package:weifangbus/view/more/about_software.dart';

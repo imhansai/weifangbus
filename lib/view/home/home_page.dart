@@ -12,15 +12,15 @@ import 'package:weifangbus/entity/all_route_data_entity.dart';
 import 'package:weifangbus/entity/headline_entity.dart';
 import 'package:weifangbus/entity/startup_basic_info_entity.dart';
 import 'package:weifangbus/entity_factory.dart';
-import 'package:weifangbus/util/dioUtil.dart';
-import 'package:weifangbus/util/fontUtil.dart';
-import 'package:weifangbus/util/requestParamsUtil.dart';
+import 'package:weifangbus/util/dio_util.dart';
+import 'package:weifangbus/util/font_util.dart';
+import 'package:weifangbus/util/request_params_util.dart';
 import 'package:weifangbus/view/home/guide.dart';
 import 'package:weifangbus/view/home/news_detail.dart';
 import 'package:weifangbus/view/home/news_list.dart';
 import 'package:weifangbus/view/home/route_detail.dart';
 import 'package:weifangbus/view/home/search_input.dart';
-import 'package:weifangbus/view/store/NewsListModel.dart';
+import 'package:weifangbus/view/store/news_model.dart';
 
 /// 首页
 class HomePage extends StatefulWidget {
@@ -29,12 +29,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
+//  final _newsModel = NewsModel();
+
   @override
   bool get wantKeepAlive => true;
 
   @override
   void initState() {
     super.initState();
+//    _newsModel.refreshNewsList();
     setMenuEntityList();
     _startUpBasicInfoEntity = getStartUpBasicInfoEntity();
     getAllRoute();
@@ -246,8 +249,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
       appBar: AppBar(
         title: searchBar(context),
       ),
-      body: Consumer<NewsListModel>(
-        builder: (context, NewsListModel _showNewsList, _) {
+      body: Consumer<NewsModel>(
+        builder: (context, NewsModel _showNewsList, _) {
           return FutureBuilder<StartUpBasicInfoEntity>(
             future: _startUpBasicInfoEntity,
             builder: (BuildContext context, AsyncSnapshot<StartUpBasicInfoEntity> snapshot) {
