@@ -35,15 +35,13 @@ class _NewsListPageState extends State<NewsListPage> {
 
   @override
   Widget build(BuildContext context) {
-    print('_NewsListPageState.build');
-
     return Scaffold(
       key: _newsListKey,
       appBar: AppBar(
         title: Text("资讯列表"),
       ),
       body: Consumer<NewsModel>(
-        builder: (context, NewsModel _showNewsList, _) => Center(
+        builder: (context, _showNewsList, _) => Center(
           child: EasyRefresh.custom(
             header: PhoenixHeader(),
             footer: PhoenixFooter(),
@@ -51,7 +49,7 @@ class _NewsListPageState extends State<NewsListPage> {
               var connectivityResult = await (Connectivity().checkConnectivity());
               if (connectivityResult != ConnectivityResult.none) {
                 try {
-                  _showNewsList.refreshNewsList();
+                  Provider.of<NewsModel>(context, listen: false).refreshNewsList();
                   showSnackBar('刷新成功!');
                 } catch (e) {
                   print('刷新资讯列表出错::: $e');

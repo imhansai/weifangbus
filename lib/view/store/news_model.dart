@@ -34,4 +34,8 @@ class NewsModel with ChangeNotifier {
       return Future.error(e);
     }
   }
+
+  NewsModel() {
+    refreshNewsList();
+  }
 }

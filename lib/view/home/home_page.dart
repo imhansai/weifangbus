@@ -10,6 +10,7 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:provider/provider.dart';
 import 'package:weifangbus/entity/all_route_data_entity.dart';
 import 'package:weifangbus/entity/headline_entity.dart';
+import 'package:weifangbus/entity/menu_entity.dart';
 import 'package:weifangbus/entity/startup_basic_info_entity.dart';
 import 'package:weifangbus/entity_factory.dart';
 import 'package:weifangbus/util/dio_util.dart';
@@ -20,6 +21,7 @@ import 'package:weifangbus/view/home/news_detail.dart';
 import 'package:weifangbus/view/home/news_list.dart';
 import 'package:weifangbus/view/home/route_detail.dart';
 import 'package:weifangbus/view/home/search_input.dart';
+import 'package:weifangbus/view/home/searchbar/search_bar.dart';
 import 'package:weifangbus/view/store/news_model.dart';
 
 /// 首页
@@ -29,18 +31,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
-//  final _newsModel = NewsModel();
-
   @override
   bool get wantKeepAlive => true;
 
   @override
   void initState() {
     super.initState();
-//    _newsModel.refreshNewsList();
     setMenuEntityList();
     _startUpBasicInfoEntity = getStartUpBasicInfoEntity();
     getAllRoute();
+    Future.microtask(() => Provider.of<NewsModel>(context, listen: false).refreshNewsList());
   }
 
   // 菜单项
@@ -185,6 +185,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
     setState(() {
       _startUpBasicInfoEntity = getStartUpBasicInfoEntity();
       getAllRoute();
+      Future.microtask(() => Provider.of<NewsModel>(context, listen: false).refreshNewsList());
     });
   }
 
@@ -205,52 +206,15 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
     );
   }
 
-  // 搜索栏
-  Widget searchBar(BuildContext context) {
-    return Center(
-      child: Container(
-        decoration: BoxDecoration(
-          color: Theme.of(context).backgroundColor,
-          borderRadius: BorderRadius.circular(4.0),
-        ),
-        child: Row(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(
-                right: ScreenUtil().setWidth(25),
-                left: ScreenUtil().setWidth(25),
-              ),
-              child: Icon(
-                Icons.search,
-                size: ScreenUtil().setWidth(60),
-                color: Theme.of(context).accentColor,
-              ),
-            ),
-            Expanded(
-              child: MaterialSearchInput(
-                placeholder: "搜索线路",
-                results: allRouteList,
-                filter: (dynamic value, String criteria) {
-                  return value.toLowerCase().trim().contains(RegExp(r'' + criteria.toLowerCase().trim() + ''));
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
-
     return Scaffold(
       appBar: AppBar(
-        title: searchBar(context),
+        title: SearchBar(allRouteList: allRouteList),
       ),
       body: Consumer<NewsModel>(
-        builder: (context, NewsModel _showNewsList, _) {
+        builder: (context, _showNewsList, _) {
           return FutureBuilder<StartUpBasicInfoEntity>(
             future: _startUpBasicInfoEntity,
             builder: (BuildContext context, AsyncSnapshot<StartUpBasicInfoEntity> snapshot) {
@@ -531,14 +495,4 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
       ),
     );
   }
-}
-
-// 菜单实体类
-class MenuEntity {
-  Color color;
-  IconData icon;
-  String menuText;
-  Function function;
-
-  MenuEntity(this.color, this.icon, this.menuText, this.function);
 }
