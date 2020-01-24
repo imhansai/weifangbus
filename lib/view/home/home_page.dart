@@ -40,7 +40,6 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
     setMenuEntityList();
     _startUpBasicInfoEntity = getStartUpBasicInfoEntity();
     getAllRoute();
-    Future.microtask(() => Provider.of<NewsModel>(context, listen: false).refreshNewsList());
   }
 
   // 菜单项
