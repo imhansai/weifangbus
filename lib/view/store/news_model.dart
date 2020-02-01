@@ -30,7 +30,7 @@ class NewsModel with ChangeNotifier {
       }
       return newsList;
     } on DioError catch (e) {
-      print('请求资讯列表数据出错::: $e');
+      print(getErrorMsg(e, msg: "请求资讯列表数据"));
       return Future.error(e);
     }
   }
