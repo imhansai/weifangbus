@@ -16,8 +16,8 @@ class _LinkTextSpan extends TextSpan {
 
 void showAboutSoftWareDialog(BuildContext context) {
   final ThemeData themeData = Theme.of(context);
-  final TextStyle aboutTextStyle = themeData.textTheme.body2;
-  final TextStyle linkStyle = themeData.textTheme.body2.copyWith(color: themeData.accentColor);
+  final TextStyle aboutTextStyle = themeData.textTheme.bodyText1;
+  final TextStyle linkStyle = themeData.textTheme.bodyText1.copyWith(color: themeData.accentColor);
 
   showAboutDialog(
     context: context,

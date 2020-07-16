@@ -265,7 +265,7 @@ class _MaterialSearchState<T> extends State<MaterialSearch> {
           controller: _controller,
           autofocus: true,
           decoration: InputDecoration.collapsed(hintText: widget.placeholder),
-          style: Theme.of(context).textTheme.title,
+          style: Theme.of(context).textTheme.headline6,
           onSubmitted: (String value) {
             if (widget.onSubmit != null) {
               widget.onSubmit(value);

@@ -25,21 +25,11 @@ class _AboutMeState extends State<AboutMe> {
               background: Center(
                 child: Container(
                   width: ScreenUtil().setWidth(280),
-                  height: ScreenUtil().setHeight(280),
-                  child: PreferredSize(
-                    preferredSize: Size(
-                      ScreenUtil().setWidth(80),
-                      ScreenUtil().setHeight(80),
-                    ),
-                    child: Container(
-                      child: ClipOval(
-                        child: Container(
-                          color: Colors.white,
-                          child: Image.asset(
-                            "assets/images/head.png",
-                            fit: BoxFit.fitWidth,
-                          ),
-                        ),
+                  child: Container(
+                    child: ClipOval(
+                      child: Image.asset(
+                        "assets/images/head.png",
+                        fit: BoxFit.fitWidth,
                       ),
                     ),
                   ),

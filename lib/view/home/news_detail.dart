@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_html/style.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:weifangbus/entity/headline_entity.dart';
@@ -102,8 +103,7 @@ class _InformationDetail extends State<InformationDetail> {
                                 child: Text(
                                   '发布时间: ' +
                                       DateFormat("yyyy年MM月dd日 HH点mm分ss秒")
-                                          .format(DateTime.parse(
-                                              widget.headLine.realeasedatetime))
+                                          .format(DateTime.parse(widget.headLine.realeasedatetime))
                                           .toString(),
                                   style: TextStyle(
                                     color: Colors.grey,
@@ -118,10 +118,12 @@ class _InformationDetail extends State<InformationDetail> {
                     ),
                     Html(
                       data: widget.headLine.content,
-                      defaultTextStyle: TextStyle(
-                        fontFamily: 'serif',
-                        fontSize: ScreenUtil().setSp(50),
-                      ),
+                      style: {
+                        "html": Style(
+                          fontFamily: 'serif',
+                          fontSize: FontSize(ScreenUtil().setSp(50)),
+                        )
+                      },
                     ),
                   ],
                 ),
@@ -138,8 +140,7 @@ class _InformationDetail extends State<InformationDetail> {
               tooltip: "返回顶部",
               onPressed: () {
                 // 返回到顶部时执行动画
-                _controller.animateTo(.0,
-                    duration: Duration(milliseconds: 200), curve: Curves.ease);
+                _controller.animateTo(.0, duration: Duration(milliseconds: 200), curve: Curves.ease);
               },
             ),
     );

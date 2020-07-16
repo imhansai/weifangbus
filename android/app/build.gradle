@@ -44,20 +44,6 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-        ndk {
-            //选择要添加的对应 cpu 类型的 .so 库。
-            abiFilters 'armeabi', 'armeabi-v7a', 'x86', 'x86_64', 'mips', 'mips64', 'arm64-v8a'
-            // 还可以添加
-        }
-
-        manifestPlaceholders = [
-                JPUSH_PKGNAME : applicationId,
-                // JPush 上注册的包名对应的 Appkey.
-                JPUSH_APPKEY : "f0ac3212b863478a3ee578d5",
-                // 暂时填写默认值即可.
-                JPUSH_CHANNEL : "developer-default",
-        ]
     }
 
     buildTypes {
@@ -74,7 +60,7 @@ flutter {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.61"
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.72'
     implementation "androidx.annotation:annotation:1.1.0"
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
