@@ -25,17 +25,17 @@ dependencies:
   url_launcher: ^5.5.0
   device_info: ^0.4.2+4
   connectivity: ^0.4.9
-  dio: ^3.0.9
+  dio: ^3.0.10
   crypto: ^2.1.5
   intl: ^0.16.1
   flutter_swiper: ^1.1.6
-  flutter_html: ^1.0.0
+  flutter_html: ^1.0.2
   cached_network_image: ^2.2.0+1
   flutter_spinkit: ^4.1.2+1
-  flutter_screenutil: ^2.2.0
-  flutter_easyrefresh: ^2.1.1
+  flutter_screenutil: ^2.3.1
+  flutter_easyrefresh: ^2.1.5
   flutter_icons: ^1.1.0
-  provider: ^4.3.1
+  provider: ^4.3.2
 
 #dev_dependencies:
 #  flutter_test:
