@@ -30,7 +30,8 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
+class _HomePageState extends State<HomePage>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
@@ -78,7 +79,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                   placeholder: "搜索线路",
                   results: allRouteList,
                   filter: (dynamic value, String criteria) {
-                    return value.toLowerCase().trim().contains(RegExp(r'' + criteria.toLowerCase().trim() + ''));
+                    return value.toLowerCase().trim().contains(
+                        RegExp(r'' + criteria.toLowerCase().trim() + ''));
                   },
                 ),
               );
@@ -129,7 +131,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
       try {
         var uri = "/BusService/Query_StartUpBasicInfo?" + getSignString();
         Response response = await dio.get(uri);
-        var startUpBasicInfoEntity = EntityFactory.generateOBJ<StartUpBasicInfoEntity>(response.data);
+        var startUpBasicInfoEntity =
+            EntityFactory.generateOBJ<StartUpBasicInfoEntity>(response.data);
         print("请求轮播图完毕");
         if (startUpBasicInfoEntity == null) {
           startUpBasicInfoEntity = StartUpBasicInfoEntity();
@@ -152,7 +155,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
       Response response;
       var uri = "/BusService/Require_AllRouteData/?" + getSignString();
       response = await dio.get(uri);
-      AllroutedataEntity allRouteDataEntity = EntityFactory.generateOBJ<AllroutedataEntity>(response.data);
+      AllroutedataEntity allRouteDataEntity =
+          EntityFactory.generateOBJ<AllroutedataEntity>(response.data);
       print("请求全部线路完成");
       setState(() {
         allRouteList = allRouteDataEntity.routelist
@@ -185,7 +189,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
     setState(() {
       _startUpBasicInfoEntity = getStartUpBasicInfoEntity();
       getAllRoute();
-      Future.microtask(() => Provider.of<NewsModel>(context, listen: false).refreshNewsList());
+      Future.microtask(() =>
+          Provider.of<NewsModel>(context, listen: false).refreshNewsList());
     });
   }
 
@@ -231,7 +236,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
   }
 
   // 页面内容展示
-  Widget contentWidget(AsyncSnapshot<StartUpBasicInfoEntity> snapshot, NewsModel _showNewsList) {
+  Widget contentWidget(
+      AsyncSnapshot<StartUpBasicInfoEntity> snapshot, NewsModel _showNewsList) {
     var startUpBasicInfoEntity = snapshot.data;
     // 是否展示轮播图
     var canShowSlideShow = false;
@@ -246,7 +252,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
     return Container(
       child: CustomScrollView(
         slivers: <Widget>[
-          swiperAndInfoWidget(canShowSlideShow, startUpBasicInfoEntity, canShowHeadLine, _showNewsList),
+          swiperAndInfoWidget(canShowSlideShow, startUpBasicInfoEntity,
+              canShowHeadLine, _showNewsList),
           menuWidget(),
         ],
       ),
@@ -254,7 +261,10 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
   }
 
   // 轮播图 + 资讯
-  Widget swiperAndInfoWidget(bool canShowSlideShow, StartUpBasicInfoEntity startUpBasicInfoEntity, bool canShowHeadLine,
+  Widget swiperAndInfoWidget(
+      bool canShowSlideShow,
+      StartUpBasicInfoEntity startUpBasicInfoEntity,
+      bool canShowHeadLine,
       NewsModel _showNewsList) {
     return SliverPadding(
       padding: EdgeInsets.all(ScreenUtil().setWidth(0)),
@@ -278,7 +288,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
   }
 
   // 咨询信息
-  Expanded infoShowWidget(bool canShowHeadLine, NewsModel _showNewsList, BuildContext context) {
+  Expanded infoShowWidget(
+      bool canShowHeadLine, NewsModel _showNewsList, BuildContext context) {
     return Expanded(
       child: Container(
         color: Colors.white70,
@@ -318,6 +329,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                   right: ScreenUtil().setWidth(31),
                 ),
                 child: Swiper(
+                  physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (BuildContext context, int index) {
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -338,14 +350,17 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                     );
                   },
                   scrollDirection: Axis.vertical,
-                  itemCount: _showNewsList.showNewsList.length > 0 ? _showNewsList.showNewsList.length : 1,
+                  itemCount: _showNewsList.showNewsList.length > 0
+                      ? _showNewsList.showNewsList.length
+                      : 1,
                   autoplay: _showNewsList.showNewsList.length > 1,
                   duration: 600,
                   autoplayDelay: 6000,
                   onTap: (int index) {
                     // 进入资讯详情
                     if (_showNewsList.showNewsList.length > 0) {
-                      final Headline headLine = _showNewsList.showNewsList[index];
+                      final Headline headLine =
+                          _showNewsList.showNewsList[index];
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (BuildContext context) {
@@ -370,7 +385,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
   }
 
   // 轮播图
-  Expanded slideShowWidget(bool canShowSlideShow, StartUpBasicInfoEntity startUpBasicInfoEntity) {
+  Expanded slideShowWidget(
+      bool canShowSlideShow, StartUpBasicInfoEntity startUpBasicInfoEntity) {
     return Expanded(
       child: Padding(
         padding: EdgeInsets.fromLTRB(
@@ -393,7 +409,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                           size: ScreenUtil().setWidth(80),
                         ),
                       ),
-                      imageUrl: startUpBasicInfoEntity.slideshow[index].bannerurl,
+                      imageUrl:
+                          startUpBasicInfoEntity.slideshow[index].bannerurl,
                       fadeInCurve: Curves.easeIn,
                       fadeInDuration: Duration(seconds: 1),
                       fit: BoxFit.fill,
@@ -497,7 +514,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
         builder: (context, _showNewsList, _) {
           return FutureBuilder<StartUpBasicInfoEntity>(
             future: _startUpBasicInfoEntity,
-            builder: (BuildContext context, AsyncSnapshot<StartUpBasicInfoEntity> snapshot) {
+            builder: (BuildContext context,
+                AsyncSnapshot<StartUpBasicInfoEntity> snapshot) {
               switch (snapshot.connectionState) {
                 case ConnectionState.none:
                   return Text('Press button to start.');

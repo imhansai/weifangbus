@@ -12,12 +12,15 @@ import 'package:weifangbus/util/dio_util.dart';
 Future main() async {
   try {
     Response response;
-    var uri = "/BusService/Require_RouteStatData/?RouteID=1212&" + getSignString();
+    var uri =
+        "/BusService/Require_RouteStatData/?RouteID=1212&" + getSignString();
     print(uri);
     response = await dio.get(uri);
     List<dynamic> list = response.data;
-    List<RouteStatDataEntity> routeStatDataEntityList =
-        list.map((dynamic) => EntityFactory.generateOBJ<RouteStatDataEntity>(dynamic)).toList();
+    List<RouteStatDataEntity> routeStatDataEntityList = list
+        .map((dynamic) =>
+            EntityFactory.generateOBJ<RouteStatDataEntity>(dynamic))
+        .toList();
     print(routeStatDataEntityList.length);
     print(routeStatDataEntityList[0].toJson());
   } catch (e) {
@@ -26,7 +29,8 @@ Future main() async {
 }
 
 /// 获取时间戳
-getTimeStamp() => DateFormat("yyyyMMddHHmmss").format(DateTime.now()).toString();
+getTimeStamp() =>
+    DateFormat("yyyyMMddHHmmss").format(DateTime.now()).toString();
 
 /// 获取随机数
 getRandom() => (100 + Random().nextInt(900)).toString();
@@ -53,5 +57,10 @@ getSignKey(timeStamp, random) {
 getSignString() {
   var timeStamp = getTimeStamp();
   var random = getRandom();
-  return "TimeStamp=" + timeStamp + "&Random=" + random + "&SignKey=" + getSignKey(timeStamp, random);
+  return "TimeStamp=" +
+      timeStamp +
+      "&Random=" +
+      random +
+      "&SignKey=" +
+      getSignKey(timeStamp, random);
 }
