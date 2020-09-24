@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
@@ -46,10 +47,12 @@ class _NewsListPageState extends State<NewsListPage> {
             header: PhoenixHeader(),
             footer: PhoenixFooter(),
             onRefresh: () async {
-              var connectivityResult = await (Connectivity().checkConnectivity());
+              var connectivityResult =
+                  await (Connectivity().checkConnectivity());
               if (connectivityResult != ConnectivityResult.none) {
                 try {
-                  Provider.of<NewsModel>(context, listen: false).refreshNewsList();
+                  Provider.of<NewsModel>(context, listen: false)
+                      .refreshNewsList();
                   showSnackBar('刷新成功!');
                 } catch (e) {
                   print('刷新资讯列表出错::: $e');
@@ -78,7 +81,8 @@ class _NewsListPageState extends State<NewsListPage> {
                                 children: <Widget>[
                                   Text(
                                     DateFormat("yyyy年MM月dd日")
-                                        .format(DateTime.parse(_showNewsList.showNewsList[index].realeasetime))
+                                        .format(DateTime.parse(_showNewsList
+                                            .showNewsList[index].realeasetime))
                                         .toString(),
                                     style: TextStyle(
                                       color: Colors.orange,
@@ -93,21 +97,24 @@ class _NewsListPageState extends State<NewsListPage> {
                                 padding: EdgeInsets.only(
                                   left: ScreenUtil().setWidth(31),
                                 ),
-                                child: Text(
+                                child: AutoSizeText(
                                   _showNewsList.showNewsList[index].title,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     fontSize: ScreenUtil().setSp(45),
                                   ),
+                                  // minFontSize: 10,
+                                  // stepGranularity: 10,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ),
                             Container(
                               width: double.infinity,
                               height: ScreenUtil().setHeight(1),
-                              padding:
-                                  EdgeInsets.only(left: ScreenUtil().setWidth(13), right: ScreenUtil().setWidth(13)),
+                              padding: EdgeInsets.only(
+                                  left: ScreenUtil().setWidth(13),
+                                  right: ScreenUtil().setWidth(13)),
                               child: Container(
                                 color: Colors.black12,
                               ),

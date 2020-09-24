@@ -1,4 +1,6 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RouteDetail extends StatefulWidget {
   final String title;
@@ -15,7 +17,11 @@ class _RouteDetailState extends State<RouteDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: AutoSizeText(
+          widget.title,
+          style: TextStyle(fontSize: ScreenUtil().setSp(45)),
+          maxLines: 2,
+        ),
       ),
       body: Container(
         child: Center(

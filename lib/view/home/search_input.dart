@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:meta/meta.dart';
@@ -12,7 +13,9 @@ typedef void OnSubmit(String value);
 
 /// 搜索结果内容显示面板
 class MaterialSearchResult<T> extends StatelessWidget {
-  const MaterialSearchResult({Key key, this.value, this.text, this.icon, this.onTap}) : super(key: key);
+  const MaterialSearchResult(
+      {Key key, this.value, this.text, this.icon, this.onTap})
+      : super(key: key);
 
   // 值（过滤及排序）
   final String value;
@@ -49,11 +52,9 @@ class MaterialSearchResult<T> extends StatelessWidget {
                     child: Icon(icon),
                   ),
                   Expanded(
-                    child: Text(
+                    child: AutoSizeText(
                       text,
-                      style: TextStyle(
-                        fontSize: ScreenUtil().setSp(48),
-                      ),
+                      style: TextStyle(fontSize: ScreenUtil().setSp(45)),
                       maxLines: 2,
                     ),
                   ),
@@ -62,8 +63,10 @@ class MaterialSearchResult<T> extends StatelessWidget {
             ),
             Container(
               width: double.infinity,
-              height: ScreenUtil().setHeight(1),
-              padding: EdgeInsets.only(left: ScreenUtil().setWidth(13), right: ScreenUtil().setWidth(13)),
+              height: ScreenUtil().setHeight(3),
+              padding: EdgeInsets.only(
+                  left: ScreenUtil().setWidth(13),
+                  right: ScreenUtil().setWidth(13)),
               child: Container(
                 color: Colors.black12,
               ),
@@ -83,7 +86,11 @@ class _MaterialSearchPageRoute<T> extends MaterialPageRoute<T> {
     maintainState: true,
     bool fullscreenDialog: false,
   })  : assert(builder != null),
-        super(builder: builder, settings: settings, maintainState: maintainState, fullscreenDialog: fullscreenDialog);
+        super(
+            builder: builder,
+            settings: settings,
+            maintainState: maintainState,
+            fullscreenDialog: fullscreenDialog);
 }
 
 /// 搜索框，跳往搜索页
@@ -210,7 +217,11 @@ class _MaterialSearchState<T> extends State<MaterialSearch> {
 
   // 如果 widget.filter 为空，那么启用该过滤器
   _filter(dynamic v, String c) {
-    return v.toString().toLowerCase().trim().contains(RegExp(r'' + c.toLowerCase().trim() + ''));
+    return v
+        .toString()
+        .toLowerCase()
+        .trim()
+        .contains(RegExp(r'' + c.toLowerCase().trim() + ''));
   }
 
   @override
@@ -240,7 +251,8 @@ class _MaterialSearchState<T> extends State<MaterialSearch> {
   @override
   Widget build(BuildContext context) {
     // 被选项
-    var results = (widget.results ?? _results).where((MaterialSearchResult result) {
+    var results =
+        (widget.results ?? _results).where((MaterialSearchResult result) {
       if (widget.filter != null) {
         return widget.filter(result.value, _criteria);
       } else if (widget.results != null) {
@@ -254,7 +266,8 @@ class _MaterialSearchState<T> extends State<MaterialSearch> {
       results.sort((a, b) => widget.sort(a.value, b.value, _criteria));
     }
 
-    IconThemeData iconTheme = Theme.of(context).iconTheme.copyWith(color: widget.iconColor);
+    IconThemeData iconTheme =
+        Theme.of(context).iconTheme.copyWith(color: widget.iconColor);
 
     return Scaffold(
       appBar: AppBar(

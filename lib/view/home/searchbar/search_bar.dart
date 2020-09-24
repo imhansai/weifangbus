@@ -17,6 +17,7 @@ class _SearchBarState extends State<SearchBar> {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
+        height: ScreenUtil().setHeight(90),
         decoration: BoxDecoration(
           color: Theme.of(context).backgroundColor,
           borderRadius: BorderRadius.circular(4.0),
@@ -39,7 +40,8 @@ class _SearchBarState extends State<SearchBar> {
                 placeholder: "搜索线路",
                 results: widget.allRouteList,
                 filter: (dynamic value, String criteria) {
-                  return value.toLowerCase().trim().contains(RegExp(r'' + criteria.toLowerCase().trim() + ''));
+                  return value.toLowerCase().trim().contains(
+                      RegExp(r'' + criteria.toLowerCase().trim() + ''));
                 },
               ),
             ),

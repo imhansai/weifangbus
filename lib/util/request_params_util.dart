@@ -13,9 +13,10 @@ Future main() async {
   try {
     Response response;
     var uri =
-        "/BusService/Require_RouteStatData/?RouteID=1212&" + getSignString();
+        "/BusService/Require_RouteStatData/?RouteID=17&" + getSignString();
     print(uri);
     response = await dio.get(uri);
+    print(response.data);
     List<dynamic> list = response.data;
     List<RouteStatDataEntity> routeStatDataEntityList = list
         .map((dynamic) =>
