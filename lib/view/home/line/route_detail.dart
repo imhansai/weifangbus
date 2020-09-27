@@ -4,6 +4,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:weifangbus/entity/line/route_real_time_info_entity.dart';
 import 'package:weifangbus/entity/route_stat_data_entity.dart';
 import 'package:weifangbus/entity_factory.dart';
@@ -41,16 +42,22 @@ class _RouteDetailState extends State<RouteDetail>
   /// 获取车辆实时信息必需参数
   var _segmentID;
 
-  /// 定时刷新车辆实时信息
+  /// 定时器
   Timer _timer;
 
+  /// 定时刷新车辆实时信息
   void _refreshRouteRealTimeInfo(String segmentID) {
-    _timer = Timer.periodic(Duration(seconds: 15), (timer) async {
+    _timer = Timer.periodic(Duration(seconds: 15), (timer) {
       print(DateTime.now());
-      var routeRealTimeInfoEntity = await _getRouteRealTimeInfo(segmentID);
-      setState(() {
-        _routeRealTimeInfo = routeRealTimeInfoEntity;
-      });
+      _immediatelyFlush(segmentID);
+    });
+  }
+
+  /// 立即刷新车辆实时信息
+  _immediatelyFlush(String segmentID) async {
+    var routeRealTimeInfoEntity = await _getRouteRealTimeInfo(segmentID);
+    setState(() {
+      _routeRealTimeInfo = routeRealTimeInfoEntity;
     });
   }
 
@@ -135,12 +142,22 @@ class _RouteDetailState extends State<RouteDetail>
         print('FutureBuilder 数据请求完毕');
         if (snapshot.hasError) {
           // 请求失败，显示错误
-          return Text("Error: ${snapshot.error}");
+          return Center(
+            child: RaisedButton(
+              color: Colors.blue,
+              highlightColor: Colors.blue[700],
+              colorBrightness: Brightness.dark,
+              splashColor: Colors.grey,
+              child: Text("请检查网络连接后点击重试"),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+              onPressed: reTry,
+            ),
+          );
         } else {
           // 请求成功，显示数据
           _routeStatData = snapshot.data;
-
-          // _timer == null ? _refreshRouteRealTimeInfo(_segmentID) : null;
           var length = _routeStatData.segmentlist.length;
           var widgets = <Widget>[
             // 线路名称 + 换向
@@ -186,8 +203,7 @@ class _RouteDetailState extends State<RouteDetail>
                                   print(_segmentID);
                                   print('重新设置定时器');
                                   _timer?.cancel();
-                                  // _routeRealTimeInfo =
-                                  //     await _getRouteRealTimeInfo(_segmentID);
+                                  _immediatelyFlush(_segmentID);
                                   _refreshRouteRealTimeInfo(_segmentID);
                                 });
                               },
@@ -394,7 +410,11 @@ class _RouteDetailState extends State<RouteDetail>
       } else {
         // 请求未结束，显示loading
         return Center(
-          child: CircularProgressIndicator(),
+          // child: CircularProgressIndicator(),
+          child: SpinKitWave(
+            color: Colors.blue,
+            type: SpinKitWaveType.center,
+          ),
         );
       }
     };
@@ -417,7 +437,7 @@ class _RouteDetailState extends State<RouteDetail>
   @override
   bool get wantKeepAlive => true;
 
-  /// 车辆实时信息
+  /// 显示车辆实时信息
   Widget carRealInfo(String stationID) {
     var widget = Expanded(child: Container());
     _routeRealTimeInfo.rStaRealTInfoList.forEach((element) {
@@ -426,29 +446,37 @@ class _RouteDetailState extends State<RouteDetail>
         // print('找到 ${element.stationID}');
         widget = Expanded(
           child: Container(
-              child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              element.expArriveBusStaNum == 1
-                  ? Icon(
-                      Icons.airport_shuttle,
-                      color: Colors.red,
-                      size: ScreenUtil().setWidth(60),
-                    )
-                  : Icon(
-                      Icons.airport_shuttle,
-                      color: Colors.green,
-                      size: ScreenUtil().setWidth(60),
-                    ),
-              element.expArriveBusStaNum == 1
-                  ? AutoSizeText('1辆离站')
-                  : AutoSizeText('1辆到站'),
-            ],
-          )),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                element.expArriveBusStaNum == 1
+                    ? Icon(
+                        Icons.airport_shuttle,
+                        color: Colors.red,
+                        size: ScreenUtil().setWidth(60),
+                      )
+                    : Icon(
+                        Icons.airport_shuttle,
+                        color: Colors.green,
+                        size: ScreenUtil().setWidth(60),
+                      ),
+                element.expArriveBusStaNum == 1
+                    ? AutoSizeText('1辆离站')
+                    : AutoSizeText('1辆到站'),
+              ],
+            ),
+          ),
         );
       }
     });
     return widget;
+  }
+
+  /// 重试
+  void reTry() {
+    setState(() {
+      _routeStatDataFuture = _getRouteStatData();
+    });
   }
 }
