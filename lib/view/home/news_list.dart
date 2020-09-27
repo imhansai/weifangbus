@@ -67,15 +67,19 @@ class _NewsListPageState extends State<NewsListPage> {
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
                     return FlatButton(
-                      padding: EdgeInsets.all(0.0),
+                      padding: EdgeInsets.all(
+                        ScreenUtil().setWidth(5),
+                      ),
                       child: Container(
-                        height: ScreenUtil().setHeight(210),
+                        height: ScreenUtil().setHeight(230),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Padding(
-                              padding: EdgeInsets.all(
-                                ScreenUtil().setWidth(31),
+                              padding: EdgeInsets.only(
+                                left: ScreenUtil().setWidth(20),
+                                top: ScreenUtil().setWidth(10),
+                                right: ScreenUtil().setWidth(20),
                               ),
                               child: Row(
                                 children: <Widget>[
@@ -86,7 +90,7 @@ class _NewsListPageState extends State<NewsListPage> {
                                         .toString(),
                                     style: TextStyle(
                                       color: Colors.orange,
-                                      fontSize: ScreenUtil().setSp(50),
+                                      fontSize: ScreenUtil().setSp(43),
                                     ),
                                   )
                                 ],
@@ -95,12 +99,15 @@ class _NewsListPageState extends State<NewsListPage> {
                             Expanded(
                               child: Padding(
                                 padding: EdgeInsets.only(
-                                  left: ScreenUtil().setWidth(31),
+                                  left: ScreenUtil().setWidth(20),
+                                  top: ScreenUtil().setWidth(10),
+                                  right: ScreenUtil().setWidth(20),
+                                  bottom: ScreenUtil().setWidth(20),
                                 ),
                                 child: AutoSizeText(
                                   _showNewsList.showNewsList[index].title,
                                   style: TextStyle(
-                                    fontSize: ScreenUtil().setSp(45),
+                                    fontSize: ScreenUtil().setSp(40),
                                   ),
                                   // minFontSize: 10,
                                   // stepGranularity: 10,

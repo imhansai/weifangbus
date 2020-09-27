@@ -5,25 +5,29 @@ import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
-import 'package:weifangbus/entity/route_stat_data_entity.dart';
-import 'package:weifangbus/entity_factory.dart';
+import 'package:weifangbus/entity/line/route_real_time_info_entity.dart';
+import 'package:weifangbus/generated/json/base/json_convert_content.dart';
 import 'package:weifangbus/util/dio_util.dart';
 
 Future main() async {
   try {
+    // http://122.4.254.30:1001/BusService/Query_ByRouteID/?RouteID=17&SegmentID=35505666&UniqueIdentifier=9719068B-E389-4D60-9C53-FA57E12FE1E2&LocationPos=112.610902,37.811552&TimeStamp=20200926171641&Random=331&SignKey=afe7c92dcd527a12a4f48146ddb77b51bc214700716e5b681c872bcb8519ad3f&
     Response response;
-    var uri =
-        "/BusService/Require_RouteStatData/?RouteID=17&" + getSignString();
+    var uri = "/BusService/Query_ByRouteID/?RouteID=17&SegmentID=35505666&" +
+        getSignString();
     print(uri);
     response = await dio.get(uri);
     print(response.data);
-    List<dynamic> list = response.data;
-    List<RouteStatDataEntity> routeStatDataEntityList = list
-        .map((dynamic) =>
-            EntityFactory.generateOBJ<RouteStatDataEntity>(dynamic))
-        .toList();
-    print(routeStatDataEntityList.length);
-    print(routeStatDataEntityList[0].toJson());
+    // List<dynamic> list = response.data;
+    var routeRealTimeInfo =
+        JsonConvert.fromJsonAsT<RouteRealTimeInfoEntity>(response.data);
+    routeRealTimeInfo.toJson();
+    // List<RouteRealTimeInfoEntity> routeStatDataEntityList = list
+    //     .map((dynamic) =>
+    //         JsonConvert.fromJsonAsT<RouteRealTimeInfoEntity>(dynamic))
+    //     .toList();
+    // print(routeStatDataEntityList.length);
+    // print(routeStatDataEntityList[0].toJson());
   } catch (e) {
     print('请求出现问题::: $e');
   }
