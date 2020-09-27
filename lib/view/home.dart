@@ -31,39 +31,42 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(designSize: Size(1080, 1920), allowFontScaling: true);
-    return Scaffold(
-      body: PageView(
-        controller: _controller,
-        children: myTabs.map((Widget widget) {
-          return widget;
-        }).toList(),
-        physics: NeverScrollableScrollPhysics(),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        type: BottomNavigationBarType.fixed,
-        onTap: (index) {
-          _controller.jumpToPage(index);
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
+    return WillPopScope(
+      onWillPop: _onBackPressed,
+      child: Scaffold(
+        body: PageView(
+          controller: _controller,
+          children: myTabs.map((Widget widget) {
+            return widget;
+          }).toList(),
+          physics: NeverScrollableScrollPhysics(),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _currentIndex,
+          type: BottomNavigationBarType.fixed,
+          onTap: (index) {
+            _controller.jumpToPage(index);
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home,
+              ),
+              title: Text("首页"),
             ),
-            title: Text("首页"),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.explore),
-            title: Text("发现"),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.more_vert),
-            title: Text("更多"),
-          ),
-        ],
+            BottomNavigationBarItem(
+              icon: Icon(Icons.explore),
+              title: Text("发现"),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.more_vert),
+              title: Text("更多"),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -71,5 +74,25 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+  }
+
+  // 确认退出程序
+  Future<bool> _onBackPressed() {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('确定退出程序吗?'),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('暂不'),
+            onPressed: () => Navigator.pop(context, false),
+          ),
+          FlatButton(
+            child: Text('确定'),
+            onPressed: () => Navigator.pop(context, true),
+          ),
+        ],
+      ),
+    );
   }
 }
