@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dio/dio.dart';
@@ -392,20 +393,19 @@ class _RouteDetailState extends State<RouteDetail>
                           direction: Axis.horizontal,
                           children: [
                             Expanded(
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                  right: ScreenUtil().setWidth(30),
-                                ),
-                                child: Icon(
-                                  Icons.arrow_downward,
-                                  color: Colors.blue,
-                                ),
+                              child: Icon(
+                                Icons.arrow_downward,
+                                color: Colors.blue,
                               ),
                             ),
                             Expanded(
                               child: AutoSizeText(
                                 _segment.stationlist[index].stationname,
+                                style: TextStyle(
+                                  fontSize: ScreenUtil().setSp(45),
+                                ),
                                 maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                               ),
                               flex: 3,
                             ),
