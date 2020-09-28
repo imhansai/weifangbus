@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:weifangbus/entity/line/route_real_time_info_entity.dart';
@@ -37,7 +38,7 @@ class _RouteDetailState extends State<RouteDetail>
   var _routeStatDataFuture;
 
   /// 车辆实时信息
-  var _routeRealTimeInfo;
+  RouteRealTimeInfoEntity _routeRealTimeInfo;
 
   /// 获取车辆实时信息必需参数
   var _segmentID;
@@ -47,7 +48,7 @@ class _RouteDetailState extends State<RouteDetail>
 
   /// 定时刷新车辆实时信息
   void _refreshRouteRealTimeInfo(String segmentID) {
-    _timer = Timer.periodic(Duration(seconds: 15), (timer) {
+    _timer = Timer.periodic(Duration(seconds: 10), (timer) {
       print(DateTime.now());
       _immediatelyFlush(segmentID);
     });
@@ -160,9 +161,11 @@ class _RouteDetailState extends State<RouteDetail>
           _routeStatData = snapshot.data;
           var length = _routeStatData.segmentlist.length;
           var widgets = <Widget>[
-            // 线路名称 + 换向
+            // 线路名称
             Padding(
-              padding: EdgeInsets.all(ScreenUtil().setWidth(15)),
+              padding: EdgeInsets.all(
+                ScreenUtil().setWidth(20),
+              ),
               child: Flex(
                 direction: Axis.horizontal,
                 children: [
@@ -173,44 +176,6 @@ class _RouteDetailState extends State<RouteDetail>
                       fontSize: ScreenUtil().setSp(70),
                     ),
                   ),
-                  // 换向
-                  length > 1
-                      ? Padding(
-                          padding: EdgeInsets.only(
-                            left: ScreenUtil().setWidth(31),
-                          ),
-                          child: SizedBox(
-                            height: ScreenUtil().setHeight(80),
-                            child: RaisedButton.icon(
-                              color: Colors.green,
-                              icon: Icon(
-                                Icons.swap_horiz,
-                                size: 15,
-                              ),
-                              label: Text(
-                                '换向',
-                                style: TextStyle(fontSize: 13),
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  _index == 0 ? _index = 1 : _index = 0;
-                                  _segment = _routeStatData.segmentlist[_index];
-                                  print('段 id ${_segment.segmentid}');
-                                  _segmentID = _segment.segmentid.toString();
-                                  print(_segmentID);
-                                  print('重新设置定时器');
-                                  _timer?.cancel();
-                                  _immediatelyFlush(_segmentID);
-                                  _refreshRouteRealTimeInfo(_segmentID);
-                                });
-                              },
-                            ),
-                          ),
-                        )
-                      : Container()
                 ],
               ),
             ),
@@ -230,14 +195,16 @@ class _RouteDetailState extends State<RouteDetail>
                     child: DecoratedBox(
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
-                            colors: [Colors.orange, Colors.orange[700]]), //背景渐变
-                        borderRadius: BorderRadius.circular(3.0), //3像素圆角
+                          colors: [Colors.orange, Colors.orange[700]],
+                        ),
+                        borderRadius: BorderRadius.circular(3.0),
                         boxShadow: [
                           //阴影
                           BoxShadow(
-                              color: Colors.black54,
-                              offset: Offset(2.0, 2.0),
-                              blurRadius: 4.0)
+                            color: Colors.black54,
+                            offset: Offset(2.0, 2.0),
+                            blurRadius: 4.0,
+                          )
                         ],
                       ),
                       child: Padding(
@@ -256,12 +223,54 @@ class _RouteDetailState extends State<RouteDetail>
                       ),
                     ),
                   ),
-                  // 方向 icon
+                  // 方向 icon + 换向
                   Expanded(
                     // flex: 1,
-                    child: Icon(
-                      Icons.forward,
-                      color: Colors.orange,
+                    child: Flex(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      direction: Axis.vertical,
+                      children: [
+                        Icon(
+                          Icons.forward,
+                          color: Colors.orange,
+                        ),
+                        // 换向
+                        length > 1
+                            ? SizedBox(
+                                height: ScreenUtil().setHeight(80),
+                                child: RaisedButton.icon(
+                                  color: Colors.green,
+                                  icon: Icon(
+                                    Icons.swap_horiz,
+                                    size: 15,
+                                  ),
+                                  label: Text(
+                                    '换向',
+                                    style: TextStyle(fontSize: 13),
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      _index == 0 ? _index = 1 : _index = 0;
+                                      _segment =
+                                          _routeStatData.segmentlist[_index];
+                                      print('段 id ${_segment.segmentid}');
+                                      _segmentID =
+                                          _segment.segmentid.toString();
+                                      print(_segmentID);
+                                      print('重新设置定时器');
+                                      _timer?.cancel();
+                                      _immediatelyFlush(_segmentID);
+                                      _refreshRouteRealTimeInfo(_segmentID);
+                                    });
+                                  },
+                                ),
+                              )
+                            : Container()
+                      ],
                     ),
                   ),
                   // 终点站
@@ -270,14 +279,16 @@ class _RouteDetailState extends State<RouteDetail>
                     child: DecoratedBox(
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
-                            colors: [Colors.orange, Colors.orange[700]]), //背景渐变
-                        borderRadius: BorderRadius.circular(3.0), //3像素圆角
+                          colors: [Colors.orange, Colors.orange[700]],
+                        ),
+                        borderRadius: BorderRadius.circular(3.0),
                         boxShadow: [
                           //阴影
                           BoxShadow(
-                              color: Colors.black54,
-                              offset: Offset(2.0, 2.0),
-                              blurRadius: 4.0)
+                            color: Colors.black54,
+                            offset: Offset(2.0, 2.0),
+                            blurRadius: 4.0,
+                          )
                         ],
                       ),
                       child: Padding(
@@ -308,6 +319,8 @@ class _RouteDetailState extends State<RouteDetail>
                 bottom: ScreenUtil().setHeight(20),
               ),
               child: Flex(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 direction: Axis.horizontal,
                 children: [
                   // 首末班
@@ -317,12 +330,13 @@ class _RouteDetailState extends State<RouteDetail>
                       style: TextStyle(
                         fontSize: ScreenUtil().setSp(45),
                       ),
+                      textAlign: TextAlign.center,
                     ),
-                    flex: 3,
+                    flex: 4,
                   ),
                   // 空白填充
                   Expanded(
-                    child: const SizedBox(),
+                    child: Container(),
                     flex: 1,
                   ),
                   // 票价
@@ -334,74 +348,73 @@ class _RouteDetailState extends State<RouteDetail>
                       style: TextStyle(
                         fontSize: ScreenUtil().setSp(45),
                       ),
+                      textAlign: TextAlign.center,
                     ),
-                    flex: 3,
+                    flex: 4,
                   )
                 ],
               ),
             )
           ];
           // 站点列表
-          return CustomScrollView(
-            slivers: [
-              SliverList(
-                delegate: SliverChildListDelegate(widgets),
+          return Column(
+            children: [
+              // 头部信息
+              Container(
+                color: Colors.blueGrey,
+                height: ScreenUtil().setHeight(430),
+                width: double.infinity,
+                child: ListView(
+                  children: widgets,
+                ),
               ),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                    return Container(
-                      child: Column(
-                        children: [
-                          // 站点信息
-                          Padding(
-                            padding: EdgeInsets.all(
-                              ScreenUtil().setWidth(20),
-                            ),
-                            child: SizedBox(
-                              child: Flex(
-                                direction: Axis.horizontal,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      right: ScreenUtil().setWidth(30),
-                                    ),
-                                    child: Icon(
-                                      Icons.arrow_downward,
-                                      color: Colors.blue,
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: AutoSizeText(
-                                      _segment.stationlist[index].stationname,
-                                      maxLines: 1,
-                                    ),
-                                    flex: 3,
-                                  ),
-                                  carRealInfo(
-                                      _segment.stationlist[index].stationid),
-                                ],
+              // 站点列表
+              Expanded(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: _segment.stationlist.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Padding(
+                      padding: EdgeInsets.only(
+                        left: ScreenUtil().setWidth(20),
+                        right: ScreenUtil().setWidth(20),
+                      ),
+                      child: Container(
+                        height: ScreenUtil().setHeight(150),
+                        // 下分割线
+                        decoration: UnderlineTabIndicator(
+                          borderSide: BorderSide(
+                            color: Colors.black26,
+                            width: 2,
+                          ),
+                        ),
+                        child: Flex(
+                          direction: Axis.horizontal,
+                          children: [
+                            Expanded(
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                  right: ScreenUtil().setWidth(30),
+                                ),
+                                child: Icon(
+                                  Icons.arrow_downward,
+                                  color: Colors.blue,
+                                ),
                               ),
-                              height: ScreenUtil().setHeight(130),
                             ),
-                          ),
-                          // 分割线
-                          Container(
-                            width: double.infinity,
-                            height: ScreenUtil().setHeight(1),
-                            padding: EdgeInsets.only(
-                              left: ScreenUtil().setWidth(13),
-                              right: ScreenUtil().setWidth(13),
+                            Expanded(
+                              child: AutoSizeText(
+                                _segment.stationlist[index].stationname,
+                                maxLines: 1,
+                              ),
+                              flex: 3,
                             ),
-                            child: Container(
-                              color: Colors.black38,
-                            ),
-                          ),
-                        ],
+                            carRealInfo(_segment.stationlist[index].stationid),
+                          ],
+                        ),
                       ),
                     );
                   },
-                  childCount: _segment.stationlist.length,
                 ),
               ),
             ],
@@ -439,31 +452,58 @@ class _RouteDetailState extends State<RouteDetail>
 
   /// 显示车辆实时信息
   Widget carRealInfo(String stationID) {
-    var widget = Expanded(child: Container());
+    var widget = Expanded(
+      flex: 2,
+      child: Container(),
+    );
     _routeRealTimeInfo.rStaRealTInfoList.forEach((element) {
       // print('${element.stationID}');
       if (element.stationID == stationID) {
         // print('找到 ${element.stationID}');
         widget = Expanded(
+          flex: 2,
           child: Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+            child: Flex(
               crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              direction: Axis.horizontal,
               children: [
-                element.expArriveBusStaNum == 1
-                    ? Icon(
-                        Icons.airport_shuttle,
-                        color: Colors.red,
-                        size: ScreenUtil().setWidth(60),
-                      )
-                    : Icon(
-                        Icons.airport_shuttle,
-                        color: Colors.green,
-                        size: ScreenUtil().setWidth(60),
-                      ),
-                element.expArriveBusStaNum == 1
-                    ? AutoSizeText('1辆离站')
-                    : AutoSizeText('1辆到站'),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      element.stopBusStaNum != 0
+                          ? Icon(
+                              MaterialCommunityIcons.bus_side,
+                              color: Colors.green,
+                              size: ScreenUtil().setWidth(70),
+                            )
+                          : Container(),
+                      element.stopBusStaNum != 0
+                          ? AutoSizeText('${element.stopBusStaNum}辆到站')
+                          : Container(),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      element.expArriveBusStaNum != 0
+                          ? Icon(
+                              MaterialCommunityIcons.bus_side,
+                              color: Colors.red,
+                              size: ScreenUtil().setWidth(70),
+                            )
+                          : Container(),
+                      element.expArriveBusStaNum != 0
+                          ? AutoSizeText('${element.expArriveBusStaNum}辆离站')
+                          : Container(),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
