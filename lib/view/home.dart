@@ -30,7 +30,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(designSize: Size(1080, 1920), allowFontScaling: true);
+    ScreenUtil.init(context,
+        designSize: Size(1080, 1920), allowFontScaling: true);
     return WillPopScope(
       onWillPop: _onBackPressed,
       child: Scaffold(
@@ -55,15 +56,15 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               icon: Icon(
                 Icons.home,
               ),
-              title: Text("首页"),
+              label: '首页',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.explore),
-              title: Text("发现"),
+              label: '发现',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.more_vert),
-              title: Text("更多"),
+              label: '更多',
             ),
           ],
         ),
