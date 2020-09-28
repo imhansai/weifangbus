@@ -374,7 +374,7 @@ class _RouteDetailState extends State<RouteDetail>
                   shrinkWrap: true,
                   itemCount: _segment.stationlist.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return Padding(
+                    return FlatButton(
                       padding: EdgeInsets.only(
                         left: ScreenUtil().setWidth(20),
                         right: ScreenUtil().setWidth(20),
@@ -413,6 +413,9 @@ class _RouteDetailState extends State<RouteDetail>
                           ],
                         ),
                       ),
+                      onPressed: () {
+                        stationInfo(_segment.stationlist[index].stationname);
+                      },
                     );
                   },
                 ),
@@ -518,5 +521,10 @@ class _RouteDetailState extends State<RouteDetail>
     setState(() {
       _routeStatDataFuture = _getRouteStatData();
     });
+  }
+
+  /// 站点点击展示内容
+  void stationInfo(String stationName) {
+    print('点击了: ' + stationName);
   }
 }
