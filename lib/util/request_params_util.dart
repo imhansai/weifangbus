@@ -5,23 +5,25 @@ import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
-import 'package:weifangbus/entity/line/route_real_time_info_entity.dart';
+import 'package:weifangbus/entity/line/station_real_time_info_entity.dart';
 import 'package:weifangbus/generated/json/base/json_convert_content.dart';
 import 'package:weifangbus/util/dio_util.dart';
 
 Future main() async {
   try {
-    // http://122.4.254.30:1001/BusService/Query_ByRouteID/?RouteID=17&SegmentID=35505666&UniqueIdentifier=9719068B-E389-4D60-9C53-FA57E12FE1E2&LocationPos=112.610902,37.811552&TimeStamp=20200926171641&Random=331&SignKey=afe7c92dcd527a12a4f48146ddb77b51bc214700716e5b681c872bcb8519ad3f&
+    // http://122.4.254.30:1001/BusService/Query_ByStationID/?RouteID=77&StationID=10494028&UniqueIdentifier=00000000-6594-99d1-1394-b01c76bd7c02&LocationPos=112.574021,37.800755&TimeStamp=20200928160126&Random=730&SignKey=53aa2f226909bcce6c89dee74c9c3ddc8df04aa786185d3a082759c6c11e4677
     Response response;
-    var uri = "/BusService/Query_ByRouteID/?RouteID=17&SegmentID=35505666&" +
+    var uri = "/BusService/Query_ByStationID/?RouteID=77&StationID=10494028&" +
         getSignString();
     print(uri);
     response = await dio.get(uri);
     print(response.data);
-    // List<dynamic> list = response.data;
+    List<dynamic> list = response.data;
     var routeRealTimeInfo =
-        JsonConvert.fromJsonAsT<RouteRealTimeInfoEntity>(response.data);
-    routeRealTimeInfo.toJson();
+        JsonConvert.fromJsonAsT<List<StationRealTimeInfoEntity>>(response.data);
+    routeRealTimeInfo.forEach((element) {
+      element.toJson();
+    });
     // List<RouteRealTimeInfoEntity> routeStatDataEntityList = list
     //     .map((dynamic) =>
     //         JsonConvert.fromJsonAsT<RouteRealTimeInfoEntity>(dynamic))
