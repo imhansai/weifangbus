@@ -202,7 +202,6 @@ class _RouteDetailState extends State<RouteDetail>
                         ),
                         borderRadius: BorderRadius.circular(3.0),
                         boxShadow: [
-                          //阴影
                           BoxShadow(
                             color: Colors.black54,
                             offset: Offset(2.0, 2.0),
@@ -286,7 +285,6 @@ class _RouteDetailState extends State<RouteDetail>
                         ),
                         borderRadius: BorderRadius.circular(3.0),
                         boxShadow: [
-                          //阴影
                           BoxShadow(
                             color: Colors.black54,
                             offset: Offset(2.0, 2.0),
@@ -363,12 +361,29 @@ class _RouteDetailState extends State<RouteDetail>
           return Column(
             children: [
               // 头部信息
-              Container(
-                color: Colors.blueGrey,
-                height: ScreenUtil().setHeight(430),
-                width: double.infinity,
-                child: ListView(
-                  children: widgets,
+              Padding(
+                padding: EdgeInsets.all(
+                  ScreenUtil().setWidth(20),
+                ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Colors.blueGrey, Colors.blueGrey[400]],
+                    ),
+                    borderRadius: BorderRadius.circular(12.0),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.black54,
+                          offset: Offset(2.0, 2.0),
+                          blurRadius: 4.0),
+                    ],
+                  ),
+                  // color: Colors.blueGrey,
+                  height: ScreenUtil().setHeight(430),
+                  width: double.infinity,
+                  child: ListView(
+                    children: widgets,
+                  ),
                 ),
               ),
               // 站点列表
