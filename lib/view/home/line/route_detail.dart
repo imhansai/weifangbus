@@ -13,7 +13,9 @@ import 'package:weifangbus/entity_factory.dart';
 import 'package:weifangbus/generated/json/base/json_convert_content.dart';
 import 'package:weifangbus/util/dio_util.dart';
 import 'package:weifangbus/util/request_params_util.dart';
+import 'package:weifangbus/view/home/line/station_detail.dart';
 
+/// 线路详情
 class RouteDetail extends StatefulWidget {
   final String title;
   final int routeId;
@@ -30,7 +32,7 @@ class _RouteDetailState extends State<RouteDetail>
   var _routeStatData;
 
   /// 线路单向详情
-  var _segment;
+  RouteStatDataSegmentList _segment;
 
   /// 换向
   var _index = 0;
@@ -50,7 +52,7 @@ class _RouteDetailState extends State<RouteDetail>
   /// 定时刷新车辆实时信息
   void _refreshRouteRealTimeInfo(String segmentID) {
     _timer = Timer.periodic(Duration(seconds: 10), (timer) {
-      print(DateTime.now());
+      print('定时刷新车辆实时信息 ${DateTime.now()}');
       _immediatelyFlush(segmentID);
     });
   }
@@ -74,9 +76,9 @@ class _RouteDetailState extends State<RouteDetail>
           segmentID +
           "&" +
           getSignString();
-      print(uri);
+      // print(uri);
       response = await dio.get(uri);
-      print(response.data);
+      // print(response.data);
       var routeRealTimeInfo =
           JsonConvert.fromJsonAsT<RouteRealTimeInfoEntity>(response.data);
       print('请求车辆实时信息完毕');
@@ -101,7 +103,7 @@ class _RouteDetailState extends State<RouteDetail>
           widget.routeId.toString() +
           "&" +
           getSignString();
-      print(uri);
+      // print(uri);
       response = await dio.get(uri);
       List<dynamic> list = response.data;
       List<RouteStatDataEntity> routeStatDataEntityList = list
@@ -135,13 +137,13 @@ class _RouteDetailState extends State<RouteDetail>
 
   @override
   Widget build(BuildContext context) {
-    print('界面开始构建');
+    // print('界面开始构建');
     super.build(context);
     var _routeDetailBuilderFunction =
         (BuildContext context, AsyncSnapshot<RouteStatDataEntity> snapshot) {
       // 请求已结束
       if (snapshot.connectionState == ConnectionState.done) {
-        print('FutureBuilder 数据请求完毕');
+        // print('FutureBuilder 数据请求完毕');
         if (snapshot.hasError) {
           // 请求失败，显示错误
           return Center(
@@ -414,7 +416,8 @@ class _RouteDetailState extends State<RouteDetail>
                         ),
                       ),
                       onPressed: () {
-                        stationInfo(_segment.stationlist[index].stationname);
+                        stationInfo(_segment.stationlist[index].stationid,
+                            _segment.stationlist[index].stationname);
                       },
                     );
                   },
@@ -524,7 +527,18 @@ class _RouteDetailState extends State<RouteDetail>
   }
 
   /// 站点点击展示内容
-  void stationInfo(String stationName) {
+  void stationInfo(String stationId, String stationName) {
     print('点击了: ' + stationName);
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (BuildContext context) {
+          return StationDetail(
+            routeId: widget.routeId.toString(),
+            stationId: stationId,
+            stationName: stationName,
+          );
+        },
+      ),
+    );
   }
 }
