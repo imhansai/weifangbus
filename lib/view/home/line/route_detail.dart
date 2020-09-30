@@ -171,17 +171,12 @@ class _RouteDetailState extends State<RouteDetail>
                 padding: EdgeInsets.all(
                   ScreenUtil().setWidth(20),
                 ),
-                child: Flex(
-                  direction: Axis.horizontal,
-                  children: [
-                    // 线路名称
-                    Text(
-                      _routeStatData.routename,
-                      style: TextStyle(
-                        fontSize: ScreenUtil().setSp(70),
-                      ),
-                    ),
-                  ],
+                child: AutoSizeText(
+                  _routeStatData.routename,
+                  style: TextStyle(
+                    fontSize: ScreenUtil().setSp(70),
+                  ),
+                  textAlign: TextAlign.start,
                 ),
               ),
             ),
@@ -376,6 +371,7 @@ class _RouteDetailState extends State<RouteDetail>
                 height: ScreenUtil().setHeight(400),
                 width: double.infinity,
                 child: Flex(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   direction: Axis.vertical,
                   children: widgets,
                 ),

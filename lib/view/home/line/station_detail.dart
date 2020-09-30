@@ -112,86 +112,190 @@ class _StationDetailState extends State<StationDetail>
         } else {
           _stationRealTimeInfo = snapshot.data;
           return Container(
-            child: Column(
+            child: Flex(
+              direction: Axis.vertical,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: EdgeInsets.all(
-                    ScreenUtil().setWidth(20),
-                  ),
-                  child: Container(
-                    height: ScreenUtil().setHeight(430),
-                    padding: EdgeInsets.all(
-                      ScreenUtil().setWidth(20),
-                    ),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [Colors.cyan[700], Colors.cyan],
+                Container(
+                  height: ScreenUtil().setHeight(400),
+                  color: Colors.blueGrey,
+                  width: double.infinity,
+                  // color: Colors.cyan,
+                  child: Flex(
+                    direction: Axis.vertical,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // 线路名称
+                      Expanded(
+                        flex: 3,
+                        child: Padding(
+                          padding: EdgeInsets.all(
+                            ScreenUtil().setWidth(20),
+                          ),
+                          child: AutoSizeText(
+                            '${_stationRealTimeInfo.routeName} ${widget.stationName}',
+                            style: TextStyle(
+                              fontSize: ScreenUtil().setSp(70),
+                            ),
+                          ),
+                        ),
                       ),
-                      borderRadius: BorderRadius.circular(12.0),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.black54,
-                            offset: Offset(2.0, 2.0),
-                            blurRadius: 4.0),
-                      ],
-                    ),
-                    width: double.infinity,
-                    // color: Colors.cyan,
-                    child: ListView(
-                      children: [
-                        AutoSizeText(
-                          '${widget.stationName}',
-                          style: TextStyle(
-                            fontSize: ScreenUtil().setSp(70),
-                          ),
-                        ),
-                        Padding(
+                      // xxx -> xxx
+                      Expanded(
+                        flex: 4,
+                        child: Padding(
                           padding: EdgeInsets.only(
-                            top: ScreenUtil().setHeight(15),
+                            left: ScreenUtil().setWidth(20),
+                            bottom: ScreenUtil().setHeight(20),
+                            right: ScreenUtil().setWidth(20),
                           ),
-                          child: AutoSizeText(
-                            '当前线路名称: ${_stationRealTimeInfo?.routeName}',
-                            style: TextStyle(
-                              fontSize: ScreenUtil().setSp(50),
-                            ),
+                          child: Flex(
+                            direction: Axis.horizontal,
+                            children: [
+                              // 起点站
+                              Expanded(
+                                // flex: 3,
+                                child: DecoratedBox(
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Colors.orange,
+                                        Colors.orange[700]
+                                      ],
+                                    ),
+                                    borderRadius: BorderRadius.circular(3.0),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black54,
+                                        offset: Offset(2.0, 2.0),
+                                        blurRadius: 4.0,
+                                      )
+                                    ],
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.all(
+                                      ScreenUtil().setWidth(20),
+                                    ),
+                                    child: AutoSizeText(
+                                      _stationRealTimeInfo.endStaInfo
+                                          .split('-->')[0],
+                                      style: TextStyle(
+                                        fontSize: ScreenUtil().setSp(50),
+                                      ),
+                                      textAlign: TextAlign.center,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              // 方向 icon + 换向
+                              Expanded(
+                                // flex: 1,
+                                child: Flex(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  direction: Axis.vertical,
+                                  children: [
+                                    Expanded(
+                                      child: Icon(
+                                        Icons.forward,
+                                        color: Colors.orange,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              // 终点站
+                              Expanded(
+                                // flex: 3,
+                                child: DecoratedBox(
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Colors.orange,
+                                        Colors.orange[700]
+                                      ],
+                                    ),
+                                    borderRadius: BorderRadius.circular(3.0),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black54,
+                                        offset: Offset(2.0, 2.0),
+                                        blurRadius: 4.0,
+                                      )
+                                    ],
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.all(
+                                      ScreenUtil().setWidth(20),
+                                    ),
+                                    child: AutoSizeText(
+                                      _stationRealTimeInfo.endStaInfo
+                                          .split('-->')[1],
+                                      style: TextStyle(
+                                        fontSize: ScreenUtil().setSp(50),
+                                      ),
+                                      textAlign: TextAlign.center,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        Padding(
+                      ),
+                      // 首末班 + 票价
+                      Expanded(
+                        flex: 2,
+                        child: Padding(
                           padding: EdgeInsets.only(
-                            top: ScreenUtil().setHeight(15),
+                            left: ScreenUtil().setWidth(20),
+                            // top: ScreenUtil().setHeight(20),
+                            right: ScreenUtil().setHeight(20),
+                            bottom: ScreenUtil().setHeight(20),
                           ),
-                          child: AutoSizeText(
-                            '方向: ${_stationRealTimeInfo?.endStaInfo}',
-                            style: TextStyle(
-                              fontSize: ScreenUtil().setSp(50),
-                            ),
+                          child: Flex(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            direction: Axis.horizontal,
+                            children: [
+                              // 首末班
+                              Expanded(
+                                child: AutoSizeText(
+                                  _stationRealTimeInfo.firtLastShiftInfo,
+                                  style: TextStyle(
+                                    fontSize: ScreenUtil().setSp(45),
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                flex: 4,
+                              ),
+                              // 空白填充
+                              Expanded(
+                                child: Container(),
+                                flex: 1,
+                              ),
+                              // 票价
+                              Expanded(
+                                child: AutoSizeText(
+                                  _stationRealTimeInfo.routePrice.contains('票价')
+                                      ? _stationRealTimeInfo.routePrice
+                                      : '票价: ${_stationRealTimeInfo.routePrice} 元',
+                                  style: TextStyle(
+                                    fontSize: ScreenUtil().setSp(45),
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                flex: 4,
+                              )
+                            ],
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            top: ScreenUtil().setHeight(15),
-                          ),
-                          child: AutoSizeText(
-                            '${_stationRealTimeInfo?.firtLastShiftInfo}',
-                            style: TextStyle(
-                              fontSize: ScreenUtil().setSp(50),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            top: ScreenUtil().setHeight(15),
-                          ),
-                          child: AutoSizeText(
-                            '票价: ${_stationRealTimeInfo?.routePrice}元',
-                            style: TextStyle(
-                              fontSize: ScreenUtil().setSp(50),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
                 Padding(
@@ -199,7 +303,7 @@ class _StationDetailState extends State<StationDetail>
                     ScreenUtil().setHeight(20),
                   ),
                   child: AutoSizeText(
-                    '车辆信息:',
+                    '车辆列表(自动刷新):',
                     style: TextStyle(
                       fontSize: ScreenUtil().setSp(50),
                     ),
@@ -216,60 +320,44 @@ class _StationDetailState extends State<StationDetail>
                       itemCount: _realtimeInfoList.length,
                       itemBuilder: (context, index) {
                         return Container(
-                          decoration: UnderlineTabIndicator(
-                            borderSide: BorderSide(
-                              color: Colors.black26,
-                              width: ScreenUtil().setHeight(5),
-                            ),
+                          height: ScreenUtil().setHeight(300),
+                          padding: EdgeInsets.only(
+                            top: ScreenUtil().setWidth(20),
                           ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.all(
-                                  ScreenUtil().setWidth(15),
-                                ),
-                                child: AutoSizeText(
-                                  '车牌号: ${_realtimeInfoList[index].busName}',
-                                  style: TextStyle(
-                                    fontSize: ScreenUtil().setSp(45),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.0),
+                              color: Colors.deepPurple[300],
+                            ),
+                            child: Flex(
+                              direction: Axis.vertical,
+                              children: [
+                                Expanded(
+                                  child: Center(
+                                    child: AutoSizeText(
+                                      '${_realtimeInfoList[index].busName} ${_realtimeInfoList[index].foreCastInfo2}到达',
+                                      style: TextStyle(
+                                        fontSize: ScreenUtil().setSp(70),
+                                        // decoration: TextDecoration.underline,
+                                        // decorationStyle: TextDecorationStyle.dashed,
+                                      ),
+                                    ),
                                   ),
+                                  flex: 2,
                                 ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(
-                                  ScreenUtil().setWidth(10),
-                                ),
-                                child: AutoSizeText(
-                                  '车辆状态: ${_realtimeInfoList[index].foreCastInfo1} ${_realtimeInfoList[index].arriveStaName}',
-                                  style: TextStyle(
-                                    fontSize: ScreenUtil().setSp(43),
+                                Expanded(
+                                  child: Center(
+                                    child: AutoSizeText(
+                                      '${_realtimeInfoList[index].foreCastInfo1} ${_realtimeInfoList[index].arriveStaName}',
+                                      style: TextStyle(
+                                        fontSize: ScreenUtil().setSp(45),
+                                      ),
+                                    ),
                                   ),
+                                  flex: 1,
                                 ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(
-                                  ScreenUtil().setWidth(10),
-                                ),
-                                child: AutoSizeText(
-                                  '记录时间: ${_realtimeInfoList[index].arriveTime}',
-                                  style: TextStyle(
-                                    fontSize: ScreenUtil().setSp(43),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(
-                                  ScreenUtil().setWidth(10),
-                                ),
-                                child: AutoSizeText(
-                                  '预测${_realtimeInfoList[index].foreCastInfo2}到达',
-                                  style: TextStyle(
-                                    fontSize: ScreenUtil().setSp(43),
-                                  ),
-                                ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         );
                       },
