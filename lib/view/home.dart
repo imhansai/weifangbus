@@ -56,15 +56,15 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               icon: Icon(
                 Icons.home,
               ),
-              label: '首页',
+              title: Text('首页'),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.explore),
-              label: '发现',
+              title: Text('发现'),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.more_vert),
-              label: '更多',
+              title: Text('更多'),
             ),
           ],
         ),
