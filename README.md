@@ -2,6 +2,8 @@
 
 潍坊公交
 
+使用flutter编写，主要改善在ios上刘海屏显示不全的问题。当然，Android也可以同步体验,请看[Releases](https://github.com/hanandjun/weifangbus/releases) 
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
