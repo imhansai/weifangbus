@@ -10,6 +10,7 @@ import 'package:weifangbus/entity/line/station_real_time_info_entity.dart';
 import 'package:weifangbus/generated/json/base/json_convert_content.dart';
 import 'package:weifangbus/util/dio_util.dart';
 import 'package:weifangbus/util/request_params_util.dart';
+import 'package:weifangbus/widget/route_header.dart';
 
 /// 站点详情
 class StationDetail extends StatefulWidget {
@@ -116,188 +117,19 @@ class _StationDetailState extends State<StationDetail>
               direction: Axis.vertical,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  height: ScreenUtil().setHeight(400),
-                  color: Colors.blueGrey,
-                  width: double.infinity,
-                  // color: Colors.cyan,
-                  child: Flex(
-                    direction: Axis.vertical,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // 线路名称
-                      Expanded(
-                        flex: 3,
-                        child: Padding(
-                          padding: EdgeInsets.all(
-                            ScreenUtil().setWidth(20),
-                          ),
-                          child: AutoSizeText(
-                            '${_stationRealTimeInfo.routeName} ${widget.stationName}',
-                            style: TextStyle(
-                              fontSize: ScreenUtil().setSp(70),
-                            ),
-                          ),
-                        ),
-                      ),
-                      // xxx -> xxx
-                      Expanded(
-                        flex: 4,
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            left: ScreenUtil().setWidth(20),
-                            bottom: ScreenUtil().setHeight(20),
-                            right: ScreenUtil().setWidth(20),
-                          ),
-                          child: Flex(
-                            direction: Axis.horizontal,
-                            children: [
-                              // 起点站
-                              Expanded(
-                                // flex: 3,
-                                child: DecoratedBox(
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        Colors.orange,
-                                        Colors.orange[700]
-                                      ],
-                                    ),
-                                    borderRadius: BorderRadius.circular(3.0),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black54,
-                                        offset: Offset(2.0, 2.0),
-                                        blurRadius: 4.0,
-                                      )
-                                    ],
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.all(
-                                      ScreenUtil().setWidth(20),
-                                    ),
-                                    child: AutoSizeText(
-                                      _stationRealTimeInfo.endStaInfo
-                                          .split('-->')[0],
-                                      style: TextStyle(
-                                        fontSize: ScreenUtil().setSp(50),
-                                      ),
-                                      textAlign: TextAlign.center,
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              // 方向 icon + 换向
-                              Expanded(
-                                // flex: 1,
-                                child: Flex(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  direction: Axis.vertical,
-                                  children: [
-                                    Expanded(
-                                      child: Icon(
-                                        Icons.forward,
-                                        color: Colors.orange,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              // 终点站
-                              Expanded(
-                                // flex: 3,
-                                child: DecoratedBox(
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        Colors.orange,
-                                        Colors.orange[700]
-                                      ],
-                                    ),
-                                    borderRadius: BorderRadius.circular(3.0),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black54,
-                                        offset: Offset(2.0, 2.0),
-                                        blurRadius: 4.0,
-                                      )
-                                    ],
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.all(
-                                      ScreenUtil().setWidth(20),
-                                    ),
-                                    child: AutoSizeText(
-                                      _stationRealTimeInfo.endStaInfo
-                                          .split('-->')[1],
-                                      style: TextStyle(
-                                        fontSize: ScreenUtil().setSp(50),
-                                      ),
-                                      textAlign: TextAlign.center,
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      // 首末班 + 票价
-                      Expanded(
-                        flex: 2,
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            left: ScreenUtil().setWidth(20),
-                            // top: ScreenUtil().setHeight(20),
-                            right: ScreenUtil().setHeight(20),
-                            bottom: ScreenUtil().setHeight(20),
-                          ),
-                          child: Flex(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            direction: Axis.horizontal,
-                            children: [
-                              // 首末班
-                              Expanded(
-                                child: AutoSizeText(
-                                  _stationRealTimeInfo.firtLastShiftInfo,
-                                  style: TextStyle(
-                                    fontSize: ScreenUtil().setSp(45),
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                                flex: 4,
-                              ),
-                              // 空白填充
-                              Expanded(
-                                child: Container(),
-                                flex: 1,
-                              ),
-                              // 票价
-                              Expanded(
-                                child: AutoSizeText(
-                                  _stationRealTimeInfo.routePrice.contains('票价')
-                                      ? _stationRealTimeInfo.routePrice
-                                      : '票价: ${_stationRealTimeInfo.routePrice} 元',
-                                  style: TextStyle(
-                                    fontSize: ScreenUtil().setSp(45),
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                                flex: 4,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                // 头部信息
+                RouteHeader(
+                  routeName:
+                      '${_stationRealTimeInfo.routeName} ${widget.stationName}',
+                  firstStationName:
+                      _stationRealTimeInfo.endStaInfo.split('-->')[0],
+                  lastStationName:
+                      _stationRealTimeInfo.endStaInfo.split('-->')[1],
+                  transDirection: false,
+                  firstAndLastBus: _stationRealTimeInfo.firtLastShiftInfo,
+                  routePrice: _stationRealTimeInfo.routePrice,
                 ),
+                // 车辆信息
                 Padding(
                   padding: EdgeInsets.all(
                     ScreenUtil().setHeight(20),
