@@ -164,14 +164,15 @@ class _RouteDetailState extends State<RouteDetail>
           // 请求成功，显示数据
           _routeStatData = snapshot.data;
           var length = _routeStatData.segmentlist.length;
+          var stationList = _segment.stationlist;
           // 站点列表
           return Column(
             children: [
               // 头部信息
               RouteHeader(
                 routeName: _routeStatData.routename,
-                firstStationName: _segment.stationlist.first.stationname,
-                lastStationName: _segment.stationlist.last.stationname,
+                firstStationName: stationList.first.stationname,
+                lastStationName: stationList.last.stationname,
                 transDirection: length > 1,
                 transDirectionFun: () {
                   setState(() {
@@ -191,49 +192,34 @@ class _RouteDetailState extends State<RouteDetail>
               ),
               // 站点列表
               Expanded(
-                child: ListView.separated(
-                  shrinkWrap: true,
-                  itemCount: _segment.stationlist.length,
+                child: ListView.builder(
+                  itemCount: stationList.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return FlatButton(
-                      child: Flex(
+                    return ListTile(
+                      tileColor:
+                          index % 2 == 0 ? Colors.grey[300] : Colors.white,
+                      trailing: Icon(Icons.keyboard_arrow_right),
+                      title: Flex(
                         direction: Axis.horizontal,
                         children: [
                           Expanded(
-                            flex: 1,
-                            child: Icon(
-                              Icons.arrow_downward,
-                              color: Colors.blue,
-                            ),
-                          ),
-                          Expanded(
                             flex: 6,
                             child: AutoSizeText(
-                              _segment.stationlist[index].stationname,
-                              style: TextStyle(
-                                fontSize: ScreenUtil().setSp(45),
-                              ),
+                              stationList[index].stationname,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
                           Expanded(
                             flex: 4,
-                            child: carRealInfo(
-                                _segment.stationlist[index].stationid),
+                            child: carRealInfo(stationList[index].stationid),
                           ),
                         ],
                       ),
-                      onPressed: () {
-                        stationInfo(_segment.stationlist[index].stationid,
-                            _segment.stationlist[index].stationname);
+                      onTap: () {
+                        stationInfo(stationList[index].stationid,
+                            stationList[index].stationname);
                       },
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return Divider(
-                      indent: ScreenUtil().setWidth(20),
-                      endIndent: ScreenUtil().setWidth(20),
                     );
                   },
                 ),
@@ -293,9 +279,14 @@ class _RouteDetailState extends State<RouteDetail>
                           Icon(
                             MaterialCommunityIcons.bus_side,
                             color: Colors.green,
-                            size: ScreenUtil().setWidth(70),
+                            // size: ScreenUtil().setWidth(70),
                           ),
-                          AutoSizeText('${element.stopBusStaNum}辆到站'),
+                          AutoSizeText(
+                            '${element.stopBusStaNum}辆到站',
+                            style: TextStyle(
+                              fontSize: ScreenUtil().setSp(30),
+                            ),
+                          ),
                         ],
                       )
                     : Container(),
@@ -309,9 +300,14 @@ class _RouteDetailState extends State<RouteDetail>
                           Icon(
                             MaterialCommunityIcons.bus_side,
                             color: Colors.red,
-                            size: ScreenUtil().setWidth(70),
+                            // size: ScreenUtil().setWidth(70),
                           ),
-                          AutoSizeText('${element.expArriveBusStaNum}辆离站'),
+                          AutoSizeText(
+                            '${element.expArriveBusStaNum}辆离站',
+                            style: TextStyle(
+                              fontSize: ScreenUtil().setSp(30),
+                            ),
+                          ),
                         ],
                       )
                     : Container(),
