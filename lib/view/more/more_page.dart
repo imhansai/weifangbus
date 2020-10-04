@@ -2,21 +2,20 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:weifangbus/util/font_util.dart';
 import 'package:weifangbus/view/more/about_company.dart';
 import 'package:weifangbus/view/more/about_me.dart';
 import 'package:weifangbus/view/more/about_software.dart';
 import 'package:weifangbus/view/more/settings.dart';
-import 'package:weifangbus/widget/list_item.dart';
 
 class MorePage extends StatefulWidget {
   @override
   _MorePageState createState() => _MorePageState();
 }
 
-class _MorePageState extends State<MorePage> with AutomaticKeepAliveClientMixin {
+class _MorePageState extends State<MorePage>
+    with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     super.initState();
@@ -36,14 +35,15 @@ class _MorePageState extends State<MorePage> with AutomaticKeepAliveClientMixin 
       body: Container(
         child: ListView(
           children: <Widget>[
-            ListItem(
-              title: "设置",
-              describe: "完美调控，尽在您的掌握",
-              icon: Icon(
+            ListTile(
+              trailing: Icon(Icons.keyboard_arrow_right),
+              leading: Icon(
                 Icons.settings,
                 color: Colors.blueGrey,
               ),
-              onPressed: () {
+              title: Text('设置'),
+              subtitle: Text('完美调控，尽在您的掌握'),
+              onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (BuildContext context) {
@@ -53,41 +53,27 @@ class _MorePageState extends State<MorePage> with AutomaticKeepAliveClientMixin 
                 );
               },
             ),
-            Container(
-              width: double.infinity,
-              height: ScreenUtil().setHeight(1),
-              padding: EdgeInsets.only(left: ScreenUtil().setWidth(5), right: ScreenUtil().setWidth(5)),
-              child: Container(
-                color: Colors.black12,
-              ),
-            ),
-            ListItem(
-              title: "QQ群",
-              describe: "加入QQ群交流反馈",
-              icon: Icon(
+            ListTile(
+              trailing: Icon(Icons.keyboard_arrow_right),
+              leading: Icon(
                 MyIcons.qq,
                 color: Colors.indigoAccent,
               ),
-              onPressed: () {
+              title: Text('QQ群'),
+              subtitle: Text('加入QQ群交流反馈'),
+              onTap: () {
                 _joinQQGroup(context);
               },
             ),
-            Container(
-              width: double.infinity,
-              height: ScreenUtil().setHeight(1),
-              padding: EdgeInsets.only(left: ScreenUtil().setWidth(5), right: ScreenUtil().setWidth(5)),
-              child: Container(
-                color: Colors.black12,
-              ),
-            ),
-            ListItem(
-              title: "潍坊市公共交通总公司",
-              describe: "关于潍坊市公共交通总公司",
-              icon: Icon(
+            ListTile(
+              trailing: Icon(Icons.keyboard_arrow_right),
+              leading: Icon(
                 Icons.business,
                 color: Colors.brown,
               ),
-              onPressed: () {
+              title: Text('潍坊市公共交通总公司'),
+              subtitle: Text('关于潍坊市公共交通总公司'),
+              onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (BuildContext context) {
@@ -97,40 +83,26 @@ class _MorePageState extends State<MorePage> with AutomaticKeepAliveClientMixin 
                 );
               },
             ),
-            Container(
-              width: double.infinity,
-              height: ScreenUtil().setHeight(1),
-              padding: EdgeInsets.only(left: ScreenUtil().setWidth(5), right: ScreenUtil().setWidth(5)),
-              child: Container(
-                color: Colors.black12,
-              ),
-            ),
-            ListItem(
-              title: "关于潍坊公交",
-              icon: Icon(
+            ListTile(
+              trailing: Icon(Icons.keyboard_arrow_right),
+              leading: Icon(
                 MyIcons.software,
                 color: Colors.black54,
               ),
-              onPressed: () {
+              title: Text('关于潍坊公交'),
+              onTap: () {
                 showAboutSoftWareDialog(context);
               },
             ),
-            Container(
-              width: double.infinity,
-              height: ScreenUtil().setHeight(1),
-              padding: EdgeInsets.only(left: ScreenUtil().setWidth(5), right: ScreenUtil().setWidth(5)),
-              child: Container(
-                color: Colors.black12,
-              ),
-            ),
-            ListItem(
-              title: "走近作者",
-              // describe: "走近作者",
-              icon: Icon(
+            ListTile(
+              trailing: Icon(Icons.keyboard_arrow_right),
+              leading: Icon(
                 Icons.info,
                 color: Colors.lightBlue,
               ),
-              onPressed: () {
+              title: Text('走近作者'),
+              // describe: "走近作者",
+              onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (BuildContext context) {
@@ -139,14 +111,6 @@ class _MorePageState extends State<MorePage> with AutomaticKeepAliveClientMixin 
                   ),
                 );
               },
-            ),
-            Container(
-              width: double.infinity,
-              height: ScreenUtil().setHeight(1),
-              padding: EdgeInsets.only(left: ScreenUtil().setWidth(5), right: ScreenUtil().setWidth(5)),
-              child: Container(
-                color: Colors.black12,
-              ),
             ),
           ],
         ),

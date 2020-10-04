@@ -1,8 +1,9 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:weifangbus/util/font_util.dart';
-import 'package:weifangbus/widget/list_item.dart';
 
 /// 关于我
 class AboutMe extends StatefulWidget {
@@ -23,22 +24,17 @@ class _AboutMeState extends State<AboutMe> {
             snap: false,
             flexibleSpace: FlexibleSpaceBar(
               background: Center(
-                child: Container(
-                  width: ScreenUtil().setWidth(280),
-                  child: Container(
-                    child: ClipOval(
-                      child: Image.asset(
-                        "assets/images/head.png",
-                        fit: BoxFit.fitWidth,
-                      ),
-                    ),
+                child: ClipOval(
+                  child: Image.asset(
+                    "assets/images/avatar.jpeg",
+                    width: ScreenUtil().setWidth(260),
                   ),
                 ),
               ),
               title: Text(
                 "hanandjun",
                 style: TextStyle(
-                  fontSize: ScreenUtil().setSp(60),
+                  fontSize: ScreenUtil().setSp(50),
                 ),
               ),
               centerTitle: true,
@@ -49,135 +45,173 @@ class _AboutMeState extends State<AboutMe> {
               (context, index) {
                 return Column(
                   children: <Widget>[
-                    Container(
-                      width: double.infinity,
-                      color: Colors.white,
+                    Padding(
                       padding: EdgeInsets.all(
                         ScreenUtil().setWidth(28),
                       ),
                       child: Card(
                           color: Colors.green,
-                          child: Container(
-                            padding: EdgeInsets.all(
-                              ScreenUtil().setWidth(28),
-                            ),
-                            child: Column(
-                              children: <Widget>[
-                                ListItem(
-                                  icon: Icon(
-                                    Icons.person,
+                          child: Column(
+                            children: <Widget>[
+                              ListTile(
+                                leading: Icon(
+                                  Icons.person,
+                                  color: Colors.white,
+                                ),
+                                title: Text(
+                                  '姓名',
+                                  style: TextStyle(
                                     color: Colors.white,
                                   ),
-                                  title: "姓名",
-                                  titleColor: Colors.white,
-                                  describe: "韩塞",
-                                  describeColor: Colors.white,
                                 ),
-                                ListItem(
-                                  icon: EmptyIcon(),
-                                  title: "年龄",
-                                  titleColor: Colors.white,
-                                  describe: "25岁",
-                                  describeColor: Colors.white,
+                                subtitle: Text(
+                                  '韩塞',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
                                 ),
-                                ListItem(
-                                  icon: EmptyIcon(),
-                                  title: "所在城市",
-                                  titleColor: Colors.white,
-                                  describe: "山东潍坊",
-                                  describeColor: Colors.white,
-                                )
-                              ],
-                            ),
+                              ),
+                              ListTile(
+                                leading: Icon(
+                                  Icons.timer,
+                                  color: Colors.green,
+                                ),
+                                title: Text(
+                                  '年龄',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  '25岁',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                              ListTile(
+                                leading: Icon(
+                                  Icons.location_city,
+                                  color: Colors.green,
+                                ),
+                                title: Text(
+                                  '所在城市',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  '山东潍坊',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              )
+                            ],
                           )),
                     ),
                     // 内容
-                    Container(
-                      width: double.infinity,
-                      color: Colors.white,
-                      padding: EdgeInsets.all(
-                        ScreenUtil().setWidth(28),
-                      ),
+                    Padding(
+                      padding: EdgeInsets.all(ScreenUtil().setWidth(28)),
                       child: Card(
                           color: Colors.blue,
-                          child: Container(
-                            padding: EdgeInsets.all(
-                              ScreenUtil().setWidth(28),
-                            ),
-                            child: Column(
-                              children: <Widget>[
-                                ListItem(
-                                  icon: Icon(
-                                    MyIcons.qq,
-                                    color: Colors.white,
-                                  ),
-                                  title: "添加QQ",
-                                  titleColor: Colors.white,
-                                  describe: "724149270",
-                                  describeColor: Colors.white,
-                                  onPressed: () {
-                                    _joinQQ(context);
-                                  },
-                                ),
-                                ListItem(
-                                  icon: Icon(
-                                    MyIcons.github,
-                                    color: Colors.white,
-                                  ),
-                                  title: "GitHub",
-                                  titleColor: Colors.white,
-                                  describe: "https://github.com/hanandjun",
-                                  describeColor: Colors.white,
-                                  onPressed: () {
-                                    launch("https://github.com/hanandjun");
-                                  },
-                                )
-                              ],
-                            ),
-                          )),
-                    ),
-                    Container(
-                      width: double.infinity,
-                      color: Colors.white,
-                      padding: EdgeInsets.all(
-                        ScreenUtil().setWidth(28),
-                      ),
-                      child: Card(
-                        color: Colors.teal,
-                        child: Container(
-                          padding: EdgeInsets.all(
-                            ScreenUtil().setWidth(28),
-                          ),
                           child: Column(
                             children: <Widget>[
-                              ListItem(
-                                icon: Icon(
-                                  Icons.phone,
+                              ListTile(
+                                leading: Icon(
+                                  MyIcons.qq,
                                   color: Colors.white,
                                 ),
-                                title: "手机号",
-                                titleColor: Colors.white,
-                                describe: "15553665833",
-                                describeColor: Colors.white,
-                                onPressed: () {
-                                  launch("tel:15553665833");
+                                title: Text(
+                                  '添加QQ',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  '724149270',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                onTap: () {
+                                  _joinQQ(context);
                                 },
                               ),
-                              ListItem(
-                                icon: Icon(
-                                  Icons.email,
+                              ListTile(
+                                leading: Icon(
+                                  MyIcons.github,
                                   color: Colors.white,
                                 ),
-                                title: "邮件",
-                                titleColor: Colors.white,
-                                describe: "imhansai@foxmail.com",
-                                describeColor: Colors.white,
-                                onPressed: () {
-                                  launch("mailto:imhansai@foxmail.com?subject=WeiFang-Bus-Feedback");
+                                title: Text(
+                                  'GitHub',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  'https://github.com/hanandjun',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                onTap: () {
+                                  launch("https://github.com/hanandjun");
                                 },
                               )
                             ],
-                          ),
+                          )),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(ScreenUtil().setWidth(28)),
+                      child: Card(
+                        color: Colors.teal,
+                        child: Column(
+                          children: <Widget>[
+                            ListTile(
+                              leading: Icon(
+                                Icons.phone,
+                                color: Colors.white,
+                              ),
+                              title: Text(
+                                '手机号',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              subtitle: Text(
+                                '15553665833',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              onTap: () {
+                                launch("tel:15553665833");
+                              },
+                            ),
+                            ListTile(
+                              leading: Icon(
+                                Icons.email,
+                                color: Colors.white,
+                              ),
+                              title: Text(
+                                '邮件',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              subtitle: Text(
+                                'imhansai@foxmail.com',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              onTap: () {
+                                launch(
+                                    "mailto:imhansai@foxmail.com?subject=WeiFang-Bus-Feedback");
+                              },
+                            )
+                          ],
                         ),
                       ),
                     ),
@@ -194,7 +228,8 @@ class _AboutMeState extends State<AboutMe> {
 
   /// 加入QQ群
   _joinQQ(BuildContext context) async {
-    const url = "mqqwpa://im/chat?chat_type=wpa&uin=724149270&version=1&src_type=web&web_src=qietu.cn";
+    const url =
+        "mqqwpa://im/chat?chat_type=wpa&uin=724149270&version=1&src_type=web&web_src=qietu.cn";
     try {
       await launch(url);
     } catch (e) {

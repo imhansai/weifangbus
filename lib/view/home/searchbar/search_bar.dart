@@ -17,7 +17,6 @@ class _SearchBarState extends State<SearchBar> {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        // height: ScreenUtil().setHeight(90),
         decoration: BoxDecoration(
           color: Theme.of(context).backgroundColor,
           borderRadius: BorderRadius.circular(4.0),

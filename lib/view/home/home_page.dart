@@ -17,9 +17,9 @@ import 'package:weifangbus/util/dio_util.dart';
 import 'package:weifangbus/util/font_util.dart';
 import 'package:weifangbus/util/request_params_util.dart';
 import 'package:weifangbus/view/home/guide.dart';
+import 'package:weifangbus/view/home/line/route_detail.dart';
 import 'package:weifangbus/view/home/news_detail.dart';
 import 'package:weifangbus/view/home/news_list.dart';
-import 'package:weifangbus/view/home/line/route_detail.dart';
 import 'package:weifangbus/view/home/search_input.dart';
 import 'package:weifangbus/view/home/searchbar/search_bar.dart';
 import 'package:weifangbus/view/store/news_model.dart';
@@ -154,33 +154,41 @@ class _HomePageState extends State<HomePage>
     try {
       Response response;
       var uri = "/BusService/Require_AllRouteData/?" + getSignString();
+      // print('$uri');
       response = await dio.get(uri);
       AllroutedataEntity allRouteDataEntity =
           EntityFactory.generateOBJ<AllroutedataEntity>(response.data);
       print("请求全部线路完成");
       setState(() {
-        allRouteList = allRouteDataEntity.routelist
-            .map((item) => MaterialSearchResult<String>(
-                  value: item.routename,
-                  icon: Icons.directions_bus,
-                  text: item.routenameext,
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (BuildContext context) {
-                          return RouteDetail(
-                            title: item.routenameext,
-                            routeId: item.routeid,
-                          );
-                        },
-                      ),
+        var routeList = allRouteDataEntity.routelist;
+        for (var i = 0; i < routeList.length; ++i) {
+          var route = routeList[i];
+          var materialSearchResult = MaterialSearchResult<String>(
+            index: i,
+            value: route.routename,
+            // icon: Icons.directions_bus,
+            routeName: route.routename,
+            routeNameExt: route.routenameext.substring(
+                route.routenameext.indexOf('(') + 1,
+                route.routenameext.length - 1),
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (BuildContext context) {
+                    return RouteDetail(
+                      title: route.routenameext,
+                      routeId: route.routeid,
                     );
                   },
-                ))
-            .toList();
+                ),
+              );
+            },
+          );
+          allRouteList.add(materialSearchResult);
+        }
       });
     } catch (e) {
-      print('请求出现问题::: $e');
+      print('请求所有的路线异常::: $e');
     }
   }
 
@@ -214,24 +222,9 @@ class _HomePageState extends State<HomePage>
   // 等待状态展示等待动画
   Widget waitingWidget() {
     // return Text('Awaiting result...');
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            width: ScreenUtil().setWidth(100),
-            height: ScreenUtil().setWidth(100),
-            child: SpinKitRotatingPlain(
-              color: Colors.lightGreen,
-              size: ScreenUtil().setWidth(100),
-            ),
-          ),
-          Container(
-            child: Text('加载中...'),
-          )
-        ],
-      ),
+    return SpinKitWave(
+      color: Colors.blue,
+      type: SpinKitWaveType.center,
     );
   }
 

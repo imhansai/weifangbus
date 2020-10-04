@@ -2,8 +2,6 @@ import 'dart:async';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:meta/meta.dart';
 
 typedef String FormFieldFormatter<T>(T v);
 typedef bool MaterialSearchFilter<T>(T v, String c);
@@ -11,86 +9,50 @@ typedef int MaterialSearchSort<T>(T a, T b, String c);
 typedef Future<List<MaterialSearchResult>> MaterialResultsFinder(String c);
 typedef void OnSubmit(String value);
 
-/// 搜索结果内容显示面板
+/// 线路组件
 class MaterialSearchResult<T> extends StatelessWidget {
   const MaterialSearchResult(
-      {Key key, this.value, this.text, this.icon, this.onTap})
+      {Key key,
+      this.value,
+      this.icon,
+      this.onTap,
+      this.routeName,
+      this.routeNameExt,
+      this.index})
       : super(key: key);
 
-  // 值（过滤及排序）
+  /// 下标(暂时没用上)
+  final int index;
+
+  /// 值（过滤及排序）
   final String value;
 
-  // 回调函数
+  /// 回调函数
   final VoidCallback onTap;
 
-  // 显示文本
-  final String text;
+  /// 线路名
+  final String routeName;
 
-  // 显示图标
+  /// 起点-终点
+  final String routeNameExt;
+
+  /// 显示图标(暂时没用上)
   final IconData icon;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return ListTile(
+      // leading: Icon(icon),
+      trailing: Icon(Icons.keyboard_arrow_right),
       onTap: this.onTap,
-      child: Container(
-        height: ScreenUtil().setHeight(180),
-        padding: EdgeInsets.only(
-          left: ScreenUtil().setWidth(50),
-          right: ScreenUtil().setWidth(50),
-        ),
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              child: Row(
-                children: <Widget>[
-                  Container(
-                    width: ScreenUtil().setWidth(50),
-                    margin: EdgeInsets.only(
-                      right: ScreenUtil().setWidth(50),
-                    ),
-                    child: Icon(icon),
-                  ),
-                  Expanded(
-                    child: AutoSizeText(
-                      text,
-                      style: TextStyle(fontSize: ScreenUtil().setSp(45)),
-                      maxLines: 2,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              width: double.infinity,
-              height: ScreenUtil().setHeight(3),
-              padding: EdgeInsets.only(
-                  left: ScreenUtil().setWidth(13),
-                  right: ScreenUtil().setWidth(13)),
-              child: Container(
-                color: Colors.black12,
-              ),
-            ),
-          ],
-        ),
+      title: AutoSizeText(
+        routeName,
+      ),
+      subtitle: AutoSizeText(
+        routeNameExt,
       ),
     );
   }
-}
-
-/// 搜索页路由，从搜索框跳往搜索页
-class _MaterialSearchPageRoute<T> extends MaterialPageRoute<T> {
-  _MaterialSearchPageRoute({
-    @required WidgetBuilder builder,
-    RouteSettings settings: const RouteSettings(),
-    maintainState: true,
-    bool fullscreenDialog: false,
-  })  : assert(builder != null),
-        super(
-            builder: builder,
-            settings: settings,
-            maintainState: maintainState,
-            fullscreenDialog: fullscreenDialog);
 }
 
 /// 搜索框，跳往搜索页
@@ -103,16 +65,16 @@ class MaterialSearchInput<T> extends StatefulWidget {
     this.sort,
   });
 
-  // 占位符
+  /// 占位符
   final String placeholder;
 
-  // 所有选择项，从中检索出结果
+  /// 所有选择项，从中检索出结果
   final List<MaterialSearchResult<T>> results;
 
-  // 输入过滤筛选
+  /// 输入过滤筛选
   final MaterialSearchFilter<T> filter;
 
-  // 排序
+  /// 排序
   final MaterialSearchSort<T> sort;
 
   @override
@@ -122,24 +84,24 @@ class MaterialSearchInput<T> extends StatefulWidget {
 class _MaterialSearchInputState<T> extends State<MaterialSearchInput<T>> {
   GlobalKey<FormFieldState<T>> _formFieldKey = GlobalKey<FormFieldState<T>>();
 
-  _buildMaterialSearchPage(BuildContext context) {
-    return _MaterialSearchPageRoute<T>(
-      builder: (BuildContext context) {
-        return Material(
-          child: MaterialSearch<T>(
-            barBackgroundColor: Theme.of(context).primaryColor,
-            placeholder: widget.placeholder,
-            results: widget.results,
-            filter: widget.filter,
-            sort: widget.sort,
-          ),
-        );
-      },
-    );
-  }
-
+  /// 调整到线路列表搜索页
   _showMaterialSearch(BuildContext context) {
-    Navigator.of(context).push(_buildMaterialSearchPage(context));
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) {
+          return Material(
+            child: MaterialSearch<T>(
+              barBackgroundColor: Theme.of(context).primaryColor,
+              placeholder: widget.placeholder,
+              results: widget.results,
+              filter: widget.filter,
+              sort: widget.sort,
+            ),
+          );
+        },
+      ),
+    );
   }
 
   bool _isEmpty(field) {
@@ -167,7 +129,7 @@ class _MaterialSearchInputState<T> extends State<MaterialSearchInput<T>> {
   }
 }
 
-/// 搜索页面
+/// 线路列表搜索页
 class MaterialSearch<T> extends StatefulWidget {
   MaterialSearch({
     Key key,
@@ -180,25 +142,25 @@ class MaterialSearch<T> extends StatefulWidget {
     this.iconColor = Colors.black,
   }) : super(key: key);
 
-  // 占位符,提示字符
+  /// 占位符,提示字符
   final String placeholder;
 
-  // 被选项
+  /// 被选项
   final List<MaterialSearchResult<T>> results;
 
-  // 过滤
+  /// 过滤
   final MaterialSearchFilter<T> filter;
 
-  // 排序
+  /// 排序
   final MaterialSearchSort<T> sort;
 
-  // 输入法点击完成时的处理函数
+  /// 输入法点击完成时的处理函数
   final OnSubmit onSubmit;
 
-  // appBar 的背景色
+  /// appBar 的背景色
   final Color barBackgroundColor;
 
-  // 图标的颜色
+  /// 图标的颜色
   final Color iconColor;
 
   @override
@@ -235,9 +197,9 @@ class _MaterialSearchState<T> extends State<MaterialSearch> {
   }
 
   Widget buildBody(List results) {
-    /*if (_criteria.isEmpty) {
+    if (_criteria.isEmpty) {
       return History();
-    }*/
+    }
     if (results.isNotEmpty) {
       return SingleChildScrollView(
         child: Column(children: results),

@@ -26,7 +26,7 @@ void showAboutSoftWareDialog(BuildContext context) {
     applicationVersion: '2019年3月',
     applicationIcon: Image.asset(
       "assets/images/logo.png",
-      width: ScreenUtil().setWidth(300),
+      width: ScreenUtil().setWidth(250),
     ),
     applicationLegalese: '© 2019 hanandjun',
     children: <Widget>[

@@ -66,70 +66,29 @@ class _NewsListPageState extends State<NewsListPage> {
               SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    return FlatButton(
-                      padding: EdgeInsets.all(
-                        ScreenUtil().setWidth(5),
-                      ),
-                      child: Container(
-                        height: ScreenUtil().setHeight(230),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(
-                                left: ScreenUtil().setWidth(20),
-                                top: ScreenUtil().setWidth(10),
-                                right: ScreenUtil().setWidth(20),
-                              ),
-                              child: Row(
-                                children: <Widget>[
-                                  Text(
-                                    DateFormat("yyyy年MM月dd日")
-                                        .format(DateTime.parse(_showNewsList
-                                            .showNewsList[index].realeasetime))
-                                        .toString(),
-                                    style: TextStyle(
-                                      color: Colors.orange,
-                                      fontSize: ScreenUtil().setSp(43),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                  left: ScreenUtil().setWidth(20),
-                                  top: ScreenUtil().setWidth(10),
-                                  right: ScreenUtil().setWidth(20),
-                                  bottom: ScreenUtil().setWidth(20),
-                                ),
-                                child: AutoSizeText(
-                                  _showNewsList.showNewsList[index].title,
-                                  style: TextStyle(
-                                    fontSize: ScreenUtil().setSp(40),
-                                  ),
-                                  // minFontSize: 10,
-                                  // stepGranularity: 10,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              width: double.infinity,
-                              height: ScreenUtil().setHeight(1),
-                              padding: EdgeInsets.only(
-                                  left: ScreenUtil().setWidth(13),
-                                  right: ScreenUtil().setWidth(13)),
-                              child: Container(
-                                color: Colors.black12,
-                              ),
-                            ),
-                          ],
+                    return ListTile(
+                      tileColor:
+                          index % 2 == 0 ? Colors.grey[300] : Colors.white,
+                      trailing: Icon(Icons.keyboard_arrow_right),
+                      title: Text(
+                        DateFormat("yyyy年MM月dd日")
+                            .format(DateTime.parse(
+                                _showNewsList.showNewsList[index].realeasetime))
+                            .toString(),
+                        style: TextStyle(
+                          color: Colors.orange,
+                          fontSize: ScreenUtil().setSp(43),
                         ),
                       ),
-                      onPressed: () => {
+                      subtitle: AutoSizeText(
+                        _showNewsList.showNewsList[index].title,
+                        style: TextStyle(
+                          fontSize: ScreenUtil().setSp(40),
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      onTap: () => {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
