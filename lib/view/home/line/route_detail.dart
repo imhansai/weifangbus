@@ -191,52 +191,49 @@ class _RouteDetailState extends State<RouteDetail>
               ),
               // 站点列表
               Expanded(
-                child: ListView.builder(
+                child: ListView.separated(
                   shrinkWrap: true,
                   itemCount: _segment.stationlist.length,
                   itemBuilder: (BuildContext context, int index) {
                     return FlatButton(
-                      padding: EdgeInsets.only(
-                        left: ScreenUtil().setWidth(20),
-                        right: ScreenUtil().setWidth(20),
-                      ),
-                      child: Container(
-                        height: ScreenUtil().setHeight(150),
-                        // 下分割线
-                        decoration: UnderlineTabIndicator(
-                          borderSide: BorderSide(
-                            color: Colors.black26,
-                            width: 2,
+                      child: Flex(
+                        direction: Axis.horizontal,
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: Icon(
+                              Icons.arrow_downward,
+                              color: Colors.blue,
+                            ),
                           ),
-                        ),
-                        child: Flex(
-                          direction: Axis.horizontal,
-                          children: [
-                            Expanded(
-                              child: Icon(
-                                Icons.arrow_downward,
-                                color: Colors.blue,
+                          Expanded(
+                            flex: 6,
+                            child: AutoSizeText(
+                              _segment.stationlist[index].stationname,
+                              style: TextStyle(
+                                fontSize: ScreenUtil().setSp(45),
                               ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            Expanded(
-                              child: AutoSizeText(
-                                _segment.stationlist[index].stationname,
-                                style: TextStyle(
-                                  fontSize: ScreenUtil().setSp(45),
-                                ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              flex: 3,
-                            ),
-                            carRealInfo(_segment.stationlist[index].stationid),
-                          ],
-                        ),
+                          ),
+                          Expanded(
+                            flex: 4,
+                            child: carRealInfo(
+                                _segment.stationlist[index].stationid),
+                          ),
+                        ],
                       ),
                       onPressed: () {
                         stationInfo(_segment.stationlist[index].stationid,
                             _segment.stationlist[index].stationname);
                       },
+                    );
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return Divider(
+                      indent: ScreenUtil().setWidth(20),
+                      endIndent: ScreenUtil().setWidth(20),
                     );
                   },
                 ),
@@ -276,65 +273,55 @@ class _RouteDetailState extends State<RouteDetail>
 
   /// 显示车辆实时信息
   Widget carRealInfo(String stationID) {
-    var widget = Expanded(
-      flex: 2,
-      child: Container(),
-    );
+    var widget;
     _routeRealTimeInfo.rStaRealTInfoList.forEach((element) {
       // print('${element.stationID}');
       if (element.stationID == stationID) {
         // print('找到 ${element.stationID}');
-        widget = Expanded(
-          flex: 2,
-          child: Container(
-            child: Flex(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              direction: Axis.horizontal,
-              children: [
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      element.stopBusStaNum != 0
-                          ? Icon(
-                              MaterialCommunityIcons.bus_side,
-                              color: Colors.green,
-                              size: ScreenUtil().setWidth(70),
-                            )
-                          : Container(),
-                      element.stopBusStaNum != 0
-                          ? AutoSizeText('${element.stopBusStaNum}辆到站')
-                          : Container(),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      element.expArriveBusStaNum != 0
-                          ? Icon(
-                              MaterialCommunityIcons.bus_side,
-                              color: Colors.red,
-                              size: ScreenUtil().setWidth(70),
-                            )
-                          : Container(),
-                      element.expArriveBusStaNum != 0
-                          ? AutoSizeText('${element.expArriveBusStaNum}辆离站')
-                          : Container(),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+        widget = Container(
+          child: Flex(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            direction: Axis.horizontal,
+            children: [
+              Expanded(
+                child: element.stopBusStaNum != 0
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(
+                            MaterialCommunityIcons.bus_side,
+                            color: Colors.green,
+                            size: ScreenUtil().setWidth(70),
+                          ),
+                          AutoSizeText('${element.stopBusStaNum}辆到站'),
+                        ],
+                      )
+                    : Container(),
+              ),
+              Expanded(
+                child: element.expArriveBusStaNum != 0
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(
+                            MaterialCommunityIcons.bus_side,
+                            color: Colors.red,
+                            size: ScreenUtil().setWidth(70),
+                          ),
+                          AutoSizeText('${element.expArriveBusStaNum}辆离站'),
+                        ],
+                      )
+                    : Container(),
+              ),
+            ],
           ),
         );
       }
     });
-    return widget;
+    return widget ?? Container();
   }
 
   /// 重试
