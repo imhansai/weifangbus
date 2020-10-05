@@ -48,15 +48,25 @@ class _RouteHeaderState extends State<RouteHeader> {
       Expanded(
         flex: 3,
         child: Padding(
-          padding: EdgeInsets.all(
-            ScreenUtil().setWidth(20),
+          padding: EdgeInsets.only(
+            left: ScreenUtil().setWidth(20),
+            top: ScreenUtil().setHeight(20),
+            right: ScreenUtil().setWidth(20),
           ),
-          child: AutoSizeText(
-            widget.routeName,
-            style: TextStyle(
-              fontSize: ScreenUtil().setSp(70),
-            ),
-            textAlign: TextAlign.start,
+          child: Wrap(
+            alignment: WrapAlignment.center,
+            runAlignment: WrapAlignment.center,
+            children: [
+              AutoSizeText(
+                widget.routeName,
+                style: TextStyle(
+                  fontSize: ScreenUtil().setSp(70),
+                ),
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
           ),
         ),
       ),
@@ -114,6 +124,7 @@ class _RouteHeaderState extends State<RouteHeader> {
                   direction: Axis.vertical,
                   children: [
                     Expanded(
+                      flex: 3,
                       child: Icon(
                         Icons.forward,
                         color: Colors.orange,
@@ -122,6 +133,7 @@ class _RouteHeaderState extends State<RouteHeader> {
                     // 换向
                     widget.transDirection
                         ? Expanded(
+                            flex: 2,
                             child: RaisedButton.icon(
                               color: Colors.green,
                               icon: Icon(
@@ -231,7 +243,6 @@ class _RouteHeaderState extends State<RouteHeader> {
     return Container(
       color: Colors.blueGrey,
       height: ScreenUtil().setHeight(400),
-      width: double.infinity,
       child: Flex(
         crossAxisAlignment: CrossAxisAlignment.start,
         direction: Axis.vertical,
