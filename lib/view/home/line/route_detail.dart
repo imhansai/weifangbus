@@ -29,6 +29,8 @@ class RouteDetail extends StatefulWidget {
 
 class _RouteDetailState extends State<RouteDetail>
     with AutomaticKeepAliveClientMixin {
+  GlobalKey<ScaffoldState> _listKey = GlobalKey<ScaffoldState>();
+
   /// 线路详情
   RouteStatDataEntity _routeStatData;
 
@@ -336,6 +338,9 @@ class _RouteDetailState extends State<RouteDetail>
                     _refreshRouteRealTimeInfo(_segmentID);
                     _expandStationId = null;
                     _carInfoTimer?.cancel();
+                    // print('oriKey: $_listKey');
+                    _listKey = GlobalKey<ScaffoldState>();
+                    // print('afterKey: $_listKey');
                   });
                 },
                 firstAndLastBus: _segment.firtlastshiftinfo,
@@ -345,6 +350,7 @@ class _RouteDetailState extends State<RouteDetail>
               Expanded(
                 child: SingleChildScrollView(
                   child: ExpansionPanelList.radio(
+                    key: _listKey,
                     expansionCallback: (int index, bool isExpanded) {
                       print('点击 $index 状态 $isExpanded');
                       // 收缩时清空展开索引，不需要构建车辆实时信息
