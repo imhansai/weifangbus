@@ -29,6 +29,7 @@ class RouteDetail extends StatefulWidget {
 
 class _RouteDetailState extends State<RouteDetail>
     with AutomaticKeepAliveClientMixin {
+  /// 换向后的列表重置
   var _listKey = UniqueKey();
 
   /// 线路详情
@@ -49,16 +50,14 @@ class _RouteDetailState extends State<RouteDetail>
   /// 获取车辆实时信息必需参数
   var _segmentID;
 
-  /// 车辆实时信息定时器
+  /// 车辆、站点实时信息定时器
   Timer _timer;
 
-  /// 站点实时信息
-  List<StationRealTimeInfoRealtimeInfoList> _realtimeInfoList = List();
+  /// 站点实时信息Future
+  Future<StationRealTimeInfoEntity> _stationRealTimeInfoFuture;
 
-  /// 站点实时信息定时器
-  Timer _carInfoTimer;
-
-  var _expandStationId;
+  /// 展开的索引
+  List<int> _expandIndexList = List();
 
   /// 获取线路详情
   Future<RouteStatDataEntity> _getRouteStatData() async {
@@ -104,7 +103,6 @@ class _RouteDetailState extends State<RouteDetail>
   @override
   void dispose() {
     _timer?.cancel();
-    _carInfoTimer?.cancel();
     super.dispose();
   }
 
@@ -113,6 +111,12 @@ class _RouteDetailState extends State<RouteDetail>
     _timer = Timer.periodic(Duration(seconds: 10), (timer) {
       print('定时刷新车辆实时信息 ${DateTime.now()}');
       _immediatelyFlush(segmentID);
+      if (_expandIndexList.isNotEmpty) {
+        print('定时刷新站点实时信息 ${DateTime.now()}');
+        setState(() {
+          _stationRealTimeInfoFuture = _getStationRealTimeInfoFuture();
+        });
+      }
     });
   }
 
@@ -211,37 +215,13 @@ class _RouteDetailState extends State<RouteDetail>
     return widget ?? Container();
   }
 
-  /// 定时刷新站点实时信息
-  void _refreshCarInfo(String stationId) {
-    _carInfoTimer = Timer.periodic(Duration(seconds: 10), (timer) async {
-      print('定时刷新站点实时信息 ${DateTime.now()}');
-      var stationRealTimeInfo = await _getStationRealTimeInfoEntity(stationId);
-      setState(() {
-        _realtimeInfoList = stationRealTimeInfo.realtimeInfoList;
-      });
-    });
-  }
-
-  /// 刷新站点实时信息
-  Future<void> _refreshStationRealTimeInfo(String stationId) async {
-    // print('routeId: ${widget.routeId} stationId: $stationId');
-    var stationRealTimeInfo = await _getStationRealTimeInfoEntity(stationId);
-    setState(() {
-      _realtimeInfoList = stationRealTimeInfo.realtimeInfoList;
-    });
-    // todo 测试直接覆盖赋值
-    _carInfoTimer?.cancel();
-    _refreshCarInfo(stationId);
-  }
-
-  Future<StationRealTimeInfoEntity> _getStationRealTimeInfoEntity(
-      String stationId) async {
+  Future<StationRealTimeInfoEntity> _getStationRealTimeInfoFuture() async {
     try {
       Response response;
       var uri = "/BusService/Query_ByStationID/?RouteID=" +
           widget.routeId.toString() +
           "&StationID=" +
-          stationId +
+          _segment.stationlist[_expandIndexList.last].stationid +
           "&" +
           getSignString();
       // print(uri);
@@ -261,29 +241,48 @@ class _RouteDetailState extends State<RouteDetail>
   }
 
   /// 车辆实时列表
-  ListView buildListView() {
-    print('车辆信息列表开始构建');
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      itemCount: _realtimeInfoList.length,
-      itemBuilder: (context, index) {
-        return ListTile(
-          title: AutoSizeText(
-            '${_realtimeInfoList[index].busName} ${_realtimeInfoList[index].foreCastInfo2}到达',
-            style: TextStyle(
-              fontSize: ScreenUtil().setSp(70),
-            ),
-          ),
-          subtitle: AutoSizeText(
-            '${_realtimeInfoList[index].foreCastInfo1} ${_realtimeInfoList[index].arriveStaName}',
-            style: TextStyle(
-              fontSize: ScreenUtil().setSp(45),
-            ),
-          ),
-        );
-      },
-    );
+  Widget buildListView() {
+    // print('_expandStationId $_expandStationId');
+    return _expandIndexList.isNotEmpty
+        ? FutureBuilder<StationRealTimeInfoEntity>(
+            future: _stationRealTimeInfoFuture,
+            builder: (BuildContext context,
+                AsyncSnapshot<StationRealTimeInfoEntity> snapshot) {
+              // 请求已结束
+              if (snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasError) {
+                  // 请求失败，显示错误
+                  return Text("Error: ${snapshot.error}");
+                } else {
+                  StationRealTimeInfoEntity stationRealTimeInfo = snapshot.data;
+                  var realtimeInfoList = stationRealTimeInfo.realtimeInfoList;
+                  // 请求成功，显示数据
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: realtimeInfoList.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: AutoSizeText(
+                          '${realtimeInfoList[index].busName} ${realtimeInfoList[index].foreCastInfo2}到达',
+                        ),
+                        subtitle: AutoSizeText(
+                          '${realtimeInfoList[index].foreCastInfo1} ${realtimeInfoList[index].arriveStaName}',
+                        ),
+                      );
+                    },
+                  );
+                }
+              } else {
+                // 请求未结束，显示loading
+                return SpinKitWave(
+                  color: Colors.blue,
+                  type: SpinKitWaveType.center,
+                );
+              }
+            },
+          )
+        : Container();
   }
 
   @override
@@ -316,6 +315,7 @@ class _RouteDetailState extends State<RouteDetail>
           var length = _routeStatData.segmentlist.length;
           var stationList = _segment.stationlist;
 
+          // 展开内容,唯一一个，不然每个条目都会构建
           var carInfo = buildListView();
 
           // 站点列表
@@ -336,8 +336,7 @@ class _RouteDetailState extends State<RouteDetail>
                     _timer?.cancel();
                     _immediatelyFlush(_segmentID);
                     _refreshRouteRealTimeInfo(_segmentID);
-                    _expandStationId = null;
-                    _carInfoTimer?.cancel();
+                    _expandIndexList = List();
                     // print('oriKey: $_listKey');
                     _listKey = UniqueKey();
                     // print('afterKey: $_listKey');
@@ -352,26 +351,42 @@ class _RouteDetailState extends State<RouteDetail>
                   key: _listKey,
                   child: ExpansionPanelList.radio(
                     expansionCallback: (int index, bool isExpanded) {
-                      print('点击 $index 状态 $isExpanded');
-                      // 收缩时清空展开索引，不需要构建车辆实时信息
-                      if (isExpanded) {
-                        _expandStationId = null;
-                        _carInfoTimer?.cancel();
+                      // print('点击 $index 状态 $isExpanded');
+                      // if (_expandIndexList.isNotEmpty) {
+                      //   _expandIndexList.forEach((element) {
+                      //     print('oriListElement: $element');
+                      //   });
+                      // } else {
+                      //   print('oriListElement 为空');
+                      // }
+                      if (_expandIndexList.contains(index)) {
+                        // print('展开列表包括 $index,删除掉!');
+                        _expandIndexList.remove(index);
+                      } else {
+                        // print('添加展开索引 $index');
+                        _expandIndexList.add(index);
+                        setState(() {
+                          _stationRealTimeInfoFuture =
+                              _getStationRealTimeInfoFuture();
+                        });
                       }
+                      // if (_expandIndexList.isNotEmpty) {
+                      //   _expandIndexList.forEach((element) {
+                      //     print('afterListElement: $element');
+                      //   });
+                      // } else {
+                      //   print('afterListElement 为空');
+                      // }
                     },
                     children: stationList
                         .map((e) => ExpansionPanelRadio(
                               canTapOnHeader: true,
                               headerBuilder:
                                   (BuildContext context, bool isExpanded) {
-                                if (isExpanded &&
-                                    e.stationid != _expandStationId) {
-                                  print(
-                                      '${e.stationname} isExpanded $isExpanded');
-                                  _expandStationId = e.stationid;
-                                  // 只有展开时才发起请求
-                                  _refreshStationRealTimeInfo(e.stationid);
-                                }
+                                // if (isExpanded) {
+                                //   print(
+                                //       '${e.stationname} isExpanded $isExpanded');
+                                // }
                                 return ListTile(
                                   title: Flex(
                                     direction: Axis.horizontal,
@@ -392,9 +407,7 @@ class _RouteDetailState extends State<RouteDetail>
                                   ),
                                 );
                               },
-                              body: _expandStationId == e.stationid
-                                  ? carInfo
-                                  : Container(),
+                              body: carInfo,
                               value: e.stationid,
                             ))
                         .toList(),
