@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -29,6 +30,9 @@ class RouteDetail extends StatefulWidget {
 
 class _RouteDetailState extends State<RouteDetail>
     with AutomaticKeepAliveClientMixin {
+  /// 方便获取 ScaffoldState 进行 showSnackBar
+  final _routeDetailKey = GlobalKey<ScaffoldState>();
+
   /// 换向后的列表重置
   var _listKey = UniqueKey();
 
@@ -131,90 +135,128 @@ class _RouteDetailState extends State<RouteDetail>
     });
   }
 
+  /// 展示 SnackBar
+  void showSnackBar(String snackStr, VoidCallback onPressed) {
+    _routeDetailKey.currentState.showSnackBar(
+      SnackBar(
+        duration: Duration(seconds: 5),
+        content: Text(snackStr),
+        action: SnackBarAction(label: '重试', onPressed: onPressed),
+      ),
+    );
+  }
+
   /// 车辆实时信息
   Future<RouteRealTimeInfoEntity> _getRouteRealTimeInfo(
       String segmentID) async {
-    try {
-      Response response;
-      var uri = "/BusService/Query_ByRouteID/?RouteID=" +
-          widget.routeId.toString() +
-          "&SegmentID=" +
-          segmentID +
-          "&" +
-          getSignString();
-      // print(uri);
-      response = await dio.get(uri);
-      // print(response.data);
-      var routeRealTimeInfo =
-          JsonConvert.fromJsonAsT<RouteRealTimeInfoEntity>(response.data);
-      print('请求车辆实时信息完毕');
-      return routeRealTimeInfo;
-    } catch (e) {
-      print(getErrorMsg(e, msg: "请求车辆实时信息"));
-      return Future.error(e);
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult != ConnectivityResult.none) {
+      try {
+        Response response;
+        var uri = "/BusService/Query_ByRouteID/?RouteID=" +
+            widget.routeId.toString() +
+            "&SegmentID=" +
+            segmentID +
+            "&" +
+            getSignString();
+        // print('uri: $uri');
+        response = await dio.get(uri);
+        // print('响应体: ${response.data}');
+        var routeRealTimeInfo =
+            JsonConvert.fromJsonAsT<RouteRealTimeInfoEntity>(response.data);
+        print('请求车辆实时信息完毕');
+        return routeRealTimeInfo;
+      } catch (e) {
+        print(getErrorMsg(e, msg: "请求车辆实时信息"));
+        showSnackBar('啊哦！请求车辆实时信息失败!', () {
+          _immediatelyFlush(segmentID);
+          if (_expandIndexList.isNotEmpty) {
+            print('定时刷新站点实时信息 ${DateTime.now()}');
+            setState(() {
+              _stationRealTimeInfoFuture = _getStationRealTimeInfoFuture();
+            });
+          }
+        });
+        return Future.error(e);
+      }
+    } else {
+      print('木有开网络!!!');
+      showSnackBar('设备未连接到任何网络,请连接网络后重试!', () {
+        _immediatelyFlush(segmentID);
+        if (_expandIndexList.isNotEmpty) {
+          print('定时刷新站点实时信息 ${DateTime.now()}');
+          setState(() {
+            _stationRealTimeInfoFuture = _getStationRealTimeInfoFuture();
+          });
+        }
+      });
+      return Future.value(null);
     }
   }
 
   /// 显示车辆实时信息
   Widget carRealInfo(String stationID) {
     var widget;
-    _routeRealTimeInfo.rStaRealTInfoList.forEach((element) {
-      // print('${element.stationID}');
-      if (element.stationID == stationID) {
-        // print('找到 ${element.stationID}');
-        widget = Container(
-          child: Flex(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            direction: Axis.horizontal,
-            children: [
-              Expanded(
-                child: element.stopBusStaNum != 0
-                    ? Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(
-                            MaterialCommunityIcons.bus_side,
-                            color: Colors.green,
-                            // size: ScreenUtil().setWidth(70),
-                          ),
-                          AutoSizeText(
-                            '${element.stopBusStaNum}辆到站',
-                            style: TextStyle(
-                              fontSize: ScreenUtil().setSp(30),
+    // 防止请求失败时构建出现错误
+    if (_routeRealTimeInfo != null) {
+      _routeRealTimeInfo.rStaRealTInfoList.forEach((element) {
+        // print('${element.stationID}');
+        if (element.stationID == stationID) {
+          // print('找到 ${element.stationID}');
+          widget = Container(
+            child: Flex(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              direction: Axis.horizontal,
+              children: [
+                Expanded(
+                  child: element.stopBusStaNum != 0
+                      ? Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(
+                              MaterialCommunityIcons.bus_side,
+                              color: Colors.green,
+                              // size: ScreenUtil().setWidth(70),
                             ),
-                          ),
-                        ],
-                      )
-                    : Container(),
-              ),
-              Expanded(
-                child: element.expArriveBusStaNum != 0
-                    ? Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(
-                            MaterialCommunityIcons.bus_side,
-                            color: Colors.red,
-                            // size: ScreenUtil().setWidth(70),
-                          ),
-                          AutoSizeText(
-                            '${element.expArriveBusStaNum}辆离站',
-                            style: TextStyle(
-                              fontSize: ScreenUtil().setSp(30),
+                            AutoSizeText(
+                              '${element.stopBusStaNum}辆到站',
+                              style: TextStyle(
+                                fontSize: ScreenUtil().setSp(30),
+                              ),
                             ),
-                          ),
-                        ],
-                      )
-                    : Container(),
-              ),
-            ],
-          ),
-        );
-      }
-    });
+                          ],
+                        )
+                      : Container(),
+                ),
+                Expanded(
+                  child: element.expArriveBusStaNum != 0
+                      ? Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(
+                              MaterialCommunityIcons.bus_side,
+                              color: Colors.red,
+                              // size: ScreenUtil().setWidth(70),
+                            ),
+                            AutoSizeText(
+                              '${element.expArriveBusStaNum}辆离站',
+                              style: TextStyle(
+                                fontSize: ScreenUtil().setSp(30),
+                              ),
+                            ),
+                          ],
+                        )
+                      : Container(),
+                ),
+              ],
+            ),
+          );
+        }
+      });
+    }
     return widget ?? Container();
   }
 
@@ -245,8 +287,11 @@ class _RouteDetailState extends State<RouteDetail>
   }
 
   /// 站点名称及车辆信息
-  ListTile buildListTile(RouteStatDataSegmantlistStationlist e) {
+  ListTile buildListTile(RouteStatDataSegmantlistStationlist e, int i) {
     return ListTile(
+      leading: CircleAvatar(
+        child: Text('${i + 1}'),
+      ),
       title: Flex(
         direction: Axis.horizontal,
         children: [
@@ -259,7 +304,7 @@ class _RouteDetailState extends State<RouteDetail>
             ),
           ),
           Expanded(
-            flex: 4,
+            flex: 5,
             child: carRealInfo(e.stationid),
           ),
         ],
@@ -310,6 +355,10 @@ class _RouteDetailState extends State<RouteDetail>
                         itemCount: realtimeInfoList.length,
                         itemBuilder: (context, index) {
                           return ListTile(
+                            leading: Icon(
+                              Icons.live_tv,
+                              color: Colors.white,
+                            ),
                             title: AutoSizeText(
                               '${realtimeInfoList[index].busName} ${realtimeInfoList[index].foreCastInfo2}到达',
                             ),
@@ -328,6 +377,10 @@ class _RouteDetailState extends State<RouteDetail>
                       itemCount: _carInfoCount,
                       itemBuilder: (context, index) {
                         return ListTile(
+                          leading: Icon(
+                            Icons.live_tv,
+                            color: Colors.white,
+                          ),
                           title: AutoSizeText(
                             '加载中...',
                           ),
@@ -417,6 +470,24 @@ class _RouteDetailState extends State<RouteDetail>
           // 展开内容,唯一一个，不然每个条目都会构建
           var carInfo = buildListView();
 
+          List<ExpansionPanelRadio> expansionPanelRadios = List();
+          for (var i = 0; i < stationList.length; ++i) {
+            var e = stationList[i];
+            var expansionPanelRadio = ExpansionPanelRadio(
+              canTapOnHeader: true,
+              headerBuilder: (BuildContext context, bool isExpanded) {
+                // if (isExpanded) {
+                //   print(
+                //       '${e.stationname} isExpanded $isExpanded');
+                // }
+                return buildListTile(e, i);
+              },
+              body: carInfo,
+              value: e.stationid,
+            );
+            expansionPanelRadios.add(expansionPanelRadio);
+          }
+
           // 站点列表
           return Column(
             children: [
@@ -478,21 +549,7 @@ class _RouteDetailState extends State<RouteDetail>
                       //   print('afterListElement 为空');
                       // }
                     },
-                    children: stationList
-                        .map((e) => ExpansionPanelRadio(
-                              canTapOnHeader: true,
-                              headerBuilder:
-                                  (BuildContext context, bool isExpanded) {
-                                // if (isExpanded) {
-                                //   print(
-                                //       '${e.stationname} isExpanded $isExpanded');
-                                // }
-                                return buildListTile(e);
-                              },
-                              body: carInfo,
-                              value: e.stationid,
-                            ))
-                        .toList(),
+                    children: expansionPanelRadios,
                   ),
                 ),
               ),
@@ -512,6 +569,7 @@ class _RouteDetailState extends State<RouteDetail>
     };
 
     return Scaffold(
+      key: _routeDetailKey,
       appBar: AppBar(
         title: AutoSizeText(
           widget.title,
