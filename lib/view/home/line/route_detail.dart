@@ -59,6 +59,9 @@ class _RouteDetailState extends State<RouteDetail>
   /// 展开的索引
   List<int> _expandIndexList = List();
 
+  /// 站点实时信息数
+  int _carInfoCount = 2;
+
   /// 获取线路详情
   Future<RouteStatDataEntity> _getRouteStatData() async {
     try {
@@ -215,6 +218,7 @@ class _RouteDetailState extends State<RouteDetail>
     return widget ?? Container();
   }
 
+  /// 获取站点实时信息Future
   Future<StationRealTimeInfoEntity> _getStationRealTimeInfoFuture() async {
     try {
       Response response;
@@ -240,50 +244,145 @@ class _RouteDetailState extends State<RouteDetail>
     }
   }
 
+  /// 站点名称及车辆信息
+  ListTile buildListTile(RouteStatDataSegmantlistStationlist e) {
+    return ListTile(
+      title: Flex(
+        direction: Axis.horizontal,
+        children: [
+          Expanded(
+            flex: 6,
+            child: AutoSizeText(
+              e.stationname,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          Expanded(
+            flex: 4,
+            child: carRealInfo(e.stationid),
+          ),
+        ],
+      ),
+    );
+  }
+
   /// 车辆实时列表
   Widget buildListView() {
     // print('_expandStationId $_expandStationId');
     return _expandIndexList.isNotEmpty
-        ? FutureBuilder<StationRealTimeInfoEntity>(
-            future: _stationRealTimeInfoFuture,
-            builder: (BuildContext context,
-                AsyncSnapshot<StationRealTimeInfoEntity> snapshot) {
-              // 请求已结束
-              if (snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.hasError) {
-                  // 请求失败，显示错误
-                  return Text("Error: ${snapshot.error}");
-                } else {
-                  StationRealTimeInfoEntity stationRealTimeInfo = snapshot.data;
-                  var realtimeInfoList = stationRealTimeInfo.realtimeInfoList;
-                  // 请求成功，显示数据
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: realtimeInfoList.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: AutoSizeText(
-                          '${realtimeInfoList[index].busName} ${realtimeInfoList[index].foreCastInfo2}到达',
-                        ),
-                        subtitle: AutoSizeText(
-                          '${realtimeInfoList[index].foreCastInfo1} ${realtimeInfoList[index].arriveStaName}',
+        ? Column(
+            children: [
+              FutureBuilder<StationRealTimeInfoEntity>(
+                future: _stationRealTimeInfoFuture,
+                builder: (BuildContext context,
+                    AsyncSnapshot<StationRealTimeInfoEntity> snapshot) {
+                  // 请求已结束
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.hasError) {
+                      // 请求失败，显示错误
+                      return Container(
+                        height: ScreenUtil().setHeight(175 * _carInfoCount),
+                        child: Center(
+                          child: RaisedButton(
+                            color: Colors.blue,
+                            highlightColor: Colors.blue[700],
+                            colorBrightness: Brightness.dark,
+                            splashColor: Colors.grey,
+                            child: Text("请检查网络连接后点击重试"),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            onPressed: reGetStationRealTimeInfo,
+                          ),
                         ),
                       );
-                    },
-                  );
-                }
-              } else {
-                // 请求未结束，显示loading
-                return SpinKitWave(
-                  color: Colors.blue,
-                  type: SpinKitWaveType.center,
-                );
-              }
-            },
+                    } else {
+                      StationRealTimeInfoEntity stationRealTimeInfo =
+                          snapshot.data;
+                      var realtimeInfoList =
+                          stationRealTimeInfo.realtimeInfoList;
+                      _carInfoCount = realtimeInfoList.length;
+                      // 请求成功，显示数据
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: realtimeInfoList.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            title: AutoSizeText(
+                              '${realtimeInfoList[index].busName} ${realtimeInfoList[index].foreCastInfo2}到达',
+                            ),
+                            subtitle: AutoSizeText(
+                              '${realtimeInfoList[index].foreCastInfo1} ${realtimeInfoList[index].arriveStaName}',
+                            ),
+                          );
+                        },
+                      );
+                    }
+                  } else {
+                    // 请求未结束，显示loading
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: _carInfoCount,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: AutoSizeText(
+                            '加载中...',
+                          ),
+                          subtitle: AutoSizeText(
+                            '加载中...',
+                          ),
+                        );
+                      },
+                    );
+                  }
+                },
+              ),
+              // Row(
+              //   children: [
+              //     Expanded(
+              //       child: buildStationOperation(Colors.green, '电子站牌', () {
+              //         print('点击了电子站牌');
+              //       }),
+              //     ),
+              //     Expanded(
+              //       child: buildStationOperation(Colors.blue, '收藏本站', () {
+              //         print('点击了收藏本站');
+              //       }),
+              //     ),
+              //     Expanded(
+              //       child: buildStationOperation(Colors.deepOrange, '刷新', () {
+              //         print('点击了刷新');
+              //       }),
+              //     ),
+              //     Expanded(
+              //       child: buildStationOperation(Colors.teal, '到站提醒', () {
+              //         print('点击了到站提醒');
+              //       }),
+              //     ),
+              //   ],
+              // ),
+            ],
           )
         : Container();
   }
+
+  // /// 站点操作部分
+  // Widget buildStationOperation(
+  //     Color color, String label, VoidCallback onPressed) {
+  //   return Container(
+  //     color: color,
+  //     child: FlatButton(
+  //       onPressed: onPressed,
+  //       child: AutoSizeText(
+  //         label,
+  //         textAlign: TextAlign.center,
+  //       ),
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -337,6 +436,7 @@ class _RouteDetailState extends State<RouteDetail>
                     _immediatelyFlush(_segmentID);
                     _refreshRouteRealTimeInfo(_segmentID);
                     _expandIndexList = List();
+                    _carInfoCount = 2;
                     // print('oriKey: $_listKey');
                     _listKey = UniqueKey();
                     // print('afterKey: $_listKey');
@@ -387,25 +487,7 @@ class _RouteDetailState extends State<RouteDetail>
                                 //   print(
                                 //       '${e.stationname} isExpanded $isExpanded');
                                 // }
-                                return ListTile(
-                                  title: Flex(
-                                    direction: Axis.horizontal,
-                                    children: [
-                                      Expanded(
-                                        flex: 6,
-                                        child: AutoSizeText(
-                                          e.stationname,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        flex: 4,
-                                        child: carRealInfo(e.stationid),
-                                      ),
-                                    ],
-                                  ),
-                                );
+                                return buildListTile(e);
                               },
                               body: carInfo,
                               value: e.stationid,
@@ -448,6 +530,13 @@ class _RouteDetailState extends State<RouteDetail>
   void reTry() {
     setState(() {
       _routeStatDataFuture = _getRouteStatData();
+    });
+  }
+
+  /// 重新加载站点实时信息
+  void reGetStationRealTimeInfo() {
+    setState(() {
+      _stationRealTimeInfoFuture = _getStationRealTimeInfoFuture();
     });
   }
 
