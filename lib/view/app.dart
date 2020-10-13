@@ -24,7 +24,9 @@ class _WeiFangBusApp extends State<WeiFangBusApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<NewsModel>(create: (_) => NewsModel()),
+        ChangeNotifierProvider<NewsModel>(
+          create: (_) => NewsModel(),
+        ),
       ],
       child: MaterialApp(
         title: "潍坊公交",

@@ -36,78 +36,73 @@ class _NewsListPageState extends State<NewsListPage> {
 
   @override
   Widget build(BuildContext context) {
+    // 随着资讯信息的变化而变化
+    var _showNewsList = context.watch<NewsModel>();
     return Scaffold(
       key: _newsListKey,
       appBar: AppBar(
         title: Text("资讯列表"),
       ),
-      body: Consumer<NewsModel>(
-        builder: (context, _showNewsList, _) => Center(
-          child: EasyRefresh.custom(
-            header: PhoenixHeader(),
-            footer: PhoenixFooter(),
-            onRefresh: () async {
-              var connectivityResult =
-                  await (Connectivity().checkConnectivity());
-              if (connectivityResult != ConnectivityResult.none) {
-                try {
-                  Provider.of<NewsModel>(context, listen: false)
-                      .refreshNewsList();
-                  showSnackBar('刷新成功!');
-                } catch (e) {
-                  print('刷新资讯列表出错::: $e');
-                  showSnackBar('请求数据失败，请尝试切换网络后重试!');
-                }
-              } else {
-                showSnackBar('设备未连接到任何网络,请连接网络后重试!');
-              }
-            },
-            slivers: <Widget>[
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    return ListTile(
-                      tileColor:
-                          index % 2 == 0 ? Colors.grey[300] : Colors.white,
-                      trailing: Icon(Icons.keyboard_arrow_right),
-                      title: Text(
-                        DateFormat("yyyy年MM月dd日")
-                            .format(DateTime.parse(
-                                _showNewsList.showNewsList[index].realeasetime))
-                            .toString(),
-                        style: TextStyle(
-                          color: Colors.orange,
-                          fontSize: ScreenUtil().setSp(43),
-                        ),
+      body: EasyRefresh.custom(
+        header: PhoenixHeader(),
+        footer: PhoenixFooter(),
+        onRefresh: () async {
+          var connectivityResult = await (Connectivity().checkConnectivity());
+          if (connectivityResult != ConnectivityResult.none) {
+            try {
+              context.read<NewsModel>().refreshNewsList();
+              showSnackBar('刷新成功!');
+            } catch (e) {
+              print('刷新资讯列表出错::: $e');
+              showSnackBar('请求数据失败，请尝试切换网络后重试!');
+            }
+          } else {
+            showSnackBar('设备未连接到任何网络,请连接网络后重试!');
+          }
+        },
+        slivers: <Widget>[
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                return ListTile(
+                  tileColor: index % 2 == 0 ? Colors.grey[200] : Colors.white,
+                  trailing: Icon(Icons.keyboard_arrow_right),
+                  title: Text(
+                    DateFormat("yyyy年MM月dd日")
+                        .format(DateTime.parse(
+                            _showNewsList.showNewsList[index].realeasetime))
+                        .toString(),
+                    style: TextStyle(
+                      color: Colors.orange,
+                      fontSize: ScreenUtil().setSp(43),
+                    ),
+                  ),
+                  subtitle: AutoSizeText(
+                    _showNewsList.showNewsList[index].title,
+                    style: TextStyle(
+                      fontSize: ScreenUtil().setSp(40),
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  onTap: () => {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) {
+                          return InformationDetail(
+                            headLine: _showNewsList.showNewsList[index],
+                          );
+                        },
                       ),
-                      subtitle: AutoSizeText(
-                        _showNewsList.showNewsList[index].title,
-                        style: TextStyle(
-                          fontSize: ScreenUtil().setSp(40),
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      onTap: () => {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (BuildContext context) {
-                              return InformationDetail(
-                                headLine: _showNewsList.showNewsList[index],
-                              );
-                            },
-                          ),
-                        ),
-                      },
-                    );
+                    ),
                   },
-                  childCount: _showNewsList.showNewsList.length,
-                ),
-              ),
-            ],
+                );
+              },
+              childCount: _showNewsList.showNewsList.length,
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

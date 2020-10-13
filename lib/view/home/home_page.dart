@@ -32,27 +32,39 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with AutomaticKeepAliveClientMixin {
-  @override
-  bool get wantKeepAlive => true;
+  /// 菜单项
+  List<MenuEntity> menuEntityList = List();
+
+  /// 初始页json数据实体类
+  Future<StartUpBasicInfoEntity> _startUpBasicInfoFuture;
+
+  /// 所有线路
+  List<MaterialSearchResult<String>> allRouteList = List();
+
+  /// [_startUpBasicInfoFuture] 请求成功后的数据
+  StartUpBasicInfoEntity _startUpBasicInfoEntity;
+
+  /// 资讯信息列表(状态变更用)
+  var _showNewsList;
+
+  /// 是否展示轮播图
+  var _canShowSlideShow = false;
+
+  /// 是否展示资讯信息
+  var _canShowHeadLine = false;
 
   @override
   void initState() {
     super.initState();
     setMenuEntityList();
-    _startUpBasicInfoEntity = getStartUpBasicInfoEntity();
+    _startUpBasicInfoFuture = _getStartUpBasicInfoFuture();
     getAllRoute();
   }
 
-  // 菜单项
-  List<MenuEntity> menuEntityList = List();
+  @override
+  bool get wantKeepAlive => true;
 
-  // 初始页json数据实体类
-  Future<StartUpBasicInfoEntity> _startUpBasicInfoEntity;
-
-  // 所有线路
-  List<MaterialSearchResult<String>> allRouteList = List();
-
-  // 展示 SnackBar
+  /// 展示 SnackBar
   void showSnackBar(String snackStr) {
     Scaffold.of(context).showSnackBar(
       SnackBar(
@@ -62,7 +74,7 @@ class _HomePageState extends State<HomePage>
     );
   }
 
-  // 设置菜单
+  /// 设置菜单
   void setMenuEntityList() {
     MenuEntity lineInquiry = MenuEntity(
       Colors.lightGreen,
@@ -124,8 +136,8 @@ class _HomePageState extends State<HomePage>
     menuEntityList.add(news);
   }
 
-  // 请求首页数据
-  Future<StartUpBasicInfoEntity> getStartUpBasicInfoEntity() async {
+  /// 请求首页数据
+  Future<StartUpBasicInfoEntity> _getStartUpBasicInfoFuture() async {
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult != ConnectivityResult.none) {
       try {
@@ -149,7 +161,7 @@ class _HomePageState extends State<HomePage>
     }
   }
 
-  // 请求所有的路线
+  /// 请求所有的路线
   void getAllRoute() async {
     try {
       Response response;
@@ -192,17 +204,16 @@ class _HomePageState extends State<HomePage>
     }
   }
 
-  // 重试处理
+  /// 重试处理
   reTry() {
     setState(() {
-      _startUpBasicInfoEntity = getStartUpBasicInfoEntity();
+      _startUpBasicInfoFuture = _getStartUpBasicInfoFuture();
       getAllRoute();
-      Future.microtask(() =>
-          Provider.of<NewsModel>(context, listen: false).refreshNewsList());
+      Future.microtask(() => context.read<NewsModel>().refreshNewsList());
     });
   }
 
-  // 出现错误展示的控件
+  /// 出现错误展示的控件
   Widget reTryWidget() {
     return Center(
       child: RaisedButton(
@@ -219,7 +230,7 @@ class _HomePageState extends State<HomePage>
     );
   }
 
-  // 等待状态展示等待动画
+  /// 等待状态展示等待动画
   Widget waitingWidget() {
     // return Text('Awaiting result...');
     return SpinKitWave(
@@ -228,204 +239,164 @@ class _HomePageState extends State<HomePage>
     );
   }
 
-  // 页面内容展示
-  Widget contentWidget(
-      AsyncSnapshot<StartUpBasicInfoEntity> snapshot, NewsModel _showNewsList) {
-    var startUpBasicInfoEntity = snapshot.data;
-    // 是否展示轮播图
-    var canShowSlideShow = false;
-    // 是否展示资讯信息
-    var canShowHeadLine = false;
-    if (startUpBasicInfoEntity.slideshow.length > 0) {
-      canShowSlideShow = true;
-    }
-    if (_showNewsList.showNewsList.length > 0) {
-      canShowHeadLine = true;
-    }
+  /// 轮播图 + 资讯
+  Widget swiperAndInfoWidget() {
+    return SliverPadding(
+      padding: EdgeInsets.all(ScreenUtil().setWidth(0)),
+      sliver: SliverList(
+        delegate: SliverChildListDelegate(
+          [
+            Container(
+              height: ScreenUtil().setHeight(435), // 435 + 174
+              child: slideShowWidget(),
+            ),
+            Container(
+              height: ScreenUtil().setHeight(174), // 435 + 174
+              child: infoShowWidget(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// 资讯信息
+  Widget infoShowWidget() {
     return Container(
-      child: CustomScrollView(
-        slivers: <Widget>[
-          swiperAndInfoWidget(canShowSlideShow, startUpBasicInfoEntity,
-              canShowHeadLine, _showNewsList),
-          menuWidget(),
+      color: Colors.white70,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(
+              left: ScreenUtil().setWidth(25),
+              right: ScreenUtil().setWidth(25),
+            ),
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.deepOrangeAccent),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(5),
+                ),
+                color: Colors.deepOrangeAccent,
+              ),
+              child: Padding(
+                child: Text(
+                  "资\n讯",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                padding: EdgeInsets.symmetric(
+                  vertical: ScreenUtil().setHeight(3),
+                  horizontal: ScreenUtil().setWidth(12),
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(
+                right: ScreenUtil().setWidth(31),
+              ),
+              child: Swiper(
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (BuildContext context, int index) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Expanded(
+                        child: _canShowHeadLine
+                            ? Text(
+                                _showNewsList.showNewsList[index].title,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: ScreenUtil().setSp(44),
+                                ),
+                              )
+                            : Text('暂无资讯信息'),
+                      ),
+                    ],
+                  );
+                },
+                scrollDirection: Axis.vertical,
+                itemCount: _showNewsList.showNewsList.length > 0
+                    ? _showNewsList.showNewsList.length
+                    : 1,
+                autoplay: _showNewsList.showNewsList.length > 1,
+                duration: 600,
+                autoplayDelay: 6000,
+                onTap: (int index) {
+                  // 进入资讯详情
+                  if (_showNewsList.showNewsList.length > 0) {
+                    final Headline headLine = _showNewsList.showNewsList[index];
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (BuildContext context) {
+                          return InformationDetail(
+                            headLine: headLine,
+                          );
+                        },
+                      ),
+                    );
+                  } else {
+                    print('没有资讯信息，不响应点击事件');
+                  }
+                },
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
 
-  // 轮播图 + 资讯
-  Widget swiperAndInfoWidget(
-      bool canShowSlideShow,
-      StartUpBasicInfoEntity startUpBasicInfoEntity,
-      bool canShowHeadLine,
-      NewsModel _showNewsList) {
-    return SliverPadding(
-      padding: EdgeInsets.all(ScreenUtil().setWidth(0)),
-      sliver: SliverList(
-        delegate: SliverChildBuilderDelegate(
-          (context, index) {
-            return Container(
-              height: ScreenUtil().setHeight(609), // 435 + 174
-              child: Column(
-                children: <Widget>[
-                  slideShowWidget(canShowSlideShow, startUpBasicInfoEntity),
-                  infoShowWidget(canShowHeadLine, _showNewsList, context),
-                ],
-              ),
-            );
-          },
-          childCount: 1,
-        ),
+  /// 轮播图
+  Widget slideShowWidget() {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(
+        ScreenUtil().setWidth(0),
+        ScreenUtil().setWidth(30),
+        ScreenUtil().setWidth(0),
+        ScreenUtil().setWidth(30),
       ),
-    );
-  }
-
-  // 咨询信息
-  Expanded infoShowWidget(
-      bool canShowHeadLine, NewsModel _showNewsList, BuildContext context) {
-    return Expanded(
-      child: Container(
-        color: Colors.white70,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(
-                left: ScreenUtil().setWidth(25),
-                right: ScreenUtil().setWidth(25),
-              ),
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.deepOrangeAccent),
+      child: _canShowSlideShow
+          ? Swiper(
+              itemBuilder: (BuildContext context, int index) {
+                return ClipRRect(
                   borderRadius: BorderRadius.all(
-                    Radius.circular(5),
+                    Radius.circular(10),
                   ),
-                  color: Colors.deepOrangeAccent,
-                ),
-                child: Padding(
-                  child: Text(
-                    "资\n讯",
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                  padding: EdgeInsets.symmetric(
-                    vertical: ScreenUtil().setHeight(3),
-                    horizontal: ScreenUtil().setWidth(12),
-                  ),
-                ),
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.only(
-                  right: ScreenUtil().setWidth(31),
-                ),
-                child: Swiper(
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (BuildContext context, int index) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Expanded(
-                          child: canShowHeadLine
-                              ? Text(
-                                  _showNewsList.showNewsList[index].title,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    fontSize: ScreenUtil().setSp(44),
-                                  ),
-                                )
-                              : Text('暂无资讯信息'),
-                        ),
-                      ],
-                    );
-                  },
-                  scrollDirection: Axis.vertical,
-                  itemCount: _showNewsList.showNewsList.length > 0
-                      ? _showNewsList.showNewsList.length
-                      : 1,
-                  autoplay: _showNewsList.showNewsList.length > 1,
-                  duration: 600,
-                  autoplayDelay: 6000,
-                  onTap: (int index) {
-                    // 进入资讯详情
-                    if (_showNewsList.showNewsList.length > 0) {
-                      final Headline headLine =
-                          _showNewsList.showNewsList[index];
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (BuildContext context) {
-                            return InformationDetail(
-                              headLine: headLine,
-                            );
-                          },
-                        ),
-                      );
-                    } else {
-                      print('没有资讯信息，不响应点击事件');
-                    }
-                  },
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-      flex: 2,
-    );
-  }
-
-  // 轮播图
-  Expanded slideShowWidget(
-      bool canShowSlideShow, StartUpBasicInfoEntity startUpBasicInfoEntity) {
-    return Expanded(
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(
-          ScreenUtil().setWidth(0),
-          ScreenUtil().setWidth(30),
-          ScreenUtil().setWidth(0),
-          ScreenUtil().setWidth(30),
-        ),
-        child: canShowSlideShow
-            ? Swiper(
-                itemBuilder: (BuildContext context, int index) {
-                  return ClipRRect(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10),
-                    ),
-                    child: CachedNetworkImage(
-                      placeholder: (context, url) => Center(
-                        child: SpinKitFadingCube(
-                          color: Theme.of(context).primaryColor,
-                          size: ScreenUtil().setWidth(80),
-                        ),
+                  child: CachedNetworkImage(
+                    placeholder: (context, url) => Center(
+                      child: SpinKitFadingCube(
+                        color: Theme.of(context).primaryColor,
+                        size: ScreenUtil().setWidth(80),
                       ),
-                      imageUrl:
-                          startUpBasicInfoEntity.slideshow[index].bannerurl,
-                      fadeInCurve: Curves.easeIn,
-                      fadeInDuration: Duration(seconds: 1),
-                      fit: BoxFit.fill,
                     ),
-                  );
-                },
-                itemCount: startUpBasicInfoEntity.slideshow.length,
-                viewportFraction: 0.9,
-                scale: 0.95,
-                autoplay: true,
-                duration: 400,
-                autoplayDelay: 4000,
-              )
-            : Center(
-                child: Text('暂无图片展示'),
-              ),
-      ),
-      flex: 5,
+                    imageUrl:
+                        _startUpBasicInfoEntity.slideshow[index].bannerurl,
+                    fadeInCurve: Curves.easeIn,
+                    fadeInDuration: Duration(seconds: 1),
+                    fit: BoxFit.fill,
+                  ),
+                );
+              },
+              itemCount: _startUpBasicInfoEntity.slideshow.length,
+              viewportFraction: 0.9,
+              scale: 0.95,
+              autoplay: true,
+              duration: 400,
+              autoplayDelay: 4000,
+            )
+          : Center(
+              child: Text('暂无图片展示'),
+            ),
     );
   }
 
-  // 菜单项
+  /// 菜单项
   Widget menuWidget() {
     return SliverPadding(
       padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
@@ -496,39 +467,56 @@ class _HomePageState extends State<HomePage>
     );
   }
 
+  /// 页面内容展示
+  Widget contentWidget() {
+    if (_startUpBasicInfoEntity.slideshow.length > 0) {
+      _canShowSlideShow = true;
+    }
+    if (_showNewsList.showNewsList.length > 0) {
+      _canShowHeadLine = true;
+    }
+    return Container(
+      child: CustomScrollView(
+        slivers: <Widget>[
+          swiperAndInfoWidget(),
+          menuWidget(),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    // 随着资讯信息的变化而变化
+    _showNewsList = context.watch<NewsModel>();
     super.build(context);
     return Scaffold(
       appBar: AppBar(
         title: SearchBar(allRouteList: allRouteList),
       ),
-      body: Consumer<NewsModel>(
-        builder: (context, _showNewsList, _) {
-          return FutureBuilder<StartUpBasicInfoEntity>(
-            future: _startUpBasicInfoEntity,
-            builder: (BuildContext context,
-                AsyncSnapshot<StartUpBasicInfoEntity> snapshot) {
-              switch (snapshot.connectionState) {
-                case ConnectionState.none:
-                  return Text('Press button to start.');
-                case ConnectionState.active:
-                case ConnectionState.waiting:
-                  return waitingWidget();
-                case ConnectionState.done:
-                  if (snapshot.hasError) {
-                    // return Text('Error: ${snapshot.error}');
-                    return reTryWidget();
-                  }
-                  // return Text('Result: ${snapshot.data}');
-                  if (snapshot.hasData) {
-                    return contentWidget(snapshot, _showNewsList);
-                  }
+      body: FutureBuilder<StartUpBasicInfoEntity>(
+        future: _startUpBasicInfoFuture,
+        builder: (BuildContext context,
+            AsyncSnapshot<StartUpBasicInfoEntity> snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+              return Text('Press button to start.');
+            case ConnectionState.active:
+            case ConnectionState.waiting:
+              return waitingWidget();
+            case ConnectionState.done:
+              if (snapshot.hasError) {
+                // return Text('Error: ${snapshot.error}');
+                return reTryWidget();
               }
-              // return null; // unreachable
-              return reTryWidget();
-            },
-          );
+              // return Text('Result: ${snapshot.data}');
+              if (snapshot.hasData) {
+                _startUpBasicInfoEntity = snapshot.data;
+                return contentWidget();
+              }
+          }
+          // return null; // unreachable
+          return reTryWidget();
         },
       ),
     );
