@@ -20,8 +20,8 @@ import 'package:weifangbus/view/home/guide/guide.dart';
 import 'package:weifangbus/view/home/line/route_detail.dart';
 import 'package:weifangbus/view/home/news/news_detail.dart';
 import 'package:weifangbus/view/home/news/news_list.dart';
-import 'package:weifangbus/view/home/searchbar/search_input.dart';
 import 'package:weifangbus/view/home/searchbar/search_bar.dart';
+import 'package:weifangbus/view/home/searchbar/search_input.dart';
 import 'package:weifangbus/view/store/news_model.dart';
 
 /// 首页
@@ -33,13 +33,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with AutomaticKeepAliveClientMixin {
   /// 菜单项
-  List<MenuEntity> menuEntityList = List();
+  List<MenuEntity> _menuEntityList = List();
 
   /// 初始页json数据实体类
   Future<StartUpBasicInfoEntity> _startUpBasicInfoFuture;
 
   /// 所有线路
-  List<MaterialSearchResult<String>> allRouteList = List();
+  List<MaterialSearchResult<String>> _allRouteList = List();
 
   /// [_startUpBasicInfoFuture] 请求成功后的数据
   StartUpBasicInfoEntity _startUpBasicInfoEntity;
@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage>
     super.initState();
     setMenuEntityList();
     _startUpBasicInfoFuture = _getStartUpBasicInfoFuture();
-    getAllRoute();
+    // getAllRoute();
   }
 
   @override
@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage>
                 child: MaterialSearch<String>(
                   barBackgroundColor: Theme.of(context).primaryColor,
                   placeholder: "搜索线路",
-                  results: allRouteList,
+                  results: _allRouteList,
                   filter: (dynamic value, String criteria) {
                     return value.toLowerCase().trim().contains(
                         RegExp(r'' + criteria.toLowerCase().trim() + ''));
@@ -101,7 +101,7 @@ class _HomePageState extends State<HomePage>
         );
       },
     );
-    menuEntityList.add(lineInquiry);
+    _menuEntityList.add(lineInquiry);
     MenuEntity guide = MenuEntity(
       Colors.lightBlue,
       MyIcons.guide,
@@ -117,7 +117,7 @@ class _HomePageState extends State<HomePage>
         );
       },
     );
-    menuEntityList.add(guide);
+    _menuEntityList.add(guide);
     MenuEntity news = MenuEntity(
       Colors.orangeAccent,
       MyIcons.news,
@@ -133,7 +133,7 @@ class _HomePageState extends State<HomePage>
         );
       },
     );
-    menuEntityList.add(news);
+    _menuEntityList.add(news);
   }
 
   /// 请求首页数据
@@ -141,6 +141,8 @@ class _HomePageState extends State<HomePage>
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult != ConnectivityResult.none) {
       try {
+        // todo 应该作用线路搜索页上
+        _getAllRoute();
         var uri = "/BusService/Query_StartUpBasicInfo?" + getSignString();
         Response response = await dio.get(uri);
         var startUpBasicInfoEntity =
@@ -162,54 +164,51 @@ class _HomePageState extends State<HomePage>
   }
 
   /// 请求所有的路线
-  void getAllRoute() async {
-    try {
-      Response response;
-      var uri = "/BusService/Require_AllRouteData/?" + getSignString();
-      // print('$uri');
-      response = await dio.get(uri);
-      AllroutedataEntity allRouteDataEntity =
-          EntityFactory.generateOBJ<AllroutedataEntity>(response.data);
-      print("请求全部线路完成");
-      setState(() {
-        var routeList = allRouteDataEntity.routelist;
-        for (var i = 0; i < routeList.length; ++i) {
-          var route = routeList[i];
-          var materialSearchResult = MaterialSearchResult<String>(
-            index: i,
-            value: route.routename,
-            // icon: Icons.directions_bus,
-            routeName: route.routename,
-            routeNameExt: route.routenameext.substring(
-                route.routenameext.indexOf('(') + 1,
-                route.routenameext.length - 1),
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (BuildContext context) {
-                    return RouteDetail(
-                      title: route.routenameext,
-                      routeId: route.routeid,
-                    );
-                  },
-                ),
-              );
-            },
+  _getAllRoute() async {
+    Response response;
+    var uri = "/BusService/Require_AllRouteData/?" + getSignString();
+    // print('$uri');
+    response = await dio.get(uri);
+    AllroutedataEntity allRouteDataEntity =
+        EntityFactory.generateOBJ<AllroutedataEntity>(response.data);
+    print("请求全部线路完成");
+    var routeList = allRouteDataEntity.routelist;
+    List<MaterialSearchResult<String>> materialSearchResultList = List();
+    for (var i = 0; i < routeList.length; ++i) {
+      var route = routeList[i];
+      var materialSearchResult = MaterialSearchResult<String>(
+        index: i,
+        value: route.routename,
+        // icon: Icons.directions_bus,
+        routeName: route.routename,
+        routeNameExt: route.routenameext.substring(
+            route.routenameext.indexOf('(') + 1, route.routenameext.length - 1),
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (BuildContext context) {
+                return RouteDetail(
+                  title: route.routenameext,
+                  routeId: route.routeid,
+                );
+              },
+            ),
           );
-          allRouteList.add(materialSearchResult);
-        }
-      });
-    } catch (e) {
-      print('请求所有的路线异常::: $e');
+        },
+      );
+      materialSearchResultList.add(materialSearchResult);
     }
+    setState(() {
+      _allRouteList = materialSearchResultList;
+    });
   }
 
   /// 重试处理
   reTry() {
     setState(() {
       _startUpBasicInfoFuture = _getStartUpBasicInfoFuture();
-      getAllRoute();
       Future.microtask(() => context.read<NewsModel>().refreshNewsList());
+      // getAllRoute();
     });
   }
 
@@ -420,7 +419,7 @@ class _HomePageState extends State<HomePage>
                       height: ScreenUtil().setHeight(180),
                       child: DecoratedBox(
                         decoration: BoxDecoration(
-                          color: menuEntityList[index].color,
+                          color: _menuEntityList[index].color,
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
@@ -434,7 +433,7 @@ class _HomePageState extends State<HomePage>
                         ),
                         child: Center(
                           child: Icon(
-                            menuEntityList[index].icon,
+                            _menuEntityList[index].icon,
                             size: ScreenUtil().setWidth(80),
                             color: Colors.white,
                           ),
@@ -449,7 +448,7 @@ class _HomePageState extends State<HomePage>
                         ScreenUtil().setHeight(0),
                       ),
                       child: Text(
-                        menuEntityList[index].menuText,
+                        _menuEntityList[index].menuText,
                         style: TextStyle(
                           fontSize: ScreenUtil().setSp(40),
                         ),
@@ -458,10 +457,10 @@ class _HomePageState extends State<HomePage>
                   ],
                 ),
               ),
-              onTap: menuEntityList[index].function,
+              onTap: _menuEntityList[index].function,
             );
           },
-          childCount: menuEntityList.length,
+          childCount: _menuEntityList.length,
         ),
       ),
     );
@@ -492,7 +491,7 @@ class _HomePageState extends State<HomePage>
     super.build(context);
     return Scaffold(
       appBar: AppBar(
-        title: SearchBar(allRouteList: allRouteList),
+        title: SearchBar(allRouteList: _allRouteList),
       ),
       body: FutureBuilder<StartUpBasicInfoEntity>(
         future: _startUpBasicInfoFuture,

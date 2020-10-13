@@ -297,7 +297,7 @@ class _RouteDetailState extends State<RouteDetail>
             flex: 6,
             child: AutoSizeText(
               e.stationname,
-              maxLines: 1,
+              maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
           ),
