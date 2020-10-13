@@ -159,9 +159,9 @@ class _RouteDetailState extends State<RouteDetail>
             segmentID +
             "&" +
             getSignString();
-        // print('uri: $uri');
+        // print('$uri');
         response = await dio.get(uri);
-        // print('响应体: ${response.data}');
+        // print('${response.data}');
         var routeRealTimeInfo =
             JsonConvert.fromJsonAsT<RouteRealTimeInfoEntity>(response.data);
         print('请求车辆实时信息完毕');
@@ -171,7 +171,7 @@ class _RouteDetailState extends State<RouteDetail>
         showSnackBar('啊哦！请求车辆实时信息失败!', () {
           _immediatelyFlush(segmentID);
           if (_expandIndexList.isNotEmpty) {
-            print('定时刷新站点实时信息 ${DateTime.now()}');
+            print('重试刷新站点实时信息 ${DateTime.now()}');
             setState(() {
               _stationRealTimeInfoFuture = _getStationRealTimeInfoFuture();
             });
@@ -184,7 +184,7 @@ class _RouteDetailState extends State<RouteDetail>
       showSnackBar('设备未连接到任何网络,请连接网络后重试!', () {
         _immediatelyFlush(segmentID);
         if (_expandIndexList.isNotEmpty) {
-          print('定时刷新站点实时信息 ${DateTime.now()}');
+          print('重试刷新站点实时信息 ${DateTime.now()}');
           setState(() {
             _stationRealTimeInfoFuture = _getStationRealTimeInfoFuture();
           });
@@ -239,7 +239,6 @@ class _RouteDetailState extends State<RouteDetail>
                             Icon(
                               MaterialCommunityIcons.bus_side,
                               color: Colors.red,
-                              // size: ScreenUtil().setWidth(70),
                             ),
                             AutoSizeText(
                               '${element.expArriveBusStaNum}辆离站',
@@ -278,7 +277,6 @@ class _RouteDetailState extends State<RouteDetail>
               response.data);
       var routeRealTimeInfo = routeRealTimeInfoList.first;
       print('请求站点实时信息完毕');
-      // _realtimeInfoList = routeRealTimeInfo.realtimeInfoList;
       return routeRealTimeInfo;
     } catch (e) {
       print(getErrorMsg(e, msg: "请求站点实时信息"));
@@ -314,7 +312,6 @@ class _RouteDetailState extends State<RouteDetail>
 
   /// 车辆实时列表
   Widget buildListView() {
-    // print('_expandStationId $_expandStationId');
     return _expandIndexList.isNotEmpty
         ? Column(
             children: [
@@ -470,16 +467,13 @@ class _RouteDetailState extends State<RouteDetail>
           // 展开内容,唯一一个，不然每个条目都会构建
           var carInfo = buildListView();
 
+          // 站点面板列表
           List<ExpansionPanelRadio> expansionPanelRadios = List();
           for (var i = 0; i < stationList.length; ++i) {
             var e = stationList[i];
             var expansionPanelRadio = ExpansionPanelRadio(
               canTapOnHeader: true,
               headerBuilder: (BuildContext context, bool isExpanded) {
-                // if (isExpanded) {
-                //   print(
-                //       '${e.stationname} isExpanded $isExpanded');
-                // }
                 return buildListTile(e, i);
               },
               body: carInfo,
@@ -508,9 +502,7 @@ class _RouteDetailState extends State<RouteDetail>
                     _refreshRouteRealTimeInfo(_segmentID);
                     _expandIndexList = List();
                     _carInfoCount = 2;
-                    // print('oriKey: $_listKey');
                     _listKey = UniqueKey();
-                    // print('afterKey: $_listKey');
                   });
                 },
                 firstAndLastBus: _segment.firtlastshiftinfo,
@@ -522,32 +514,16 @@ class _RouteDetailState extends State<RouteDetail>
                   key: _listKey,
                   child: ExpansionPanelList.radio(
                     expansionCallback: (int index, bool isExpanded) {
-                      // print('点击 $index 状态 $isExpanded');
-                      // if (_expandIndexList.isNotEmpty) {
-                      //   _expandIndexList.forEach((element) {
-                      //     print('oriListElement: $element');
-                      //   });
-                      // } else {
-                      //   print('oriListElement 为空');
-                      // }
+                      // 使得能够正确获取到展开面板的索引
                       if (_expandIndexList.contains(index)) {
-                        // print('展开列表包括 $index,删除掉!');
                         _expandIndexList.remove(index);
                       } else {
-                        // print('添加展开索引 $index');
                         _expandIndexList.add(index);
                         setState(() {
                           _stationRealTimeInfoFuture =
                               _getStationRealTimeInfoFuture();
                         });
                       }
-                      // if (_expandIndexList.isNotEmpty) {
-                      //   _expandIndexList.forEach((element) {
-                      //     print('afterListElement: $element');
-                      //   });
-                      // } else {
-                      //   print('afterListElement 为空');
-                      // }
                     },
                     children: expansionPanelRadios,
                   ),
