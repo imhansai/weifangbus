@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:weifangbus/view/home/search_input.dart';
+import 'package:weifangbus/view/home/searchbar/search_input.dart';
 
 /// 搜索栏
 class SearchBar extends StatefulWidget {

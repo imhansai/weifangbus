@@ -7,7 +7,7 @@ import 'package:flutter_easyrefresh/phoenix_header.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:weifangbus/view/home/news_detail.dart';
+import 'package:weifangbus/view/home/news/news_detail.dart';
 import 'package:weifangbus/view/store/news_model.dart';
 
 /// 资讯列表页

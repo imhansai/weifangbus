@@ -16,11 +16,11 @@ import 'package:weifangbus/entity_factory.dart';
 import 'package:weifangbus/util/dio_util.dart';
 import 'package:weifangbus/util/font_util.dart';
 import 'package:weifangbus/util/request_params_util.dart';
-import 'package:weifangbus/view/home/guide.dart';
+import 'package:weifangbus/view/home/guide/guide.dart';
 import 'package:weifangbus/view/home/line/route_detail.dart';
-import 'package:weifangbus/view/home/news_detail.dart';
-import 'package:weifangbus/view/home/news_list.dart';
-import 'package:weifangbus/view/home/search_input.dart';
+import 'package:weifangbus/view/home/news/news_detail.dart';
+import 'package:weifangbus/view/home/news/news_list.dart';
+import 'package:weifangbus/view/home/searchbar/search_input.dart';
 import 'package:weifangbus/view/home/searchbar/search_bar.dart';
 import 'package:weifangbus/view/store/news_model.dart';
 
