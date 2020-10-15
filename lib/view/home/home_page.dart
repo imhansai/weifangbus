@@ -188,7 +188,7 @@ class _HomePageState extends State<HomePage>
             MaterialPageRoute(
               builder: (BuildContext context) {
                 return RouteDetail(
-                  title: route.routenameext,
+                  title: route.routenameext.substring(0,route.routenameext.indexOf('(')),
                   routeId: route.routeid,
                 );
               },

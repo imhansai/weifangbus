@@ -137,6 +137,7 @@ class _RouteDetailState extends State<RouteDetail>
 
   /// 展示 SnackBar
   void showSnackBar(String snackStr, VoidCallback onPressed) {
+    _routeDetailKey.currentState.hideCurrentSnackBar();
     _routeDetailKey.currentState.showSnackBar(
       SnackBar(
         duration: Duration(seconds: 5),
@@ -168,7 +169,23 @@ class _RouteDetailState extends State<RouteDetail>
         return routeRealTimeInfo;
       } catch (e) {
         print(getErrorMsg(e, msg: "请求车辆实时信息"));
-        showSnackBar('啊哦！请求车辆实时信息失败!', () {
+        if (_routeStatData == null) {
+          showSnackBar('啊哦！请求车辆实时信息失败!', () {
+            _immediatelyFlush(segmentID);
+            if (_expandIndexList.isNotEmpty) {
+              print('重试刷新站点实时信息 ${DateTime.now()}');
+              setState(() {
+                _stationRealTimeInfoFuture = _getStationRealTimeInfoFuture();
+              });
+            }
+          });
+        }
+        return Future.error(e);
+      }
+    } else {
+      print('木有开网络!!!');
+      if (_routeStatData == null) {
+        showSnackBar('设备未连接到任何网络,请连接网络后重试!', () {
           _immediatelyFlush(segmentID);
           if (_expandIndexList.isNotEmpty) {
             print('重试刷新站点实时信息 ${DateTime.now()}');
@@ -177,19 +194,7 @@ class _RouteDetailState extends State<RouteDetail>
             });
           }
         });
-        return Future.error(e);
       }
-    } else {
-      print('木有开网络!!!');
-      showSnackBar('设备未连接到任何网络,请连接网络后重试!', () {
-        _immediatelyFlush(segmentID);
-        if (_expandIndexList.isNotEmpty) {
-          print('重试刷新站点实时信息 ${DateTime.now()}');
-          setState(() {
-            _stationRealTimeInfoFuture = _getStationRealTimeInfoFuture();
-          });
-        }
-      });
       return Future.value(null);
     }
   }
@@ -492,6 +497,17 @@ class _RouteDetailState extends State<RouteDetail>
                 lastStationName: stationList.last.stationname,
                 transDirection: length > 1,
                 transDirectionFun: () {
+                  // 换向提示
+                  _routeDetailKey.currentState.hideCurrentSnackBar();
+                  _routeDetailKey.currentState.showSnackBar(
+                    SnackBar(
+                      duration: Duration(seconds: 5),
+                      content: Text(
+                        '换向完毕',
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  );
                   setState(() {
                     print('换向');
                     _index == 0 ? _index = 1 : _index = 0;
@@ -557,6 +573,15 @@ class _RouteDetailState extends State<RouteDetail>
         future: _routeStatDataFuture,
         builder: _routeDetailBuilderFunction,
       ),
+      // floatingActionButton: FloatingActionButton.extended(
+      //   onPressed: () {
+      //     // Add your onPressed code here!
+      //   },
+      //   label: Text('更多'),
+      //   icon: Icon(Icons.add),
+      //   backgroundColor: Colors.green,
+      // ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 

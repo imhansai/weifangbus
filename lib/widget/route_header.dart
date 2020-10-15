@@ -44,208 +44,81 @@ class _RouteHeaderState extends State<RouteHeader> {
   @override
   Widget build(BuildContext context) {
     var widgets = <Widget>[
-      // 线路名称
+      // xxx -> xxx; 首末班、票价
       Expanded(
-        flex: 3,
         child: Padding(
-          padding: EdgeInsets.only(
-            left: ScreenUtil().setWidth(20),
-            top: ScreenUtil().setHeight(20),
-            right: ScreenUtil().setWidth(20),
+          padding: EdgeInsets.all(
+            ScreenUtil().setWidth(20),
           ),
-          child: Wrap(
-            alignment: WrapAlignment.center,
-            runAlignment: WrapAlignment.center,
+          child: Flex(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            direction: Axis.vertical,
             children: [
               AutoSizeText(
-                widget.routeName,
+                '${widget.firstStationName} ➡️ ${widget.lastStationName}',
                 style: TextStyle(
-                  fontSize: ScreenUtil().setSp(70),
+                  fontSize: ScreenUtil().setSp(50),
                 ),
-                textAlign: TextAlign.center,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
-            ],
-          ),
-        ),
-      ),
-      // xxx -> xxx
-      Expanded(
-        flex: 4,
-        child: Padding(
-          padding: EdgeInsets.only(
-            left: ScreenUtil().setWidth(20),
-            bottom: ScreenUtil().setHeight(20),
-            right: ScreenUtil().setWidth(20),
-          ),
-          child: Flex(
-            direction: Axis.horizontal,
-            children: [
-              // 起点站
+              // 首末班 + 票价
               Expanded(
-                // flex: 3,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Colors.orange, Colors.orange[700]],
-                    ),
-                    borderRadius: BorderRadius.circular(3.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black54,
-                        offset: Offset(2.0, 2.0),
-                        blurRadius: 4.0,
-                      )
-                    ],
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.all(
-                      ScreenUtil().setWidth(20),
-                    ),
-                    child: AutoSizeText(
-                      widget.firstStationName,
-                      style: TextStyle(
-                        fontSize: ScreenUtil().setSp(50),
-                      ),
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ),
-              ),
-              // 方向 icon + 换向
-              Expanded(
-                // flex: 1,
                 child: Flex(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  direction: Axis.vertical,
+                  direction: Axis.horizontal,
                   children: [
+                    // 首末班
                     Expanded(
-                      flex: 3,
-                      child: Icon(
-                        Icons.forward,
-                        color: Colors.orange,
+                      child: AutoSizeText(
+                        widget.firstAndLastBus,
                       ),
                     ),
-                    // 换向
-                    widget.transDirection
-                        ? Expanded(
-                            flex: 2,
-                            child: RaisedButton.icon(
-                              color: Colors.green,
-                              icon: Icon(
-                                Icons.swap_horiz,
-                                size: 15,
-                              ),
-                              label: Text(
-                                '换向',
-                                style: TextStyle(fontSize: 13),
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                              ),
-                              onPressed: widget.transDirectionFun,
-                            ),
-                          )
-                        : Container()
+                    // 票价
+                    Expanded(
+                      child: AutoSizeText(
+                        widget.routePrice.contains('票价')
+                            ? widget.routePrice
+                            : '票价: ${widget.routePrice} 元',
+                      ),
+                    )
                   ],
                 ),
               ),
-              // 终点站
-              Expanded(
-                // flex: 3,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Colors.orange, Colors.orange[700]],
-                    ),
-                    borderRadius: BorderRadius.circular(3.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black54,
-                        offset: Offset(2.0, 2.0),
-                        blurRadius: 4.0,
-                      )
-                    ],
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.all(
-                      ScreenUtil().setWidth(20),
-                    ),
-                    child: AutoSizeText(
-                      widget.lastStationName,
-                      style: TextStyle(
-                        fontSize: ScreenUtil().setSp(50),
-                      ),
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ),
-              ),
             ],
           ),
         ),
       ),
-      // 首末班 + 票价
-      Expanded(
-        flex: 2,
-        child: Padding(
-          padding: EdgeInsets.only(
-            left: ScreenUtil().setWidth(20),
-            // top: ScreenUtil().setHeight(20),
-            right: ScreenUtil().setHeight(20),
-            bottom: ScreenUtil().setHeight(20),
-          ),
-          child: Flex(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            direction: Axis.horizontal,
-            children: [
-              // 首末班
-              Expanded(
-                child: AutoSizeText(
-                  widget.firstAndLastBus,
-                  style: TextStyle(
-                    fontSize: ScreenUtil().setSp(45),
+      // 换向
+      widget.transDirection
+          ? Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: InkWell(
+                child: SizedBox(
+                  width: 60,
+                  height: 60,
+                  child: Flex(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    direction: Axis.vertical,
+                    children: [
+                      Icon(
+                        Icons.swap_vert_sharp,
+                      ),
+                      Text(
+                        '换向',
+                      ),
+                    ],
                   ),
-                  textAlign: TextAlign.center,
                 ),
-                flex: 4,
+                onTap: widget.transDirectionFun,
               ),
-              // 空白填充
-              Expanded(
-                child: Container(),
-                flex: 1,
-              ),
-              // 票价
-              Expanded(
-                child: AutoSizeText(
-                  widget.routePrice.contains('票价')
-                      ? widget.routePrice
-                      : '票价: ${widget.routePrice} 元',
-                  style: TextStyle(
-                    fontSize: ScreenUtil().setSp(45),
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                flex: 4,
-              )
-            ],
-          ),
-        ),
-      )
+            )
+          : SizedBox(),
     ];
     return Container(
-      color: Colors.blueGrey,
-      height: ScreenUtil().setHeight(400),
+      color: Colors.grey[200],
+      height: ScreenUtil().setHeight(200),
       child: Flex(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        direction: Axis.vertical,
+        direction: Axis.horizontal,
         children: widgets,
       ),
     );
