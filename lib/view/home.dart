@@ -11,6 +11,10 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
+  /// 方便展示提示信息
+  final _homeKey = GlobalKey<ScaffoldState>();
+
+  /// 主要操作页面
   final List<Widget> myTabs = <Widget>[
     HomePage(),
     ExplorePage(),
@@ -33,8 +37,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     ScreenUtil.init(context,
         designSize: Size(1080, 1920), allowFontScaling: true);
     return WillPopScope(
-      onWillPop: _onBackPressed,
+      onWillPop: _onWillPop,
       child: Scaffold(
+        key: _homeKey,
         body: PageView(
           controller: _controller,
           children: myTabs.map((Widget widget) {
@@ -77,23 +82,26 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     super.initState();
   }
 
-  // 确认退出程序
-  Future<bool> _onBackPressed() {
-    return showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('确定退出程序吗?'),
-        actions: <Widget>[
-          FlatButton(
-            child: Text('暂不'),
-            onPressed: () => Navigator.pop(context, false),
+  /// 最近一次点击时间
+  DateTime _lastTime;
+
+  /// 再点一次退出程序
+  Future<bool> _onWillPop() {
+    print('点击退出');
+    if (_lastTime == null ||
+        DateTime.now().difference(_lastTime) > Duration(milliseconds: 1500)) {
+      _lastTime = DateTime.now();
+      _homeKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text(
+            '再次点击退出应用',
+            textAlign: TextAlign.center,
           ),
-          FlatButton(
-            child: Text('确定'),
-            onPressed: () => Navigator.pop(context, true),
-          ),
-        ],
-      ),
-    );
+          duration: Duration(milliseconds: 1500),
+        ),
+      );
+      return Future.value(false);
+    }
+    return Future.value(true);
   }
 }

@@ -17,6 +17,7 @@ class NewsListPage extends StatefulWidget {
 }
 
 class _NewsListPageState extends State<NewsListPage> {
+  /// 方便 showSnackBar
   final GlobalKey<ScaffoldState> _newsListKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -38,6 +39,8 @@ class _NewsListPageState extends State<NewsListPage> {
   Widget build(BuildContext context) {
     // 随着资讯信息的变化而变化
     var _showNewsList = context.watch<NewsModel>();
+    // 是否有数据
+    var noData = _showNewsList.showNewsList.isEmpty;
     return Scaffold(
       key: _newsListKey,
       appBar: AppBar(
@@ -60,6 +63,17 @@ class _NewsListPageState extends State<NewsListPage> {
             showSnackBar('设备未连接到任何网络,请连接网络后重试!');
           }
         },
+        emptyWidget: noData
+            ? Center(
+              child: Container(
+                width: ScreenUtil().setWidth(600),
+                child: Image.asset(
+                    'assets/images/noNews.png',
+                    width: ScreenUtil().setWidth(500),
+                  ),
+              ),
+            )
+            : null,
         slivers: <Widget>[
           SliverList(
             delegate: SliverChildBuilderDelegate(

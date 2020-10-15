@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage>
   StartUpBasicInfoEntity _startUpBasicInfoEntity;
 
   /// 资讯信息列表(状态变更用)
-  var _showNewsList;
+  NewsModel _showNewsList;
 
   /// 是否展示轮播图
   var _canShowSlideShow = false;
@@ -207,7 +207,9 @@ class _HomePageState extends State<HomePage>
   reTry() {
     setState(() {
       _startUpBasicInfoFuture = _getStartUpBasicInfoFuture();
-      Future.microtask(() => context.read<NewsModel>().refreshNewsList());
+      if (_showNewsList == null) {
+        Future.microtask(() => context.read<NewsModel>().refreshNewsList());
+      }
       // getAllRoute();
     });
   }
@@ -468,12 +470,8 @@ class _HomePageState extends State<HomePage>
 
   /// 页面内容展示
   Widget contentWidget() {
-    if (_startUpBasicInfoEntity.slideshow.length > 0) {
-      _canShowSlideShow = true;
-    }
-    if (_showNewsList.showNewsList.length > 0) {
-      _canShowHeadLine = true;
-    }
+    _canShowSlideShow = _startUpBasicInfoEntity.slideshow.length > 0;
+    _canShowHeadLine = _showNewsList.showNewsList.length > 0;
     return Container(
       child: CustomScrollView(
         slivers: <Widget>[

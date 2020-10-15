@@ -11,7 +11,7 @@ description: 潍坊公交
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+1
+version: 1.0.0+2
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -33,10 +33,11 @@ dependencies:
   cached_network_image: ^2.3.2+1
   flutter_spinkit: ^4.1.2+1
   flutter_screenutil: ^3.1.1
-  flutter_easyrefresh: ^2.1.5
+  flutter_easyrefresh: ^2.1.6
   flutter_icons: ^1.1.0
   provider: ^4.3.2+2
   auto_size_text: ^2.1.0
+  flutter_styled_toast: ^1.4.0+1
 
 dev_dependencies:
   flutter_test:

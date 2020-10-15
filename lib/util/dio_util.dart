@@ -3,8 +3,8 @@ import 'package:dio/dio.dart';
 var dio = new Dio(
   BaseOptions(
     baseUrl: "http://122.4.254.30:1001",
-    connectTimeout: 8000,
-    receiveTimeout: 5000,
+    connectTimeout: 12000,
+    receiveTimeout: 12000,
   ),
 );
 
