@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/screenutil.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class _LinkTextSpan extends TextSpan {
@@ -26,7 +26,7 @@ void showAboutSoftWareDialog(BuildContext context) {
     applicationVersion: '2019年3月',
     applicationIcon: Image.asset(
       "assets/images/logo.png",
-      width: ScreenUtil().setWidth(250),
+      width: 250.w,
     ),
     applicationLegalese: '© 2019 hanandjun',
     children: <Widget>[

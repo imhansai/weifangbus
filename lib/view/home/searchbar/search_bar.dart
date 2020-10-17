@@ -25,12 +25,12 @@ class _SearchBarState extends State<SearchBar> {
           children: <Widget>[
             Padding(
               padding: EdgeInsets.only(
-                right: ScreenUtil().setWidth(25),
-                left: ScreenUtil().setWidth(25),
+                right: 25.w,
+                left: 25.w,
               ),
               child: Icon(
                 Icons.search,
-                size: ScreenUtil().setWidth(60),
+                size: 60.w,
                 color: Theme.of(context).accentColor,
               ),
             ),

@@ -59,15 +59,15 @@ class _InformationDetail extends State<InformationDetail> {
             Expanded(
               child: SingleChildScrollView(
                 padding: EdgeInsets.fromLTRB(
-                  ScreenUtil().setWidth(40),
-                  ScreenUtil().setHeight(10),
-                  ScreenUtil().setWidth(40),
-                  ScreenUtil().setHeight(200),
+                  40.w,
+                  10.h,
+                  40.w,
+                  200.h,
                 ),
                 child: Column(
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.all(ScreenUtil().setWidth(35)),
+                      padding: EdgeInsets.all(35.w),
                       child: DecoratedBox(
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -76,38 +76,36 @@ class _InformationDetail extends State<InformationDetail> {
                             BoxShadow(
                                 color: Colors.black54,
                                 offset: Offset(
-                                  ScreenUtil().setWidth(2),
-                                  ScreenUtil().setWidth(2),
+                                  2.w,
+                                  2.w,
                                 ),
                                 blurRadius: 4.0),
                           ],
                         ),
                         child: Padding(
-                          padding: EdgeInsets.all(ScreenUtil().setWidth(35)),
+                          padding: EdgeInsets.all(35.w),
                           child: Column(
                             children: <Widget>[
                               Text(
                                 widget.headLine.title,
                                 style: TextStyle(
                                   // color: Colors.white,
-                                  fontSize: ScreenUtil().setSp(53),
+                                  fontSize: 53.ssp,
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsets.fromLTRB(
-                                  ScreenUtil().setWidth(0),
-                                  ScreenUtil().setHeight(31),
-                                  ScreenUtil().setWidth(0),
-                                  ScreenUtil().setHeight(0),
+                                padding: EdgeInsets.only(
+                                  top: 31.h,
                                 ),
                                 child: Text(
                                   '发布时间: ' +
                                       DateFormat("yyyy年MM月dd日 HH点mm分ss秒")
-                                          .format(DateTime.parse(widget.headLine.realeasedatetime))
+                                          .format(DateTime.parse(
+                                              widget.headLine.realeasedatetime))
                                           .toString(),
                                   style: TextStyle(
                                     color: Colors.grey,
-                                    fontSize: ScreenUtil().setSp(38),
+                                    fontSize: 38.ssp,
                                   ),
                                 ),
                               ),
@@ -121,7 +119,7 @@ class _InformationDetail extends State<InformationDetail> {
                       style: {
                         "html": Style(
                           fontFamily: 'serif',
-                          fontSize: FontSize(ScreenUtil().setSp(50)),
+                          fontSize: FontSize(50.ssp),
                         )
                       },
                     ),
@@ -140,7 +138,8 @@ class _InformationDetail extends State<InformationDetail> {
               tooltip: "返回顶部",
               onPressed: () {
                 // 返回到顶部时执行动画
-                _controller.animateTo(.0, duration: Duration(milliseconds: 200), curve: Curves.ease);
+                _controller.animateTo(.0,
+                    duration: Duration(milliseconds: 200), curve: Curves.ease);
               },
             ),
     );

@@ -65,14 +65,14 @@ class _NewsListPageState extends State<NewsListPage> {
         },
         emptyWidget: noData
             ? Center(
-              child: Container(
-                width: ScreenUtil().setWidth(600),
-                child: Image.asset(
+                child: Container(
+                  width: 600.w,
+                  child: Image.asset(
                     'assets/images/noNews.png',
-                    width: ScreenUtil().setWidth(500),
+                    width: 500.w,
                   ),
-              ),
-            )
+                ),
+              )
             : null,
         slivers: <Widget>[
           SliverList(
@@ -88,13 +88,13 @@ class _NewsListPageState extends State<NewsListPage> {
                         .toString(),
                     style: TextStyle(
                       color: Colors.orange,
-                      fontSize: ScreenUtil().setSp(43),
+                      fontSize: 43.ssp,
                     ),
                   ),
                   subtitle: AutoSizeText(
                     _showNewsList.showNewsList[index].title,
                     style: TextStyle(
-                      fontSize: ScreenUtil().setSp(40),
+                      fontSize: 40.ssp,
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,

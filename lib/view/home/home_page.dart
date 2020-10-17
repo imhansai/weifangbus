@@ -188,7 +188,8 @@ class _HomePageState extends State<HomePage>
             MaterialPageRoute(
               builder: (BuildContext context) {
                 return RouteDetail(
-                  title: route.routenameext.substring(0,route.routenameext.indexOf('(')),
+                  title: route.routenameext
+                      .substring(0, route.routenameext.indexOf('(')),
                   routeId: route.routeid,
                 );
               },
@@ -242,21 +243,18 @@ class _HomePageState extends State<HomePage>
 
   /// 轮播图 + 资讯
   Widget swiperAndInfoWidget() {
-    return SliverPadding(
-      padding: EdgeInsets.all(ScreenUtil().setWidth(0)),
-      sliver: SliverList(
-        delegate: SliverChildListDelegate(
-          [
-            Container(
-              height: ScreenUtil().setHeight(435), // 435 + 174
-              child: slideShowWidget(),
-            ),
-            Container(
-              height: ScreenUtil().setHeight(174), // 435 + 174
-              child: infoShowWidget(),
-            ),
-          ],
-        ),
+    return SliverList(
+      delegate: SliverChildListDelegate(
+        [
+          Container(
+            height: 435.h, // 435 + 174
+            child: slideShowWidget(),
+          ),
+          Container(
+            height: 174.h, // 435 + 174
+            child: infoShowWidget(),
+          ),
+        ],
       ),
     );
   }
@@ -270,8 +268,8 @@ class _HomePageState extends State<HomePage>
         children: <Widget>[
           Padding(
             padding: EdgeInsets.only(
-              left: ScreenUtil().setWidth(25),
-              right: ScreenUtil().setWidth(25),
+              left: 25.w,
+              right: 25.w,
             ),
             child: DecoratedBox(
               decoration: BoxDecoration(
@@ -289,17 +287,15 @@ class _HomePageState extends State<HomePage>
                   ),
                 ),
                 padding: EdgeInsets.symmetric(
-                  vertical: ScreenUtil().setHeight(3),
-                  horizontal: ScreenUtil().setWidth(12),
+                  vertical: 3.h,
+                  horizontal: 12.w,
                 ),
               ),
             ),
           ),
           Expanded(
             child: Padding(
-              padding: EdgeInsets.only(
-                right: ScreenUtil().setWidth(31),
-              ),
+              padding: EdgeInsets.only(right: 31.w),
               child: Swiper(
                 physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (BuildContext context, int index) {
@@ -313,7 +309,7 @@ class _HomePageState extends State<HomePage>
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
-                                  fontSize: ScreenUtil().setSp(44),
+                                  fontSize: 44.ssp,
                                 ),
                               )
                             : Text('暂无资讯信息'),
@@ -356,11 +352,9 @@ class _HomePageState extends State<HomePage>
   /// 轮播图
   Widget slideShowWidget() {
     return Padding(
-      padding: EdgeInsets.fromLTRB(
-        ScreenUtil().setWidth(0),
-        ScreenUtil().setWidth(30),
-        ScreenUtil().setWidth(0),
-        ScreenUtil().setWidth(30),
+      padding: EdgeInsets.only(
+        top: 30.h,
+        bottom: 30.h,
       ),
       child: _canShowSlideShow
           ? Swiper(
@@ -373,7 +367,7 @@ class _HomePageState extends State<HomePage>
                     placeholder: (context, url) => Center(
                       child: SpinKitFadingCube(
                         color: Theme.of(context).primaryColor,
-                        size: ScreenUtil().setWidth(80),
+                        size: 80.w,
                       ),
                     ),
                     imageUrl:
@@ -400,12 +394,12 @@ class _HomePageState extends State<HomePage>
   /// 菜单项
   Widget menuWidget() {
     return SliverPadding(
-      padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
+      padding: EdgeInsets.all(10.w),
       sliver: SliverGrid(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
-          mainAxisSpacing: ScreenUtil().setWidth(30),
-          crossAxisSpacing: ScreenUtil().setWidth(30),
+          mainAxisSpacing: 30.w,
+          crossAxisSpacing: 30.w,
           childAspectRatio: 1.0,
         ),
         delegate: SliverChildBuilderDelegate(
@@ -417,8 +411,8 @@ class _HomePageState extends State<HomePage>
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                      width: ScreenUtil().setWidth(180),
-                      height: ScreenUtil().setHeight(180),
+                      width: 180.w,
+                      height: 180.h,
                       child: DecoratedBox(
                         decoration: BoxDecoration(
                           color: _menuEntityList[index].color,
@@ -427,8 +421,8 @@ class _HomePageState extends State<HomePage>
                             BoxShadow(
                                 color: Colors.black54,
                                 offset: Offset(
-                                  ScreenUtil().setWidth(2),
-                                  ScreenUtil().setWidth(2),
+                                  2.w,
+                                  2.w,
                                 ),
                                 blurRadius: 4.0),
                           ],
@@ -436,23 +430,20 @@ class _HomePageState extends State<HomePage>
                         child: Center(
                           child: Icon(
                             _menuEntityList[index].icon,
-                            size: ScreenUtil().setWidth(80),
+                            size: 80.w,
                             color: Colors.white,
                           ),
                         ),
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.fromLTRB(
-                        ScreenUtil().setWidth(0),
-                        ScreenUtil().setHeight(25),
-                        ScreenUtil().setWidth(0),
-                        ScreenUtil().setHeight(0),
+                      padding: EdgeInsets.only(
+                        top: 25.h,
                       ),
                       child: Text(
                         _menuEntityList[index].menuText,
                         style: TextStyle(
-                          fontSize: ScreenUtil().setSp(40),
+                          fontSize: 40.ssp,
                         ),
                       ),
                     ),

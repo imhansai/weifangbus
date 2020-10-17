@@ -11,25 +11,17 @@ import 'package:weifangbus/util/dio_util.dart';
 
 Future main() async {
   try {
-    // http://122.4.254.30:1001/BusService/Query_ByStationID/?RouteID=77&StationID=10494028&UniqueIdentifier=00000000-6594-99d1-1394-b01c76bd7c02&LocationPos=112.574021,37.800755&TimeStamp=20200928160126&Random=730&SignKey=53aa2f226909bcce6c89dee74c9c3ddc8df04aa786185d3a082759c6c11e4677
     Response response;
-    var uri = "/BusService/Query_ByStationID/?RouteID=77&StationID=10494028&" +
-        getSignString();
+    var uri =
+        '/BusService/Query_ByStationID/?RouteID=77&StationID=10494028&${getSignString()}';
     print(uri);
     response = await dio.get(uri);
     print(response.data);
-    List<dynamic> list = response.data;
     var routeRealTimeInfo =
         JsonConvert.fromJsonAsT<List<StationRealTimeInfoEntity>>(response.data);
     routeRealTimeInfo.forEach((element) {
       element.toJson();
     });
-    // List<RouteRealTimeInfoEntity> routeStatDataEntityList = list
-    //     .map((dynamic) =>
-    //         JsonConvert.fromJsonAsT<RouteRealTimeInfoEntity>(dynamic))
-    //     .toList();
-    // print(routeStatDataEntityList.length);
-    // print(routeStatDataEntityList[0].toJson());
   } catch (e) {
     print('请求出现问题::: $e');
   }

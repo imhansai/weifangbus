@@ -1,7 +1,14 @@
-import 'dart:io';
-
+import 'package:connectivity/connectivity.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_html/style.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:weifangbus/entity/install_basic_info_entity.dart';
+import 'package:weifangbus/entity_factory.dart';
+import 'package:weifangbus/util/dio_util.dart';
+import 'package:weifangbus/util/request_params_util.dart';
 
 class AboutCompany extends StatefulWidget {
   @override
@@ -9,58 +16,101 @@ class AboutCompany extends StatefulWidget {
 }
 
 class _AboutCompanyState extends State<AboutCompany> {
+  Future<InstallBasicInfoEntity> _installBasicInfoFuture;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("潍坊市公共交通总公司"),
       ),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: SingleChildScrollView(
-              padding: EdgeInsets.fromLTRB(
-                ScreenUtil().setWidth(40),
-                ScreenUtil().setHeight(40),
-                ScreenUtil().setWidth(40),
-                ScreenUtil().setHeight(40),
-              ),
-              child: Flex(
-                direction: Axis.vertical,
-                children: <Widget>[
-                  Container(
-                    height: ScreenUtil().setHeight(200),
-                    child: Center(
-                      child: Text(
-                        "潍坊市公共交通总公司简介",
-                        style: TextStyle(
-                          fontSize: ScreenUtil().setSp(60),
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+      body: FutureBuilder<InstallBasicInfoEntity>(
+        future: _installBasicInfoFuture,
+        builder: (BuildContext context,
+            AsyncSnapshot<InstallBasicInfoEntity> snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasError) {
+              return Center(
+                child: RaisedButton(
+                  color: Colors.blue,
+                  colorBrightness: Brightness.dark,
+                  child: Text("请检查网络连接后点击重试"),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                      ScreenUtil().setWidth(50),
                     ),
                   ),
-                  Divider(),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: ScreenUtil().setHeight(31),
+                  onPressed: reTry,
+                ),
+              );
+            } else {
+              var aboutUs = snapshot.data.aboutus;
+              return SingleChildScrollView(
+                child: Html(
+                  data: aboutUs,
+                  style: {
+                    // 标题居中
+                    'p[align="center"]': Style(
+                      textAlign: TextAlign.center,
                     ),
-                    child: Text(
-                      "        潍坊市公共交通总公司成立于1972年，是以经营城市客运为主的国有公益性公用企业。现有职工2936人，营运车辆1517台,营运线路96条，线路总长度1876.83千米，线网辐射九区一县(潍城区、奎文区、坊子区、寒亭区、高新技术产业开发区、综合保税区、滨海经济开发区、峡山生态经济开发区、经济技术开发区以及昌乐县)，日客流量达34.5万人次。\n        近年来，我们紧紧围绕城市建设和群众出行需要，内强素质，外树形象，擦亮公交窗口，勇担公益责任，全面提升服务能力和服务水平，公交事业实现又好又快发展。企业先后荣获“山东省先进基层党组织”、“山东省廉政文化示范点”、“山东省服务名牌”、“潍坊市最具社会责任感优秀企业”、“潍坊市平安建设先进单位”、“市级文明单位”等荣誉。",
-                      style: TextStyle(
-                        fontSize: ScreenUtil().setSp(48),
-                        height: Platform.isAndroid
-                            ? ScreenUtil().setHeight(4)
-                            : ScreenUtil().setHeight(3),
-                      ),
+                    // 标题字体大小
+                    "strong": Style(
+                      fontSize: FontSize(ScreenUtil().setSp(60)),
                     ),
-                  ),
-                ],
+                    // 内容字体大小
+                    'p[align="left"]': Style(
+                      fontSize: FontSize(ScreenUtil().setSp(50)),
+                    ),
+                  },
+                ),
+              );
+            }
+          } else {
+            return Center(
+              child: SpinKitWave(
+                color: Colors.blue,
+                type: SpinKitWaveType.center,
               ),
-            ),
-          ),
-        ],
+            );
+          }
+        },
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _installBasicInfoFuture = _getInstallBasicInfoFuture();
+  }
+
+  /// 请求基础信息
+  Future<InstallBasicInfoEntity> _getInstallBasicInfoFuture() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult != ConnectivityResult.none) {
+      try {
+        Response response;
+        var uri = '/BusService/Query_InstallBasicInfo?${getSignString()}';
+        // print(uri);
+        response = await dio.get(uri);
+        // print(response.data);
+        var installBasicInfoEntity =
+            EntityFactory.generateOBJ<InstallBasicInfoEntity>(response.data);
+        return installBasicInfoEntity;
+      } catch (e) {
+        print(getErrorMsg(e, msg: '请求基础信息异常'));
+        return Future.error(e);
+      }
+    } else {
+      print('木有连接网络哦!');
+      return Future.error(null);
+    }
+  }
+
+  /// 重试
+  void reTry() {
+    setState(() {
+      _installBasicInfoFuture = _getInstallBasicInfoFuture();
+    });
   }
 }

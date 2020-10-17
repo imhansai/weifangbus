@@ -223,12 +223,11 @@ class _RouteDetailState extends State<RouteDetail>
                             Icon(
                               MaterialCommunityIcons.bus_side,
                               color: Colors.green,
-                              // size: ScreenUtil().setWidth(70),
                             ),
                             AutoSizeText(
                               '${element.stopBusStaNum}辆到站',
                               style: TextStyle(
-                                fontSize: ScreenUtil().setSp(30),
+                                fontSize: 30.ssp,
                               ),
                             ),
                           ],
@@ -248,7 +247,7 @@ class _RouteDetailState extends State<RouteDetail>
                             AutoSizeText(
                               '${element.expArriveBusStaNum}辆离站',
                               style: TextStyle(
-                                fontSize: ScreenUtil().setSp(30),
+                                fontSize: 30.ssp,
                               ),
                             ),
                           ],
@@ -328,8 +327,9 @@ class _RouteDetailState extends State<RouteDetail>
                   if (snapshot.connectionState == ConnectionState.done) {
                     if (snapshot.hasError) {
                       // 请求失败，显示错误
+                      var height = 175 * _carInfoCount;
                       return Container(
-                        height: ScreenUtil().setHeight(175 * _carInfoCount),
+                        height: height.h,
                         child: Center(
                           child: RaisedButton(
                             color: Colors.blue,
@@ -565,7 +565,7 @@ class _RouteDetailState extends State<RouteDetail>
       appBar: AppBar(
         title: AutoSizeText(
           widget.title,
-          style: TextStyle(fontSize: ScreenUtil().setSp(45)),
+          style: TextStyle(fontSize: 45.ssp),
           maxLines: 2,
         ),
       ),

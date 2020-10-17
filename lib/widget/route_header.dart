@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/screenutil.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 /// 线路详情头部信息
 class RouteHeader extends StatefulWidget {
@@ -48,7 +48,7 @@ class _RouteHeaderState extends State<RouteHeader> {
       Expanded(
         child: Padding(
           padding: EdgeInsets.all(
-            ScreenUtil().setWidth(20),
+            20.w,
           ),
           child: Flex(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,7 +57,7 @@ class _RouteHeaderState extends State<RouteHeader> {
               AutoSizeText(
                 '${widget.firstStationName} ➡️ ${widget.lastStationName}',
                 style: TextStyle(
-                  fontSize: ScreenUtil().setSp(50),
+                  fontSize: 50.ssp,
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -91,11 +91,14 @@ class _RouteHeaderState extends State<RouteHeader> {
       // 换向
       widget.transDirection
           ? Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(
+                20.w,
+              ),
+              // 正方形 200 - 20 - 20
               child: InkWell(
-                child: SizedBox(
-                  width: 60,
-                  height: 60,
+                child: Container(
+                  width: 160.w,
+                  height: 160.h,
                   child: Flex(
                     mainAxisAlignment: MainAxisAlignment.center,
                     direction: Axis.vertical,
@@ -116,7 +119,7 @@ class _RouteHeaderState extends State<RouteHeader> {
     ];
     return Container(
       color: Colors.grey[200],
-      height: ScreenUtil().setHeight(200),
+      height: 200.h,
       child: Flex(
         direction: Axis.horizontal,
         children: widgets,

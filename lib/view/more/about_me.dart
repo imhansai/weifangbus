@@ -18,7 +18,7 @@ class _AboutMeState extends State<AboutMe> {
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
-            expandedHeight: ScreenUtil().setHeight(600),
+            expandedHeight: 600.h,
             floating: false,
             pinned: true,
             snap: false,
@@ -27,14 +27,14 @@ class _AboutMeState extends State<AboutMe> {
                 child: ClipOval(
                   child: Image.asset(
                     "assets/images/avatar.jpeg",
-                    width: ScreenUtil().setWidth(260),
+                    width: 260.w,
                   ),
                 ),
               ),
               title: Text(
                 "hanandjun",
                 style: TextStyle(
-                  fontSize: ScreenUtil().setSp(50),
+                  fontSize: 50.ssp,
                 ),
               ),
               centerTitle: true,
@@ -47,7 +47,7 @@ class _AboutMeState extends State<AboutMe> {
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.all(
-                        ScreenUtil().setWidth(28),
+                        28.w,
                       ),
                       child: Card(
                           color: Colors.green,
@@ -112,7 +112,7 @@ class _AboutMeState extends State<AboutMe> {
                     ),
                     // 内容
                     Padding(
-                      padding: EdgeInsets.all(ScreenUtil().setWidth(28)),
+                      padding: EdgeInsets.all(28.w),
                       child: Card(
                           color: Colors.blue,
                           child: Column(
@@ -163,7 +163,7 @@ class _AboutMeState extends State<AboutMe> {
                           )),
                     ),
                     Padding(
-                      padding: EdgeInsets.all(ScreenUtil().setWidth(28)),
+                      padding: EdgeInsets.all(28.w),
                       child: Card(
                         color: Colors.teal,
                         child: Column(
