@@ -358,8 +358,7 @@ class _RouteDetailState extends State<RouteDetail>
                         itemBuilder: (context, index) {
                           return ListTile(
                             leading: Icon(
-                              Icons.live_tv,
-                              color: Colors.white,
+                              Icons.info_outlined,
                             ),
                             title: AutoSizeText(
                               '${realtimeInfoList[index].busName} ${realtimeInfoList[index].foreCastInfo2}到达',
@@ -380,8 +379,7 @@ class _RouteDetailState extends State<RouteDetail>
                       itemBuilder: (context, index) {
                         return ListTile(
                           leading: Icon(
-                            Icons.live_tv,
-                            color: Colors.white,
+                            Icons.info_outlined,
                           ),
                           title: AutoSizeText(
                             '加载中...',

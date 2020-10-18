@@ -30,9 +30,8 @@ class _WeiFangBusApp extends State<WeiFangBusApp> {
       ],
       child: MaterialApp(
         title: "潍坊公交",
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
+        theme: ThemeData(),
+        darkTheme: ThemeData.dark(),
         home: Home(),
       ),
     );

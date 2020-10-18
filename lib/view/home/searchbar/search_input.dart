@@ -233,14 +233,10 @@ class _MaterialSearchState<T> extends State<MaterialSearch> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: widget.barBackgroundColor,
-        iconTheme: iconTheme,
         title: TextField(
-          cursorColor: Colors.white70,
           controller: _controller,
           autofocus: true,
           decoration: InputDecoration.collapsed(hintText: widget.placeholder),
-          style: Theme.of(context).textTheme.headline6,
           onSubmitted: (String value) {
             if (widget.onSubmit != null) {
               widget.onSubmit(value);

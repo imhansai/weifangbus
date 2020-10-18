@@ -73,7 +73,7 @@ class _AboutMeState extends State<AboutMe> {
                               ),
                               ListTile(
                                 leading: Icon(
-                                  Icons.timer,
+                                  Icons.access_time,
                                   color: Colors.green,
                                 ),
                                 title: Text(

@@ -262,7 +262,6 @@ class _HomePageState extends State<HomePage>
   /// 资讯信息
   Widget infoShowWidget() {
     return Container(
-      color: Colors.white70,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[

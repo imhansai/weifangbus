@@ -67,51 +67,32 @@ class _InformationDetail extends State<InformationDetail> {
                 child: Column(
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.all(35.w),
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(3.0),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.black54,
-                                offset: Offset(
-                                  2.w,
-                                  2.w,
-                                ),
-                                blurRadius: 4.0),
-                          ],
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.all(35.w),
-                          child: Column(
-                            children: <Widget>[
-                              Text(
-                                widget.headLine.title,
-                                style: TextStyle(
-                                  // color: Colors.white,
-                                  fontSize: 53.ssp,
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(
-                                  top: 31.h,
-                                ),
-                                child: Text(
-                                  '发布时间: ' +
-                                      DateFormat("yyyy年MM月dd日 HH点mm分ss秒")
-                                          .format(DateTime.parse(
-                                              widget.headLine.realeasedatetime))
-                                          .toString(),
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 38.ssp,
-                                  ),
-                                ),
-                              ),
-                            ],
+                      padding: EdgeInsets.all(70.w),
+                      child: Column(
+                        children: <Widget>[
+                          Text(
+                            widget.headLine.title,
+                            style: TextStyle(
+                              fontSize: 53.ssp,
+                            ),
                           ),
-                        ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                              top: 31.h,
+                            ),
+                            child: Text(
+                              '发布时间: ' +
+                                  DateFormat("yyyy年MM月dd日 HH点mm分ss秒")
+                                      .format(DateTime.parse(
+                                          widget.headLine.realeasedatetime))
+                                      .toString(),
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 38.ssp,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     Html(

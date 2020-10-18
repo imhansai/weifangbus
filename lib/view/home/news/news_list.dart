@@ -79,7 +79,6 @@ class _NewsListPageState extends State<NewsListPage> {
             delegate: SliverChildBuilderDelegate(
               (context, index) {
                 return ListTile(
-                  tileColor: index % 2 == 0 ? Colors.grey[200] : Colors.white,
                   trailing: Icon(Icons.keyboard_arrow_right),
                   title: Text(
                     DateFormat("yyyy年MM月dd日")

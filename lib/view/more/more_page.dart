@@ -88,7 +88,7 @@ class _MorePageState extends State<MorePage>
               trailing: Icon(Icons.keyboard_arrow_right),
               leading: Icon(
                 MyIcons.software,
-                color: Colors.black54,
+                color: Colors.black87,
               ),
               title: Text('关于潍坊公交'),
               onTap: () {

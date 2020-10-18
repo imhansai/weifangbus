@@ -118,7 +118,7 @@ class _RouteHeaderState extends State<RouteHeader> {
           : SizedBox(),
     ];
     return Container(
-      color: Colors.grey[200],
+      // color: Colors.grey[200],
       height: 200.h,
       child: Flex(
         direction: Axis.horizontal,
