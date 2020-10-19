@@ -228,9 +228,6 @@ class _MaterialSearchState<T> extends State<MaterialSearch> {
       results.sort((a, b) => widget.sort(a.value, b.value, _criteria));
     }
 
-    IconThemeData iconTheme =
-        Theme.of(context).iconTheme.copyWith(color: widget.iconColor);
-
     return Scaffold(
       appBar: AppBar(
         title: TextField(
