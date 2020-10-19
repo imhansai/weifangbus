@@ -68,7 +68,7 @@ class _NewsListPageState extends State<NewsListPage> {
                 child: Container(
                   width: 600.w,
                   child: Image.asset(
-                    'assets/images/noNews.png',
+                    'assets/images/no_news.png',
                     width: 500.w,
                   ),
                 ),

@@ -1,61 +1,123 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class _LinkTextSpan extends TextSpan {
-  _LinkTextSpan({TextStyle style, String url, String text})
-      : super(
-          style: style,
-          text: text ?? url,
-          recognizer: TapGestureRecognizer()
-            ..onTap = () {
-              launch(url, forceSafariVC: false);
-            },
-        );
+/// 关于软件
+void showAboutSoftWareDialog(BuildContext context) {
+  showDialog<void>(
+    context: context,
+    builder: (context) {
+      return _AboutDialog();
+    },
+  );
 }
 
-void showAboutSoftWareDialog(BuildContext context) {
-  final ThemeData themeData = Theme.of(context);
-  final TextStyle aboutTextStyle = themeData.textTheme.bodyText1;
-  final TextStyle linkStyle =
-      themeData.textTheme.bodyText1.copyWith(color: themeData.accentColor);
+/// 获取版本号
+Future<String> getVersionNumber() async {
+  final packageInfo = await PackageInfo.fromPlatform();
+  return packageInfo.version;
+}
 
-  showAboutDialog(
-    context: context,
-    applicationVersion: '2019年3月',
-    applicationIcon: Image.asset(
-      "assets/images/logo.png",
-      width: 250.w,
-    ),
-    applicationLegalese: '© 2019 hanandjun',
-    children: <Widget>[
-      Padding(
-        padding: const EdgeInsets.only(top: 24.0),
-        child: RichText(
-          text: TextSpan(
-            children: <TextSpan>[
-              TextSpan(
-                style: aboutTextStyle,
-                text:
-                    '这个app是个人工作之余通过flutter技术制作。相信更加现代一点吧😜。\n\n特别说明:接口由【潍坊掌上公交】提供，如有侵权，请联系我。\n\n',
+class _AboutDialog extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+    final bodyTextStyle = textTheme.bodyText1;
+
+    final name = '潍坊公交';
+    final legalese = '© 2019 hanandjun';
+    final seeSourceFirst = '要查看此应用的源代码，请访问';
+    final repoText = 'weifangbus GitHub 代码库';
+    final seeSourceSecond = '。';
+    return AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      content: Container(
+        constraints: const BoxConstraints(maxWidth: 400),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            FutureBuilder(
+              future: getVersionNumber(),
+              builder: (context, snapshot) => Text(
+                snapshot.hasData ? '$name ${snapshot.data}' : '$name',
+                style: textTheme.headline5,
               ),
-              TextSpan(
-                  style: aboutTextStyle,
-                  text:
-                      'Flutter是谷歌的移动UI框架，可以快速在iOS和Android上构建高质量的原生用户界面。 Flutter可以与现有的代码一起工作。在全世界，Flutter正在被越来越多的开发者和组织使用，并且Flutter是完全免费、开源的。\n更多详情请访问:'),
-              _LinkTextSpan(
-                style: linkStyle,
-                url: 'https://flutter.io',
+            ),
+            const SizedBox(height: 24),
+            Text(
+              '此 App 是个人工作之余通过 Flutter 技术制作。目的是奔着现代一点去的,希望大家喜欢😜。',
+              style: bodyTextStyle,
+            ),
+            const SizedBox(height: 10),
+            Text(
+              '特别说明: 接口由【潍坊掌上公交】提供，如有侵权，请联系我。',
+              style: bodyTextStyle,
+            ),
+            const SizedBox(height: 10),
+            RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    style: bodyTextStyle,
+                    text: seeSourceFirst,
+                  ),
+                  TextSpan(
+                    style: bodyTextStyle.copyWith(
+                      color: colorScheme.primary,
+                    ),
+                    text: repoText,
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () async {
+                        final url = 'https://github.com/hanandjun/weifangbus';
+                        if (await canLaunch(url)) {
+                          await launch(
+                            url,
+                            forceSafariVC: false,
+                          );
+                        }
+                      },
+                  ),
+                  TextSpan(
+                    style: bodyTextStyle,
+                    text: seeSourceSecond,
+                  ),
+                ],
               ),
-              TextSpan(
-                style: aboutTextStyle,
-                text: '.',
-              ),
-            ],
-          ),
+            ),
+            const SizedBox(height: 18),
+            Text(
+              legalese,
+              style: bodyTextStyle,
+            ),
+          ],
         ),
       ),
-    ],
-  );
+      actions: [
+        FlatButton(
+          textColor: colorScheme.primary,
+          child: Text(
+            '查看许可',
+          ),
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute<void>(
+              builder: (context) => LicensePage(
+                applicationName: name,
+                applicationLegalese: legalese,
+              ),
+            ));
+          },
+        ),
+        FlatButton(
+          textColor: colorScheme.primary,
+          child: Text('关闭'),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ],
+    );
+  }
 }
