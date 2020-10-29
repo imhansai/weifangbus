@@ -1,12 +1,8 @@
-import 'dart:async';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
-typedef String FormFieldFormatter<T>(T v);
 typedef bool MaterialSearchFilter<T>(T v, String c);
 typedef int MaterialSearchSort<T>(T a, T b, String c);
-typedef Future<List<MaterialSearchResult>> MaterialResultsFinder(String c);
 typedef void OnSubmit(String value);
 
 /// 线路组件
@@ -196,13 +192,19 @@ class _MaterialSearchState<T> extends State<MaterialSearch> {
     });
   }
 
-  Widget buildBody(List results) {
+  Widget buildBody(List<Widget> results) {
     if (_criteria.isEmpty) {
       return History();
     }
     if (results.isNotEmpty) {
       return SingleChildScrollView(
-        child: Column(children: results),
+        child: ListView(
+          shrinkWrap: true,
+          children: ListTile.divideTiles(
+            tiles: results,
+            context: context,
+          ).toList(),
+        ),
       );
     }
     return Center(
