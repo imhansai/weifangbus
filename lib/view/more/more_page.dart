@@ -27,6 +27,85 @@ class _MorePageState extends State<MorePage>
 
   @override
   Widget build(BuildContext context) {
+    var tiles = <Widget>[
+      ListTile(
+        trailing: Icon(Icons.keyboard_arrow_right),
+        leading: Icon(
+          Icons.settings,
+          color: Colors.blueGrey,
+        ),
+        title: Text('设置'),
+        subtitle: Text('完美调控，尽在您的掌握'),
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (BuildContext context) {
+                return Settings();
+              },
+            ),
+          );
+        },
+      ),
+      ListTile(
+        trailing: Icon(Icons.keyboard_arrow_right),
+        leading: Icon(
+          MyIcons.qq,
+          color: Colors.indigoAccent,
+        ),
+        title: Text('QQ群'),
+        subtitle: Text('加入QQ群交流反馈'),
+        onTap: () {
+          _joinQQGroup(context);
+        },
+      ),
+      ListTile(
+        trailing: Icon(Icons.keyboard_arrow_right),
+        leading: Icon(
+          Icons.business,
+          color: Colors.brown,
+        ),
+        title: Text('潍坊市公共交通总公司'),
+        subtitle: Text('关于潍坊市公共交通总公司'),
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (BuildContext context) {
+                return AboutCompany();
+              },
+            ),
+          );
+        },
+      ),
+      ListTile(
+        trailing: Icon(Icons.keyboard_arrow_right),
+        leading: Icon(
+          MyIcons.software,
+          color: Colors.black87,
+        ),
+        title: Text('关于潍坊公交'),
+        onTap: () {
+          showAboutSoftWareDialog(context);
+        },
+      ),
+      ListTile(
+        trailing: Icon(Icons.keyboard_arrow_right),
+        leading: Icon(
+          Icons.info,
+          color: Colors.lightBlue,
+        ),
+        title: Text('走近作者'),
+        // describe: "走近作者",
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (BuildContext context) {
+                return AboutMe();
+              },
+            ),
+          );
+        },
+      ),
+    ];
     super.build(context);
     return Scaffold(
       appBar: AppBar(
@@ -35,85 +114,10 @@ class _MorePageState extends State<MorePage>
       ),
       body: Container(
         child: ListView(
-          children: <Widget>[
-            ListTile(
-              trailing: Icon(Icons.keyboard_arrow_right),
-              leading: Icon(
-                Icons.settings,
-                color: Colors.blueGrey,
-              ),
-              title: Text('设置'),
-              subtitle: Text('完美调控，尽在您的掌握'),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) {
-                      return Settings();
-                    },
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              trailing: Icon(Icons.keyboard_arrow_right),
-              leading: Icon(
-                MyIcons.qq,
-                color: Colors.indigoAccent,
-              ),
-              title: Text('QQ群'),
-              subtitle: Text('加入QQ群交流反馈'),
-              onTap: () {
-                _joinQQGroup(context);
-              },
-            ),
-            ListTile(
-              trailing: Icon(Icons.keyboard_arrow_right),
-              leading: Icon(
-                Icons.business,
-                color: Colors.brown,
-              ),
-              title: Text('潍坊市公共交通总公司'),
-              subtitle: Text('关于潍坊市公共交通总公司'),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) {
-                      return AboutCompany();
-                    },
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              trailing: Icon(Icons.keyboard_arrow_right),
-              leading: Icon(
-                MyIcons.software,
-                color: Colors.black87,
-              ),
-              title: Text('关于潍坊公交'),
-              onTap: () {
-                showAboutSoftWareDialog(context);
-              },
-            ),
-            ListTile(
-              trailing: Icon(Icons.keyboard_arrow_right),
-              leading: Icon(
-                Icons.info,
-                color: Colors.lightBlue,
-              ),
-              title: Text('走近作者'),
-              // describe: "走近作者",
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) {
-                      return AboutMe();
-                    },
-                  ),
-                );
-              },
-            ),
-          ],
+          children: ListTile.divideTiles(
+            tiles: tiles,
+            context: context,
+          ).toList(),
         ),
       ),
     );
