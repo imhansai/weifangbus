@@ -8,7 +8,7 @@ import 'package:weifangbus/util/font_util.dart';
 import 'package:weifangbus/view/more/about_company.dart';
 import 'package:weifangbus/view/more/about_me.dart';
 import 'package:weifangbus/view/more/about_software.dart';
-import 'package:weifangbus/view/more/settings.dart';
+import 'package:weifangbus/view/more/settings/settings.dart';
 
 class MorePage extends StatefulWidget {
   @override
