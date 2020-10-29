@@ -39,6 +39,17 @@ class _ThemeManagerState extends State<ThemeManager> {
 
   @override
   Widget build(BuildContext context) {
+    var tiles = ThemeAppearance.values
+        .map((e) => ListTile(
+              title: Text(
+                ThemeUtil.modelValue2String(e.index),
+              ),
+              onTap: () {
+                _showAndSetTheme(context, e.index);
+              },
+              trailing: _modelValue == e.index ? Text('已选择') : SizedBox(),
+            ))
+        .toList();
     return Scaffold(
       appBar: AppBar(
         title: Text('外观管理'),
@@ -46,37 +57,12 @@ class _ThemeManagerState extends State<ThemeManager> {
       body: ListView(
         children: ListTile.divideTiles(
           context: context,
-          tiles: [
-            ListTile(
-              title: Text(
-                ThemeUtil.modelValue2String(0),
-              ),
-              onTap: () {
-                _showAndSetTheme(context, 0);
-              },
-              trailing: _modelValue == 0 ? Text('已选择') : SizedBox(),
-            ),
-            ListTile(
-              title: Text(
-                ThemeUtil.modelValue2String(1),
-              ),
-              onTap: () {
-                _showAndSetTheme(context, 1);
-              },
-              trailing: _modelValue == 1 ? Text('已选择') : SizedBox(),
-            ),
-            ListTile(
-              title: Text(
-                ThemeUtil.modelValue2String(2),
-              ),
-              onTap: () {
-                _showAndSetTheme(context, 2);
-              },
-              trailing: _modelValue == 2 ? Text('已选择') : SizedBox(),
-            ),
-          ],
+          tiles: tiles,
         ).toList(),
       ),
     );
   }
 }
+
+/// 主题外观
+enum ThemeAppearance { light, dark, auto }
