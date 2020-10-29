@@ -41,6 +41,43 @@ class _NewsListPageState extends State<NewsListPage> {
     var _showNewsList = context.watch<NewsModel>();
     // 是否有数据
     var noData = _showNewsList.showNewsList.isEmpty;
+
+    var showNewsList = _showNewsList.showNewsList;
+    var tiles = showNewsList
+        .map((e) => ListTile(
+              trailing: Icon(Icons.keyboard_arrow_right),
+              title: Text(
+                DateFormat("yyyy年MM月dd日")
+                    .format(DateTime.parse(e.realeasetime))
+                    .toString(),
+                style: TextStyle(
+                  color: Colors.orange,
+                  fontSize: 43.ssp,
+                ),
+              ),
+              subtitle: AutoSizeText(
+                e.title,
+                style: TextStyle(
+                  fontSize: 40.ssp,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              onTap: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return InformationDetail(
+                        headLine: e,
+                      );
+                    },
+                  ),
+                ),
+              },
+            ))
+        .toList();
+
     return Scaffold(
       key: _newsListKey,
       appBar: AppBar(
@@ -76,43 +113,11 @@ class _NewsListPageState extends State<NewsListPage> {
             : null,
         slivers: <Widget>[
           SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                return ListTile(
-                  trailing: Icon(Icons.keyboard_arrow_right),
-                  title: Text(
-                    DateFormat("yyyy年MM月dd日")
-                        .format(DateTime.parse(
-                            _showNewsList.showNewsList[index].realeasetime))
-                        .toString(),
-                    style: TextStyle(
-                      color: Colors.orange,
-                      fontSize: 43.ssp,
-                    ),
-                  ),
-                  subtitle: AutoSizeText(
-                    _showNewsList.showNewsList[index].title,
-                    style: TextStyle(
-                      fontSize: 40.ssp,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  onTap: () => {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) {
-                          return InformationDetail(
-                            headLine: _showNewsList.showNewsList[index],
-                          );
-                        },
-                      ),
-                    ),
-                  },
-                );
-              },
-              childCount: _showNewsList.showNewsList.length,
+            delegate: SliverChildListDelegate(
+              ListTile.divideTiles(
+                tiles: tiles,
+                context: context,
+              ).toList(),
             ),
           ),
         ],
