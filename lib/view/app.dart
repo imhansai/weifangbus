@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:weifangbus/util/appearance.dart';
 import 'package:weifangbus/util/theme_util.dart';
 import 'package:weifangbus/view/home.dart';
+import 'package:weifangbus/view/store/appearance_provider.dart';
 import 'package:weifangbus/view/store/news_model.dart';
-import 'package:weifangbus/view/store/theme_provider.dart';
 
 /// 设置 Provider
 class WeiFangBusApp extends StatefulWidget {
@@ -16,27 +17,23 @@ class WeiFangBusApp extends StatefulWidget {
 }
 
 class _WeiFangBusApp extends State<WeiFangBusApp> {
-  /// 0/浅色 1/深色 2/跟随系统
-  int _modelValue;
+  /// 外观
+  Appearance _appearance = Appearance.auto;
 
   /// 获取选择的外观值
-  _getModelValue() async {
-    var modelValue = await ThemeUtil.getModelValue();
-    // print('app 持久化获取外观: $modelValue');
-    if (_modelValue == null || _modelValue != modelValue) {
-      // print('app 持久化设置外观: $modelValue 原外观: $_modelValue');
+  _getAppearance() async {
+    var appearance = await AppearanceUtil.getAppearance();
+    if (appearance != null && _appearance != appearance) {
       setState(() {
-        _modelValue = modelValue;
+        _appearance = appearance;
       });
     }
   }
 
   /// 更改外观
-  _changeTheme(int modelValue) {
-    // print('app 监听获取外观: $modelValue');
-    if (modelValue != null && _modelValue != modelValue) {
-      // print('app 监听设置外观: $modelValue 原外观: $_modelValue');
-      _modelValue = modelValue;
+  _changeAppearance(Appearance appearance) {
+    if (appearance != null && _appearance != appearance) {
+      _appearance = appearance;
     }
   }
 
@@ -45,7 +42,7 @@ class _WeiFangBusApp extends State<WeiFangBusApp> {
     super.initState();
     // 强制竖屏
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    _getModelValue();
+    _getAppearance();
   }
 
   @override
@@ -57,16 +54,16 @@ class _WeiFangBusApp extends State<WeiFangBusApp> {
           create: (_) => NewsModel(),
         ),
         // 外观
-        ChangeNotifierProvider<ThemeProvider>(
-          create: (_) => ThemeProvider(),
+        ChangeNotifierProvider<AppearanceProvider>(
+          create: (_) => AppearanceProvider(),
         ),
       ],
       child: Builder(
         builder: (context) {
-          int modelValue = context.watch<ThemeProvider>().modelValue;
-          _changeTheme(modelValue);
-          // 0/浅色 1/深色 2/跟随系统
-          return _modelValue == 2
+          Appearance appearance =
+              context.watch<AppearanceProvider>().appearance;
+          _changeAppearance(appearance);
+          return _appearance == Appearance.auto
               ? MaterialApp(
                   title: "潍坊公交",
                   theme: ThemeData(),
@@ -83,7 +80,9 @@ class _WeiFangBusApp extends State<WeiFangBusApp> {
                 )
               : MaterialApp(
                   title: "潍坊公交",
-                  theme: _modelValue == 1 ? ThemeData.dark() : ThemeData(),
+                  theme: _appearance == Appearance.dark
+                      ? ThemeData.dark()
+                      : ThemeData(),
                   home: Home(),
                   localizationsDelegates: [
                     // 本地化的代理类

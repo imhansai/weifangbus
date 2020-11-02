@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:weifangbus/util/appearance.dart';
 import 'package:weifangbus/util/theme_util.dart';
 import 'package:weifangbus/view/more/settings/theme_manager.dart';
-import 'package:weifangbus/view/store/theme_provider.dart';
+import 'package:weifangbus/view/store/appearance_provider.dart';
 
 /// 设置页
 class Settings extends StatefulWidget {
@@ -12,15 +13,13 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   /// 选择的外观
-  String _modelValueStr = '';
+  Appearance _appearance = Appearance.auto;
 
   @override
   Widget build(BuildContext context) {
-    var modelValue = context.watch<ThemeProvider>().modelValue;
-    // print('监听外观: $modelValue');
-    if (modelValue != null) {
-      // print('外观改变: $modelValue');
-      _modelValueStr = ThemeUtil.modelValue2String(modelValue);
+    var appearance = context.watch<AppearanceProvider>().appearance;
+    if (appearance != null) {
+      _appearance = appearance;
     }
     return Scaffold(
       appBar: AppBar(
@@ -32,7 +31,7 @@ class _SettingsState extends State<Settings> {
           tiles: [
             ListTile(
               leading: Icon(
-                Icons.nightlight_round,
+                Icons.nights_stay,
                 color: Colors.blue,
               ),
               title: Text('外观管理'),
@@ -41,12 +40,12 @@ class _SettingsState extends State<Settings> {
                   context,
                   MaterialPageRoute(
                     builder: (BuildContext context) {
-                      return ThemeManager();
+                      return AppearanceManager();
                     },
                   ),
                 );
               },
-              trailing: Text(_modelValueStr),
+              trailing: Text(AppearanceUtil.appearanceStr(_appearance)),
             ),
           ],
         ).toList(),
@@ -54,18 +53,17 @@ class _SettingsState extends State<Settings> {
     );
   }
 
-  _getModelValueStr() async {
+  _getAppearance() async {
     // print('外观设置 初始化');
-    var modelValue = await ThemeUtil.getModelValue();
-    var modelValue2String = ThemeUtil.modelValue2String(modelValue);
+    var appearance = await AppearanceUtil.getAppearance();
     setState(() {
-      _modelValueStr = modelValue2String;
+      _appearance = appearance;
     });
   }
 
   @override
   void initState() {
     super.initState();
-    _getModelValueStr();
+    _getAppearance();
   }
 }

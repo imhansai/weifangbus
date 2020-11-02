@@ -1,42 +1,37 @@
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:weifangbus/util/appearance.dart';
+import 'package:weifangbus/util/sp_util.dart';
 
 /// 外观工具类
-class ThemeUtil {
-  static var prefs;
+class AppearanceUtil {
+  /// 存储的key
+  static var key = 'appearance';
 
-  static getPrefs() async {
-    if (prefs == null) {
-      SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
-      prefs = sharedPreferences;
-    }
-    return prefs;
+  /// 获取选择的外观
+  static Future<Appearance> getAppearance() async {
+    var prefs = await SharedPreferencesUtil.getPrefs();
+    var value = prefs.getInt(key);
+    return Appearance.values
+        .where((element) => element.index == (value ?? Appearance.auto.index))
+        .single;
   }
 
-  /// 获取选择的外观值
-  static getModelValue() async {
-    var prefs = await getPrefs();
-    var modelValue = prefs.getInt('model_value') ?? 2;
-    return modelValue;
+  /// 持久化选择的外观
+  static void saveAppearance(Appearance appearance) async {
+    var prefs = await SharedPreferencesUtil.getPrefs();
+    prefs.setInt(key, appearance.index);
   }
 
-  /// 持久化选择的外观值
-  static saveModelValue(int modelValue) async {
-    var prefs = await getPrefs();
-    prefs.setInt('model_value', modelValue);
-  }
-
-  /// 展示外观值
-  static modelValue2String(int modelValue) {
+  /// 展示外观
+  static String appearanceStr(Appearance appearance) {
     var str;
-    switch (modelValue) {
-      case 0:
-        str = '浅色外观';
+    switch (appearance) {
+      case Appearance.light:
+        str = '浅色模式';
         break;
-      case 1:
-        str = '深色外观';
+      case Appearance.dark:
+        str = '暗黑模式';
         break;
-      default:
+      case Appearance.auto:
         str = '跟随系统';
     }
     return str;

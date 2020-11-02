@@ -1,53 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:weifangbus/util/appearance.dart';
 import 'package:weifangbus/util/theme_util.dart';
-import 'package:weifangbus/view/store/theme_provider.dart';
+import 'package:weifangbus/view/store/appearance_provider.dart';
 
 /// 外观管理
-class ThemeManager extends StatefulWidget {
+class AppearanceManager extends StatefulWidget {
   @override
-  _ThemeManagerState createState() => _ThemeManagerState();
+  _AppearanceManagerState createState() => _AppearanceManagerState();
 }
 
-class _ThemeManagerState extends State<ThemeManager> {
-  /// 0/浅色 1/深色 2/跟随系统
-  int _modelValue;
+class _AppearanceManagerState extends State<AppearanceManager> {
+  Appearance _appearance = Appearance.auto;
 
-  /// 获取选择的外观值
-  _getModelValue() async {
-    var modelValue = await ThemeUtil.getModelValue();
+  /// 获取选择的外观
+  _getAppearance() async {
+    var appearance = await AppearanceUtil.getAppearance();
     setState(() {
-      _modelValue = modelValue;
+      _appearance = appearance;
     });
   }
 
   @override
   void initState() {
     super.initState();
-    _getModelValue();
+    _getAppearance();
   }
 
   /// 展示和设置外观
-  _showAndSetTheme(BuildContext context, int modelValue) {
-    print('外观切换至: ${ThemeUtil.modelValue2String(modelValue)}');
-    ThemeUtil.saveModelValue(modelValue);
+  _showAndSetAppearance(BuildContext context, Appearance appearance) {
+    print('外观切换至: ${AppearanceUtil.appearanceStr(appearance)}');
+    AppearanceUtil.saveAppearance(appearance);
     setState(() {
-      _modelValue = modelValue;
-      context.read<ThemeProvider>().changeModel(modelValue);
+      _appearance = appearance;
+      context.read<AppearanceProvider>().changeModel(appearance);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    var tiles = ThemeAppearance.values
+    var tiles = Appearance.values
         .map((e) => ListTile(
               title: Text(
-                ThemeUtil.modelValue2String(e.index),
+                AppearanceUtil.appearanceStr(e),
               ),
               onTap: () {
-                _showAndSetTheme(context, e.index);
+                _showAndSetAppearance(context, e);
               },
-              trailing: _modelValue == e.index ? Text('已选择') : SizedBox(),
+              trailing: _appearance == e ? Text('已选择') : SizedBox(),
             ))
         .toList();
     return Scaffold(
@@ -63,6 +63,3 @@ class _ThemeManagerState extends State<ThemeManager> {
     );
   }
 }
-
-/// 主题外观
-enum ThemeAppearance { light, dark, auto }
