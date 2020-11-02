@@ -2,7 +2,7 @@
 
 潍坊公交
 
-使用flutter编写，主要改善在ios上刘海屏显示不全的问题。当然，Android也可以同步体验,请看[Releases](https://github.com/hanandjun/weifangbus/releases)
+使用 [Flutter](https://flutter.dev/) 编写,船新的版本，熟悉的味道，欢迎使用.
 
 ## 致谢
 [![JetBrains](jetbrains.svg "jetbrains-logo")](https://www.jetbrains.com/?from=weifangbus)

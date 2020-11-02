@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:weifangbus/util/theme_util.dart';
 import 'package:weifangbus/view/home.dart';
@@ -71,11 +72,28 @@ class _WeiFangBusApp extends State<WeiFangBusApp> {
                   theme: ThemeData(),
                   darkTheme: ThemeData.dark(),
                   home: Home(),
+                  localizationsDelegates: [
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate,
+                  ],
+                  supportedLocales: [
+                    const Locale.fromSubtags(languageCode: 'zh'),
+                  ],
+                  locale: Locale.fromSubtags(languageCode: 'zh'),
                 )
               : MaterialApp(
                   title: "潍坊公交",
                   theme: _modelValue == 1 ? ThemeData.dark() : ThemeData(),
                   home: Home(),
+                  localizationsDelegates: [
+                    // 本地化的代理类
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate,
+                  ],
+                  supportedLocales: [
+                    const Locale.fromSubtags(languageCode: 'zh'),
+                  ],
+                  locale: Locale.fromSubtags(languageCode: 'zh'),
                 );
         },
       ),
