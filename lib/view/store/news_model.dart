@@ -30,11 +30,11 @@ class NewsModel with ChangeNotifier {
       List<Headline> newsList = list
           .map((dynamic) => EntityFactory.generateOBJ<Headline>(dynamic))
           .toList();
-      print('请求资讯列表数据完毕');
+      print('请求 资讯信息 完毕');
       newsList ?? List();
       return newsList;
     } on DioError catch (e) {
-      print(getErrorMsg(e, msg: "请求资讯列表数据"));
+      print(getErrorMsg(e, msg: "请求 资讯信息"));
       return Future.error(e);
     }
   }

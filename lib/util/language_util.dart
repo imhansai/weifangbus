@@ -44,10 +44,11 @@ class LanguageUtil {
     return str;
   }
 
-  /// 展示和设置语言
+  /// 设置语言
   static setLanguage(
       BuildContext context, LanguagePreference languagePreference) {
-    print('语言切换至: $languagePreference');
+    var str = languageString(languagePreference);
+    print('语言切换至: $str');
     switch (languagePreference) {
       case LanguagePreference.auto:
         context.read<LocaleProvider>().setLocale(null);

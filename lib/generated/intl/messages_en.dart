@@ -22,9 +22,17 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "AppName" : MessageLookupByLibrary.simpleMessage("WeiFang Bus"),
+    "ExitApp" : MessageLookupByLibrary.simpleMessage("click again to exit the application"),
+    "Explore" : MessageLookupByLibrary.simpleMessage("Explore"),
+    "Guide" : MessageLookupByLibrary.simpleMessage("Guide"),
     "Home" : MessageLookupByLibrary.simpleMessage("Home"),
     "LanguageSettings" : MessageLookupByLibrary.simpleMessage("Language Settings"),
     "More" : MessageLookupByLibrary.simpleMessage("More"),
+    "News" : MessageLookupByLibrary.simpleMessage("News"),
+    "NoNews" : MessageLookupByLibrary.simpleMessage("No News"),
+    "NoPictures" : MessageLookupByLibrary.simpleMessage("No Pictures"),
+    "RouteQuery" : MessageLookupByLibrary.simpleMessage("Route Query"),
+    "SearchLine" : MessageLookupByLibrary.simpleMessage("Search Line"),
     "Settings" : MessageLookupByLibrary.simpleMessage("Settings")
   };
 }

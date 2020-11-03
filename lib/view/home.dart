@@ -66,7 +66,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.explore),
-              label: '发现',
+              label: S.of(context).Explore,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.more_vert),
@@ -95,7 +95,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       _homeKey.currentState.showSnackBar(
         SnackBar(
           content: Text(
-            '再次点击退出应用',
+            S.of(context).ExitApp,
             textAlign: TextAlign.center,
           ),
           duration: Duration(milliseconds: 1500),

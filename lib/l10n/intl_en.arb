@@ -1,7 +1,15 @@
 {
   "AppName": "WeiFang Bus",
   "Home": "Home",
+  "Explore": "Explore",
   "More": "More",
+  "ExitApp": "click again to exit the application",
+  "RouteQuery": "Route Query",
+  "Guide": "Guide",
+  "News": "News",
+  "NoNews": "No News",
+  "NoPictures": "No Pictures",
+  "SearchLine": "Search Line",
   "Settings": "Settings",
   "LanguageSettings": "Language Settings"
 }

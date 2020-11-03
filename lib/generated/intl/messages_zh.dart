@@ -22,9 +22,17 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "AppName" : MessageLookupByLibrary.simpleMessage("潍坊公交"),
+    "ExitApp" : MessageLookupByLibrary.simpleMessage("再次点击退出应用"),
+    "Explore" : MessageLookupByLibrary.simpleMessage("探索"),
+    "Guide" : MessageLookupByLibrary.simpleMessage("导 乘"),
     "Home" : MessageLookupByLibrary.simpleMessage("首页"),
     "LanguageSettings" : MessageLookupByLibrary.simpleMessage("语言设置"),
     "More" : MessageLookupByLibrary.simpleMessage("更多"),
+    "News" : MessageLookupByLibrary.simpleMessage("资 讯"),
+    "NoNews" : MessageLookupByLibrary.simpleMessage("暂无资讯信息"),
+    "NoPictures" : MessageLookupByLibrary.simpleMessage("暂无图片展示"),
+    "RouteQuery" : MessageLookupByLibrary.simpleMessage("线路查询"),
+    "SearchLine" : MessageLookupByLibrary.simpleMessage("搜索线路"),
     "Settings" : MessageLookupByLibrary.simpleMessage("设置")
   };
 }

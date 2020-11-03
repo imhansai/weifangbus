@@ -27,20 +27,15 @@ class _WeiFangBusApp extends State<WeiFangBusApp> {
   Locale _locale;
 
   /// 获取选择的外观
-  _getAppearance() async {
+  _getAppearanceAndLanguage() async {
     var appearance = await AppearanceUtil.getAppearance();
-    print('appearance: $appearance');
     var languagePreference = await LanguageUtil.getLanguagePreference();
-    print('languagePreference: $languagePreference');
     var locale = LanguageUtil.getLocale(languagePreference);
-    print('locale: $locale _locale: $_locale');
     setState(() {
-      print('app 设置语言');
       _locale = locale;
     });
     if (appearance != null && _appearance != appearance) {
       setState(() {
-        print('app 设置外观');
         _appearance = appearance;
       });
     }
@@ -65,12 +60,11 @@ class _WeiFangBusApp extends State<WeiFangBusApp> {
     super.initState();
     // 强制竖屏
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    _getAppearance();
+    _getAppearanceAndLanguage();
   }
 
   @override
   Widget build(BuildContext context) {
-    print('app 开始构建');
     return MultiProvider(
       providers: [
         // 资讯信息

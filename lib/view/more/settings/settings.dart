@@ -24,10 +24,8 @@ class _SettingsState extends State<Settings> {
 
   @override
   Widget build(BuildContext context) {
-    print('开始构建');
     var appearance = context.watch<AppearanceProvider>().appearance;
     var locale = context.watch<LocaleProvider>().locale;
-    print('locale: $locale');
     if (locale != null) {
       var languagePreference = LanguageUtil.getLanguage(locale);
       if (languagePreference != null) {
@@ -94,7 +92,6 @@ class _SettingsState extends State<Settings> {
   /// 获取外观和语言
   _getAppearance() async {
     var appearance = await AppearanceUtil.getAppearance();
-    print('appearance: $appearance');
     setState(() {
       _appearance = appearance;
     });
@@ -102,7 +99,6 @@ class _SettingsState extends State<Settings> {
 
   _getLanguage() async {
     var languagePreference = await LanguageUtil.getLanguagePreference();
-    print('languagePreference: $languagePreference');
     setState(() {
       _languagePreference = languagePreference;
     });

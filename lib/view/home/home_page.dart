@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
@@ -13,6 +14,7 @@ import 'package:weifangbus/entity/headline_entity.dart';
 import 'package:weifangbus/entity/menu_entity.dart';
 import 'package:weifangbus/entity/startup_basic_info_entity.dart';
 import 'package:weifangbus/entity_factory.dart';
+import 'package:weifangbus/generated/l10n.dart';
 import 'package:weifangbus/util/dio_util.dart';
 import 'package:weifangbus/util/font_util.dart';
 import 'package:weifangbus/util/request_params_util.dart';
@@ -32,9 +34,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with AutomaticKeepAliveClientMixin {
-  /// 菜单项
-  List<MenuEntity> _menuEntityList = List();
-
   /// 初始页json数据实体类
   Future<StartUpBasicInfoEntity> _startUpBasicInfoFuture;
 
@@ -56,9 +55,7 @@ class _HomePageState extends State<HomePage>
   @override
   void initState() {
     super.initState();
-    setMenuEntityList();
     _startUpBasicInfoFuture = _getStartUpBasicInfoFuture();
-    // getAllRoute();
   }
 
   @override
@@ -75,11 +72,12 @@ class _HomePageState extends State<HomePage>
   }
 
   /// 设置菜单
-  void setMenuEntityList() {
+  setMenuEntityList() {
+    List<MenuEntity> menuEntityList = List();
     MenuEntity lineInquiry = MenuEntity(
       Colors.lightGreen,
       MyIcons.lineInquiry,
-      "线路查询",
+      S.of(context).RouteQuery,
       () {
         Navigator.push(
           context,
@@ -88,7 +86,7 @@ class _HomePageState extends State<HomePage>
               return Material(
                 child: MaterialSearch<String>(
                   barBackgroundColor: Theme.of(context).primaryColor,
-                  placeholder: "搜索线路",
+                  placeholder: S.of(context).SearchLine,
                   results: _allRouteList,
                   filter: (dynamic value, String criteria) {
                     return value.toLowerCase().trim().contains(
@@ -101,11 +99,11 @@ class _HomePageState extends State<HomePage>
         );
       },
     );
-    _menuEntityList.add(lineInquiry);
+    menuEntityList.add(lineInquiry);
     MenuEntity guide = MenuEntity(
       Colors.lightBlue,
       MyIcons.guide,
-      '导乘',
+      S.of(context).Guide,
       () {
         Navigator.push(
           context,
@@ -117,11 +115,11 @@ class _HomePageState extends State<HomePage>
         );
       },
     );
-    _menuEntityList.add(guide);
+    menuEntityList.add(guide);
     MenuEntity news = MenuEntity(
       Colors.orangeAccent,
       MyIcons.news,
-      '资讯',
+      S.of(context).News,
       () {
         Navigator.push(
           context,
@@ -133,7 +131,8 @@ class _HomePageState extends State<HomePage>
         );
       },
     );
-    _menuEntityList.add(news);
+    menuEntityList.add(news);
+    return menuEntityList;
   }
 
   /// 请求首页数据
@@ -147,7 +146,7 @@ class _HomePageState extends State<HomePage>
         Response response = await dio.get(uri);
         var startUpBasicInfoEntity =
             EntityFactory.generateOBJ<StartUpBasicInfoEntity>(response.data);
-        print("请求轮播图完毕");
+        print("请求 轮播图 完毕");
         if (startUpBasicInfoEntity == null) {
           startUpBasicInfoEntity = StartUpBasicInfoEntity();
         }
@@ -171,7 +170,7 @@ class _HomePageState extends State<HomePage>
     response = await dio.get(uri);
     AllroutedataEntity allRouteDataEntity =
         EntityFactory.generateOBJ<AllroutedataEntity>(response.data);
-    print("请求全部线路完成");
+    print("请求 线路信息 完毕");
     var routeList = allRouteDataEntity.routelist;
     List<MaterialSearchResult<String>> materialSearchResultList = List();
     for (var i = 0; i < routeList.length; ++i) {
@@ -279,8 +278,8 @@ class _HomePageState extends State<HomePage>
                 color: Colors.deepOrangeAccent,
               ),
               child: Padding(
-                child: Text(
-                  "资\n讯",
+                child: AutoSizeText(
+                  S.of(context).News,
                   style: TextStyle(
                     color: Colors.white,
                   ),
@@ -311,7 +310,7 @@ class _HomePageState extends State<HomePage>
                                   fontSize: 44.ssp,
                                 ),
                               )
-                            : Text('暂无资讯信息'),
+                            : Text(S.of(context).NoNews),
                       ),
                     ],
                   );
@@ -385,13 +384,15 @@ class _HomePageState extends State<HomePage>
               autoplayDelay: 4000,
             )
           : Center(
-              child: Text('暂无图片展示'),
+              child: Text(S.of(context).NoPictures),
             ),
     );
   }
 
   /// 菜单项
   Widget menuWidget() {
+    /// 菜单项
+    List<MenuEntity> menuEntityList = setMenuEntityList();
     return SliverPadding(
       padding: EdgeInsets.all(10.w),
       sliver: SliverGrid(
@@ -414,7 +415,7 @@ class _HomePageState extends State<HomePage>
                       height: 180.h,
                       child: DecoratedBox(
                         decoration: BoxDecoration(
-                          color: _menuEntityList[index].color,
+                          color: menuEntityList[index].color,
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
@@ -428,7 +429,7 @@ class _HomePageState extends State<HomePage>
                         ),
                         child: Center(
                           child: Icon(
-                            _menuEntityList[index].icon,
+                            menuEntityList[index].icon,
                             size: 80.w,
                             color: Colors.white,
                           ),
@@ -440,7 +441,7 @@ class _HomePageState extends State<HomePage>
                         top: 25.h,
                       ),
                       child: Text(
-                        _menuEntityList[index].menuText,
+                        menuEntityList[index].menuText,
                         style: TextStyle(
                           fontSize: 40.ssp,
                         ),
@@ -449,10 +450,10 @@ class _HomePageState extends State<HomePage>
                   ],
                 ),
               ),
-              onTap: _menuEntityList[index].function,
+              onTap: menuEntityList[index].function,
             );
           },
-          childCount: _menuEntityList.length,
+          childCount: menuEntityList.length,
         ),
       ),
     );

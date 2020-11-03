@@ -1,7 +1,15 @@
 {
   "AppName": "潍坊公交",
   "Home": "首页",
+  "Explore": "探索",
   "More": "更多",
+  "ExitApp": "再次点击退出应用",
+  "RouteQuery": "线路查询",
+  "Guide": "导 乘",
+  "News": "资 讯",
+  "NoNews": "暂无资讯信息",
+  "NoPictures": "暂无图片展示",
+  "SearchLine": "搜索线路",
   "Settings": "设置",
   "LanguageSettings": "语言设置"
 }

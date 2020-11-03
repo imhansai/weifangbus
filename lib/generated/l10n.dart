@@ -55,11 +55,91 @@ class S {
     );
   }
 
+  /// `Explore`
+  String get Explore {
+    return Intl.message(
+      'Explore',
+      name: 'Explore',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `More`
   String get More {
     return Intl.message(
       'More',
       name: 'More',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `click again to exit the application`
+  String get ExitApp {
+    return Intl.message(
+      'click again to exit the application',
+      name: 'ExitApp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Route Query`
+  String get RouteQuery {
+    return Intl.message(
+      'Route Query',
+      name: 'RouteQuery',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Guide`
+  String get Guide {
+    return Intl.message(
+      'Guide',
+      name: 'Guide',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `News`
+  String get News {
+    return Intl.message(
+      'News',
+      name: 'News',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No News`
+  String get NoNews {
+    return Intl.message(
+      'No News',
+      name: 'NoNews',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No Pictures`
+  String get NoPictures {
+    return Intl.message(
+      'No Pictures',
+      name: 'NoPictures',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search Line`
+  String get SearchLine {
+    return Intl.message(
+      'Search Line',
+      name: 'SearchLine',
       desc: '',
       args: [],
     );

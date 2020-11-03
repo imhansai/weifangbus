@@ -10,7 +10,6 @@ class LocaleProvider extends ChangeNotifier {
   Locale get locale => _locale;
 
   setLocale(Locale locale) {
-    print('设置语言: $locale');
     manuallyChangeLanguage = true;
     _locale = locale;
     notifyListeners();

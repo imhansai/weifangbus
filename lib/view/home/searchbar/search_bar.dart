@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:weifangbus/generated/l10n.dart';
 import 'package:weifangbus/view/home/searchbar/search_input.dart';
 
 /// 搜索栏
@@ -36,7 +37,7 @@ class _SearchBarState extends State<SearchBar> {
             ),
             Expanded(
               child: MaterialSearchInput(
-                placeholder: "搜索线路",
+                placeholder: S.of(context).SearchLine,
                 results: widget.allRouteList,
                 filter: (dynamic value, String criteria) {
                   return value.toLowerCase().trim().contains(

@@ -1,7 +1,15 @@
 {
   "AppName": "潍坊 バス",
   "Home": "ホーム",
+  "Explore": "見る",
   "More": "もっと",
+  "ExitApp": "もう一度クリックしてアプリを終了します",
+  "RouteQuery": "ルートクエリ",
+  "Guide": "ガイド",
+  "News": "ニュース",
+  "NoNews": "情報はまだありません",
+  "NoPictures": "写真はしばらくありません",
+  "SearchLine": "経路を探索する",
   "Settings": "セットアップ",
   "LanguageSettings": "言語設定"
 }

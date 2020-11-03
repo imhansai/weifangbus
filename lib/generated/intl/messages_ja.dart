@@ -22,9 +22,17 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "AppName" : MessageLookupByLibrary.simpleMessage("潍坊 バス"),
+    "ExitApp" : MessageLookupByLibrary.simpleMessage("もう一度クリックしてアプリを終了します"),
+    "Explore" : MessageLookupByLibrary.simpleMessage("見る"),
+    "Guide" : MessageLookupByLibrary.simpleMessage("ガイド"),
     "Home" : MessageLookupByLibrary.simpleMessage("ホーム"),
     "LanguageSettings" : MessageLookupByLibrary.simpleMessage("言語設定"),
     "More" : MessageLookupByLibrary.simpleMessage("もっと"),
+    "News" : MessageLookupByLibrary.simpleMessage("ニュース"),
+    "NoNews" : MessageLookupByLibrary.simpleMessage("情報はまだありません"),
+    "NoPictures" : MessageLookupByLibrary.simpleMessage("写真はしばらくありません"),
+    "RouteQuery" : MessageLookupByLibrary.simpleMessage("ルートクエリ"),
+    "SearchLine" : MessageLookupByLibrary.simpleMessage("経路を探索する"),
     "Settings" : MessageLookupByLibrary.simpleMessage("セットアップ")
   };
 }

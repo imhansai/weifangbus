@@ -93,7 +93,7 @@ class _NewsListPageState extends State<NewsListPage> {
               context.read<NewsModel>().refreshNewsList();
               showSnackBar('刷新成功!');
             } catch (e) {
-              print('刷新资讯列表出错::: $e');
+              print('刷新资讯信息出错::: $e');
               showSnackBar('请求数据失败，请尝试切换网络后重试!');
             }
           } else {
