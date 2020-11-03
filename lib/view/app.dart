@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:weifangbus/generated/l10n.dart';
 import 'package:weifangbus/util/appearance.dart';
+import 'package:weifangbus/util/language_util.dart';
 import 'package:weifangbus/util/theme_util.dart';
 import 'package:weifangbus/view/home.dart';
 import 'package:weifangbus/view/store/appearance_provider.dart';
+import 'package:weifangbus/view/store/locale_provider.dart';
 import 'package:weifangbus/view/store/news_model.dart';
 
 /// 设置 Provider
@@ -20,11 +23,24 @@ class _WeiFangBusApp extends State<WeiFangBusApp> {
   /// 外观
   Appearance _appearance = Appearance.auto;
 
-  /// 获取选择的外观值
+  /// 语言
+  Locale _locale;
+
+  /// 获取选择的外观
   _getAppearance() async {
     var appearance = await AppearanceUtil.getAppearance();
+    print('appearance: $appearance');
+    var languagePreference = await LanguageUtil.getLanguagePreference();
+    print('languagePreference: $languagePreference');
+    var locale = LanguageUtil.getLocale(languagePreference);
+    print('locale: $locale _locale: $_locale');
+    setState(() {
+      print('app 设置语言');
+      _locale = locale;
+    });
     if (appearance != null && _appearance != appearance) {
       setState(() {
+        print('app 设置外观');
         _appearance = appearance;
       });
     }
@@ -34,6 +50,13 @@ class _WeiFangBusApp extends State<WeiFangBusApp> {
   _changeAppearance(Appearance appearance) {
     if (appearance != null && _appearance != appearance) {
       _appearance = appearance;
+    }
+  }
+
+  /// 更改语言
+  _changeLocale(Locale locale) {
+    if (LocaleProvider.manuallyChangeLanguage && _locale != locale) {
+      _locale = locale;
     }
   }
 
@@ -47,6 +70,7 @@ class _WeiFangBusApp extends State<WeiFangBusApp> {
 
   @override
   Widget build(BuildContext context) {
+    print('app 开始构建');
     return MultiProvider(
       providers: [
         // 资讯信息
@@ -57,42 +81,48 @@ class _WeiFangBusApp extends State<WeiFangBusApp> {
         ChangeNotifierProvider<AppearanceProvider>(
           create: (_) => AppearanceProvider(),
         ),
+        // 语言
+        ChangeNotifierProvider<LocaleProvider>(
+          create: (_) => LocaleProvider(),
+        ),
       ],
       child: Builder(
         builder: (context) {
-          Appearance appearance =
-              context.watch<AppearanceProvider>().appearance;
+          var appearance = context.watch<AppearanceProvider>().appearance;
           _changeAppearance(appearance);
+          var locale = context.watch<LocaleProvider>().locale;
+          _changeLocale(locale);
           return _appearance == Appearance.auto
               ? MaterialApp(
-                  title: "潍坊公交",
+                  onGenerateTitle: (context) {
+                    return S.of(context).AppName;
+                  },
                   theme: ThemeData(),
                   darkTheme: ThemeData.dark(),
                   home: Home(),
                   localizationsDelegates: [
+                    S.delegate,
                     GlobalMaterialLocalizations.delegate,
                     GlobalWidgetsLocalizations.delegate,
                   ],
-                  supportedLocales: [
-                    const Locale.fromSubtags(languageCode: 'zh'),
-                  ],
-                  locale: Locale.fromSubtags(languageCode: 'zh'),
+                  supportedLocales: S.delegate.supportedLocales,
+                  locale: _locale,
                 )
               : MaterialApp(
-                  title: "潍坊公交",
+                  onGenerateTitle: (context) {
+                    return S.of(context).AppName;
+                  },
                   theme: _appearance == Appearance.dark
                       ? ThemeData.dark()
                       : ThemeData(),
                   home: Home(),
                   localizationsDelegates: [
-                    // 本地化的代理类
+                    S.delegate,
                     GlobalMaterialLocalizations.delegate,
                     GlobalWidgetsLocalizations.delegate,
                   ],
-                  supportedLocales: [
-                    const Locale.fromSubtags(languageCode: 'zh'),
-                  ],
-                  locale: Locale.fromSubtags(languageCode: 'zh'),
+                  supportedLocales: S.delegate.supportedLocales,
+                  locale: _locale,
                 );
         },
       ),

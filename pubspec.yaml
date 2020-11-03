@@ -93,3 +93,7 @@ flutter:
     - family: myIcon
       fonts:
         - asset: fonts/iconfont.ttf
+
+# 国际化
+flutter_intl:
+  enabled: true

@@ -2,14 +2,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 /// 数据存储类
 class SharedPreferencesUtil {
-  static SharedPreferences prefs;
+  static SharedPreferences _prefs;
 
   static Future<SharedPreferences> getPrefs() async {
-    if (prefs == null) {
+    if (_prefs == null) {
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
-      prefs = sharedPreferences;
+      _prefs = sharedPreferences;
     }
-    return prefs;
+    return _prefs;
   }
 }

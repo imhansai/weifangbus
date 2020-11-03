@@ -2,7 +2,7 @@
 
 潍坊公交
 
-使用 [Flutter](https://flutter.dev/) 编写,船新的版本，熟悉的味道，欢迎使用.
+使用 [Flutter](https://flutter.dev/) 编写,船新的版本，熟悉的味道，欢迎食用.
 
 ## 致谢
 [![JetBrains](jetbrains.svg "jetbrains-logo")](https://www.jetbrains.com/?from=weifangbus)
