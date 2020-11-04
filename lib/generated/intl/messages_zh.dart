@@ -26,6 +26,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "Explore" : MessageLookupByLibrary.simpleMessage("探索"),
     "Guide" : MessageLookupByLibrary.simpleMessage("导 乘"),
     "Home" : MessageLookupByLibrary.simpleMessage("首页"),
+    "HomeNews" : MessageLookupByLibrary.simpleMessage("资\n讯"),
     "LanguageSettings" : MessageLookupByLibrary.simpleMessage("语言设置"),
     "More" : MessageLookupByLibrary.simpleMessage("更多"),
     "News" : MessageLookupByLibrary.simpleMessage("资 讯"),

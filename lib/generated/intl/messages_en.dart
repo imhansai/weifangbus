@@ -26,6 +26,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "Explore" : MessageLookupByLibrary.simpleMessage("Explore"),
     "Guide" : MessageLookupByLibrary.simpleMessage("Guide"),
     "Home" : MessageLookupByLibrary.simpleMessage("Home"),
+    "HomeNews" : MessageLookupByLibrary.simpleMessage("News"),
     "LanguageSettings" : MessageLookupByLibrary.simpleMessage("Language Settings"),
     "More" : MessageLookupByLibrary.simpleMessage("More"),
     "News" : MessageLookupByLibrary.simpleMessage("News"),

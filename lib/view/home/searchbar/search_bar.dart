@@ -20,32 +20,23 @@ class _SearchBarState extends State<SearchBar> {
       child: Container(
         decoration: BoxDecoration(
           color: Theme.of(context).backgroundColor,
-          borderRadius: BorderRadius.circular(4.0),
+          borderRadius: BorderRadius.circular(4),
         ),
-        child: Row(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(
-                right: 25.w,
-                left: 25.w,
-              ),
-              child: Icon(
-                Icons.search,
-                size: 60.w,
-                color: Theme.of(context).accentColor,
-              ),
-            ),
-            Expanded(
-              child: MaterialSearchInput(
-                placeholder: S.of(context).SearchLine,
-                results: widget.allRouteList,
-                filter: (dynamic value, String criteria) {
-                  return value.toLowerCase().trim().contains(
-                      RegExp(r'' + criteria.toLowerCase().trim() + ''));
-                },
-              ),
-            ),
-          ],
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: 25.w,
+            right: 25.w,
+          ),
+          child: MaterialSearchInput(
+            placeholder: S.of(context).SearchLine,
+            results: widget.allRouteList,
+            filter: (dynamic value, String criteria) {
+              return value
+                  .toLowerCase()
+                  .trim()
+                  .contains(RegExp(r'' + criteria.toLowerCase().trim() + ''));
+            },
+          ),
         ),
       ),
     );

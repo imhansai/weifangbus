@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:weifangbus/generated/l10n.dart';
 
 typedef bool MaterialSearchFilter<T>(T v, String c);
 typedef int MaterialSearchSort<T>(T a, T b, String c);
@@ -78,8 +79,6 @@ class MaterialSearchInput<T> extends StatefulWidget {
 }
 
 class _MaterialSearchInputState<T> extends State<MaterialSearchInput<T>> {
-  GlobalKey<FormFieldState<T>> _formFieldKey = GlobalKey<FormFieldState<T>>();
-
   /// 调整到线路列表搜索页
   _showMaterialSearch(BuildContext context) {
     Navigator.push(
@@ -100,26 +99,19 @@ class _MaterialSearchInputState<T> extends State<MaterialSearchInput<T>> {
     );
   }
 
-  bool _isEmpty(field) {
-    return field.value == null;
-  }
-
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () => _showMaterialSearch(context),
-      child: FormField<T>(
-        key: _formFieldKey,
-        builder: (FormFieldState<T> field) {
-          return InputDecorator(
-            isEmpty: _isEmpty(field),
-            decoration: InputDecoration(
-              labelText: widget.placeholder,
-              border: InputBorder.none,
-              errorText: field.errorText,
-            ),
-            child: _isEmpty(field) ? null : Text(field.value.toString()),
-          );
-        },
+      child: TextFormField(
+        decoration: InputDecoration(
+          hintText: S.of(context).SearchLine,
+          icon: Icon(
+            Icons.search,
+            color: Theme.of(context).accentColor,
+          ),
+          border: InputBorder.none,
+          enabled: false,
+        ),
       ),
     );
   }
@@ -233,6 +225,7 @@ class _MaterialSearchState<T> extends State<MaterialSearch> {
     return Scaffold(
       appBar: AppBar(
         title: TextField(
+          cursorColor: Colors.cyan,
           controller: _controller,
           autofocus: true,
           decoration: InputDecoration.collapsed(hintText: widget.placeholder),

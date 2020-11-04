@@ -115,6 +115,16 @@ class S {
     );
   }
 
+  /// `News`
+  String get HomeNews {
+    return Intl.message(
+      'News',
+      name: 'HomeNews',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `No News`
   String get NoNews {
     return Intl.message(

@@ -26,6 +26,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "Explore" : MessageLookupByLibrary.simpleMessage("見る"),
     "Guide" : MessageLookupByLibrary.simpleMessage("ガイド"),
     "Home" : MessageLookupByLibrary.simpleMessage("ホーム"),
+    "HomeNews" : MessageLookupByLibrary.simpleMessage("ニュース"),
     "LanguageSettings" : MessageLookupByLibrary.simpleMessage("言語設定"),
     "More" : MessageLookupByLibrary.simpleMessage("もっと"),
     "News" : MessageLookupByLibrary.simpleMessage("ニュース"),

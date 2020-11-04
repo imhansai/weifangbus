@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:weifangbus/util/font_util.dart';
 import 'package:weifangbus/view/more/about_company.dart';
@@ -135,10 +136,13 @@ class _MorePageState extends State<MorePage>
       showDialog(
         context: context,
         builder: (_) => AlertDialog(
-          content: AutoSizeText(
-            "抱歉，检测到您还未安装QQ客户端!",
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
+          content: Container(
+            width: 1.sw,
+            child: AutoSizeText(
+              "抱歉，检测到您还未安装QQ客户端!",
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
           actions: <Widget>[
             FlatButton(

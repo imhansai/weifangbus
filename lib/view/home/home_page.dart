@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:weifangbus/entity/all_route_data_entity.dart';
 import 'package:weifangbus/entity/headline_entity.dart';
@@ -260,6 +261,8 @@ class _HomePageState extends State<HomePage>
 
   /// 资讯信息
   Widget infoShowWidget() {
+    var currentLocale = Intl.getCurrentLocale();
+    print('current locale: $currentLocale');
     return Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -278,15 +281,25 @@ class _HomePageState extends State<HomePage>
                 color: Colors.deepOrangeAccent,
               ),
               child: Padding(
-                child: AutoSizeText(
-                  S.of(context).News,
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-                padding: EdgeInsets.symmetric(
-                  vertical: 3.h,
-                  horizontal: 12.w,
+                child: currentLocale == 'zh'
+                    ? AutoSizeText(
+                        S.of(context).HomeNews,
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      )
+                    : RotatedBox(
+                        child: AutoSizeText(
+                          S.of(context).HomeNews,
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                          maxLines: 1,
+                        ),
+                        quarterTurns: 3,
+                      ),
+                padding: EdgeInsets.all(
+                  12.w,
                 ),
               ),
             ),
