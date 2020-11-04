@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:weifangbus/entity/install_basic_info_entity.dart';
 import 'package:weifangbus/entity_factory.dart';
+import 'package:weifangbus/generated/l10n.dart';
 import 'package:weifangbus/util/dio_util.dart';
 import 'package:weifangbus/util/request_params_util.dart';
 
@@ -22,7 +23,7 @@ class _AboutCompanyState extends State<AboutCompany> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("潍坊市公共交通总公司"),
+        title: Text(S.of(context).Company),
       ),
       body: FutureBuilder<InstallBasicInfoEntity>(
         future: _installBasicInfoFuture,

@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:weifangbus/generated/l10n.dart';
 import 'package:weifangbus/util/font_util.dart';
 import 'package:weifangbus/view/more/about_company.dart';
 import 'package:weifangbus/view/more/about_me.dart';
@@ -35,8 +36,8 @@ class _MorePageState extends State<MorePage>
           Icons.settings,
           color: Colors.blueGrey,
         ),
-        title: Text('设置'),
-        subtitle: Text('完美调控，尽在您的掌握'),
+        title: Text(S.of(context).Settings),
+        subtitle: Text(S.of(context).SettingsDesc),
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(
@@ -53,8 +54,8 @@ class _MorePageState extends State<MorePage>
           MyIcons.qq,
           color: Colors.indigoAccent,
         ),
-        title: Text('QQ群'),
-        subtitle: Text('加入QQ群交流反馈'),
+        title: Text(S.of(context).QQGroup),
+        subtitle: Text(S.of(context).QQGroupDesc),
         onTap: () {
           _joinQQGroup(context);
         },
@@ -65,8 +66,8 @@ class _MorePageState extends State<MorePage>
           Icons.business,
           color: Colors.brown,
         ),
-        title: Text('潍坊市公共交通总公司'),
-        subtitle: Text('关于潍坊市公共交通总公司'),
+        title: Text(S.of(context).Company),
+        subtitle: Text(S.of(context).CompanyDesc),
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(
@@ -83,7 +84,7 @@ class _MorePageState extends State<MorePage>
           MyIcons.software,
           color: Colors.black87,
         ),
-        title: Text('关于潍坊公交'),
+        title: Text(S.of(context).AboutSoftWare),
         onTap: () {
           showAboutSoftWareDialog(context);
         },
@@ -94,7 +95,7 @@ class _MorePageState extends State<MorePage>
           Icons.info,
           color: Colors.lightBlue,
         ),
-        title: Text('走近作者'),
+        title: Text(S.of(context).Author),
         // describe: "走近作者",
         onTap: () {
           Navigator.of(context).push(
@@ -110,7 +111,7 @@ class _MorePageState extends State<MorePage>
     super.build(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('更多'),
+        title: Text(S.of(context).More),
         centerTitle: true,
       ),
       body: Container(
@@ -139,14 +140,14 @@ class _MorePageState extends State<MorePage>
           content: Container(
             width: 1.sw,
             child: AutoSizeText(
-              "抱歉，检测到您还未安装QQ客户端!",
+              S.of(context).NotInstalledQQ,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
           ),
           actions: <Widget>[
             FlatButton(
-              child: Text('确定'),
+              child: Text(S.of(context).Ok),
               onPressed: () {
                 Navigator.of(context).pop();
               },

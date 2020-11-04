@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:weifangbus/generated/l10n.dart';
 
 /// 关于软件
 void showAboutSoftWareDialog(BuildContext context) {
@@ -27,10 +28,10 @@ class _AboutDialog extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     final bodyTextStyle = textTheme.bodyText1;
 
-    final name = '潍坊公交';
+    final name = S.of(context).SoftWare;
     final legalese = '© 2019 hanandjun';
-    final seeSourceFirst = '要查看此应用的源代码，请访问';
-    final repoText = 'weifangbus GitHub 代码库';
+    final seeSourceFirst = S.of(context).SeeSource;
+    final repoText = 'weifangbus GitHub ' + S.of(context).Repo;
     final seeSourceSecond = '。';
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -49,12 +50,12 @@ class _AboutDialog extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             Text(
-              '此 App 是个人工作之余通过 Flutter 技术制作。目的是奔着现代一点去的,希望大家喜欢😜。',
+              S.of(context).AppDesc,
               style: bodyTextStyle,
             ),
             const SizedBox(height: 10),
             Text(
-              '特别说明: 接口由【潍坊掌上公交】提供，如有侵权，请联系我。',
+              S.of(context).SpecialInstructions,
               style: bodyTextStyle,
             ),
             const SizedBox(height: 10),
@@ -100,7 +101,7 @@ class _AboutDialog extends StatelessWidget {
         FlatButton(
           textColor: colorScheme.primary,
           child: Text(
-            '查看许可',
+            S.of(context).ViewLicenses,
           ),
           onPressed: () {
             Navigator.of(context).push(MaterialPageRoute<void>(
@@ -113,7 +114,7 @@ class _AboutDialog extends StatelessWidget {
         ),
         FlatButton(
           textColor: colorScheme.primary,
-          child: Text('关闭'),
+          child: Text(S.of(context).Close),
           onPressed: () {
             Navigator.pop(context);
           },

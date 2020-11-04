@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:weifangbus/generated/l10n.dart';
 import 'package:weifangbus/util/sp_util.dart';
 import 'package:weifangbus/view/store/locale_provider.dart';
 
@@ -25,20 +26,21 @@ class LanguageUtil {
   }
 
   /// 展示语言值
-  static languageString(LanguagePreference languagePreference) {
+  static languageString(
+      BuildContext context, LanguagePreference languagePreference) {
     var str;
     switch (languagePreference) {
       case LanguagePreference.auto:
-        str = '跟随系统';
+        str = S.of(context).Auto;
         break;
       case LanguagePreference.en:
-        str = 'English';
+        str = S.of(context).English;
         break;
       case LanguagePreference.zh:
-        str = '中文';
+        str = S.of(context).Chinese;
         break;
       case LanguagePreference.ja:
-        str = '日本語';
+        str = S.of(context).Japanese;
         break;
     }
     return str;
@@ -47,7 +49,7 @@ class LanguageUtil {
   /// 设置语言
   static setLanguage(
       BuildContext context, LanguagePreference languagePreference) {
-    var str = languageString(languagePreference);
+    var str = languageString(context, languagePreference);
     print('语言切换至: $str');
     switch (languagePreference) {
       case LanguagePreference.auto:

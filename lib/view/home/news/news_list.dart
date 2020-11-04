@@ -7,6 +7,7 @@ import 'package:flutter_easyrefresh/phoenix_header.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:weifangbus/generated/l10n.dart';
 import 'package:weifangbus/view/home/news/news_detail.dart';
 import 'package:weifangbus/view/store/news_model.dart';
 
@@ -47,7 +48,7 @@ class _NewsListPageState extends State<NewsListPage> {
         .map((e) => ListTile(
               trailing: Icon(Icons.keyboard_arrow_right),
               title: Text(
-                DateFormat("yyyy年MM月dd日")
+                DateFormat(S.of(context).NewsDate)
                     .format(DateTime.parse(e.realeasetime))
                     .toString(),
                 style: TextStyle(
@@ -81,7 +82,7 @@ class _NewsListPageState extends State<NewsListPage> {
     return Scaffold(
       key: _newsListKey,
       appBar: AppBar(
-        title: Text("资讯列表"),
+        title: Text(S.of(context).News),
       ),
       body: EasyRefresh.custom(
         header: PhoenixHeader(),
@@ -91,13 +92,13 @@ class _NewsListPageState extends State<NewsListPage> {
           if (connectivityResult != ConnectivityResult.none) {
             try {
               context.read<NewsModel>().refreshNewsList();
-              showSnackBar('刷新成功!');
+              showSnackBar(S.of(context).RefreshSuccess);
             } catch (e) {
               print('刷新资讯信息出错::: $e');
-              showSnackBar('请求数据失败，请尝试切换网络后重试!');
+              showSnackBar(S.of(context).RequestDataFailure);
             }
           } else {
-            showSnackBar('设备未连接到任何网络,请连接网络后重试!');
+            showSnackBar(S.of(context).NotConnectedToAnyNetwork);
           }
         },
         emptyWidget: noData

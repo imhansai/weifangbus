@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:weifangbus/generated/l10n.dart';
 import 'package:weifangbus/util/appearance.dart';
 import 'package:weifangbus/util/sp_util.dart';
 
@@ -22,17 +24,17 @@ class AppearanceUtil {
   }
 
   /// 展示外观
-  static String appearanceStr(Appearance appearance) {
+  static String appearanceStr(BuildContext context, Appearance appearance) {
     var str;
     switch (appearance) {
       case Appearance.light:
-        str = '浅色模式';
+        str = S.of(context).Light;
         break;
       case Appearance.dark:
-        str = '暗黑模式';
+        str = S.of(context).Dark;
         break;
       case Appearance.auto:
-        str = '跟随系统';
+        str = S.of(context).Auto;
     }
     return str;
   }

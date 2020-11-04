@@ -33,12 +33,14 @@ class _LanguageSettingsState extends State<LanguageSettings> {
     var tiles = LanguagePreference.values
         .map((e) => ListTile(
               title: Text(
-                LanguageUtil.languageString(e),
+                LanguageUtil.languageString(context, e),
               ),
               onTap: () {
                 _showAndSetLanguage(context, e);
               },
-              trailing: _languagePreference == e ? Text('已选择') : SizedBox(),
+              trailing: _languagePreference == e
+                  ? Text(S.of(context).Selected)
+                  : SizedBox(),
             ))
         .toList();
 

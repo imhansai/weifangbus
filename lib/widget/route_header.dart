@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:weifangbus/generated/l10n.dart';
 
 /// 线路详情头部信息
 class RouteHeader extends StatefulWidget {
@@ -106,8 +107,9 @@ class _RouteHeaderState extends State<RouteHeader> {
                       Icon(
                         Icons.swap_vert_sharp,
                       ),
-                      Text(
-                        '换向',
+                      AutoSizeText(
+                        S.of(context).Reversing,
+                        maxLines: 1,
                       ),
                     ],
                   ),

@@ -274,8 +274,8 @@ class _History extends State<History> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text(
-        "这是一个即将完善的搜索记录",
+      child: AutoSizeText(
+        S.of(context).SearchHistory,
       ),
     );
   }

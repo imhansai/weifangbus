@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:weifangbus/generated/l10n.dart';
 import 'package:weifangbus/util/appearance.dart';
 import 'package:weifangbus/util/theme_util.dart';
 import 'package:weifangbus/view/store/appearance_provider.dart';
@@ -29,7 +30,7 @@ class _AppearanceManagerState extends State<AppearanceManager> {
 
   /// 展示和设置外观
   _showAndSetAppearance(BuildContext context, Appearance appearance) {
-    print('外观切换至: ${AppearanceUtil.appearanceStr(appearance)}');
+    print('外观切换至: ${AppearanceUtil.appearanceStr(context, appearance)}');
     AppearanceUtil.saveAppearance(appearance);
     setState(() {
       _appearance = appearance;
@@ -42,12 +43,13 @@ class _AppearanceManagerState extends State<AppearanceManager> {
     var tiles = Appearance.values
         .map((e) => ListTile(
               title: Text(
-                AppearanceUtil.appearanceStr(e),
+                AppearanceUtil.appearanceStr(context, e),
               ),
               onTap: () {
                 _showAndSetAppearance(context, e);
               },
-              trailing: _appearance == e ? Text('已选择') : SizedBox(),
+              trailing:
+                  _appearance == e ? Text(S.of(context).Selected) : SizedBox(),
             ))
         .toList();
     return Scaffold(

@@ -4,6 +4,7 @@ import 'package:flutter_html/style.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:weifangbus/entity/headline_entity.dart';
+import 'package:weifangbus/generated/l10n.dart';
 
 class InformationDetail extends StatefulWidget {
   final Headline headLine;
@@ -18,7 +19,9 @@ class InformationDetail extends StatefulWidget {
 
 class _InformationDetail extends State<InformationDetail> {
   ScrollController _controller = ScrollController();
-  bool showToTopBtn = false; // 是否显示“返回到顶部”按钮
+
+  // 是否显示“返回到顶部”按钮
+  bool showToTopBtn = false;
 
   @override
   void initState() {
@@ -50,7 +53,7 @@ class _InformationDetail extends State<InformationDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("资讯详情"),
+        title: Text(S.of(context).NewsDetail),
       ),
       body: Container(
         child: Column(
@@ -81,8 +84,8 @@ class _InformationDetail extends State<InformationDetail> {
                               top: 31.h,
                             ),
                             child: Text(
-                              '发布时间: ' +
-                                  DateFormat("yyyy年MM月dd日 HH点mm分ss秒")
+                              S.of(context).ReleaseTime +
+                                  DateFormat(S.of(context).NewsDetailDate)
                                       .format(DateTime.parse(
                                           widget.headLine.realeasedatetime))
                                       .toString(),
@@ -116,7 +119,7 @@ class _InformationDetail extends State<InformationDetail> {
           ? null
           : FloatingActionButton(
               child: Icon(Icons.arrow_upward),
-              tooltip: "返回顶部",
+              tooltip: S.of(context).BackToTop,
               onPressed: () {
                 // 返回到顶部时执行动画
                 _controller.animateTo(.0,

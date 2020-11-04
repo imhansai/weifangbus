@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:weifangbus/generated/l10n.dart';
 import 'package:weifangbus/util/font_util.dart';
 
 /// 关于我
@@ -59,13 +60,13 @@ class _AboutMeState extends State<AboutMe> {
                                   color: Colors.white,
                                 ),
                                 title: Text(
-                                  '姓名',
+                                  S.of(context).Name,
                                   style: TextStyle(
                                     color: Colors.white,
                                   ),
                                 ),
                                 subtitle: Text(
-                                  '韩塞',
+                                  S.of(context).NameDesc,
                                   style: TextStyle(
                                     color: Colors.white,
                                   ),
@@ -77,13 +78,13 @@ class _AboutMeState extends State<AboutMe> {
                                   color: Colors.green,
                                 ),
                                 title: Text(
-                                  '年龄',
+                                  S.of(context).Age,
                                   style: TextStyle(
                                     color: Colors.white,
                                   ),
                                 ),
                                 subtitle: Text(
-                                  '25岁',
+                                  S.of(context).AgeDesc,
                                   style: TextStyle(
                                     color: Colors.white,
                                   ),
@@ -95,13 +96,13 @@ class _AboutMeState extends State<AboutMe> {
                                   color: Colors.green,
                                 ),
                                 title: Text(
-                                  '所在城市',
+                                  S.of(context).City,
                                   style: TextStyle(
                                     color: Colors.white,
                                   ),
                                 ),
                                 subtitle: Text(
-                                  '山东潍坊',
+                                  S.of(context).CityDesc,
                                   style: TextStyle(
                                     color: Colors.white,
                                   ),
@@ -123,7 +124,7 @@ class _AboutMeState extends State<AboutMe> {
                                   color: Colors.white,
                                 ),
                                 title: Text(
-                                  '添加QQ',
+                                  'QQ',
                                   style: TextStyle(
                                     color: Colors.white,
                                   ),
@@ -174,7 +175,7 @@ class _AboutMeState extends State<AboutMe> {
                                 color: Colors.white,
                               ),
                               title: Text(
-                                '手机号',
+                                S.of(context).Phone,
                                 style: TextStyle(
                                   color: Colors.white,
                                 ),
@@ -195,7 +196,7 @@ class _AboutMeState extends State<AboutMe> {
                                 color: Colors.white,
                               ),
                               title: Text(
-                                '邮件',
+                                S.of(context).EMail,
                                 style: TextStyle(
                                   color: Colors.white,
                                 ),

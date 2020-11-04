@@ -13,6 +13,7 @@ import 'package:weifangbus/entity/line/station_real_time_info_entity.dart';
 import 'package:weifangbus/entity/route_stat_data_entity.dart';
 import 'package:weifangbus/entity_factory.dart';
 import 'package:weifangbus/generated/json/base/json_convert_content.dart';
+import 'package:weifangbus/generated/l10n.dart';
 import 'package:weifangbus/util/dio_util.dart';
 import 'package:weifangbus/util/request_params_util.dart';
 import 'package:weifangbus/widget/route_header.dart';
@@ -225,7 +226,9 @@ class _RouteDetailState extends State<RouteDetail>
                               color: Colors.green,
                             ),
                             AutoSizeText(
-                              '${element.stopBusStaNum}辆到站',
+                              S
+                                  .of(context)
+                                  .ArriveAtStation('${element.stopBusStaNum}'),
                               style: TextStyle(
                                 fontSize: 30.ssp,
                               ),
@@ -245,7 +248,8 @@ class _RouteDetailState extends State<RouteDetail>
                               color: Colors.red,
                             ),
                             AutoSizeText(
-                              '${element.expArriveBusStaNum}辆离站',
+                              S.of(context).AwayFromTheStation(
+                                  '${element.expArriveBusStaNum}'),
                               style: TextStyle(
                                 fontSize: 30.ssp,
                               ),
@@ -382,10 +386,10 @@ class _RouteDetailState extends State<RouteDetail>
                             Icons.info_outlined,
                           ),
                           title: AutoSizeText(
-                            '加载中...',
+                            S.of(context).Loading,
                           ),
                           subtitle: AutoSizeText(
-                            '加载中...',
+                            S.of(context).Loading,
                           ),
                         );
                       },
@@ -454,7 +458,7 @@ class _RouteDetailState extends State<RouteDetail>
               highlightColor: Colors.blue[700],
               colorBrightness: Brightness.dark,
               splashColor: Colors.grey,
-              child: Text("请检查网络连接后点击重试"),
+              child: Text(S.of(context).RequestDataFailure),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0),
               ),
@@ -501,7 +505,7 @@ class _RouteDetailState extends State<RouteDetail>
                     SnackBar(
                       duration: Duration(seconds: 5),
                       content: Text(
-                        '换向完毕',
+                        S.of(context).ReversingComplete,
                         textAlign: TextAlign.center,
                       ),
                     ),

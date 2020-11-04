@@ -41,7 +41,7 @@ class _SettingsState extends State<Settings> {
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text("设置"),
+        title: Text(S.of(context).Settings),
       ),
       body: ListView(
         children: ListTile.divideTiles(
@@ -52,7 +52,7 @@ class _SettingsState extends State<Settings> {
                 Icons.nights_stay,
                 color: Colors.blue,
               ),
-              title: Text('外观管理'),
+              title: Text(S.of(context).AppearanceManagement),
               onTap: () {
                 Navigator.push(
                   context,
@@ -63,7 +63,8 @@ class _SettingsState extends State<Settings> {
                   ),
                 );
               },
-              trailing: Text(AppearanceUtil.appearanceStr(_appearance)),
+              trailing:
+                  Text(AppearanceUtil.appearanceStr(context, _appearance)),
             ),
             ListTile(
               leading: Icon(
@@ -81,7 +82,8 @@ class _SettingsState extends State<Settings> {
                   ),
                 );
               },
-              trailing: Text(LanguageUtil.languageString(_languagePreference)),
+              trailing: Text(
+                  LanguageUtil.languageString(context, _languagePreference)),
             ),
           ],
         ).toList(),

@@ -223,7 +223,10 @@ class _HomePageState extends State<HomePage>
         highlightColor: Colors.blue[700],
         colorBrightness: Brightness.dark,
         splashColor: Colors.grey,
-        child: Text("请检查网络连接后重试"),
+        child: AutoSizeText(
+          S.of(context).RequestDataFailure,
+          maxLines: 2,
+        ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.0),
         ),
@@ -262,7 +265,7 @@ class _HomePageState extends State<HomePage>
   /// 资讯信息
   Widget infoShowWidget() {
     var currentLocale = Intl.getCurrentLocale();
-    print('current locale: $currentLocale');
+    // print('current locale: $currentLocale');
     return Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,

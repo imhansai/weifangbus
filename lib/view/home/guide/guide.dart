@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weifangbus/generated/l10n.dart';
 
 class Guide extends StatefulWidget {
   @override
@@ -10,11 +11,11 @@ class _GuideState extends State<Guide> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("导乘"),
+        title: Text(S.of(context).Guide),
       ),
       body: Container(
         child: Center(
-          child: Text("导乘"),
+          child: Text(S.of(context).Guide),
         ),
       ),
     );
