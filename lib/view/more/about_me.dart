@@ -15,11 +15,14 @@ class AboutMe extends StatefulWidget {
 class _AboutMeState extends State<AboutMe> {
   @override
   Widget build(BuildContext context) {
+    var orientation = MediaQuery.of(context).orientation;
+
     return Scaffold(
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
-            expandedHeight: 600.h,
+            expandedHeight:
+                orientation == Orientation.portrait ? 500.h : 1000.h,
             floating: false,
             pinned: true,
             snap: false,
@@ -28,14 +31,15 @@ class _AboutMeState extends State<AboutMe> {
                 child: ClipOval(
                   child: Image.asset(
                     "assets/images/avatar.jpeg",
-                    width: 260.w,
+                    width: orientation == Orientation.portrait ? 260.w : 130.w,
                   ),
                 ),
               ),
               title: Text(
                 "hanandjun",
                 style: TextStyle(
-                  fontSize: 50.ssp,
+                  fontSize:
+                      orientation == Orientation.portrait ? 50.ssp : 25.ssp,
                 ),
               ),
               centerTitle: true,

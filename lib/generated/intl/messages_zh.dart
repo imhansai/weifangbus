@@ -39,7 +39,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "Chinese" : MessageLookupByLibrary.simpleMessage("中文"),
     "City" : MessageLookupByLibrary.simpleMessage("所在城市"),
     "CityDesc" : MessageLookupByLibrary.simpleMessage("山东潍坊"),
-    "Close" : MessageLookupByLibrary.simpleMessage("关闭"),
     "Company" : MessageLookupByLibrary.simpleMessage("潍坊市公共交通总公司"),
     "CompanyDesc" : MessageLookupByLibrary.simpleMessage("关于潍坊市公共交通总公司"),
     "Dark" : MessageLookupByLibrary.simpleMessage("暗黑模式"),
@@ -83,7 +82,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "Settings" : MessageLookupByLibrary.simpleMessage("设置"),
     "SettingsDesc" : MessageLookupByLibrary.simpleMessage("完美调控，尽在您的掌握"),
     "SoftWare" : MessageLookupByLibrary.simpleMessage("潍坊公交"),
-    "SpecialInstructions" : MessageLookupByLibrary.simpleMessage("特别说明: 接口由【潍坊掌上公交】提供，如有侵权，请联系我。"),
-    "ViewLicenses" : MessageLookupByLibrary.simpleMessage("查看许可")
+    "SpecialInstructions" : MessageLookupByLibrary.simpleMessage("特别说明: 接口由【潍坊掌上公交】提供，如有侵权，请联系我。")
   };
 }

@@ -51,6 +51,8 @@ class _InformationDetail extends State<InformationDetail> {
 
   @override
   Widget build(BuildContext context) {
+    var orientation = MediaQuery.of(context).orientation;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(S.of(context).NewsDetail),
@@ -62,26 +64,31 @@ class _InformationDetail extends State<InformationDetail> {
             Expanded(
               child: SingleChildScrollView(
                 padding: EdgeInsets.fromLTRB(
-                  40.w,
-                  10.h,
-                  40.w,
-                  200.h,
+                  orientation == Orientation.portrait ? 40.w : 20.w,
+                  orientation == Orientation.portrait ? 10.h : 20.h,
+                  orientation == Orientation.portrait ? 40.w : 20.w,
+                  orientation == Orientation.portrait ? 200.h : 400.h,
                 ),
                 child: Column(
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.all(70.w),
+                      padding: EdgeInsets.all(
+                          orientation == Orientation.portrait ? 70.w : 35.w),
                       child: Column(
                         children: <Widget>[
                           Text(
                             widget.headLine.title,
                             style: TextStyle(
-                              fontSize: 53.ssp,
+                              fontSize: orientation == Orientation.portrait
+                                  ? 53.ssp
+                                  : 26.ssp,
                             ),
                           ),
                           Padding(
                             padding: EdgeInsets.only(
-                              top: 31.h,
+                              top: orientation == Orientation.portrait
+                                  ? 31.h
+                                  : 62.h,
                             ),
                             child: Text(
                               S.of(context).ReleaseTime +
@@ -91,7 +98,9 @@ class _InformationDetail extends State<InformationDetail> {
                                       .toString(),
                               style: TextStyle(
                                 color: Colors.grey,
-                                fontSize: 38.ssp,
+                                fontSize: orientation == Orientation.portrait
+                                    ? 38.ssp
+                                    : 19.ssp,
                               ),
                             ),
                           ),
@@ -103,7 +112,11 @@ class _InformationDetail extends State<InformationDetail> {
                       style: {
                         "html": Style(
                           fontFamily: 'serif',
-                          fontSize: FontSize(50.ssp),
+                          fontSize: FontSize(
+                            orientation == Orientation.portrait
+                                ? 50.ssp
+                                : 25.ssp,
+                          ),
                         )
                       },
                     ),

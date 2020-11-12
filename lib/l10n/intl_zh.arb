@@ -47,8 +47,6 @@
   "Dark": "暗黑模式",
   "AppDesc": "此 App 是个人工作之余通过 Flutter 技术制作。目的是奔着现代一点去的,希望大家喜欢\uD83D\uDE1C。",
   "SpecialInstructions": "特别说明: 接口由【潍坊掌上公交】提供，如有侵权，请联系我。",
-  "ViewLicenses": "查看许可",
-  "Close": "关闭",
   "SeeSource": "要查看此应用的源代码，请访问: ",
   "Repo": "代码库",
   "Name": "姓名",

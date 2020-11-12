@@ -39,7 +39,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "Chinese" : MessageLookupByLibrary.simpleMessage("中文"),
     "City" : MessageLookupByLibrary.simpleMessage("ある都市"),
     "CityDesc" : MessageLookupByLibrary.simpleMessage("山东潍坊"),
-    "Close" : MessageLookupByLibrary.simpleMessage("閉鎖"),
     "Company" : MessageLookupByLibrary.simpleMessage("イ坊市公共交通総公司"),
     "CompanyDesc" : MessageLookupByLibrary.simpleMessage("イ坊市公共交通総公司"),
     "Dark" : MessageLookupByLibrary.simpleMessage("暗黒モード"),
@@ -83,7 +82,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "Settings" : MessageLookupByLibrary.simpleMessage("セットアップ"),
     "SettingsDesc" : MessageLookupByLibrary.simpleMessage("完璧にコントロールして、あなたの掌握に尽くします"),
     "SoftWare" : MessageLookupByLibrary.simpleMessage("イ坊バス"),
-    "SpecialInstructions" : MessageLookupByLibrary.simpleMessage("特に説明:インターフェースは「濰坊掌中バス」より提供されており、もし著作権侵害があるならば、連絡してください。"),
-    "ViewLicenses" : MessageLookupByLibrary.simpleMessage("観免許")
+    "SpecialInstructions" : MessageLookupByLibrary.simpleMessage("特に説明:インターフェースは「濰坊掌中バス」より提供されており、もし著作権侵害があるならば、連絡してください。")
   };
 }

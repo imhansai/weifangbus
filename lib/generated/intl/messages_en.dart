@@ -39,11 +39,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "Chinese" : MessageLookupByLibrary.simpleMessage("Chinese"),
     "City" : MessageLookupByLibrary.simpleMessage("City"),
     "CityDesc" : MessageLookupByLibrary.simpleMessage("ShanDong WeiFang"),
-    "Close" : MessageLookupByLibrary.simpleMessage("Close"),
     "Company" : MessageLookupByLibrary.simpleMessage("Weifang Public Transportation Corporation"),
     "CompanyDesc" : MessageLookupByLibrary.simpleMessage("About Weifang Public Transportation Corporation"),
     "Dark" : MessageLookupByLibrary.simpleMessage("Dark"),
-    "EMail" : MessageLookupByLibrary.simpleMessage("e-mail"),
+    "EMail" : MessageLookupByLibrary.simpleMessage("E-mail"),
     "English" : MessageLookupByLibrary.simpleMessage("English"),
     "ExitApp" : MessageLookupByLibrary.simpleMessage("click again to exit the application"),
     "Explore" : MessageLookupByLibrary.simpleMessage("Explore"),
@@ -56,7 +55,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "Loading" : MessageLookupByLibrary.simpleMessage("Loading..."),
     "More" : MessageLookupByLibrary.simpleMessage("More"),
     "Name" : MessageLookupByLibrary.simpleMessage("Name"),
-    "NameDesc" : MessageLookupByLibrary.simpleMessage("韩塞"),
+    "NameDesc" : MessageLookupByLibrary.simpleMessage("Han Sai"),
     "News" : MessageLookupByLibrary.simpleMessage("News"),
     "NewsDate" : MessageLookupByLibrary.simpleMessage("yyyy-MM-dd"),
     "NewsDetail" : MessageLookupByLibrary.simpleMessage("News Detail"),
@@ -83,7 +82,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "Settings" : MessageLookupByLibrary.simpleMessage("Settings"),
     "SettingsDesc" : MessageLookupByLibrary.simpleMessage("Perfect regulation is under your control"),
     "SoftWare" : MessageLookupByLibrary.simpleMessage("Weifang Bus"),
-    "SpecialInstructions" : MessageLookupByLibrary.simpleMessage("Special note: The interface is provided by [Weifang Zhangshangbus]. If there is any infringement, please contact me。"),
-    "ViewLicenses" : MessageLookupByLibrary.simpleMessage("View Licenses")
+    "SpecialInstructions" : MessageLookupByLibrary.simpleMessage("Special note: The interface is provided by [Weifang Zhangshangbus]. If there is any infringement, please contact me。")
   };
 }

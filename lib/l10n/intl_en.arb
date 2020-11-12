@@ -47,16 +47,14 @@
   "Dark": "Dark",
   "AppDesc": "This App was made by the technique of Flutter after personal work. The purpose is to run a bit more modern, I hope you like it\uD83D\uDE1C。",
   "SpecialInstructions": "Special note: The interface is provided by [Weifang Zhangshangbus]. If there is any infringement, please contact me。",
-  "ViewLicenses": "View Licenses",
-  "Close": "Close",
   "SeeSource": "To view the source code for this application, visit: ",
   "Repo": "code repository",
   "Name": "Name",
-  "NameDesc": "韩塞",
+  "NameDesc": "Han Sai",
   "Age": "Age",
   "AgeDesc": "25",
   "City": "City",
   "CityDesc": "ShanDong WeiFang",
   "Phone": "Phone",
-  "EMail": "e-mail"
+  "EMail": "E-mail"
 }

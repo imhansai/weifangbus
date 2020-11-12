@@ -67,6 +67,9 @@ class _RouteDetailState extends State<RouteDetail>
   /// 站点实时信息数
   int _carInfoCount = 2;
 
+  /// 屏幕方向
+  Orientation _orientation;
+
   /// 获取线路详情
   Future<RouteStatDataEntity> _getRouteStatData() async {
     try {
@@ -230,7 +233,9 @@ class _RouteDetailState extends State<RouteDetail>
                                   .of(context)
                                   .ArriveAtStation('${element.stopBusStaNum}'),
                               style: TextStyle(
-                                fontSize: 30.ssp,
+                                fontSize: _orientation == Orientation.portrait
+                                    ? 30.ssp
+                                    : 15.ssp,
                               ),
                             ),
                           ],
@@ -251,7 +256,9 @@ class _RouteDetailState extends State<RouteDetail>
                               S.of(context).AwayFromTheStation(
                                   '${element.expArriveBusStaNum}'),
                               style: TextStyle(
-                                fontSize: 30.ssp,
+                                fontSize: _orientation == Orientation.portrait
+                                    ? 30.ssp
+                                    : 15.ssp,
                               ),
                             ),
                           ],
@@ -445,6 +452,8 @@ class _RouteDetailState extends State<RouteDetail>
   Widget build(BuildContext context) {
     // print('界面开始构建');
     super.build(context);
+    _orientation = MediaQuery.of(context).orientation;
+
     var _routeDetailBuilderFunction =
         (BuildContext context, AsyncSnapshot<RouteStatDataEntity> snapshot) {
       // 请求已结束
@@ -567,7 +576,8 @@ class _RouteDetailState extends State<RouteDetail>
       appBar: AppBar(
         title: AutoSizeText(
           widget.title,
-          style: TextStyle(fontSize: 45.ssp),
+          style: TextStyle(
+              fontSize: _orientation == Orientation.portrait ? 45.ssp : 22.ssp),
           maxLines: 2,
         ),
       ),

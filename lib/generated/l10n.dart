@@ -35,530 +35,510 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `WeiFang Bus`
+  /// `潍坊公交`
   String get AppName {
     return Intl.message(
-      'WeiFang Bus',
+      '潍坊公交',
       name: 'AppName',
       desc: '',
       args: [],
     );
   }
 
-  /// `Home`
+  /// `首页`
   String get Home {
     return Intl.message(
-      'Home',
+      '首页',
       name: 'Home',
       desc: '',
       args: [],
     );
   }
 
-  /// `Explore`
+  /// `探索`
   String get Explore {
     return Intl.message(
-      'Explore',
+      '探索',
       name: 'Explore',
       desc: '',
       args: [],
     );
   }
 
-  /// `More`
+  /// `更多`
   String get More {
     return Intl.message(
-      'More',
+      '更多',
       name: 'More',
       desc: '',
       args: [],
     );
   }
 
-  /// `click again to exit the application`
+  /// `再次点击退出应用`
   String get ExitApp {
     return Intl.message(
-      'click again to exit the application',
+      '再次点击退出应用',
       name: 'ExitApp',
       desc: '',
       args: [],
     );
   }
 
-  /// `Route Query`
+  /// `线路查询`
   String get RouteQuery {
     return Intl.message(
-      'Route Query',
+      '线路查询',
       name: 'RouteQuery',
       desc: '',
       args: [],
     );
   }
 
-  /// `Guide`
+  /// `导 乘`
   String get Guide {
     return Intl.message(
-      'Guide',
+      '导 乘',
       name: 'Guide',
       desc: '',
       args: [],
     );
   }
 
-  /// `News`
+  /// `资 讯`
   String get News {
     return Intl.message(
-      'News',
+      '资 讯',
       name: 'News',
       desc: '',
       args: [],
     );
   }
 
-  /// `News`
+  /// `资\n讯`
   String get HomeNews {
     return Intl.message(
-      'News',
+      '资\n讯',
       name: 'HomeNews',
       desc: '',
       args: [],
     );
   }
 
-  /// `No News`
+  /// `暂无资讯信息`
   String get NoNews {
     return Intl.message(
-      'No News',
+      '暂无资讯信息',
       name: 'NoNews',
       desc: '',
       args: [],
     );
   }
 
-  /// `No Pictures`
+  /// `暂无图片展示`
   String get NoPictures {
     return Intl.message(
-      'No Pictures',
+      '暂无图片展示',
       name: 'NoPictures',
       desc: '',
       args: [],
     );
   }
 
-  /// `Search Line`
+  /// `搜索线路`
   String get SearchLine {
     return Intl.message(
-      'Search Line',
+      '搜索线路',
       name: 'SearchLine',
       desc: '',
       args: [],
     );
   }
 
-  /// `This is a search record that is about to be perfected`
+  /// `这是一个即将完善的搜索记录`
   String get SearchHistory {
     return Intl.message(
-      'This is a search record that is about to be perfected',
+      '这是一个即将完善的搜索记录',
       name: 'SearchHistory',
       desc: '',
       args: [],
     );
   }
 
-  /// `Refresh the success!`
+  /// `刷新成功!`
   String get RefreshSuccess {
     return Intl.message(
-      'Refresh the success!',
+      '刷新成功!',
       name: 'RefreshSuccess',
       desc: '',
       args: [],
     );
   }
 
-  /// `Request data failed. Try switching network and retry!`
+  /// `请求数据失败，请尝试切换网络后重试!`
   String get RequestDataFailure {
     return Intl.message(
-      'Request data failed. Try switching network and retry!',
+      '请求数据失败，请尝试切换网络后重试!',
       name: 'RequestDataFailure',
       desc: '',
       args: [],
     );
   }
 
-  /// `The device is not connected to any network. Please try again after connecting to the network!`
+  /// `设备未连接到任何网络,请连接网络后重试!`
   String get NotConnectedToAnyNetwork {
     return Intl.message(
-      'The device is not connected to any network. Please try again after connecting to the network!',
+      '设备未连接到任何网络,请连接网络后重试!',
       name: 'NotConnectedToAnyNetwork',
       desc: '',
       args: [],
     );
   }
 
-  /// `yyyy-MM-dd`
+  /// `yyyy年MM月dd日`
   String get NewsDate {
     return Intl.message(
-      'yyyy-MM-dd',
+      'yyyy年MM月dd日',
       name: 'NewsDate',
       desc: '',
       args: [],
     );
   }
 
-  /// `News Detail`
+  /// `资讯详情`
   String get NewsDetail {
     return Intl.message(
-      'News Detail',
+      '资讯详情',
       name: 'NewsDetail',
       desc: '',
       args: [],
     );
   }
 
-  /// `Release Time: `
+  /// `发布时间: `
   String get ReleaseTime {
     return Intl.message(
-      'Release Time: ',
+      '发布时间: ',
       name: 'ReleaseTime',
       desc: '',
       args: [],
     );
   }
 
-  /// `yyyy-MM-dd HH:mm:ss`
+  /// `yyyy年MM月dd日 HH点mm分ss秒`
   String get NewsDetailDate {
     return Intl.message(
-      'yyyy-MM-dd HH:mm:ss',
+      'yyyy年MM月dd日 HH点mm分ss秒',
       name: 'NewsDetailDate',
       desc: '',
       args: [],
     );
   }
 
-  /// `Back to top`
+  /// `返回顶部`
   String get BackToTop {
     return Intl.message(
-      'Back to top',
+      '返回顶部',
       name: 'BackToTop',
       desc: '',
       args: [],
     );
   }
 
-  /// `Reversing`
+  /// `换向`
   String get Reversing {
     return Intl.message(
-      'Reversing',
+      '换向',
       name: 'Reversing',
       desc: '',
       args: [],
     );
   }
 
-  /// `Reversing Complete`
+  /// `换向完成`
   String get ReversingComplete {
     return Intl.message(
-      'Reversing Complete',
+      '换向完成',
       name: 'ReversingComplete',
       desc: '',
       args: [],
     );
   }
 
-  /// `{num} arrive`
+  /// `{num}辆到站`
   String ArriveAtStation(Object num) {
     return Intl.message(
-      '$num arrive',
+      '$num辆到站',
       name: 'ArriveAtStation',
       desc: '',
       args: [num],
     );
   }
 
-  /// `{num} leave`
+  /// `{num}辆离站`
   String AwayFromTheStation(Object num) {
     return Intl.message(
-      '$num leave',
+      '$num辆离站',
       name: 'AwayFromTheStation',
       desc: '',
       args: [num],
     );
   }
 
-  /// `Loading...`
+  /// `加载中...`
   String get Loading {
     return Intl.message(
-      'Loading...',
+      '加载中...',
       name: 'Loading',
       desc: '',
       args: [],
     );
   }
 
-  /// `Settings`
+  /// `设置`
   String get Settings {
     return Intl.message(
-      'Settings',
+      '设置',
       name: 'Settings',
       desc: '',
       args: [],
     );
   }
 
-  /// `Perfect regulation is under your control`
+  /// `完美调控，尽在您的掌握`
   String get SettingsDesc {
     return Intl.message(
-      'Perfect regulation is under your control',
+      '完美调控，尽在您的掌握',
       name: 'SettingsDesc',
       desc: '',
       args: [],
     );
   }
 
-  /// `QQ Group`
+  /// `QQ群`
   String get QQGroup {
     return Intl.message(
-      'QQ Group',
+      'QQ群',
       name: 'QQGroup',
       desc: '',
       args: [],
     );
   }
 
-  /// `Join QQ group to exchange feedback`
+  /// `加入QQ群交流反馈`
   String get QQGroupDesc {
     return Intl.message(
-      'Join QQ group to exchange feedback',
+      '加入QQ群交流反馈',
       name: 'QQGroupDesc',
       desc: '',
       args: [],
     );
   }
 
-  /// `Weifang Public Transportation Corporation`
+  /// `潍坊市公共交通总公司`
   String get Company {
     return Intl.message(
-      'Weifang Public Transportation Corporation',
+      '潍坊市公共交通总公司',
       name: 'Company',
       desc: '',
       args: [],
     );
   }
 
-  /// `About Weifang Public Transportation Corporation`
+  /// `关于潍坊市公共交通总公司`
   String get CompanyDesc {
     return Intl.message(
-      'About Weifang Public Transportation Corporation',
+      '关于潍坊市公共交通总公司',
       name: 'CompanyDesc',
       desc: '',
       args: [],
     );
   }
 
-  /// `About weifang Bus`
+  /// `关于潍坊公交`
   String get AboutSoftWare {
     return Intl.message(
-      'About weifang Bus',
+      '关于潍坊公交',
       name: 'AboutSoftWare',
       desc: '',
       args: [],
     );
   }
 
-  /// `Weifang Bus`
+  /// `潍坊公交`
   String get SoftWare {
     return Intl.message(
-      'Weifang Bus',
+      '潍坊公交',
       name: 'SoftWare',
       desc: '',
       args: [],
     );
   }
 
-  /// `Come to the author`
+  /// `走近作者`
   String get Author {
     return Intl.message(
-      'Come to the author',
+      '走近作者',
       name: 'Author',
       desc: '',
       args: [],
     );
   }
 
-  /// `Sorry, I have detected that you have not installed the QQ client`
+  /// `抱歉，检测到您还未安装QQ客户端`
   String get NotInstalledQQ {
     return Intl.message(
-      'Sorry, I have detected that you have not installed the QQ client',
+      '抱歉，检测到您还未安装QQ客户端',
       name: 'NotInstalledQQ',
       desc: '',
       args: [],
     );
   }
 
-  /// `Ok`
+  /// `确定`
   String get Ok {
     return Intl.message(
-      'Ok',
+      '确定',
       name: 'Ok',
       desc: '',
       args: [],
     );
   }
 
-  /// `Language Settings`
+  /// `语言设置`
   String get LanguageSettings {
     return Intl.message(
-      'Language Settings',
+      '语言设置',
       name: 'LanguageSettings',
       desc: '',
       args: [],
     );
   }
 
-  /// `Appearance Management`
+  /// `外观管理`
   String get AppearanceManagement {
     return Intl.message(
-      'Appearance Management',
+      '外观管理',
       name: 'AppearanceManagement',
       desc: '',
       args: [],
     );
   }
 
-  /// `Follow the system`
+  /// `跟随系统`
   String get Auto {
     return Intl.message(
-      'Follow the system',
+      '跟随系统',
       name: 'Auto',
       desc: '',
       args: [],
     );
   }
 
-  /// `English`
+  /// `英语`
   String get English {
     return Intl.message(
-      'English',
+      '英语',
       name: 'English',
       desc: '',
       args: [],
     );
   }
 
-  /// `Chinese`
+  /// `中文`
   String get Chinese {
     return Intl.message(
-      'Chinese',
+      '中文',
       name: 'Chinese',
       desc: '',
       args: [],
     );
   }
 
-  /// `Japanese`
+  /// `日语`
   String get Japanese {
     return Intl.message(
-      'Japanese',
+      '日语',
       name: 'Japanese',
       desc: '',
       args: [],
     );
   }
 
-  /// `Selected`
+  /// `已选择`
   String get Selected {
     return Intl.message(
-      'Selected',
+      '已选择',
       name: 'Selected',
       desc: '',
       args: [],
     );
   }
 
-  /// `Light`
+  /// `浅色模式`
   String get Light {
     return Intl.message(
-      'Light',
+      '浅色模式',
       name: 'Light',
       desc: '',
       args: [],
     );
   }
 
-  /// `Dark`
+  /// `暗黑模式`
   String get Dark {
     return Intl.message(
-      'Dark',
+      '暗黑模式',
       name: 'Dark',
       desc: '',
       args: [],
     );
   }
 
-  /// `This App was made by the technique of Flutter after personal work. The purpose is to run a bit more modern, I hope you like it😜。`
+  /// `此 App 是个人工作之余通过 Flutter 技术制作。目的是奔着现代一点去的,希望大家喜欢😜。`
   String get AppDesc {
     return Intl.message(
-      'This App was made by the technique of Flutter after personal work. The purpose is to run a bit more modern, I hope you like it😜。',
+      '此 App 是个人工作之余通过 Flutter 技术制作。目的是奔着现代一点去的,希望大家喜欢😜。',
       name: 'AppDesc',
       desc: '',
       args: [],
     );
   }
 
-  /// `Special note: The interface is provided by [Weifang Zhangshangbus]. If there is any infringement, please contact me。`
+  /// `特别说明: 接口由【潍坊掌上公交】提供，如有侵权，请联系我。`
   String get SpecialInstructions {
     return Intl.message(
-      'Special note: The interface is provided by [Weifang Zhangshangbus]. If there is any infringement, please contact me。',
+      '特别说明: 接口由【潍坊掌上公交】提供，如有侵权，请联系我。',
       name: 'SpecialInstructions',
       desc: '',
       args: [],
     );
   }
 
-  /// `View Licenses`
-  String get ViewLicenses {
-    return Intl.message(
-      'View Licenses',
-      name: 'ViewLicenses',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Close`
-  String get Close {
-    return Intl.message(
-      'Close',
-      name: 'Close',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `To view the source code for this application, visit: `
+  /// `要查看此应用的源代码，请访问: `
   String get SeeSource {
     return Intl.message(
-      'To view the source code for this application, visit: ',
+      '要查看此应用的源代码，请访问: ',
       name: 'SeeSource',
       desc: '',
       args: [],
     );
   }
 
-  /// `code repository`
+  /// `代码库`
   String get Repo {
     return Intl.message(
-      'code repository',
+      '代码库',
       name: 'Repo',
       desc: '',
       args: [],
     );
   }
 
-  /// `Name`
+  /// `姓名`
   String get Name {
     return Intl.message(
-      'Name',
+      '姓名',
       name: 'Name',
       desc: '',
       args: [],
@@ -575,60 +555,60 @@ class S {
     );
   }
 
-  /// `Age`
+  /// `年龄`
   String get Age {
     return Intl.message(
-      'Age',
+      '年龄',
       name: 'Age',
       desc: '',
       args: [],
     );
   }
 
-  /// `25`
+  /// `25岁`
   String get AgeDesc {
     return Intl.message(
-      '25',
+      '25岁',
       name: 'AgeDesc',
       desc: '',
       args: [],
     );
   }
 
-  /// `City`
+  /// `所在城市`
   String get City {
     return Intl.message(
-      'City',
+      '所在城市',
       name: 'City',
       desc: '',
       args: [],
     );
   }
 
-  /// `ShanDong WeiFang`
+  /// `山东潍坊`
   String get CityDesc {
     return Intl.message(
-      'ShanDong WeiFang',
+      '山东潍坊',
       name: 'CityDesc',
       desc: '',
       args: [],
     );
   }
 
-  /// `Phone`
+  /// `手机号`
   String get Phone {
     return Intl.message(
-      'Phone',
+      '手机号',
       name: 'Phone',
       desc: '',
       args: [],
     );
   }
 
-  /// `e-mail`
+  /// `邮件`
   String get EMail {
     return Intl.message(
-      'e-mail',
+      '邮件',
       name: 'EMail',
       desc: '',
       args: [],
@@ -641,9 +621,9 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
 
   List<Locale> get supportedLocales {
     return const <Locale>[
+      Locale.fromSubtags(languageCode: 'zh'),
       Locale.fromSubtags(languageCode: 'en'),
       Locale.fromSubtags(languageCode: 'ja'),
-      Locale.fromSubtags(languageCode: 'zh'),
     ];
   }
 

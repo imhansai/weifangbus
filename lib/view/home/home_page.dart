@@ -53,6 +53,9 @@ class _HomePageState extends State<HomePage>
   /// 是否展示资讯信息
   var _canShowHeadLine = false;
 
+  /// 屏幕方向
+  Orientation _orientation;
+
   @override
   void initState() {
     super.initState();
@@ -250,11 +253,15 @@ class _HomePageState extends State<HomePage>
       delegate: SliverChildListDelegate(
         [
           Container(
-            height: 435.h, // 435 + 174
+            height: _orientation == Orientation.portrait
+                ? 435.h
+                : 870.h, // 435 + 174
             child: slideShowWidget(),
           ),
           Container(
-            height: 174.h, // 435 + 174
+            height: _orientation == Orientation.portrait
+                ? 174.h
+                : 348.h, // 435 + 174
             child: infoShowWidget(),
           ),
         ],
@@ -272,8 +279,8 @@ class _HomePageState extends State<HomePage>
         children: <Widget>[
           Padding(
             padding: EdgeInsets.only(
-              left: 25.w,
-              right: 25.w,
+              left: _orientation == Orientation.portrait ? 25.w : 12.w,
+              right: _orientation == Orientation.portrait ? 25.w : 12.w,
             ),
             child: DecoratedBox(
               decoration: BoxDecoration(
@@ -302,14 +309,16 @@ class _HomePageState extends State<HomePage>
                         quarterTurns: 3,
                       ),
                 padding: EdgeInsets.all(
-                  12.w,
+                  _orientation == Orientation.portrait ? 12.w : 6.w,
                 ),
               ),
             ),
           ),
           Expanded(
             child: Padding(
-              padding: EdgeInsets.only(right: 31.w),
+              padding: EdgeInsets.only(
+                right: _orientation == Orientation.portrait ? 31.w : 15.w,
+              ),
               child: Swiper(
                 physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (BuildContext context, int index) {
@@ -323,7 +332,9 @@ class _HomePageState extends State<HomePage>
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
-                                  fontSize: 44.ssp,
+                                  fontSize: _orientation == Orientation.portrait
+                                      ? 44.ssp
+                                      : 22.ssp,
                                 ),
                               )
                             : Text(S.of(context).NoNews),
@@ -367,8 +378,8 @@ class _HomePageState extends State<HomePage>
   Widget slideShowWidget() {
     return Padding(
       padding: EdgeInsets.only(
-        top: 30.h,
-        bottom: 30.h,
+        top: _orientation == Orientation.portrait ? 30.h : 60.h,
+        bottom: _orientation == Orientation.portrait ? 30.h : 60.h,
       ),
       child: _canShowSlideShow
           ? Swiper(
@@ -381,7 +392,8 @@ class _HomePageState extends State<HomePage>
                     placeholder: (context, url) => Center(
                       child: SpinKitFadingCube(
                         color: Theme.of(context).primaryColor,
-                        size: 80.w,
+                        size:
+                            _orientation == Orientation.portrait ? 80.w : 40.w,
                       ),
                     ),
                     imageUrl:
@@ -410,13 +422,14 @@ class _HomePageState extends State<HomePage>
     /// 菜单项
     List<MenuEntity> menuEntityList = setMenuEntityList();
     return SliverPadding(
-      padding: EdgeInsets.all(10.w),
+      padding:
+          EdgeInsets.all(_orientation == Orientation.portrait ? 10.w : 5.w),
       sliver: SliverGrid(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          mainAxisSpacing: 30.w,
-          crossAxisSpacing: 30.w,
-          childAspectRatio: 1.0,
+          crossAxisCount: _orientation == Orientation.portrait ? 3 : 6,
+          mainAxisSpacing: _orientation == Orientation.portrait ? 30.w : 60.w,
+          crossAxisSpacing: _orientation == Orientation.portrait ? 60.w : 30.w,
+          childAspectRatio: _orientation == Orientation.portrait ? 1.0 : 1.0,
         ),
         delegate: SliverChildBuilderDelegate(
           (BuildContext context, int index) {
@@ -427,8 +440,10 @@ class _HomePageState extends State<HomePage>
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                      width: 180.w,
-                      height: 180.h,
+                      width:
+                          _orientation == Orientation.portrait ? 180.w : 90.w,
+                      height:
+                          _orientation == Orientation.portrait ? 180.h : 360.h,
                       child: DecoratedBox(
                         decoration: BoxDecoration(
                           color: menuEntityList[index].color,
@@ -446,7 +461,9 @@ class _HomePageState extends State<HomePage>
                         child: Center(
                           child: Icon(
                             menuEntityList[index].icon,
-                            size: 80.w,
+                            size: _orientation == Orientation.portrait
+                                ? 80.w
+                                : 40.w,
                             color: Colors.white,
                           ),
                         ),
@@ -454,12 +471,14 @@ class _HomePageState extends State<HomePage>
                     ),
                     Padding(
                       padding: EdgeInsets.only(
-                        top: 25.h,
+                        top: _orientation == Orientation.portrait ? 25.h : 50.h,
                       ),
                       child: Text(
                         menuEntityList[index].menuText,
                         style: TextStyle(
-                          fontSize: 40.ssp,
+                          fontSize: _orientation == Orientation.portrait
+                              ? 40.ssp
+                              : 20.ssp,
                         ),
                       ),
                     ),
@@ -491,6 +510,8 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
+    _orientation = MediaQuery.of(context).orientation;
+
     // 随着资讯信息的变化而变化
     _showNewsList = context.watch<NewsModel>();
     super.build(context);

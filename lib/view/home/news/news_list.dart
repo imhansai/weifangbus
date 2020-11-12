@@ -38,6 +38,8 @@ class _NewsListPageState extends State<NewsListPage> {
 
   @override
   Widget build(BuildContext context) {
+    var orientation = MediaQuery.of(context).orientation;
+
     // 随着资讯信息的变化而变化
     var _showNewsList = context.watch<NewsModel>();
     // 是否有数据
@@ -53,13 +55,15 @@ class _NewsListPageState extends State<NewsListPage> {
                     .toString(),
                 style: TextStyle(
                   color: Colors.orange,
-                  fontSize: 43.ssp,
+                  fontSize:
+                      orientation == Orientation.portrait ? 43.ssp : 21.ssp,
                 ),
               ),
               subtitle: AutoSizeText(
                 e.title,
                 style: TextStyle(
-                  fontSize: 40.ssp,
+                  fontSize:
+                      orientation == Orientation.portrait ? 40.ssp : 20.ssp,
                 ),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,

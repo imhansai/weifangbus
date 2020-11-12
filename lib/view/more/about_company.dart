@@ -38,7 +38,7 @@ class _AboutCompanyState extends State<AboutCompany> {
                   child: Text("请检查网络连接后点击重试"),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(
-                      ScreenUtil().setWidth(50),
+                      50.w,
                     ),
                   ),
                   onPressed: reTry,
@@ -46,6 +46,7 @@ class _AboutCompanyState extends State<AboutCompany> {
               );
             } else {
               var aboutUs = snapshot.data.aboutus;
+              var orientation = MediaQuery.of(context).orientation;
               return SingleChildScrollView(
                 child: Html(
                   data: aboutUs,
@@ -56,11 +57,17 @@ class _AboutCompanyState extends State<AboutCompany> {
                     ),
                     // 标题字体大小
                     "strong": Style(
-                      fontSize: FontSize(ScreenUtil().setSp(60)),
+                      fontSize: FontSize(
+                          orientation == Orientation.portrait ? 60.sp : 30.sp),
                     ),
                     // 内容字体大小
                     'p[align="left"]': Style(
-                      fontSize: FontSize(ScreenUtil().setSp(50)),
+                      fontSize: FontSize(
+                          orientation == Orientation.portrait ? 50.sp : 25.sp),
+                      margin: EdgeInsets.only(
+                        left: 40.w,
+                        right: 40.w,
+                      ),
                     ),
                   },
                 ),
