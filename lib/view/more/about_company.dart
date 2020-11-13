@@ -46,31 +46,36 @@ class _AboutCompanyState extends State<AboutCompany> {
               );
             } else {
               var aboutUs = snapshot.data.aboutus;
-              var orientation = MediaQuery.of(context).orientation;
-              return SingleChildScrollView(
-                child: Html(
-                  data: aboutUs,
-                  style: {
-                    // 标题居中
-                    'p[align="center"]': Style(
-                      textAlign: TextAlign.center,
+              return OrientationBuilder(
+                builder: (context, orientation) {
+                  return SingleChildScrollView(
+                    child: Html(
+                      data: aboutUs,
+                      style: {
+                        // 标题居中
+                        'p[align="center"]': Style(
+                          textAlign: TextAlign.center,
+                        ),
+                        // 标题字体大小
+                        "strong": Style(
+                          fontSize: FontSize(orientation == Orientation.portrait
+                              ? 60.sp
+                              : 30.sp),
+                        ),
+                        // 内容字体大小
+                        'p[align="left"]': Style(
+                          fontSize: FontSize(orientation == Orientation.portrait
+                              ? 50.sp
+                              : 25.sp),
+                          margin: EdgeInsets.only(
+                            left: 40.w,
+                            right: 40.w,
+                          ),
+                        ),
+                      },
                     ),
-                    // 标题字体大小
-                    "strong": Style(
-                      fontSize: FontSize(
-                          orientation == Orientation.portrait ? 60.sp : 30.sp),
-                    ),
-                    // 内容字体大小
-                    'p[align="left"]': Style(
-                      fontSize: FontSize(
-                          orientation == Orientation.portrait ? 50.sp : 25.sp),
-                      margin: EdgeInsets.only(
-                        left: 40.w,
-                        right: 40.w,
-                      ),
-                    ),
-                  },
-                ),
+                  );
+                },
               );
             }
           } else {

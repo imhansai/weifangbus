@@ -51,81 +51,81 @@ class _InformationDetail extends State<InformationDetail> {
 
   @override
   Widget build(BuildContext context) {
-    var orientation = MediaQuery.of(context).orientation;
-
     return Scaffold(
       appBar: AppBar(
         title: Text(S.of(context).NewsDetail),
       ),
-      body: Container(
-        child: Column(
-          children: <Widget>[
-            // 利用 Expanded 使用剩余全部空间，然后里面使用 SingleChildScrollView 防止溢出
-            Expanded(
-              child: SingleChildScrollView(
-                padding: EdgeInsets.fromLTRB(
-                  orientation == Orientation.portrait ? 40.w : 20.w,
-                  orientation == Orientation.portrait ? 10.h : 20.h,
-                  orientation == Orientation.portrait ? 40.w : 20.w,
-                  orientation == Orientation.portrait ? 200.h : 400.h,
-                ),
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.all(
-                          orientation == Orientation.portrait ? 70.w : 35.w),
-                      child: Column(
-                        children: <Widget>[
-                          Text(
-                            widget.headLine.title,
-                            style: TextStyle(
-                              fontSize: orientation == Orientation.portrait
-                                  ? 53.ssp
-                                  : 26.ssp,
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                              top: orientation == Orientation.portrait
-                                  ? 31.h
-                                  : 62.h,
-                            ),
-                            child: Text(
-                              S.of(context).ReleaseTime +
-                                  DateFormat(S.of(context).NewsDetailDate)
-                                      .format(DateTime.parse(
-                                          widget.headLine.realeasedatetime))
-                                      .toString(),
+      body: OrientationBuilder(
+        builder: (context, orientation) => Container(
+          child: Column(
+            children: <Widget>[
+              // 利用 Expanded 使用剩余全部空间，然后里面使用 SingleChildScrollView 防止溢出
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.fromLTRB(
+                    orientation == Orientation.portrait ? 40.w : 20.w,
+                    orientation == Orientation.portrait ? 10.h : 20.h,
+                    orientation == Orientation.portrait ? 40.w : 20.w,
+                    orientation == Orientation.portrait ? 200.h : 400.h,
+                  ),
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.all(
+                            orientation == Orientation.portrait ? 70.w : 35.w),
+                        child: Column(
+                          children: <Widget>[
+                            Text(
+                              widget.headLine.title,
                               style: TextStyle(
-                                color: Colors.grey,
                                 fontSize: orientation == Orientation.portrait
-                                    ? 38.ssp
-                                    : 19.ssp,
+                                    ? 53.ssp
+                                    : 26.ssp,
                               ),
                             ),
-                          ),
-                        ],
+                            Padding(
+                              padding: EdgeInsets.only(
+                                top: orientation == Orientation.portrait
+                                    ? 31.h
+                                    : 62.h,
+                              ),
+                              child: Text(
+                                S.of(context).ReleaseTime +
+                                    DateFormat(S.of(context).NewsDetailDate)
+                                        .format(DateTime.parse(
+                                            widget.headLine.realeasedatetime))
+                                        .toString(),
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: orientation == Orientation.portrait
+                                      ? 38.ssp
+                                      : 19.ssp,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    Html(
-                      data: widget.headLine.content,
-                      style: {
-                        "html": Style(
-                          fontFamily: 'serif',
-                          fontSize: FontSize(
-                            orientation == Orientation.portrait
-                                ? 50.ssp
-                                : 25.ssp,
-                          ),
-                        )
-                      },
-                    ),
-                  ],
+                      Html(
+                        data: widget.headLine.content,
+                        style: {
+                          "html": Style(
+                            fontFamily: 'serif',
+                            fontSize: FontSize(
+                              orientation == Orientation.portrait
+                                  ? 50.ssp
+                                  : 25.ssp,
+                            ),
+                          )
+                        },
+                      ),
+                    ],
+                  ),
+                  controller: _controller,
                 ),
-                controller: _controller,
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       floatingActionButton: !showToTopBtn

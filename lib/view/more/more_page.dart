@@ -29,98 +29,102 @@ class _MorePageState extends State<MorePage>
 
   @override
   Widget build(BuildContext context) {
-    var tiles = <Widget>[
-      ListTile(
-        trailing: Icon(Icons.keyboard_arrow_right),
-        leading: Icon(
-          Icons.settings,
-          color: Colors.blueGrey,
-        ),
-        title: Text(S.of(context).Settings),
-        subtitle: Text(S.of(context).SettingsDesc),
-        onTap: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (BuildContext context) {
-                return Settings();
-              },
-            ),
-          );
-        },
-      ),
-      ListTile(
-        trailing: Icon(Icons.keyboard_arrow_right),
-        leading: Icon(
-          MyIcons.qq,
-          color: Colors.indigoAccent,
-        ),
-        title: Text(S.of(context).QQGroup),
-        subtitle: Text(S.of(context).QQGroupDesc),
-        onTap: () {
-          _joinQQGroup(context);
-        },
-      ),
-      ListTile(
-        trailing: Icon(Icons.keyboard_arrow_right),
-        leading: Icon(
-          Icons.business,
-          color: Colors.brown,
-        ),
-        title: Text(S.of(context).Company),
-        subtitle: Text(S.of(context).CompanyDesc),
-        onTap: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (BuildContext context) {
-                return AboutCompany();
-              },
-            ),
-          );
-        },
-      ),
-      ListTile(
-        trailing: Icon(Icons.keyboard_arrow_right),
-        leading: Icon(
-          MyIcons.software,
-          color: Colors.black87,
-        ),
-        title: Text(S.of(context).AboutSoftWare),
-        onTap: () {
-          showAboutSoftWareDialog(context);
-        },
-      ),
-      ListTile(
-        trailing: Icon(Icons.keyboard_arrow_right),
-        leading: Icon(
-          Icons.info,
-          color: Colors.lightBlue,
-        ),
-        title: Text(S.of(context).Author),
-        // describe: "走近作者",
-        onTap: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (BuildContext context) {
-                return AboutMe();
-              },
-            ),
-          );
-        },
-      ),
-    ];
     super.build(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(S.of(context).More),
         centerTitle: true,
       ),
-      body: Container(
-        child: ListView(
-          children: ListTile.divideTiles(
-            tiles: tiles,
-            context: context,
-          ).toList(),
-        ),
+      body: OrientationBuilder(
+        builder: (context, orientation) {
+          var tiles = <Widget>[
+            ListTile(
+              trailing: Icon(Icons.keyboard_arrow_right),
+              leading: Icon(
+                Icons.settings,
+                color: Colors.blueGrey,
+              ),
+              title: Text(S.of(context).Settings),
+              subtitle: Text(S.of(context).SettingsDesc),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return Settings();
+                    },
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              trailing: Icon(Icons.keyboard_arrow_right),
+              leading: Icon(
+                MyIcons.qq,
+                color: Colors.indigoAccent,
+              ),
+              title: Text(S.of(context).QQGroup),
+              subtitle: Text(S.of(context).QQGroupDesc),
+              onTap: () {
+                _joinQQGroup(context);
+              },
+            ),
+            ListTile(
+              trailing: Icon(Icons.keyboard_arrow_right),
+              leading: Icon(
+                Icons.business,
+                color: Colors.brown,
+              ),
+              title: Text(S.of(context).Company),
+              subtitle: Text(S.of(context).CompanyDesc),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return AboutCompany();
+                    },
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              trailing: Icon(Icons.keyboard_arrow_right),
+              leading: Icon(
+                MyIcons.software,
+                color: Colors.black87,
+              ),
+              title: Text(S.of(context).AboutSoftWare),
+              onTap: () {
+                showAboutSoftWareDialog(context, orientation);
+              },
+            ),
+            ListTile(
+              trailing: Icon(Icons.keyboard_arrow_right),
+              leading: Icon(
+                Icons.info,
+                color: Colors.lightBlue,
+              ),
+              title: Text(S.of(context).Author),
+              // describe: "走近作者",
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return AboutMe();
+                    },
+                  ),
+                );
+              },
+            ),
+          ];
+          return Container(
+            child: ListView(
+              children: ListTile.divideTiles(
+                tiles: tiles,
+                context: context,
+              ).toList(),
+            ),
+          );
+        },
       ),
     );
   }

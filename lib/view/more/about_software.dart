@@ -5,9 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:weifangbus/generated/l10n.dart';
 
 /// 关于软件
-void showAboutSoftWareDialog(BuildContext context) {
-  var orientation = MediaQuery.of(context).orientation;
-
+void showAboutSoftWareDialog(BuildContext context, Orientation orientation) {
   final colorScheme = Theme.of(context).colorScheme;
   final textTheme = Theme.of(context).textTheme;
   final bodyTextStyle = textTheme.bodyText1;

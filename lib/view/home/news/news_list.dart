@@ -38,94 +38,99 @@ class _NewsListPageState extends State<NewsListPage> {
 
   @override
   Widget build(BuildContext context) {
-    var orientation = MediaQuery.of(context).orientation;
-
     // 随着资讯信息的变化而变化
     var _showNewsList = context.watch<NewsModel>();
     // 是否有数据
     var noData = _showNewsList.showNewsList.isEmpty;
 
     var showNewsList = _showNewsList.showNewsList;
-    var tiles = showNewsList
-        .map((e) => ListTile(
-              trailing: Icon(Icons.keyboard_arrow_right),
-              title: Text(
-                DateFormat(S.of(context).NewsDate)
-                    .format(DateTime.parse(e.realeasetime))
-                    .toString(),
-                style: TextStyle(
-                  color: Colors.orange,
-                  fontSize:
-                      orientation == Orientation.portrait ? 43.ssp : 21.ssp,
-                ),
-              ),
-              subtitle: AutoSizeText(
-                e.title,
-                style: TextStyle(
-                  fontSize:
-                      orientation == Orientation.portrait ? 40.ssp : 20.ssp,
-                ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-              onTap: () => {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (BuildContext context) {
-                      return InformationDetail(
-                        headLine: e,
-                      );
-                    },
-                  ),
-                ),
-              },
-            ))
-        .toList();
 
     return Scaffold(
       key: _newsListKey,
       appBar: AppBar(
         title: Text(S.of(context).News),
       ),
-      body: EasyRefresh.custom(
-        header: PhoenixHeader(),
-        footer: PhoenixFooter(),
-        onRefresh: () async {
-          var connectivityResult = await (Connectivity().checkConnectivity());
-          if (connectivityResult != ConnectivityResult.none) {
-            try {
-              context.read<NewsModel>().refreshNewsList();
-              showSnackBar(S.of(context).RefreshSuccess);
-            } catch (e) {
-              print('刷新资讯信息出错::: $e');
-              showSnackBar(S.of(context).RequestDataFailure);
-            }
-          } else {
-            showSnackBar(S.of(context).NotConnectedToAnyNetwork);
-          }
-        },
-        emptyWidget: noData
-            ? Center(
-                child: Container(
-                  width: 600.w,
-                  child: Image.asset(
-                    'assets/images/no_news.png',
-                    width: 500.w,
-                  ),
+      body: OrientationBuilder(
+        builder: (context, orientation) {
+          var tiles = showNewsList
+              .map((e) => ListTile(
+                    trailing: Icon(Icons.keyboard_arrow_right),
+                    title: Text(
+                      DateFormat(S.of(context).NewsDate)
+                          .format(DateTime.parse(e.realeasetime))
+                          .toString(),
+                      style: TextStyle(
+                        color: Colors.orange,
+                        fontSize: orientation == Orientation.portrait
+                            ? 43.ssp
+                            : 21.ssp,
+                      ),
+                    ),
+                    subtitle: AutoSizeText(
+                      e.title,
+                      style: TextStyle(
+                        fontSize: orientation == Orientation.portrait
+                            ? 40.ssp
+                            : 20.ssp,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    onTap: () => {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) {
+                            return InformationDetail(
+                              headLine: e,
+                            );
+                          },
+                        ),
+                      ),
+                    },
+                  ))
+              .toList();
+          return EasyRefresh.custom(
+            header: PhoenixHeader(),
+            footer: PhoenixFooter(),
+            onRefresh: () async {
+              var connectivityResult =
+                  await (Connectivity().checkConnectivity());
+              if (connectivityResult != ConnectivityResult.none) {
+                try {
+                  context.read<NewsModel>().refreshNewsList();
+                  showSnackBar(S.of(context).RefreshSuccess);
+                } catch (e) {
+                  print('刷新资讯信息出错::: $e');
+                  showSnackBar(S.of(context).RequestDataFailure);
+                }
+              } else {
+                showSnackBar(S.of(context).NotConnectedToAnyNetwork);
+              }
+            },
+            emptyWidget: noData
+                ? Center(
+                    child: Container(
+                      width: 600.w,
+                      child: Image.asset(
+                        'assets/images/no_news.png',
+                        width: 500.w,
+                      ),
+                    ),
+                  )
+                : null,
+            slivers: <Widget>[
+              SliverList(
+                delegate: SliverChildListDelegate(
+                  ListTile.divideTiles(
+                    tiles: tiles,
+                    context: context,
+                  ).toList(),
                 ),
-              )
-            : null,
-        slivers: <Widget>[
-          SliverList(
-            delegate: SliverChildListDelegate(
-              ListTile.divideTiles(
-                tiles: tiles,
-                context: context,
-              ).toList(),
-            ),
-          ),
-        ],
+              ),
+            ],
+          );
+        },
       ),
     );
   }

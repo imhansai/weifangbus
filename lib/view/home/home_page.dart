@@ -510,8 +510,6 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
-    _orientation = MediaQuery.of(context).orientation;
-
     // 随着资讯信息的变化而变化
     _showNewsList = context.watch<NewsModel>();
     super.build(context);
@@ -519,29 +517,34 @@ class _HomePageState extends State<HomePage>
       appBar: AppBar(
         title: SearchBar(allRouteList: _allRouteList),
       ),
-      body: FutureBuilder<StartUpBasicInfoEntity>(
-        future: _startUpBasicInfoFuture,
-        builder: (BuildContext context,
-            AsyncSnapshot<StartUpBasicInfoEntity> snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.none:
-              return Text('Press button to start.');
-            case ConnectionState.active:
-            case ConnectionState.waiting:
-              return waitingWidget();
-            case ConnectionState.done:
-              if (snapshot.hasError) {
-                // return Text('Error: ${snapshot.error}');
-                return reTryWidget();
+      body: OrientationBuilder(
+        builder: (context, orientation) {
+          _orientation = orientation;
+          return FutureBuilder<StartUpBasicInfoEntity>(
+            future: _startUpBasicInfoFuture,
+            builder: (BuildContext context,
+                AsyncSnapshot<StartUpBasicInfoEntity> snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.none:
+                  return Text('Press button to start.');
+                case ConnectionState.active:
+                case ConnectionState.waiting:
+                  return waitingWidget();
+                case ConnectionState.done:
+                  if (snapshot.hasError) {
+                    // return Text('Error: ${snapshot.error}');
+                    return reTryWidget();
+                  }
+                  // return Text('Result: ${snapshot.data}');
+                  if (snapshot.hasData) {
+                    _startUpBasicInfoEntity = snapshot.data;
+                    return contentWidget();
+                  }
               }
-              // return Text('Result: ${snapshot.data}');
-              if (snapshot.hasData) {
-                _startUpBasicInfoEntity = snapshot.data;
-                return contentWidget();
-              }
-          }
-          // return null; // unreachable
-          return reTryWidget();
+              // return null; // unreachable
+              return reTryWidget();
+            },
+          );
         },
       ),
     );

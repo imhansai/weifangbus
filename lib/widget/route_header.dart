@@ -26,6 +26,9 @@ class RouteHeader extends StatefulWidget {
   /// 票价
   final String routePrice;
 
+  /// 屏幕方向
+  final Orientation orientation;
+
   const RouteHeader(
       {Key key,
       this.routeName,
@@ -34,7 +37,8 @@ class RouteHeader extends StatefulWidget {
       this.transDirection,
       this.transDirectionFun,
       this.firstAndLastBus,
-      this.routePrice})
+      this.routePrice,
+      this.orientation})
       : super(key: key);
 
   @override
@@ -44,14 +48,12 @@ class RouteHeader extends StatefulWidget {
 class _RouteHeaderState extends State<RouteHeader> {
   @override
   Widget build(BuildContext context) {
-    var orientation = MediaQuery.of(context).orientation;
-
     var widgets = <Widget>[
       // xxx -> xxx; 首末班、票价
       Expanded(
         child: Padding(
           padding: EdgeInsets.all(
-            orientation == Orientation.portrait ? 20.w : 10.w,
+            widget.orientation == Orientation.portrait ? 20.w : 10.w,
           ),
           child: Flex(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,8 +62,9 @@ class _RouteHeaderState extends State<RouteHeader> {
               AutoSizeText(
                 '${widget.firstStationName} ➡️ ${widget.lastStationName}',
                 style: TextStyle(
-                  fontSize:
-                      orientation == Orientation.portrait ? 50.ssp : 25.ssp,
+                  fontSize: widget.orientation == Orientation.portrait
+                      ? 50.ssp
+                      : 25.ssp,
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -96,13 +99,16 @@ class _RouteHeaderState extends State<RouteHeader> {
       widget.transDirection
           ? Padding(
               padding: EdgeInsets.all(
-                orientation == Orientation.portrait ? 20.w : 10.w,
+                widget.orientation == Orientation.portrait ? 20.w : 10.w,
               ),
               // 正方形 200 - 20 - 20
               child: InkWell(
                 child: Container(
-                  width: orientation == Orientation.portrait ? 160.w : 80.w,
-                  height: orientation == Orientation.portrait ? 160.h : 320.h,
+                  width:
+                      widget.orientation == Orientation.portrait ? 160.w : 80.w,
+                  height: widget.orientation == Orientation.portrait
+                      ? 160.h
+                      : 320.h,
                   child: Flex(
                     mainAxisAlignment: MainAxisAlignment.center,
                     direction: Axis.vertical,
@@ -124,7 +130,7 @@ class _RouteHeaderState extends State<RouteHeader> {
     ];
     return Container(
       // color: Colors.grey[200],
-      height: orientation == Orientation.portrait ? 200.h : 400.h,
+      height: widget.orientation == Orientation.portrait ? 200.h : 400.h,
       child: Flex(
         direction: Axis.horizontal,
         children: widgets,

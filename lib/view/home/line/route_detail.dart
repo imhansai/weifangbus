@@ -452,7 +452,6 @@ class _RouteDetailState extends State<RouteDetail>
   Widget build(BuildContext context) {
     // print('界面开始构建');
     super.build(context);
-    _orientation = MediaQuery.of(context).orientation;
 
     var _routeDetailBuilderFunction =
         (BuildContext context, AsyncSnapshot<RouteStatDataEntity> snapshot) {
@@ -534,6 +533,7 @@ class _RouteDetailState extends State<RouteDetail>
                 },
                 firstAndLastBus: _segment.firtlastshiftinfo,
                 routePrice: _segment.routeprice,
+                orientation: _orientation,
               ),
               // 站点列表
               Expanded(
@@ -576,14 +576,17 @@ class _RouteDetailState extends State<RouteDetail>
       appBar: AppBar(
         title: AutoSizeText(
           widget.title,
-          style: TextStyle(
-              fontSize: _orientation == Orientation.portrait ? 45.ssp : 22.ssp),
           maxLines: 2,
         ),
       ),
-      body: FutureBuilder<RouteStatDataEntity>(
-        future: _routeStatDataFuture,
-        builder: _routeDetailBuilderFunction,
+      body: OrientationBuilder(
+        builder: (context, orientation) {
+          _orientation = orientation;
+          return FutureBuilder<RouteStatDataEntity>(
+            future: _routeStatDataFuture,
+            builder: _routeDetailBuilderFunction,
+          );
+        },
       ),
       // floatingActionButton: FloatingActionButton.extended(
       //   onPressed: () {
