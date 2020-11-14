@@ -85,38 +85,26 @@ class _WeiFangBusApp extends State<WeiFangBusApp> {
           _changeAppearance(appearance);
           var locale = context.watch<LocaleProvider>().locale;
           _changeLocale(locale);
-          return _appearance == Appearance.auto
-              ? MaterialApp(
-                  onGenerateTitle: (context) {
-                    return S.of(context).AppName;
-                  },
-                  theme: ThemeData(),
-                  darkTheme: ThemeData.dark(),
-                  home: Home(),
-                  localizationsDelegates: [
-                    S.delegate,
-                    GlobalMaterialLocalizations.delegate,
-                    GlobalWidgetsLocalizations.delegate,
-                  ],
-                  supportedLocales: S.delegate.supportedLocales,
-                  locale: _locale,
-                )
-              : MaterialApp(
-                  onGenerateTitle: (context) {
-                    return S.of(context).AppName;
-                  },
-                  theme: _appearance == Appearance.dark
-                      ? ThemeData.dark()
-                      : ThemeData(),
-                  home: Home(),
-                  localizationsDelegates: [
-                    S.delegate,
-                    GlobalMaterialLocalizations.delegate,
-                    GlobalWidgetsLocalizations.delegate,
-                  ],
-                  supportedLocales: S.delegate.supportedLocales,
-                  locale: _locale,
-                );
+          return MaterialApp(
+            onGenerateTitle: (context) {
+              return S.of(context).AppName;
+            },
+            themeMode: _appearance == Appearance.auto
+                ? ThemeMode.system
+                : _appearance == Appearance.light
+                    ? ThemeMode.light
+                    : ThemeMode.dark,
+            theme: ThemeData(),
+            darkTheme: ThemeData.dark(),
+            home: Home(),
+            localizationsDelegates: [
+              S.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+            ],
+            supportedLocales: S.delegate.supportedLocales,
+            locale: _locale,
+          );
         },
       ),
     );
