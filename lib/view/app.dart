@@ -20,36 +20,32 @@ class WeiFangBusApp extends StatefulWidget {
 
 class _WeiFangBusApp extends State<WeiFangBusApp> {
   /// 外观
-  Appearance _appearance = Appearance.auto;
+  Appearance _appearance;
 
   /// 语言
   Locale _locale;
 
-  /// 获取选择的外观
+  /// 获取选择的外观与语言
   _getAppearanceAndLanguage() async {
     var appearance = await AppearanceUtil.getAppearance();
     var languagePreference = await LanguageUtil.getLanguagePreference();
     var locale = LanguageUtil.getLocale(languagePreference);
     setState(() {
       _locale = locale;
+      _appearance = appearance;
     });
-    if (appearance != null && _appearance != appearance) {
-      setState(() {
-        _appearance = appearance;
-      });
-    }
   }
 
   /// 更改外观
   _changeAppearance(Appearance appearance) {
-    if (appearance != null && _appearance != appearance) {
+    if (appearance != null) {
       _appearance = appearance;
     }
   }
 
   /// 更改语言
   _changeLocale(Locale locale) {
-    if (LocaleProvider.manuallyChangeLanguage && _locale != locale) {
+    if (LocaleProvider.manuallyChangeLanguage) {
       _locale = locale;
     }
   }
@@ -57,8 +53,6 @@ class _WeiFangBusApp extends State<WeiFangBusApp> {
   @override
   void initState() {
     super.initState();
-    // 强制竖屏
-    // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     _getAppearanceAndLanguage();
   }
 

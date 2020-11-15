@@ -13,7 +13,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   /// 方便展示提示信息
-  final _homeKey = GlobalKey<ScaffoldState>();
+  final _homeMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
   /// 主要操作页面
   final List<Widget> myTabs = <Widget>[
@@ -40,7 +40,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        key: _homeKey,
+        key: _homeMessengerKey,
         body: PageView(
           controller: _controller,
           children: myTabs.map((Widget widget) {
@@ -92,7 +92,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         DateTime.now().difference(_lastTime) > Duration(milliseconds: 1500)) {
       print('准备退出');
       _lastTime = DateTime.now();
-      _homeKey.currentState.showSnackBar(
+      _homeMessengerKey.currentState.showSnackBar(
         SnackBar(
           content: Text(
             S.of(context).ExitApp,

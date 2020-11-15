@@ -10,8 +10,10 @@ class LocaleProvider extends ChangeNotifier {
   Locale get locale => _locale;
 
   setLocale(Locale locale) {
-    manuallyChangeLanguage = true;
-    _locale = locale;
-    notifyListeners();
+    if (_locale != locale) {
+      manuallyChangeLanguage = true;
+      _locale = locale;
+      notifyListeners();
+    }
   }
 }

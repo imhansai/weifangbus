@@ -8,7 +8,9 @@ class AppearanceProvider with ChangeNotifier {
   Appearance get appearance => _appearance;
 
   changeModel(Appearance appearance) {
-    _appearance = appearance;
-    notifyListeners();
+    if (_appearance != appearance) {
+      _appearance = appearance;
+      notifyListeners();
+    }
   }
 }
