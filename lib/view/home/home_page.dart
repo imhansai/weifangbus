@@ -26,6 +26,7 @@ import 'package:weifangbus/view/home/news/news_list.dart';
 import 'package:weifangbus/view/home/searchbar/search_bar.dart';
 import 'package:weifangbus/view/home/searchbar/search_input.dart';
 import 'package:weifangbus/view/store/news_model.dart';
+import 'package:weifangbus/widget/future_common_widget.dart';
 
 /// 首页
 class HomePage extends StatefulWidget {
@@ -214,37 +215,7 @@ class _HomePageState extends State<HomePage>
       if (_showNewsList == null) {
         Future.microtask(() => context.read<NewsModel>().refreshNewsList());
       }
-      // getAllRoute();
     });
-  }
-
-  /// 出现错误展示的控件
-  Widget reTryWidget() {
-    return Center(
-      child: RaisedButton(
-        color: Colors.blue,
-        highlightColor: Colors.blue[700],
-        colorBrightness: Brightness.dark,
-        splashColor: Colors.grey,
-        child: AutoSizeText(
-          S.of(context).RequestDataFailure,
-          maxLines: 2,
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.0),
-        ),
-        onPressed: reTry,
-      ),
-    );
-  }
-
-  /// 等待状态展示等待动画
-  Widget waitingWidget() {
-    // return Text('Awaiting result...');
-    return SpinKitWave(
-      color: Colors.blue,
-      type: SpinKitWaveType.center,
-    );
   }
 
   /// 轮播图 + 资讯
@@ -526,23 +497,30 @@ class _HomePageState extends State<HomePage>
                 AsyncSnapshot<StartUpBasicInfoEntity> snapshot) {
               switch (snapshot.connectionState) {
                 case ConnectionState.none:
-                  return Text('Press button to start.');
+                  return noneWidget();
+                  break;
                 case ConnectionState.active:
                 case ConnectionState.waiting:
-                  return waitingWidget();
+                  return activeOrWaitingWidget();
+                  break;
                 case ConnectionState.done:
                   if (snapshot.hasError) {
-                    // return Text('Error: ${snapshot.error}');
-                    return reTryWidget();
-                  }
-                  // return Text('Result: ${snapshot.data}');
-                  if (snapshot.hasData) {
+                    return RetryWidget(
+                      onPressed: reTry,
+                    );
+                  } else if (snapshot.hasData) {
                     _startUpBasicInfoEntity = snapshot.data;
                     return contentWidget();
+                  } else {
+                    // return Text('返回了个寂寞');
+                    return RetryWidget(
+                      onPressed: reTry,
+                    );
                   }
+                  break;
+                default:
+                  return Text('啥也木有,哈哈哈');
               }
-              // return null; // unreachable
-              return reTryWidget();
             },
           );
         },
