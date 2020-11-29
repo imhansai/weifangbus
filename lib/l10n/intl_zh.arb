@@ -56,5 +56,6 @@
   "City": "所在城市",
   "CityDesc": "山东潍坊",
   "Phone": "手机号",
-  "EMail": "邮件"
+  "EMail": "邮件",
+  "NonWidgetLabel": "当前未连接到任何异步计算。"
 }

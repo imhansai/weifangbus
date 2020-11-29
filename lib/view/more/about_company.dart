@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/style.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:weifangbus/entity/install_basic_info_entity.dart';
 import 'package:weifangbus/entity_factory.dart';
 import 'package:weifangbus/generated/l10n.dart';
 import 'package:weifangbus/util/dio_util.dart';
 import 'package:weifangbus/util/request_params_util.dart';
+import 'package:weifangbus/widget/future_common_widget.dart';
 
 class AboutCompany extends StatefulWidget {
   @override
@@ -29,24 +29,39 @@ class _AboutCompanyState extends State<AboutCompany> {
         future: _installBasicInfoFuture,
         builder: (BuildContext context,
             AsyncSnapshot<InstallBasicInfoEntity> snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            if (snapshot.hasError) {
-              return Center(
-                child: RaisedButton(
-                  color: Colors.blue,
-                  colorBrightness: Brightness.dark,
-                  child: Text("请检查网络连接后点击重试"),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                      50.w,
-                    ),
-                  ),
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+              return noneWidget(context);
+              break;
+            case ConnectionState.active:
+            case ConnectionState.waiting:
+              return activeOrWaitingWidget();
+              break;
+            case ConnectionState.done:
+              if (snapshot.hasError) {
+                return RetryWidget(
                   onPressed: reTry,
-                ),
-              );
-            } else {
-              var aboutUs = snapshot.data.aboutus;
-              return OrientationBuilder(
+                );
+              } else if (snapshot.hasData) {
+                var aboutUs = snapshot.data.aboutus;
+                return buildOrientationBuilder(aboutUs);
+              } else {
+                // return Text('返回了个寂寞');
+                return RetryWidget(
+                  onPressed: reTry,
+                );
+              }
+              break;
+            default:
+              return Text('啥也木有,哈哈哈');
+          }
+        },
+      ),
+    );
+  }
+
+  OrientationBuilder buildOrientationBuilder(String aboutUs) {
+    return OrientationBuilder(
                 builder: (context, orientation) {
                   return SingleChildScrollView(
                     child: Html(
@@ -58,15 +73,17 @@ class _AboutCompanyState extends State<AboutCompany> {
                         ),
                         // 标题字体大小
                         "strong": Style(
-                          fontSize: FontSize(orientation == Orientation.portrait
-                              ? 60.sp
-                              : 30.sp),
+                          fontSize: FontSize(
+                              orientation == Orientation.portrait
+                                  ? 60.sp
+                                  : 30.sp),
                         ),
                         // 内容字体大小
                         'p[align="left"]': Style(
-                          fontSize: FontSize(orientation == Orientation.portrait
-                              ? 50.sp
-                              : 25.sp),
+                          fontSize: FontSize(
+                              orientation == Orientation.portrait
+                                  ? 50.sp
+                                  : 25.sp),
                           margin: EdgeInsets.only(
                             left: 40.w,
                             right: 40.w,
@@ -77,18 +94,6 @@ class _AboutCompanyState extends State<AboutCompany> {
                   );
                 },
               );
-            }
-          } else {
-            return Center(
-              child: SpinKitWave(
-                color: Colors.blue,
-                type: SpinKitWaveType.center,
-              ),
-            );
-          }
-        },
-      ),
-    );
   }
 
   @override

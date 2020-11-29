@@ -62,6 +62,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "NewsDetailDate" : MessageLookupByLibrary.simpleMessage("yyyy年MM月dd日 HH点mm分ss秒"),
     "NoNews" : MessageLookupByLibrary.simpleMessage("暂无资讯信息"),
     "NoPictures" : MessageLookupByLibrary.simpleMessage("暂无图片展示"),
+    "NonWidgetLabel" : MessageLookupByLibrary.simpleMessage("当前未连接到任何异步计算。"),
     "NotConnectedToAnyNetwork" : MessageLookupByLibrary.simpleMessage("设备未连接到任何网络,请连接网络后重试!"),
     "NotInstalledQQ" : MessageLookupByLibrary.simpleMessage("抱歉，检测到您还未安装QQ客户端"),
     "Ok" : MessageLookupByLibrary.simpleMessage("确定"),

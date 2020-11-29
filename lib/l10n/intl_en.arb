@@ -56,5 +56,6 @@
   "City": "City",
   "CityDesc": "ShanDong WeiFang",
   "Phone": "Phone",
-  "EMail": "E-mail"
+  "EMail": "E-mail",
+  "NonWidgetLabel": "Not currently connected to any asynchronous computation."
 }

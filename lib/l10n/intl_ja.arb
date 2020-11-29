@@ -56,5 +56,6 @@
   "City": "ある都市",
   "CityDesc": "山东潍坊",
   "Phone": "携帯電話番号",
-  "EMail": "メール"
+  "EMail": "メール",
+  "NonWidgetLabel": "現在、非同期計算には接続されていません。"
 }

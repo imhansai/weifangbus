@@ -497,7 +497,7 @@ class _HomePageState extends State<HomePage>
                 AsyncSnapshot<StartUpBasicInfoEntity> snapshot) {
               switch (snapshot.connectionState) {
                 case ConnectionState.none:
-                  return noneWidget();
+                  return noneWidget(context);
                   break;
                 case ConnectionState.active:
                 case ConnectionState.waiting:

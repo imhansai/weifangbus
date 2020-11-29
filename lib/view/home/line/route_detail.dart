@@ -7,7 +7,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:weifangbus/entity/line/route_real_time_info_entity.dart';
 import 'package:weifangbus/entity/line/station_real_time_info_entity.dart';
 import 'package:weifangbus/entity/route_stat_data_entity.dart';
@@ -16,6 +15,7 @@ import 'package:weifangbus/generated/json/base/json_convert_content.dart';
 import 'package:weifangbus/generated/l10n.dart';
 import 'package:weifangbus/util/dio_util.dart';
 import 'package:weifangbus/util/request_params_util.dart';
+import 'package:weifangbus/widget/future_common_widget.dart';
 import 'package:weifangbus/widget/route_header.dart';
 
 /// 线路详情
@@ -452,125 +452,6 @@ class _RouteDetailState extends State<RouteDetail>
   Widget build(BuildContext context) {
     // print('界面开始构建');
     super.build(context);
-
-    var _routeDetailBuilderFunction =
-        (BuildContext context, AsyncSnapshot<RouteStatDataEntity> snapshot) {
-      // 请求已结束
-      if (snapshot.connectionState == ConnectionState.done) {
-        // print('FutureBuilder 数据请求完毕');
-        if (snapshot.hasError) {
-          // 请求失败，显示错误
-          return Center(
-            child: RaisedButton(
-              color: Colors.blue,
-              highlightColor: Colors.blue[700],
-              colorBrightness: Brightness.dark,
-              splashColor: Colors.grey,
-              child: Text(S.of(context).RequestDataFailure),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              onPressed: reTry,
-            ),
-          );
-        } else {
-          // 请求成功，显示数据
-          _routeStatData = snapshot.data;
-          var length = _routeStatData.segmentlist.length;
-          var stationList = _segment.stationlist;
-
-          // 展开内容,唯一一个，不然每个条目都会构建
-          var carInfo = buildListView();
-
-          // 站点面板列表
-          List<ExpansionPanelRadio> expansionPanelRadios = List();
-          for (var i = 0; i < stationList.length; ++i) {
-            var e = stationList[i];
-            var expansionPanelRadio = ExpansionPanelRadio(
-              canTapOnHeader: true,
-              headerBuilder: (BuildContext context, bool isExpanded) {
-                return buildListTile(e, i);
-              },
-              body: carInfo,
-              value: e.stationid,
-            );
-            expansionPanelRadios.add(expansionPanelRadio);
-          }
-
-          // 站点列表
-          return Column(
-            children: [
-              // 头部信息
-              RouteHeader(
-                routeName: _routeStatData.routename,
-                firstStationName: stationList.first.stationname,
-                lastStationName: stationList.last.stationname,
-                transDirection: length > 1,
-                transDirectionFun: () {
-                  // 换向提示
-                  _routeDetailKey.currentState.hideCurrentSnackBar();
-                  _routeDetailKey.currentState.showSnackBar(
-                    SnackBar(
-                      duration: Duration(seconds: 5),
-                      content: Text(
-                        S.of(context).ReversingComplete,
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  );
-                  setState(() {
-                    print('换向');
-                    _index == 0 ? _index = 1 : _index = 0;
-                    _segment = _routeStatData.segmentlist[_index];
-                    _segmentID = _segment.segmentid.toString();
-                    _timer?.cancel();
-                    _immediatelyFlush(_segmentID);
-                    _refreshRouteRealTimeInfo(_segmentID);
-                    _expandIndexList = List();
-                    _carInfoCount = 2;
-                    _listKey = UniqueKey();
-                  });
-                },
-                firstAndLastBus: _segment.firtlastshiftinfo,
-                routePrice: _segment.routeprice,
-                orientation: _orientation,
-              ),
-              // 站点列表
-              Expanded(
-                child: SingleChildScrollView(
-                  key: _listKey,
-                  child: ExpansionPanelList.radio(
-                    expansionCallback: (int index, bool isExpanded) {
-                      // 使得能够正确获取到展开面板的索引
-                      if (_expandIndexList.contains(index)) {
-                        _expandIndexList.remove(index);
-                      } else {
-                        _expandIndexList.add(index);
-                        setState(() {
-                          _stationRealTimeInfoFuture =
-                              _getStationRealTimeInfoFuture();
-                        });
-                      }
-                    },
-                    children: expansionPanelRadios,
-                  ),
-                ),
-              ),
-            ],
-          );
-        }
-      } else {
-        // 请求未结束，显示loading
-        return Center(
-          // child: CircularProgressIndicator(),
-          child: SpinKitWave(
-            color: Colors.blue,
-            type: SpinKitWaveType.center,
-          ),
-        );
-      }
-    };
-
     return Scaffold(
       key: _routeDetailKey,
       appBar: AppBar(
@@ -584,7 +465,117 @@ class _RouteDetailState extends State<RouteDetail>
           _orientation = orientation;
           return FutureBuilder<RouteStatDataEntity>(
             future: _routeStatDataFuture,
-            builder: _routeDetailBuilderFunction,
+            builder: (BuildContext context,
+                AsyncSnapshot<RouteStatDataEntity> snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.none:
+                  return noneWidget(context);
+                  break;
+                case ConnectionState.active:
+                case ConnectionState.waiting:
+                  return activeOrWaitingWidget();
+                  break;
+                case ConnectionState.done:
+                  if (snapshot.hasError) {
+                    return RetryWidget(
+                      onPressed: reTry,
+                    );
+                  } else if (snapshot.hasData) {
+                    // 请求成功，显示数据
+                    _routeStatData = snapshot.data;
+                    var length = _routeStatData.segmentlist.length;
+                    var stationList = _segment.stationlist;
+
+                    // 展开内容,唯一一个，不然每个条目都会构建
+                    var carInfo = buildListView();
+
+                    // 站点面板列表
+                    List<ExpansionPanelRadio> expansionPanelRadios = List();
+                    for (var i = 0; i < stationList.length; ++i) {
+                      var e = stationList[i];
+                      var expansionPanelRadio = ExpansionPanelRadio(
+                        canTapOnHeader: true,
+                        headerBuilder: (BuildContext context, bool isExpanded) {
+                          return buildListTile(e, i);
+                        },
+                        body: carInfo,
+                        value: e.stationid,
+                      );
+                      expansionPanelRadios.add(expansionPanelRadio);
+                    }
+
+                    // 站点列表
+                    return Column(
+                      children: [
+                        // 头部信息
+                        RouteHeader(
+                          routeName: _routeStatData.routename,
+                          firstStationName: stationList.first.stationname,
+                          lastStationName: stationList.last.stationname,
+                          transDirection: length > 1,
+                          transDirectionFun: () {
+                            // 换向提示
+                            _routeDetailKey.currentState.hideCurrentSnackBar();
+                            _routeDetailKey.currentState.showSnackBar(
+                              SnackBar(
+                                duration: Duration(seconds: 5),
+                                content: Text(
+                                  S.of(context).ReversingComplete,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            );
+                            setState(() {
+                              print('换向');
+                              _index == 0 ? _index = 1 : _index = 0;
+                              _segment = _routeStatData.segmentlist[_index];
+                              _segmentID = _segment.segmentid.toString();
+                              _timer?.cancel();
+                              _immediatelyFlush(_segmentID);
+                              _refreshRouteRealTimeInfo(_segmentID);
+                              _expandIndexList = List();
+                              _carInfoCount = 2;
+                              _listKey = UniqueKey();
+                            });
+                          },
+                          firstAndLastBus: _segment.firtlastshiftinfo,
+                          routePrice: _segment.routeprice,
+                          orientation: _orientation,
+                        ),
+                        // 站点列表
+                        Expanded(
+                          child: SingleChildScrollView(
+                            key: _listKey,
+                            child: ExpansionPanelList.radio(
+                              expansionCallback: (int index, bool isExpanded) {
+                                // 使得能够正确获取到展开面板的索引
+                                if (_expandIndexList.contains(index)) {
+                                  _expandIndexList.remove(index);
+                                } else {
+                                  _expandIndexList.add(index);
+                                  setState(() {
+                                    _stationRealTimeInfoFuture =
+                                        _getStationRealTimeInfoFuture();
+                                  });
+                                }
+                              },
+                              children: expansionPanelRadios,
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  } else {
+                    // return Text('返回了个寂寞');
+                    return RetryWidget(
+                      onPressed: reTry,
+                    );
+                  }
+                  break;
+                default:
+                  return Text('啥也木有,哈哈哈');
+              }
+            },
           );
         },
       ),

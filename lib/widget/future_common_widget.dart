@@ -4,8 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:weifangbus/generated/l10n.dart';
 
-Widget noneWidget() {
-  return Text('Not currently connected to any asynchronous computation.');
+Widget noneWidget(BuildContext context) {
+  return Text(S.of(context).NonWidgetLabel);
 }
 
 Widget activeOrWaitingWidget() {

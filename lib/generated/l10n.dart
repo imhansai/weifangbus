@@ -614,6 +614,16 @@ class S {
       args: [],
     );
   }
+
+  /// `当前未连接到任何异步计算。`
+  String get NonWidgetLabel {
+    return Intl.message(
+      '当前未连接到任何异步计算。',
+      name: 'NonWidgetLabel',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

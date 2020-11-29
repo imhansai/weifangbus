@@ -62,6 +62,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "NewsDetailDate" : MessageLookupByLibrary.simpleMessage("yyyy-MM-dd HH:mm:ss"),
     "NoNews" : MessageLookupByLibrary.simpleMessage("No News"),
     "NoPictures" : MessageLookupByLibrary.simpleMessage("No Pictures"),
+    "NonWidgetLabel" : MessageLookupByLibrary.simpleMessage("Not currently connected to any asynchronous computation."),
     "NotConnectedToAnyNetwork" : MessageLookupByLibrary.simpleMessage("The device is not connected to any network. Please try again after connecting to the network!"),
     "NotInstalledQQ" : MessageLookupByLibrary.simpleMessage("Sorry, I have detected that you have not installed the QQ client"),
     "Ok" : MessageLookupByLibrary.simpleMessage("Ok"),
