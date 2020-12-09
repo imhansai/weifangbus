@@ -31,12 +31,12 @@ dependencies:
   crypto: ^2.1.5
   flutter_swiper: ^1.1.6
   flutter_html: ^1.1.1
-  cached_network_image: ^2.3.3
+  cached_network_image: ^2.4.1
   flutter_spinkit: ^4.1.2+1
   flutter_screenutil: ^3.2.0
-  flutter_easyrefresh: ^2.1.6
+  flutter_easyrefresh: ^2.1.7
   flutter_icons: ^1.1.0
-  provider: ^4.3.2+2
+  provider: ^4.3.2+3
   auto_size_text: ^2.1.0
   shared_preferences: ^0.5.12+4
 

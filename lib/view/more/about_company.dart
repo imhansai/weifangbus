@@ -62,38 +62,34 @@ class _AboutCompanyState extends State<AboutCompany> {
 
   OrientationBuilder buildOrientationBuilder(String aboutUs) {
     return OrientationBuilder(
-                builder: (context, orientation) {
-                  return SingleChildScrollView(
-                    child: Html(
-                      data: aboutUs,
-                      style: {
-                        // 标题居中
-                        'p[align="center"]': Style(
-                          textAlign: TextAlign.center,
-                        ),
-                        // 标题字体大小
-                        "strong": Style(
-                          fontSize: FontSize(
-                              orientation == Orientation.portrait
-                                  ? 60.sp
-                                  : 30.sp),
-                        ),
-                        // 内容字体大小
-                        'p[align="left"]': Style(
-                          fontSize: FontSize(
-                              orientation == Orientation.portrait
-                                  ? 50.sp
-                                  : 25.sp),
-                          margin: EdgeInsets.only(
-                            left: 40.w,
-                            right: 40.w,
-                          ),
-                        ),
-                      },
-                    ),
-                  );
-                },
-              );
+      builder: (context, orientation) {
+        return SingleChildScrollView(
+          child: Html(
+            data: aboutUs,
+            style: {
+              // 标题居中
+              'p[align="center"]': Style(
+                textAlign: TextAlign.center,
+              ),
+              // 标题字体大小
+              "strong": Style(
+                fontSize: FontSize(
+                    orientation == Orientation.portrait ? 60.sp : 30.sp),
+              ),
+              // 内容字体大小
+              'p[align="left"]': Style(
+                fontSize: FontSize(
+                    orientation == Orientation.portrait ? 50.sp : 25.sp),
+                margin: EdgeInsets.only(
+                  left: 40.w,
+                  right: 40.w,
+                ),
+              ),
+            },
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -109,7 +105,7 @@ class _AboutCompanyState extends State<AboutCompany> {
       try {
         Response response;
         var uri = '/BusService/Query_InstallBasicInfo?${getSignString()}';
-        // print(uri);
+        print(uri);
         response = await dio.get(uri);
         // print(response.data);
         var installBasicInfoEntity =

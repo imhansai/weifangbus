@@ -10,7 +10,7 @@ import 'package:weifangbus/view/store/appearance_provider.dart';
 import 'package:weifangbus/view/store/locale_provider.dart';
 import 'package:weifangbus/view/store/news_model.dart';
 
-/// 设置 Provider
+/// 起飞
 class WeiFangBusApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
