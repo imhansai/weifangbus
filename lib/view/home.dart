@@ -13,7 +13,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   /// 方便展示提示信息
-  final _homeMessengerKey = GlobalKey<ScaffoldMessengerState>();
+  final _homeMessengerKey = GlobalKey<ScaffoldState>();
 
   /// 主要操作页面
   final List<Widget> myTabs = <Widget>[
@@ -35,47 +35,52 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(context,
-        designSize: Size(1080, 1920), allowFontScaling: true);
-    return WillPopScope(
-      onWillPop: _onWillPop,
-      child: Scaffold(
-        key: _homeMessengerKey,
-        body: PageView(
-          controller: _controller,
-          children: myTabs.map((Widget widget) {
-            return widget;
-          }).toList(),
-          physics: NeverScrollableScrollPhysics(),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _currentIndex,
-          type: BottomNavigationBarType.fixed,
-          onTap: (index) {
-            _controller.jumpToPage(index);
-            setState(() {
-              _currentIndex = index;
-            });
-          },
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.home,
+    return LayoutBuilder(builder: (context, constraints) {
+      ScreenUtil.init(
+        constraints,
+        designSize: Size(1080, 1920),
+        allowFontScaling: true,
+      );
+      return WillPopScope(
+        onWillPop: _onWillPop,
+        child: Scaffold(
+          key: _homeMessengerKey,
+          body: PageView(
+            controller: _controller,
+            children: myTabs.map((Widget widget) {
+              return widget;
+            }).toList(),
+            physics: NeverScrollableScrollPhysics(),
+          ),
+          bottomNavigationBar: BottomNavigationBar(
+            currentIndex: _currentIndex,
+            type: BottomNavigationBarType.fixed,
+            onTap: (index) {
+              _controller.jumpToPage(index);
+              setState(() {
+                _currentIndex = index;
+              });
+            },
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.home,
+                ),
+                label: S.of(context).Home,
               ),
-              label: S.of(context).Home,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.explore),
-              label: S.of(context).Explore,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.more_vert),
-              label: S.of(context).More,
-            ),
-          ],
+              BottomNavigationBarItem(
+                icon: Icon(Icons.explore),
+                label: S.of(context).Explore,
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.more_vert),
+                label: S.of(context).More,
+              ),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   @override
