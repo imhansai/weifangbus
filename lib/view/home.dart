@@ -35,13 +35,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      ScreenUtil.init(
-        constraints,
-        designSize: Size(1080, 1920),
-        allowFontScaling: true,
-      );
-      return WillPopScope(
+    return ScreenUtilInit(
+      allowFontScaling: true,
+      builder: () => WillPopScope(
         onWillPop: _onWillPop,
         child: Scaffold(
           key: _homeMessengerKey,
@@ -79,8 +75,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             ],
           ),
         ),
-      );
-    });
+      ),
+    );
   }
 
   @override

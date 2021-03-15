@@ -11,15 +11,15 @@ var dio = new Dio(
 /// error统一处理
 String getErrorMsg(DioError e, {String msg}) {
   var errorMsg = msg ?? '';
-  if (e.type == DioErrorType.CONNECT_TIMEOUT) {
+  if (e.type == DioErrorType.connectTimeout) {
     errorMsg += '连接超时,请检查网络后重试';
-  } else if (e.type == DioErrorType.SEND_TIMEOUT) {
+  } else if (e.type == DioErrorType.sendTimeout) {
     errorMsg += '请求超时,请检查网络后重试';
-  } else if (e.type == DioErrorType.RECEIVE_TIMEOUT) {
+  } else if (e.type == DioErrorType.receiveTimeout) {
     errorMsg += '响应超时,请检查网络后重试';
-  } else if (e.type == DioErrorType.RESPONSE) {
+  } else if (e.type == DioErrorType.response) {
     errorMsg += '出现异常,请稍后再试';
-  } else if (e.type == DioErrorType.CANCEL) {
+  } else if (e.type == DioErrorType.cancel) {
     errorMsg += '请求取消';
   } else {
     errorMsg += "未知错误,请稍后再试";
