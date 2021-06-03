@@ -36,7 +36,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      allowFontScaling: true,
       builder: () => WillPopScope(
         onWillPop: _onWillPop,
         child: Scaffold(

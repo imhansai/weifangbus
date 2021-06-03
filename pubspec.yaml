@@ -30,10 +30,10 @@ dependencies:
   dio: ^4.0.0-beta7
   crypto: ^3.0.0
   flutter_swiper: ^1.1.6
-  flutter_html: ^1.2.0
-  cached_network_image: ^2.5.0
+  flutter_html: ^2.0.0
+  cached_network_image: ^3.0.0
   flutter_spinkit: ^5.0.0
-  flutter_screenutil: ^4.0.2+5
+  flutter_screenutil: ^5.0.0+2
   flutter_easyrefresh: ^2.1.8
   flutter_icons: ^1.1.0
   provider: ^5.0.0
