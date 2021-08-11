@@ -20,10 +20,10 @@ class WeiFangBusApp extends StatefulWidget {
 
 class _WeiFangBusApp extends State<WeiFangBusApp> {
   /// 外观
-  Appearance _appearance;
+  late Appearance _appearance;
 
   /// 语言
-  Locale _locale;
+  late Locale? _locale;
 
   /// 获取选择的外观与语言
   _getAppearanceAndLanguage() async {
@@ -44,7 +44,7 @@ class _WeiFangBusApp extends State<WeiFangBusApp> {
   }
 
   /// 更改语言
-  _changeLocale(Locale locale) {
+  _changeLocale(Locale? locale) {
     if (LocaleProvider.manuallyChangeLanguage) {
       _locale = locale;
     }

@@ -9,7 +9,7 @@ import 'package:weifangbus/generated/l10n.dart';
 class InformationDetail extends StatefulWidget {
   final Headline headLine;
 
-  const InformationDetail({Key key, this.headLine}) : super(key: key);
+  const InformationDetail({Key? key, required this.headLine}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {

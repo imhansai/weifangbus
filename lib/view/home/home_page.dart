@@ -7,7 +7,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:weifangbus/entity/all_route_data_entity.dart';
@@ -37,16 +36,16 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with AutomaticKeepAliveClientMixin {
   /// 初始页json数据实体类
-  Future<StartUpBasicInfoEntity> _startUpBasicInfoFuture;
+  late Future<StartUpBasicInfoEntity> _startUpBasicInfoFuture;
 
   /// 所有线路
-  List<MaterialSearchResult<String>> _allRouteList = List();
+  List<MaterialSearchResult<String>> _allRouteList = List.empty();
 
   /// [_startUpBasicInfoFuture] 请求成功后的数据
-  StartUpBasicInfoEntity _startUpBasicInfoEntity;
+  late StartUpBasicInfoEntity _startUpBasicInfoEntity;
 
   /// 资讯信息列表(状态变更用)
-  NewsModel _showNewsList;
+  late NewsModel _showNewsList;
 
   /// 是否展示轮播图
   var _canShowSlideShow = false;
@@ -55,7 +54,7 @@ class _HomePageState extends State<HomePage>
   var _canShowHeadLine = false;
 
   /// 屏幕方向
-  Orientation _orientation;
+  late Orientation _orientation;
 
   @override
   void initState() {
@@ -78,7 +77,7 @@ class _HomePageState extends State<HomePage>
 
   /// 设置菜单
   setMenuEntityList() {
-    List<MenuEntity> menuEntityList = List();
+    List<MenuEntity> menuEntityList = List.empty();
     MenuEntity lineInquiry = MenuEntity(
       Colors.lightGreen,
       MyIcons.lineInquiry,
@@ -177,7 +176,7 @@ class _HomePageState extends State<HomePage>
         EntityFactory.generateOBJ<AllroutedataEntity>(response.data);
     print("请求 线路信息 完毕");
     var routeList = allRouteDataEntity.routelist;
-    List<MaterialSearchResult<String>> materialSearchResultList = List();
+    List<MaterialSearchResult<String>> materialSearchResultList = List.empty();
     for (var i = 0; i < routeList.length; ++i) {
       var route = routeList[i];
       var materialSearchResult = MaterialSearchResult<String>(

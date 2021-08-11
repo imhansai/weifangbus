@@ -9,13 +9,13 @@ typedef void OnSubmit(String value);
 /// 线路组件
 class MaterialSearchResult<T> extends StatelessWidget {
   const MaterialSearchResult(
-      {Key key,
-      this.value,
-      this.icon,
-      this.onTap,
-      this.routeName,
-      this.routeNameExt,
-      this.index})
+      {Key? key,
+      required this.value,
+      required this.icon,
+      required this.onTap,
+      required this.routeName,
+      required this.routeNameExt,
+      required this.index})
       : super(key: key);
 
   /// 下标(暂时没用上)
@@ -55,10 +55,10 @@ class MaterialSearchResult<T> extends StatelessWidget {
 /// 搜索框，跳往搜索页
 class MaterialSearchInput<T> extends StatefulWidget {
   MaterialSearchInput({
-    Key key,
-    this.placeholder,
-    this.results,
-    this.filter,
+    Key? key,
+    required this.placeholder,
+    required this.results,
+    required this.filter,
     this.sort,
   });
 
@@ -72,7 +72,7 @@ class MaterialSearchInput<T> extends StatefulWidget {
   final MaterialSearchFilter<T> filter;
 
   /// 排序
-  final MaterialSearchSort<T> sort;
+  final MaterialSearchSort<T>? sort;
 
   @override
   _MaterialSearchInputState<T> createState() => _MaterialSearchInputState<T>();
@@ -120,11 +120,11 @@ class _MaterialSearchInputState<T> extends State<MaterialSearchInput<T>> {
 /// 线路列表搜索页
 class MaterialSearch<T> extends StatefulWidget {
   MaterialSearch({
-    Key key,
-    this.placeholder,
-    this.results,
-    this.filter,
-    this.sort,
+    Key? key,
+    required this.placeholder,
+    required this.results,
+    required this.filter,
+    required this.sort,
     this.onSubmit,
     this.barBackgroundColor = Colors.white,
     this.iconColor = Colors.black,
@@ -140,10 +140,10 @@ class MaterialSearch<T> extends StatefulWidget {
   final MaterialSearchFilter<T> filter;
 
   /// 排序
-  final MaterialSearchSort<T> sort;
+  final MaterialSearchSort<T>? sort;
 
   /// 输入法点击完成时的处理函数
-  final OnSubmit onSubmit;
+  final OnSubmit? onSubmit;
 
   /// appBar 的背景色
   final Color barBackgroundColor;
@@ -219,7 +219,7 @@ class _MaterialSearchState<T> extends State<MaterialSearch> {
 
     // 排序
     if (widget.sort != null) {
-      results.sort((a, b) => widget.sort(a.value, b.value, _criteria));
+      results.sort((a, b) => widget.sort!(a.value, b.value, _criteria));
     }
 
     return Scaffold(
@@ -231,7 +231,7 @@ class _MaterialSearchState<T> extends State<MaterialSearch> {
           decoration: InputDecoration.collapsed(hintText: widget.placeholder),
           onSubmitted: (String value) {
             if (widget.onSubmit != null) {
-              widget.onSubmit(value);
+              widget.onSubmit!(value);
             }
           },
         ),

@@ -84,7 +84,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   }
 
   /// 最近一次点击时间
-  DateTime _lastTime;
+  late DateTime _lastTime;
 
   /// 再点一次退出程序
   Future<bool> _onWillPop() {
@@ -92,7 +92,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         DateTime.now().difference(_lastTime) > Duration(milliseconds: 1500)) {
       print('准备退出');
       _lastTime = DateTime.now();
-      _homeMessengerKey.currentState.showSnackBar(
+      _homeMessengerKey.currentState!.showSnackBar(
         SnackBar(
           content: Text(
             S.of(context).ExitApp,

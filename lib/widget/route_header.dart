@@ -30,15 +30,15 @@ class RouteHeader extends StatefulWidget {
   final Orientation orientation;
 
   const RouteHeader(
-      {Key key,
-      this.routeName,
-      this.firstStationName,
-      this.lastStationName,
-      this.transDirection,
-      this.transDirectionFun,
-      this.firstAndLastBus,
-      this.routePrice,
-      this.orientation})
+      {Key? key,
+      required this.routeName,
+      required this.firstStationName,
+      required this.lastStationName,
+      required this.transDirection,
+      required this.transDirectionFun,
+      required this.firstAndLastBus,
+      required this.routePrice,
+      required this.orientation})
       : super(key: key);
 
   @override

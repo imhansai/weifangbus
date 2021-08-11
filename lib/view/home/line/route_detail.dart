@@ -5,7 +5,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:weifangbus/entity/line/route_real_time_info_entity.dart';
 import 'package:weifangbus/entity/line/station_real_time_info_entity.dart';
@@ -23,7 +22,8 @@ class RouteDetail extends StatefulWidget {
   final String title;
   final int routeId;
 
-  const RouteDetail({Key key, this.title, this.routeId}) : super(key: key);
+  const RouteDetail({Key? key, required this.title, required this.routeId})
+      : super(key: key);
 
   @override
   _RouteDetailState createState() => _RouteDetailState();
@@ -38,10 +38,10 @@ class _RouteDetailState extends State<RouteDetail>
   var _listKey = UniqueKey();
 
   /// 线路详情
-  RouteStatDataEntity _routeStatData;
+  late RouteStatDataEntity _routeStatData;
 
   /// 线路单向详情
-  RouteStatDataSegmentList _segment;
+  late RouteStatDataSegmentList _segment;
 
   /// 换向
   var _index = 0;
@@ -50,25 +50,25 @@ class _RouteDetailState extends State<RouteDetail>
   var _routeStatDataFuture;
 
   /// 车辆实时信息
-  RouteRealTimeInfoEntity _routeRealTimeInfo;
+  late RouteRealTimeInfoEntity _routeRealTimeInfo;
 
   /// 获取车辆实时信息必需参数
   var _segmentID;
 
   /// 车辆、站点实时信息定时器
-  Timer _timer;
+  late Timer _timer;
 
   /// 站点实时信息Future
-  Future<StationRealTimeInfoEntity> _stationRealTimeInfoFuture;
+  late Future<StationRealTimeInfoEntity> _stationRealTimeInfoFuture;
 
   /// 展开的索引
-  List<int> _expandIndexList = List();
+  List<int> _expandIndexList = List.empty();
 
   /// 站点实时信息数
   int _carInfoCount = 2;
 
   /// 屏幕方向
-  Orientation _orientation;
+  late Orientation _orientation;
 
   /// 获取线路详情
   Future<RouteStatDataEntity> _getRouteStatData() async {
@@ -99,7 +99,7 @@ class _RouteDetailState extends State<RouteDetail>
       _refreshRouteRealTimeInfo(_segmentID);
       print('请求线路详情完毕');
       return routeStatDataEntity;
-    } catch (e) {
+    } on DioError catch (e) {
       print(getErrorMsg(e, msg: "请求线路详情"));
       return Future.error(e);
     }
@@ -141,8 +141,8 @@ class _RouteDetailState extends State<RouteDetail>
 
   /// 展示 SnackBar
   void showSnackBar(String snackStr, VoidCallback onPressed) {
-    _routeDetailKey.currentState.hideCurrentSnackBar();
-    _routeDetailKey.currentState.showSnackBar(
+    _routeDetailKey.currentState!.hideCurrentSnackBar();
+    _routeDetailKey.currentState!.showSnackBar(
       SnackBar(
         duration: Duration(seconds: 5),
         content: Text(snackStr),
@@ -171,7 +171,7 @@ class _RouteDetailState extends State<RouteDetail>
             JsonConvert.fromJsonAsT<RouteRealTimeInfoEntity>(response.data);
         print('请求车辆实时信息完毕');
         return routeRealTimeInfo;
-      } catch (e) {
+      } on DioError catch (e) {
         print(getErrorMsg(e, msg: "请求车辆实时信息"));
         if (_routeStatData == null) {
           showSnackBar('啊哦！请求车辆实时信息失败!', () {
@@ -293,7 +293,7 @@ class _RouteDetailState extends State<RouteDetail>
       var routeRealTimeInfo = routeRealTimeInfoList.first;
       print('请求站点实时信息完毕');
       return routeRealTimeInfo;
-    } catch (e) {
+    } on DioError catch (e) {
       print(getErrorMsg(e, msg: "请求站点实时信息"));
       return Future.error(e);
     }
@@ -490,7 +490,7 @@ class _RouteDetailState extends State<RouteDetail>
                     var carInfo = buildListView();
 
                     // 站点面板列表
-                    List<ExpansionPanelRadio> expansionPanelRadios = List();
+                    List<ExpansionPanelRadio> expansionPanelRadios = List.empty();
                     for (var i = 0; i < stationList.length; ++i) {
                       var e = stationList[i];
                       var expansionPanelRadio = ExpansionPanelRadio(
@@ -515,8 +515,8 @@ class _RouteDetailState extends State<RouteDetail>
                           transDirection: length > 1,
                           transDirectionFun: () {
                             // 换向提示
-                            _routeDetailKey.currentState.hideCurrentSnackBar();
-                            _routeDetailKey.currentState.showSnackBar(
+                            _routeDetailKey.currentState!.hideCurrentSnackBar();
+                            _routeDetailKey.currentState!.showSnackBar(
                               SnackBar(
                                 duration: Duration(seconds: 5),
                                 content: Text(
@@ -533,7 +533,7 @@ class _RouteDetailState extends State<RouteDetail>
                               _timer?.cancel();
                               _immediatelyFlush(_segmentID);
                               _refreshRouteRealTimeInfo(_segmentID);
-                              _expandIndexList = List();
+                              _expandIndexList = List.empty();
                               _carInfoCount = 2;
                               _listKey = UniqueKey();
                             });

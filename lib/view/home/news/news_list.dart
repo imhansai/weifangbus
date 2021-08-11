@@ -28,7 +28,7 @@ class _NewsListPageState extends State<NewsListPage> {
 
   // 展示 SnackBar
   void showSnackBar(String snackStr) {
-    _newsListKey.currentState.showSnackBar(
+    _newsListKey.currentState!.showSnackBar(
       SnackBar(
         duration: Duration(seconds: 2),
         content: Text(snackStr),

@@ -9,7 +9,7 @@ var dio = new Dio(
 );
 
 /// error统一处理
-String getErrorMsg(DioError e, {String msg}) {
+String getErrorMsg(DioError e, {String? msg}) {
   var errorMsg = msg ?? '';
   if (e.type == DioErrorType.connectTimeout) {
     errorMsg += '连接超时,请检查网络后重试';

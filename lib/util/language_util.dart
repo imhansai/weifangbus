@@ -74,7 +74,7 @@ class LanguageUtil {
   }
 
   /// 根据 [LanguagePreference] 获取 [Locale]
-  static Locale getLocale(LanguagePreference languagePreference) {
+  static Locale? getLocale(LanguagePreference languagePreference) {
     switch (languagePreference) {
       case LanguagePreference.auto:
         return null;

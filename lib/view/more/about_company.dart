@@ -17,7 +17,7 @@ class AboutCompany extends StatefulWidget {
 }
 
 class _AboutCompanyState extends State<AboutCompany> {
-  Future<InstallBasicInfoEntity> _installBasicInfoFuture;
+  late Future<InstallBasicInfoEntity> _installBasicInfoFuture;
 
   @override
   Widget build(BuildContext context) {
@@ -111,13 +111,13 @@ class _AboutCompanyState extends State<AboutCompany> {
         var installBasicInfoEntity =
             EntityFactory.generateOBJ<InstallBasicInfoEntity>(response.data);
         return installBasicInfoEntity;
-      } catch (e) {
+      } on DioError catch (e) {
         print(getErrorMsg(e, msg: '请求基础信息异常'));
         return Future.error(e);
       }
     } else {
       print('木有连接网络哦!');
-      return Future.error(null);
+      return Future.error('木有连接网络哦!');
     }
   }
 

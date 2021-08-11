@@ -46,7 +46,7 @@ void showAboutSoftWareDialog(BuildContext context, Orientation orientation) {
               text: seeSourceFirst,
             ),
             TextSpan(
-              style: bodyTextStyle.copyWith(
+              style: bodyTextStyle!.copyWith(
                 color: colorScheme.primary,
               ),
               text: repoText,

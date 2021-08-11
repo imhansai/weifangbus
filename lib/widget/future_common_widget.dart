@@ -18,7 +18,7 @@ Widget activeOrWaitingWidget() {
 class RetryWidget extends StatefulWidget {
   final VoidCallback onPressed;
 
-  const RetryWidget({Key key, this.onPressed}) : super(key: key);
+  const RetryWidget({Key? key, required this.onPressed}) : super(key: key);
 
   @override
   _RetryWidgetState createState() => _RetryWidgetState();

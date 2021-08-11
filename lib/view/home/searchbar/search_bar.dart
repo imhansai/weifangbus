@@ -7,7 +7,7 @@ import 'package:weifangbus/view/home/searchbar/search_input.dart';
 class SearchBar extends StatefulWidget {
   final List<MaterialSearchResult<String>> allRouteList;
 
-  const SearchBar({Key key, this.allRouteList}) : super(key: key);
+  const SearchBar({Key? key, required this.allRouteList}) : super(key: key);
 
   @override
   _SearchBarState createState() => _SearchBarState();

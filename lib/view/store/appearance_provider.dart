@@ -3,7 +3,7 @@ import 'package:weifangbus/util/appearance.dart';
 
 /// 外观
 class AppearanceProvider with ChangeNotifier {
-  Appearance _appearance;
+  late Appearance _appearance;
 
   Appearance get appearance => _appearance;
 

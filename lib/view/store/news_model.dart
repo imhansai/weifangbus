@@ -10,7 +10,7 @@ class NewsModel with ChangeNotifier {
   ///  资讯信息
   ///
   ///  不能用var，使用指定类型。解决 type 'List<dynamic>' is not a subtype of type 'List<Headline>'
-  List<Headline> _showNewsList = List();
+  List<Headline> _showNewsList = List.empty();
 
   List<Headline> get showNewsList => _showNewsList;
 
@@ -31,7 +31,6 @@ class NewsModel with ChangeNotifier {
           .map((dynamic) => EntityFactory.generateOBJ<Headline>(dynamic))
           .toList();
       print('请求 资讯信息 完毕');
-      newsList ?? List();
       return newsList;
     } on DioError catch (e) {
       print(getErrorMsg(e, msg: "请求 资讯信息"));
