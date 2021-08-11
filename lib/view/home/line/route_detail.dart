@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:weifangbus/entity/line/route_real_time_info_entity.dart';
@@ -225,7 +226,7 @@ class _RouteDetailState extends State<RouteDetail>
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Icon(
-                              MaterialCommunityIcons.bus_side,
+                              CupertinoIcons.bus,
                               color: Colors.green,
                             ),
                             AutoSizeText(
@@ -249,7 +250,7 @@ class _RouteDetailState extends State<RouteDetail>
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Icon(
-                              MaterialCommunityIcons.bus_side,
+                              CupertinoIcons.bus,
                               color: Colors.red,
                             ),
                             AutoSizeText(

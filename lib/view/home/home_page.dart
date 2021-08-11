@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -289,53 +290,53 @@ class _HomePageState extends State<HomePage>
               padding: EdgeInsets.only(
                 right: _orientation == Orientation.portrait ? 31.w : 15.w,
               ),
-              child: Swiper(
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (BuildContext context, int index) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Expanded(
-                        child: _canShowHeadLine
-                            ? Text(
-                                _showNewsList.showNewsList[index].title,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: _orientation == Orientation.portrait
-                                      ? 44.ssp
-                                      : 22.ssp,
-                                ),
-                              )
-                            : Text(S.of(context).NoNews),
+              child: CarouselSlider(
+                options: CarouselOptions(
+                  autoPlay: true,
+                ),
+                items: _showNewsList.showNewsList.map((i) {
+                  return Builder(builder: (context) {
+                    return GestureDetector(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Expanded(
+                            child: _canShowHeadLine
+                                ? Text(
+                                    i.title,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontSize:
+                                          _orientation == Orientation.portrait
+                                              ? 44.ssp
+                                              : 22.ssp,
+                                    ),
+                                  )
+                                : Text(S.of(context).NoNews),
+                          ),
+                        ],
                       ),
-                    ],
-                  );
-                },
-                scrollDirection: Axis.vertical,
-                itemCount: _showNewsList.showNewsList.length > 0
-                    ? _showNewsList.showNewsList.length
-                    : 1,
-                autoplay: _showNewsList.showNewsList.length > 1,
-                duration: 600,
-                autoplayDelay: 6000,
-                onTap: (int index) {
-                  // 进入资讯详情
-                  if (_showNewsList.showNewsList.length > 0) {
-                    final Headline headLine = _showNewsList.showNewsList[index];
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (BuildContext context) {
-                          return InformationDetail(
-                            headLine: headLine,
+                      onTap: () {
+                        // 进入资讯详情
+                        if (_showNewsList.showNewsList.length > 0) {
+                          final Headline headLine = i;
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (BuildContext context) {
+                                return InformationDetail(
+                                  headLine: headLine,
+                                );
+                              },
+                            ),
                           );
-                        },
-                      ),
+                        } else {
+                          print('没有资讯信息，不响应点击事件');
+                        }
+                      },
                     );
-                  } else {
-                    print('没有资讯信息，不响应点击事件');
-                  }
-                },
+                  });
+                }).toList(),
               ),
             ),
           ),
@@ -352,34 +353,35 @@ class _HomePageState extends State<HomePage>
         bottom: _orientation == Orientation.portrait ? 30.h : 60.h,
       ),
       child: _canShowSlideShow
-          ? Swiper(
-              itemBuilder: (BuildContext context, int index) {
-                return ClipRRect(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
-                  ),
-                  child: CachedNetworkImage(
-                    placeholder: (context, url) => Center(
-                      child: SpinKitFadingCube(
-                        color: Theme.of(context).primaryColor,
-                        size:
-                            _orientation == Orientation.portrait ? 80.w : 40.w,
+          ? CarouselSlider(
+              options: CarouselOptions(
+                autoPlay: true,
+              ),
+              items: _startUpBasicInfoEntity.slideshow.map((i) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return ClipRRect(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
                       ),
-                    ),
-                    imageUrl:
-                        _startUpBasicInfoEntity.slideshow[index].bannerurl,
-                    fadeInCurve: Curves.easeIn,
-                    fadeInDuration: Duration(seconds: 1),
-                    fit: BoxFit.fill,
-                  ),
+                      child: CachedNetworkImage(
+                        placeholder: (context, url) => Center(
+                          child: SpinKitFadingCube(
+                            color: Theme.of(context).primaryColor,
+                            size: _orientation == Orientation.portrait
+                                ? 80.w
+                                : 40.w,
+                          ),
+                        ),
+                        imageUrl: i.bannerurl,
+                        fadeInCurve: Curves.easeIn,
+                        fadeInDuration: Duration(seconds: 1),
+                        fit: BoxFit.fill,
+                      ),
+                    );
+                  },
                 );
-              },
-              itemCount: _startUpBasicInfoEntity.slideshow.length,
-              viewportFraction: 0.9,
-              scale: 0.95,
-              autoplay: true,
-              duration: 400,
-              autoplayDelay: 4000,
+              }).toList(),
             )
           : Center(
               child: Text(S.of(context).NoPictures),
