@@ -12,7 +12,7 @@ class MenuEntity {
   String menuText;
 
   /// 功能
-  Function function;
+  GestureTapCallback? function;
 
   MenuEntity(this.color, this.icon, this.menuText, this.function);
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:weifangbus/generated/l10n.dart';
 import 'package:weifangbus/view/explore/explore_page.dart';
 import 'package:weifangbus/view/home/home_page.dart';
@@ -35,8 +34,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(context,
-        designSize: Size(1080, 1920), allowFontScaling: true);
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
@@ -84,7 +81,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   }
 
   /// 最近一次点击时间
-  DateTime _lastTime;
+  late DateTime _lastTime;
 
   /// 再点一次退出程序
   Future<bool> _onWillPop() {
@@ -92,7 +89,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         DateTime.now().difference(_lastTime) > Duration(milliseconds: 1500)) {
       print('准备退出');
       _lastTime = DateTime.now();
-      _homeKey.currentState.showSnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
             S.of(context).ExitApp,

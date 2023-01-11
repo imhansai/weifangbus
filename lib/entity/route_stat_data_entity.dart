@@ -1,214 +1,117 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'route_stat_data_entity.g.dart';
+
+@JsonSerializable()
 class RouteStatDataEntity {
-  String routetype;
-  String isbrt;
-  String isnewdata;
-  Null brotherroute;
-  List<RouteStatDataSegmentList> segmentlist;
-  String routename;
-  int routeid;
-  String timestamp;
-  Null routememo;
-  Null ismainsub;
+  final String? IsNewData;
+  final int? RouteID;
+  final String? RouteName;
+  final String? RouteType;
+  final List<Segmentlist>? SegmentList;
+  final String? TimeStamp;
+  final dynamic RouteMemo;
+  final String? IsBRT;
+  final dynamic BrotherRoute;
+  final dynamic Ismainsub;
 
-  RouteStatDataEntity(
-      {this.routetype,
-      this.isbrt,
-      this.isnewdata,
-      this.brotherroute,
-      this.segmentlist,
-      this.routename,
-      this.routeid,
-      this.timestamp,
-      this.routememo,
-      this.ismainsub});
+  const RouteStatDataEntity({
+    this.IsNewData,
+    this.RouteID,
+    this.RouteName,
+    this.RouteType,
+    this.SegmentList,
+    this.TimeStamp,
+    this.RouteMemo,
+    this.IsBRT,
+    this.BrotherRoute,
+    this.Ismainsub,
+  });
 
-  RouteStatDataEntity.fromJson(Map<String, dynamic> json) {
-    routetype = json['RouteType'];
-    isbrt = json['IsBRT'];
-    isnewdata = json['IsNewData'];
-    brotherroute = json['BrotherRoute'];
-    if (json['SegmentList'] != null) {
-      segmentlist = new List<RouteStatDataSegmentList>();
-      (json['SegmentList'] as List).forEach((v) {
-        segmentlist.add(new RouteStatDataSegmentList.fromJson(v));
-      });
-    }
-    routename = json['RouteName'];
-    routeid = json['RouteID'];
-    timestamp = json['TimeStamp'];
-    routememo = json['RouteMemo'];
-    ismainsub = json['Ismainsub'];
-  }
+  factory RouteStatDataEntity.fromJson(Map<String, dynamic> json) =>
+      _$RouteStatDataEntityFromJson(json);
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['RouteType'] = this.routetype;
-    data['IsBRT'] = this.isbrt;
-    data['IsNewData'] = this.isnewdata;
-    data['BrotherRoute'] = this.brotherroute;
-    if (this.segmentlist != null) {
-      data['SegmentList'] = this.segmentlist.map((v) => v.toJson()).toList();
-    }
-    data['RouteName'] = this.routename;
-    data['RouteID'] = this.routeid;
-    data['TimeStamp'] = this.timestamp;
-    data['RouteMemo'] = this.routememo;
-    data['Ismainsub'] = this.ismainsub;
-    return data;
-  }
+  Map<String, dynamic> toJson() => _$RouteStatDataEntityToJson(this);
 }
 
-class RouteStatDataSegmentList {
-  String baidumapid;
-  String firsttime;
-  int peaktimespan;
-  String segmentname;
-  String routeprice;
-  int segmentid;
-  int normaltimespan;
-  Null firtlastshiftinfo2;
-  String amapid;
-  String drawtype;
-  String firtlastshiftinfo;
-  String memos;
-  String rundirection;
-  List<RouteStatDataSegmantlistStationlist> stationlist;
-  String lasttime;
+@JsonSerializable()
+class Segmentlist {
+  final int? SegmentID;
+  final String? SegmentName;
+  final String? FirstTime;
+  final String? LastTime;
+  final String? RoutePrice;
+  final int? NormalTimeSpan;
+  final int? PeakTimeSpan;
+  final List<Stationlist>? StationList;
+  final String? FirtLastShiftInfo;
+  final String? Memos;
+  final String? RunDirection;
+  final String? Baidumapid;
+  final String? Amapid;
+  final String? DrawType;
 
-  RouteStatDataSegmentList(
-      {this.baidumapid,
-      this.firsttime,
-      this.peaktimespan,
-      this.segmentname,
-      this.routeprice,
-      this.segmentid,
-      this.normaltimespan,
-      this.firtlastshiftinfo2,
-      this.amapid,
-      this.drawtype,
-      this.firtlastshiftinfo,
-      this.memos,
-      this.rundirection,
-      this.stationlist,
-      this.lasttime});
+  const Segmentlist({
+    this.SegmentID,
+    this.SegmentName,
+    this.FirstTime,
+    this.LastTime,
+    this.RoutePrice,
+    this.NormalTimeSpan,
+    this.PeakTimeSpan,
+    this.StationList,
+    this.FirtLastShiftInfo,
+    this.Memos,
+    this.RunDirection,
+    this.Baidumapid,
+    this.Amapid,
+    this.DrawType,
+  });
 
-  RouteStatDataSegmentList.fromJson(Map<String, dynamic> json) {
-    baidumapid = json['Baidumapid'];
-    firsttime = json['FirstTime'];
-    peaktimespan = json['PeakTimeSpan'];
-    segmentname = json['SegmentName'];
-    routeprice = json['RoutePrice'];
-    segmentid = json['SegmentID'];
-    normaltimespan = json['NormalTimeSpan'];
-    firtlastshiftinfo2 = json['FirtLastShiftInfo2'];
-    amapid = json['Amapid'];
-    drawtype = json['DrawType'];
-    firtlastshiftinfo = json['FirtLastShiftInfo'];
-    memos = json['Memos'];
-    rundirection = json['RunDirection'];
-    if (json['StationList'] != null) {
-      stationlist = new List<RouteStatDataSegmantlistStationlist>();
-      (json['StationList'] as List).forEach((v) {
-        stationlist.add(new RouteStatDataSegmantlistStationlist.fromJson(v));
-      });
-    }
-    lasttime = json['LastTime'];
-  }
+  factory Segmentlist.fromJson(Map<String, dynamic> json) =>
+      _$SegmentlistFromJson(json);
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['Baidumapid'] = this.baidumapid;
-    data['FirstTime'] = this.firsttime;
-    data['PeakTimeSpan'] = this.peaktimespan;
-    data['SegmentName'] = this.segmentname;
-    data['RoutePrice'] = this.routeprice;
-    data['SegmentID'] = this.segmentid;
-    data['NormalTimeSpan'] = this.normaltimespan;
-    data['FirtLastShiftInfo2'] = this.firtlastshiftinfo2;
-    data['Amapid'] = this.amapid;
-    data['DrawType'] = this.drawtype;
-    data['FirtLastShiftInfo'] = this.firtlastshiftinfo;
-    data['Memos'] = this.memos;
-    data['RunDirection'] = this.rundirection;
-    if (this.stationlist != null) {
-      data['StationList'] = this.stationlist.map((v) => v.toJson()).toList();
-    }
-    data['LastTime'] = this.lasttime;
-    return data;
-  }
+  Map<String, dynamic> toJson() => _$SegmentlistToJson(this);
 }
 
-class RouteStatDataSegmantlistStationlist {
-  String stationname;
-  Null speed;
-  int dualserial;
-  String stationmemo;
-  int stationsort;
-  Null stationsectionlist;
-  String stationno;
-  RouteStatDataSegmentlistStationlistStationpostion stationpostion;
-  String stationid;
+@JsonSerializable()
+class Stationlist {
+  final String? StationID;
+  final String? StationName;
+  final String? StationNO;
+  final Stationpostion? StationPostion;
+  final String? Stationmemo;
+  final int? DualSerial;
+  final int? StationSort;
 
-  RouteStatDataSegmantlistStationlist(
-      {this.stationname,
-      this.speed,
-      this.dualserial,
-      this.stationmemo,
-      this.stationsort,
-      this.stationsectionlist,
-      this.stationno,
-      this.stationpostion,
-      this.stationid});
+  const Stationlist({
+    this.StationID,
+    this.StationName,
+    this.StationNO,
+    this.StationPostion,
+    this.Stationmemo,
+    this.DualSerial,
+    this.StationSort,
+  });
 
-  RouteStatDataSegmantlistStationlist.fromJson(Map<String, dynamic> json) {
-    stationname = json['StationName'];
-    speed = json['Speed'];
-    dualserial = json['DualSerial'];
-    stationmemo = json['Stationmemo'];
-    stationsort = json['StationSort'];
-    stationsectionlist = json['StationSectionList'];
-    stationno = json['StationNO'];
-    stationpostion = json['StationPostion'] != null
-        ? new RouteStatDataSegmentlistStationlistStationpostion.fromJson(
-            json['StationPostion'])
-        : null;
-    stationid = json['StationID'];
-  }
+  factory Stationlist.fromJson(Map<String, dynamic> json) =>
+      _$StationlistFromJson(json);
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['StationName'] = this.stationname;
-    data['Speed'] = this.speed;
-    data['DualSerial'] = this.dualserial;
-    data['Stationmemo'] = this.stationmemo;
-    data['StationSort'] = this.stationsort;
-    data['StationSectionList'] = this.stationsectionlist;
-    data['StationNO'] = this.stationno;
-    if (this.stationpostion != null) {
-      data['StationPostion'] = this.stationpostion.toJson();
-    }
-    data['StationID'] = this.stationid;
-    return data;
-  }
+  Map<String, dynamic> toJson() => _$StationlistToJson(this);
 }
 
-class RouteStatDataSegmentlistStationlistStationpostion {
-  double latitude;
-  double longitude;
+@JsonSerializable()
+class Stationpostion {
+  final double? Longitude;
+  final double? Latitude;
 
-  RouteStatDataSegmentlistStationlistStationpostion(
-      {this.latitude, this.longitude});
+  const Stationpostion({
+    this.Longitude,
+    this.Latitude,
+  });
 
-  RouteStatDataSegmentlistStationlistStationpostion.fromJson(
-      Map<String, dynamic> json) {
-    latitude = json['Latitude'];
-    longitude = json['Longitude'];
-  }
+  factory Stationpostion.fromJson(Map<String, dynamic> json) =>
+      _$StationpostionFromJson(json);
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['Latitude'] = this.latitude;
-    data['Longitude'] = this.longitude;
-    return data;
-  }
+  Map<String, dynamic> toJson() => _$StationpostionToJson(this);
 }

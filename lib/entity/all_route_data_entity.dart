@@ -1,51 +1,39 @@
-class AllroutedataEntity {
-	String isnewdata;
-	List<Routelist> routelist;
-	String timestamp;
+import 'package:json_annotation/json_annotation.dart';
 
-	AllroutedataEntity({this.isnewdata, this.routelist, this.timestamp});
+part 'all_route_data_entity.g.dart';
 
-	AllroutedataEntity.fromJson(Map<String, dynamic> json) {
-		isnewdata = json['IsNewData'];
-		if (json['RouteList'] != null) {
-			routelist = List<Routelist>();
-			json['RouteList'].forEach((v) { routelist.add(Routelist.fromJson(v)); });
-		}
-		timestamp = json['TimeStamp'];
-	}
+@JsonSerializable()
+class AllRouteDataEntity {
+  final String? TimeStamp;
+  final List<dynamic>? RouteList;
+  final String? IsNewData;
 
-	Map<String, dynamic> toJson() {
-		final Map<String, dynamic> data = Map<String, dynamic>();
-		data['IsNewData'] = this.isnewdata;
-		if (this.routelist != null) {
-      data['RouteList'] = this.routelist.map((v) => v.toJson()).toList();
-    }
-		data['TimeStamp'] = this.timestamp;
-		return data;
-	}
+  const AllRouteDataEntity({
+    this.TimeStamp,
+    this.RouteList,
+    this.IsNewData,
+  });
+
+  factory AllRouteDataEntity.fromJson(Map<String, dynamic> json) =>
+      _$AllRouteDataEntityFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AllRouteDataEntityToJson(this);
 }
 
+@JsonSerializable()
 class Routelist {
-	int routeid;
-	String routename;
-	Null ishavesubroutecombine;
-	String routenameext;
+  final int? RouteID;
+  final String? RouteName;
+  final String? RouteNameExt;
 
-	Routelist({this.routeid, this.routename, this.ishavesubroutecombine, this.routenameext});
+  const Routelist({
+    this.RouteID,
+    this.RouteName,
+    this.RouteNameExt,
+  });
 
-	Routelist.fromJson(Map<String, dynamic> json) {
-		routeid = json['RouteID'];
-		routename = json['RouteName'];
-		ishavesubroutecombine = json['IsHaveSubRouteCombine'];
-		routenameext = json['RouteNameExt'];
-	}
+  factory Routelist.fromJson(Map<String, dynamic> json) =>
+      _$RoutelistFromJson(json);
 
-	Map<String, dynamic> toJson() {
-		final Map<String, dynamic> data = Map<String, dynamic>();
-		data['RouteID'] = this.routeid;
-		data['RouteName'] = this.routename;
-		data['IsHaveSubRouteCombine'] = this.ishavesubroutecombine;
-		data['RouteNameExt'] = this.routenameext;
-		return data;
-	}
+  Map<String, dynamic> toJson() => _$RoutelistToJson(this);
 }

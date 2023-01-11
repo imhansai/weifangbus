@@ -24,7 +24,7 @@ class _WeiFangBusApp extends State<WeiFangBusApp> {
   Appearance _appearance = Appearance.auto;
 
   /// 语言
-  Locale _locale;
+  late Locale _locale;
 
   /// 获取选择的外观
   _getAppearanceAndLanguage() async {
@@ -95,11 +95,15 @@ class _WeiFangBusApp extends State<WeiFangBusApp> {
                   darkTheme: ThemeData.dark(),
                   home: Home(),
                   localizationsDelegates: [
-                    S.delegate,
                     GlobalMaterialLocalizations.delegate,
                     GlobalWidgetsLocalizations.delegate,
+                    GlobalCupertinoLocalizations.delegate,
                   ],
-                  supportedLocales: S.delegate.supportedLocales,
+                  supportedLocales: [
+                    Locale('en', ''),
+                    Locale('ja', ''),
+                    Locale('zh', ''),
+                  ],
                   locale: _locale,
                 )
               : MaterialApp(
