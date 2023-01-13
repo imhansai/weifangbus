@@ -1,9 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:package_info/package_info.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:weifangbus/generated/l10n.dart';
 
 /// 关于软件
 void showAboutSoftWareDialog(BuildContext context) {
@@ -28,15 +27,15 @@ class _AboutDialog extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     final bodyTextStyle = textTheme.bodyText1;
 
-    final name = S.of(context).SoftWare;
+    final name = AppLocalizations.of(context)!.softWare;
     final legalese = '© 2019 hanandjun';
-    final seeSourceFirst = S.of(context).SeeSource;
-    final repoText = 'weifangbus GitHub ' + S.of(context).Repo;
+    final seeSourceFirst = AppLocalizations.of(context)!.seeSource;
+    final repoText = 'weifangbus GitHub ' + AppLocalizations.of(context)!.repo;
     final seeSourceSecond = '。';
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       content: Container(
-        constraints: BoxConstraints(maxWidth: 1.sw),
+        constraints: BoxConstraints(maxWidth: 1),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -50,12 +49,12 @@ class _AboutDialog extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             Text(
-              S.of(context).AppDesc,
+              AppLocalizations.of(context)!.appDesc,
               style: bodyTextStyle,
             ),
             const SizedBox(height: 10),
             Text(
-              S.of(context).SpecialInstructions,
+              AppLocalizations.of(context)!.specialInstructions,
               style: bodyTextStyle,
             ),
             const SizedBox(height: 10),
@@ -67,7 +66,7 @@ class _AboutDialog extends StatelessWidget {
                     text: seeSourceFirst,
                   ),
                   TextSpan(
-                    style: bodyTextStyle.copyWith(
+                    style: bodyTextStyle?.copyWith(
                       color: colorScheme.primary,
                     ),
                     text: repoText,
@@ -98,10 +97,9 @@ class _AboutDialog extends StatelessWidget {
         ),
       ),
       actions: [
-        FlatButton(
-          textColor: colorScheme.primary,
+        OutlinedButton(
           child: Text(
-            S.of(context).ViewLicenses,
+            AppLocalizations.of(context)!.viewLicenses,
           ),
           onPressed: () {
             Navigator.of(context).push(MaterialPageRoute<void>(
@@ -112,9 +110,8 @@ class _AboutDialog extends StatelessWidget {
             ));
           },
         ),
-        FlatButton(
-          textColor: colorScheme.primary,
-          child: Text(S.of(context).Close),
+        OutlinedButton(
+          child: Text(AppLocalizations.of(context)!.close),
           onPressed: () {
             Navigator.pop(context);
           },

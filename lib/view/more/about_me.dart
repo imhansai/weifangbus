@@ -1,9 +1,6 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:weifangbus/generated/l10n.dart';
 import 'package:weifangbus/util/font_util.dart';
 
 /// 关于我
@@ -19,7 +16,7 @@ class _AboutMeState extends State<AboutMe> {
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
-            expandedHeight: 600.h,
+            expandedHeight: 600,
             floating: false,
             pinned: true,
             snap: false,
@@ -28,14 +25,14 @@ class _AboutMeState extends State<AboutMe> {
                 child: ClipOval(
                   child: Image.asset(
                     "assets/images/avatar.jpeg",
-                    width: 260.w,
+                    width: 260,
                   ),
                 ),
               ),
               title: Text(
                 "hanandjun",
                 style: TextStyle(
-                  fontSize: 50.ssp,
+                  fontSize: 50,
                 ),
               ),
               centerTitle: true,
@@ -48,7 +45,7 @@ class _AboutMeState extends State<AboutMe> {
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.all(
-                        28.w,
+                        28,
                       ),
                       child: Card(
                           color: Colors.green,
@@ -60,13 +57,13 @@ class _AboutMeState extends State<AboutMe> {
                                   color: Colors.white,
                                 ),
                                 title: Text(
-                                  S.of(context).Name,
+                                  AppLocalizations.of(context)!.name,
                                   style: TextStyle(
                                     color: Colors.white,
                                   ),
                                 ),
                                 subtitle: Text(
-                                  S.of(context).NameDesc,
+                                  AppLocalizations.of(context)!.nameDesc,
                                   style: TextStyle(
                                     color: Colors.white,
                                   ),
@@ -78,13 +75,13 @@ class _AboutMeState extends State<AboutMe> {
                                   color: Colors.green,
                                 ),
                                 title: Text(
-                                  S.of(context).Age,
+                                  AppLocalizations.of(context)!.age,
                                   style: TextStyle(
                                     color: Colors.white,
                                   ),
                                 ),
                                 subtitle: Text(
-                                  S.of(context).AgeDesc,
+                                  AppLocalizations.of(context)!.ageDesc,
                                   style: TextStyle(
                                     color: Colors.white,
                                   ),
@@ -96,13 +93,13 @@ class _AboutMeState extends State<AboutMe> {
                                   color: Colors.green,
                                 ),
                                 title: Text(
-                                  S.of(context).City,
+                                  AppLocalizations.of(context)!.city,
                                   style: TextStyle(
                                     color: Colors.white,
                                   ),
                                 ),
                                 subtitle: Text(
-                                  S.of(context).CityDesc,
+                                  AppLocalizations.of(context)!.cityDesc,
                                   style: TextStyle(
                                     color: Colors.white,
                                   ),
@@ -113,7 +110,7 @@ class _AboutMeState extends State<AboutMe> {
                     ),
                     // 内容
                     Padding(
-                      padding: EdgeInsets.all(28.w),
+                      padding: EdgeInsets.all(28),
                       child: Card(
                           color: Colors.blue,
                           child: Column(
@@ -164,7 +161,7 @@ class _AboutMeState extends State<AboutMe> {
                           )),
                     ),
                     Padding(
-                      padding: EdgeInsets.all(28.w),
+                      padding: EdgeInsets.all(28),
                       child: Card(
                         color: Colors.teal,
                         child: Column(
@@ -175,7 +172,7 @@ class _AboutMeState extends State<AboutMe> {
                                 color: Colors.white,
                               ),
                               title: Text(
-                                S.of(context).Phone,
+                                AppLocalizations.of(context)!.phone,
                                 style: TextStyle(
                                   color: Colors.white,
                                 ),
@@ -196,7 +193,7 @@ class _AboutMeState extends State<AboutMe> {
                                 color: Colors.white,
                               ),
                               title: Text(
-                                S.of(context).EMail,
+                                AppLocalizations.of(context)!.eMail,
                                 style: TextStyle(
                                   color: Colors.white,
                                 ),
@@ -242,7 +239,7 @@ class _AboutMeState extends State<AboutMe> {
               child: Text("抱歉，检测到您还未安装QQ客户端!"),
             ),
             actions: <Widget>[
-              FlatButton(
+              OutlinedButton(
                 child: Text('确定'),
                 onPressed: () {
                   Navigator.of(context).pop();

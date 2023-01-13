@@ -3,11 +3,9 @@ import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:weifangbus/generated/l10n.dart';
 import 'package:weifangbus/util/font_util.dart';
-import 'package:weifangbus/view/more/about_company.dart';
 import 'package:weifangbus/view/more/about_me.dart';
 import 'package:weifangbus/view/more/about_software.dart';
 import 'package:weifangbus/view/more/settings/settings.dart';
@@ -36,8 +34,8 @@ class _MorePageState extends State<MorePage>
           Icons.settings,
           color: Colors.blueGrey,
         ),
-        title: Text(S.of(context).Settings),
-        subtitle: Text(S.of(context).SettingsDesc),
+        title: Text(AppLocalizations.of(context)!.settings),
+        subtitle: Text(AppLocalizations.of(context)!.settingsDesc),
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(
@@ -54,28 +52,10 @@ class _MorePageState extends State<MorePage>
           MyIcons.qq,
           color: Colors.indigoAccent,
         ),
-        title: Text(S.of(context).QQGroup),
-        subtitle: Text(S.of(context).QQGroupDesc),
+        title: Text(AppLocalizations.of(context)!.qQGroup),
+        subtitle: Text(AppLocalizations.of(context)!.qQGroupDesc),
         onTap: () {
           _joinQQGroup(context);
-        },
-      ),
-      ListTile(
-        trailing: Icon(Icons.keyboard_arrow_right),
-        leading: Icon(
-          Icons.business,
-          color: Colors.brown,
-        ),
-        title: Text(S.of(context).Company),
-        subtitle: Text(S.of(context).CompanyDesc),
-        onTap: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (BuildContext context) {
-                return AboutCompany();
-              },
-            ),
-          );
         },
       ),
       ListTile(
@@ -84,7 +64,7 @@ class _MorePageState extends State<MorePage>
           MyIcons.software,
           color: Colors.black87,
         ),
-        title: Text(S.of(context).AboutSoftWare),
+        title: Text(AppLocalizations.of(context)!.aboutSoftWare),
         onTap: () {
           showAboutSoftWareDialog(context);
         },
@@ -95,7 +75,7 @@ class _MorePageState extends State<MorePage>
           Icons.info,
           color: Colors.lightBlue,
         ),
-        title: Text(S.of(context).Author),
+        title: Text(AppLocalizations.of(context)!.author),
         // describe: "走近作者",
         onTap: () {
           Navigator.of(context).push(
@@ -111,7 +91,7 @@ class _MorePageState extends State<MorePage>
     super.build(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(S.of(context).More),
+        title: Text(AppLocalizations.of(context)!.more),
         centerTitle: true,
       ),
       body: Container(
@@ -138,16 +118,16 @@ class _MorePageState extends State<MorePage>
         context: context,
         builder: (_) => AlertDialog(
           content: Container(
-            width: 1.sw,
+            width: 1,
             child: AutoSizeText(
-              S.of(context).NotInstalledQQ,
+              AppLocalizations.of(context)!.notInstalledQQ,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
           ),
           actions: <Widget>[
-            FlatButton(
-              child: Text(S.of(context).Ok),
+            OutlinedButton(
+              child: Text(AppLocalizations.of(context)!.ok),
               onPressed: () {
                 Navigator.of(context).pop();
               },

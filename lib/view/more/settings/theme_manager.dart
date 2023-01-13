@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:weifangbus/generated/l10n.dart';
 import 'package:weifangbus/util/appearance.dart';
 import 'package:weifangbus/util/theme_util.dart';
 import 'package:weifangbus/view/store/appearance_provider.dart';
@@ -48,8 +48,9 @@ class _AppearanceManagerState extends State<AppearanceManager> {
               onTap: () {
                 _showAndSetAppearance(context, e);
               },
-              trailing:
-                  _appearance == e ? Text(S.of(context).Selected) : SizedBox(),
+              trailing: _appearance == e
+                  ? Text(AppLocalizations.of(context)!.selected)
+                  : SizedBox(),
             ))
         .toList();
     return Scaffold(

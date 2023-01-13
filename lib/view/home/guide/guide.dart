@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weifangbus/generated/l10n.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Guide extends StatefulWidget {
   @override
@@ -11,11 +11,11 @@ class _GuideState extends State<Guide> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(S.of(context).Guide),
+        title: Text(AppLocalizations.of(context)!.guide),
       ),
       body: Container(
         child: Center(
-          child: Text(S.of(context).Guide),
+          child: Text(AppLocalizations.of(context)!.guide),
         ),
       ),
     );

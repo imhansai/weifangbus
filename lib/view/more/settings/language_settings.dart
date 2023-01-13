@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weifangbus/generated/l10n.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:weifangbus/util/language_util.dart';
 
 class LanguageSettings extends StatefulWidget {
@@ -39,14 +39,14 @@ class _LanguageSettingsState extends State<LanguageSettings> {
                 _showAndSetLanguage(context, e);
               },
               trailing: _languagePreference == e
-                  ? Text(S.of(context).Selected)
+                  ? Text(AppLocalizations.of(context)!.selected)
                   : SizedBox(),
             ))
         .toList();
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(S.of(context).LanguageSettings),
+        title: Text(AppLocalizations.of(context)!.languageSettings),
       ),
       body: ListView(
         children: ListTile.divideTiles(

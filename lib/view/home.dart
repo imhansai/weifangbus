@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weifangbus/generated/l10n.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:weifangbus/view/explore/explore_page.dart';
 import 'package:weifangbus/view/home/home_page.dart';
 import 'package:weifangbus/view/more/more_page.dart';
@@ -59,15 +59,15 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               icon: Icon(
                 Icons.home,
               ),
-              label: S.of(context).Home,
+              label: AppLocalizations.of(context)!.home,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.explore),
-              label: S.of(context).Explore,
+              label: AppLocalizations.of(context)!.explore,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.more_vert),
-              label: S.of(context).More,
+              label: AppLocalizations.of(context)!.more,
             ),
           ],
         ),
@@ -92,7 +92,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            S.of(context).ExitApp,
+            AppLocalizations.of(context)!.exitApp,
             textAlign: TextAlign.center,
           ),
           duration: Duration(milliseconds: 1500),

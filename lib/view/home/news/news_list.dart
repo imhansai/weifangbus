@@ -1,13 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:connectivity/connectivity.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_easyrefresh/phoenix_footer.dart';
-import 'package:flutter_easyrefresh/phoenix_header.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:weifangbus/generated/l10n.dart';
 import 'package:weifangbus/view/home/news/news_detail.dart';
 import 'package:weifangbus/view/store/news_model.dart';
 
@@ -28,7 +25,7 @@ class _NewsListPageState extends State<NewsListPage> {
 
   // 展示 SnackBar
   void showSnackBar(String snackStr) {
-    _newsListKey.currentState.showSnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         duration: Duration(seconds: 2),
         content: Text(snackStr),
@@ -48,18 +45,18 @@ class _NewsListPageState extends State<NewsListPage> {
         .map((e) => ListTile(
               trailing: Icon(Icons.keyboard_arrow_right),
               title: Text(
-                DateFormat(S.of(context).NewsDate)
-                    .format(DateTime.parse(e.realeasetime))
+                DateFormat(AppLocalizations.of(context)!.newsDate)
+                    .format(DateTime.parse(e.RealeaseTime!))
                     .toString(),
                 style: TextStyle(
                   color: Colors.orange,
-                  fontSize: 43.ssp,
+                  fontSize: 43,
                 ),
               ),
               subtitle: AutoSizeText(
-                e.title,
+                e.Title!,
                 style: TextStyle(
-                  fontSize: 40.ssp,
+                  fontSize: 40,
                 ),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
@@ -82,9 +79,9 @@ class _NewsListPageState extends State<NewsListPage> {
     return Scaffold(
       key: _newsListKey,
       appBar: AppBar(
-        title: Text(S.of(context).News),
+        title: Text(AppLocalizations.of(context)!.news),
       ),
-      body: EasyRefresh.custom(
+      body: EasyRefresh(
         header: PhoenixHeader(),
         footer: PhoenixFooter(),
         onRefresh: () async {
@@ -92,36 +89,24 @@ class _NewsListPageState extends State<NewsListPage> {
           if (connectivityResult != ConnectivityResult.none) {
             try {
               context.read<NewsModel>().refreshNewsList();
-              showSnackBar(S.of(context).RefreshSuccess);
+              showSnackBar(AppLocalizations.of(context)!.refreshSuccess);
             } catch (e) {
               print('刷新资讯信息出错::: $e');
-              showSnackBar(S.of(context).RequestDataFailure);
+              showSnackBar(AppLocalizations.of(context)!.requestDataFailure);
             }
           } else {
-            showSnackBar(S.of(context).NotConnectedToAnyNetwork);
+            showSnackBar(
+                AppLocalizations.of(context)!.notConnectedToAnyNetwork);
           }
         },
-        emptyWidget: noData
-            ? Center(
-                child: Container(
-                  width: 600.w,
-                  child: Image.asset(
-                    'assets/images/no_news.png',
-                    width: 500.w,
-                  ),
-                ),
-              )
-            : null,
-        slivers: <Widget>[
-          SliverList(
-            delegate: SliverChildListDelegate(
-              ListTile.divideTiles(
-                tiles: tiles,
-                context: context,
-              ).toList(),
-            ),
+        child: SliverList(
+          delegate: SliverChildListDelegate(
+            ListTile.divideTiles(
+              tiles: tiles,
+              context: context,
+            ).toList(),
           ),
-        ],
+        ),
       ),
     );
   }

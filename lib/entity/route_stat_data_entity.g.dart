@@ -12,7 +12,9 @@ RouteStatDataEntity _$RouteStatDataEntityFromJson(Map<String, dynamic> json) =>
       RouteID: json['RouteID'] as int?,
       RouteName: json['RouteName'] as String?,
       RouteType: json['RouteType'] as String?,
-      SegmentList: json['SegmentList'] as List<dynamic>?,
+      SegmentList: (json['SegmentList'] as List<dynamic>?)
+          ?.map((e) => Segmentlist.fromJson(e as Map<String, dynamic>))
+          .toList(),
       TimeStamp: json['TimeStamp'] as String?,
       RouteMemo: json['RouteMemo'],
       IsBRT: json['IsBRT'] as String?,
@@ -43,7 +45,9 @@ Segmentlist _$SegmentlistFromJson(Map<String, dynamic> json) => Segmentlist(
       RoutePrice: json['RoutePrice'] as String?,
       NormalTimeSpan: json['NormalTimeSpan'] as int?,
       PeakTimeSpan: json['PeakTimeSpan'] as int?,
-      StationList: json['StationList'] as List<dynamic>?,
+      StationList: (json['StationList'] as List<dynamic>?)
+          ?.map((e) => Stationlist.fromJson(e as Map<String, dynamic>))
+          .toList(),
       FirtLastShiftInfo: json['FirtLastShiftInfo'] as String?,
       Memos: json['Memos'] as String?,
       RunDirection: json['RunDirection'] as String?,
@@ -74,7 +78,10 @@ Stationlist _$StationlistFromJson(Map<String, dynamic> json) => Stationlist(
       StationID: json['StationID'] as String?,
       StationName: json['StationName'] as String?,
       StationNO: json['StationNO'] as String?,
-      StationPostion: json['StationPostion'],
+      StationPostion: json['StationPostion'] == null
+          ? null
+          : Stationpostion.fromJson(
+              json['StationPostion'] as Map<String, dynamic>),
       Stationmemo: json['Stationmemo'] as String?,
       DualSerial: json['DualSerial'] as int?,
       StationSort: json['StationSort'] as int?,

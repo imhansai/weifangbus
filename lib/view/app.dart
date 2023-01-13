@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:weifangbus/generated/l10n.dart';
 import 'package:weifangbus/util/appearance.dart';
 import 'package:weifangbus/util/language_util.dart';
 import 'package:weifangbus/util/theme_util.dart';
@@ -24,7 +23,7 @@ class _WeiFangBusApp extends State<WeiFangBusApp> {
   Appearance _appearance = Appearance.auto;
 
   /// 语言
-  late Locale _locale;
+  late Locale? _locale;
 
   /// 获取选择的外观
   _getAppearanceAndLanguage() async {
@@ -42,14 +41,14 @@ class _WeiFangBusApp extends State<WeiFangBusApp> {
   }
 
   /// 更改外观
-  _changeAppearance(Appearance appearance) {
+  _changeAppearance(Appearance? appearance) {
     if (appearance != null && _appearance != appearance) {
       _appearance = appearance;
     }
   }
 
   /// 更改语言
-  _changeLocale(Locale locale) {
+  _changeLocale(Locale? locale) {
     if (LocaleProvider.manuallyChangeLanguage && _locale != locale) {
       _locale = locale;
     }
@@ -89,37 +88,27 @@ class _WeiFangBusApp extends State<WeiFangBusApp> {
           return _appearance == Appearance.auto
               ? MaterialApp(
                   onGenerateTitle: (context) {
-                    return S.of(context).AppName;
+                    return AppLocalizations.of(context)!.appName;
                   },
                   theme: ThemeData(),
                   darkTheme: ThemeData.dark(),
                   home: Home(),
-                  localizationsDelegates: [
-                    GlobalMaterialLocalizations.delegate,
-                    GlobalWidgetsLocalizations.delegate,
-                    GlobalCupertinoLocalizations.delegate,
-                  ],
-                  supportedLocales: [
-                    Locale('en', ''),
-                    Locale('ja', ''),
-                    Locale('zh', ''),
-                  ],
+                  localizationsDelegates:
+                      AppLocalizations.localizationsDelegates,
+                  supportedLocales: AppLocalizations.supportedLocales,
                   locale: _locale,
                 )
               : MaterialApp(
                   onGenerateTitle: (context) {
-                    return S.of(context).AppName;
+                    return AppLocalizations.of(context)!.appName;
                   },
                   theme: _appearance == Appearance.dark
                       ? ThemeData.dark()
                       : ThemeData(),
                   home: Home(),
-                  localizationsDelegates: [
-                    S.delegate,
-                    GlobalMaterialLocalizations.delegate,
-                    GlobalWidgetsLocalizations.delegate,
-                  ],
-                  supportedLocales: S.delegate.supportedLocales,
+                  localizationsDelegates:
+                      AppLocalizations.localizationsDelegates,
+                  supportedLocales: AppLocalizations.supportedLocales,
                   locale: _locale,
                 );
         },

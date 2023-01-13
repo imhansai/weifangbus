@@ -5,23 +5,15 @@ import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
-import 'package:weifangbus/entity/line/station_real_time_info_entity.dart';
-import 'package:weifangbus/generated/json/base/json_convert_content.dart';
 import 'package:weifangbus/util/dio_util.dart';
 
 Future main() async {
   try {
     Response response;
-    var uri =
-        '/BusService/Query_ByStationID/?RouteID=77&StationID=10494028&${getSignString()}';
+    var uri = '/BusService/Query_AllSubRouteData/&${getSignString()}';
     print(uri);
     response = await dio.get(uri);
     print(response.data);
-    var routeRealTimeInfo =
-        JsonConvert.fromJsonAsT<List<StationRealTimeInfoEntity>>(response.data);
-    routeRealTimeInfo.forEach((element) {
-      element.toJson();
-    });
   } catch (e) {
     print('请求出现问题::: $e');
   }
@@ -56,10 +48,5 @@ getSignKey(timeStamp, random) {
 getSignString() {
   var timeStamp = getTimeStamp();
   var random = getRandom();
-  return "TimeStamp=" +
-      timeStamp +
-      "&Random=" +
-      random +
-      "&SignKey=" +
-      getSignKey(timeStamp, random);
+  return "PackageName=com.hisense.wfbus2&timeStamp=$timeStamp&Random=$random&SignKey=${getSignKey(timeStamp, random)}";
 }

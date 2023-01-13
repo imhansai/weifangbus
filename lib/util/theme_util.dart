@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weifangbus/generated/l10n.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:weifangbus/util/appearance.dart';
 import 'package:weifangbus/util/sp_util.dart';
 
@@ -11,7 +11,7 @@ class AppearanceUtil {
   /// 获取选择的外观
   static Future<Appearance> getAppearance() async {
     var prefs = await SharedPreferencesUtil.getPrefs();
-    var value = prefs.getInt(key);
+    var value = prefs?.getInt(key);
     return Appearance.values
         .where((element) => element.index == (value ?? Appearance.auto.index))
         .single;
@@ -20,7 +20,7 @@ class AppearanceUtil {
   /// 持久化选择的外观
   static void saveAppearance(Appearance appearance) async {
     var prefs = await SharedPreferencesUtil.getPrefs();
-    prefs.setInt(key, appearance.index);
+    prefs?.setInt(key, appearance.index);
   }
 
   /// 展示外观
@@ -28,13 +28,13 @@ class AppearanceUtil {
     var str;
     switch (appearance) {
       case Appearance.light:
-        str = S.of(context).Light;
+        str = AppLocalizations.of(context)!.light;
         break;
       case Appearance.dark:
-        str = S.of(context).Dark;
+        str = AppLocalizations.of(context)!.dark;
         break;
       case Appearance.auto:
-        str = S.of(context).Auto;
+        str = AppLocalizations.of(context)!.auto;
     }
     return str;
   }

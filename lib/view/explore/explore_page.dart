@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weifangbus/generated/l10n.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ExplorePage extends StatefulWidget {
   @override
@@ -14,11 +14,11 @@ class _ExplorePageState extends State<ExplorePage>
     return Scaffold(
       key: PageStorageKey(_ExplorePageState),
       appBar: AppBar(
-        title: Text(S.of(context).Explore),
+        title: Text(AppLocalizations.of(context)!.explore),
         centerTitle: true,
       ),
       body: Center(
-        child: Text(S.of(context).Explore),
+        child: Text(AppLocalizations.of(context)!.explore),
       ),
     );
   }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:weifangbus/generated/l10n.dart';
 import 'package:weifangbus/util/appearance.dart';
 import 'package:weifangbus/util/language_util.dart';
 import 'package:weifangbus/util/theme_util.dart';
@@ -41,7 +41,7 @@ class _SettingsState extends State<Settings> {
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text(S.of(context).Settings),
+        title: Text(AppLocalizations.of(context)!.settings),
       ),
       body: ListView(
         children: ListTile.divideTiles(
@@ -52,7 +52,7 @@ class _SettingsState extends State<Settings> {
                 Icons.nights_stay,
                 color: Colors.blue,
               ),
-              title: Text(S.of(context).AppearanceManagement),
+              title: Text(AppLocalizations.of(context)!.appearanceManagement),
               onTap: () {
                 Navigator.push(
                   context,
@@ -71,7 +71,7 @@ class _SettingsState extends State<Settings> {
                 Icons.language,
                 color: Colors.teal,
               ),
-              title: Text(S.of(context).LanguageSettings),
+              title: Text(AppLocalizations.of(context)!.languageSettings),
               onTap: () {
                 Navigator.push(
                   context,

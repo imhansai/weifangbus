@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:weifangbus/generated/l10n.dart';
 import 'package:weifangbus/util/sp_util.dart';
 import 'package:weifangbus/view/store/locale_provider.dart';
 
@@ -12,7 +12,7 @@ class LanguageUtil {
   /// 获取选择的语言值
   static Future<LanguagePreference> getLanguagePreference() async {
     var prefs = await SharedPreferencesUtil.getPrefs();
-    var languageValue = prefs.getInt(key);
+    var languageValue = prefs?.getInt(key);
     return LanguagePreference.values
         .where((element) =>
             element.index == (languageValue ?? LanguagePreference.auto.index))
@@ -22,7 +22,7 @@ class LanguageUtil {
   /// 持久化选择的语言
   static saveLanguageValue(LanguagePreference languagePreference) async {
     var prefs = await SharedPreferencesUtil.getPrefs();
-    prefs.setInt(key, languagePreference.index);
+    prefs?.setInt(key, languagePreference.index);
   }
 
   /// 展示语言值
@@ -31,16 +31,16 @@ class LanguageUtil {
     var str;
     switch (languagePreference) {
       case LanguagePreference.auto:
-        str = S.of(context).Auto;
+        str = AppLocalizations.of(context)!.auto;
         break;
       case LanguagePreference.en:
-        str = S.of(context).English;
+        str = AppLocalizations.of(context)!.english;
         break;
       case LanguagePreference.zh:
-        str = S.of(context).Chinese;
+        str = AppLocalizations.of(context)!.chinese;
         break;
       case LanguagePreference.ja:
-        str = S.of(context).Japanese;
+        str = AppLocalizations.of(context)!.japanese;
         break;
     }
     return str;
@@ -74,7 +74,7 @@ class LanguageUtil {
   }
 
   /// 根据 [LanguagePreference] 获取 [Locale]
-  static Locale getLocale(LanguagePreference languagePreference) {
+  static Locale? getLocale(LanguagePreference languagePreference) {
     switch (languagePreference) {
       case LanguagePreference.auto:
         return null;

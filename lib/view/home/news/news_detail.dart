@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:intl/intl.dart';
-import 'package:weifangbus/entity/headline_entity.dart';
-import 'package:weifangbus/generated/l10n.dart';
+import 'package:weifangbus/entity/head_line_entity.dart';
 
 class InformationDetail extends StatefulWidget {
-  final Headline headLine;
+  final HeadLineEntity headLine;
 
-  const InformationDetail({Key key, this.headLine}) : super(key: key);
+  const InformationDetail({Key? key, required this.headLine}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -50,7 +51,7 @@ class _InformationDetail extends State<InformationDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(S.of(context).NewsDetail),
+        title: Text(AppLocalizations.of(context)!.newsDetail),
       ),
       body: Container(
         child: Column(
@@ -59,50 +60,45 @@ class _InformationDetail extends State<InformationDetail> {
             Expanded(
               child: SingleChildScrollView(
                 padding: EdgeInsets.fromLTRB(
-                  40.w,
-                  10.h,
-                  40.w,
-                  200.h,
+                  40,
+                  10,
+                  40,
+                  200,
                 ),
                 child: Column(
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.all(70.w),
+                      padding: EdgeInsets.all(70),
                       child: Column(
                         children: <Widget>[
                           Text(
-                            widget.headLine.title,
+                            widget.headLine.Title!,
                             style: TextStyle(
-                              fontSize: 53.ssp,
+                              fontSize: 53,
                             ),
                           ),
                           Padding(
                             padding: EdgeInsets.only(
-                              top: 31.h,
+                              top: 31,
                             ),
                             child: Text(
-                              S.of(context).ReleaseTime +
-                                  DateFormat(S.of(context).NewsDetailDate)
+                              AppLocalizations.of(context)!.releaseTime +
+                                  DateFormat(AppLocalizations.of(context)!
+                                          .newsDetailDate)
                                       .format(DateTime.parse(
-                                          widget.headLine.realeasedatetime))
+                                          widget.headLine.RealeaseDateTime!))
                                       .toString(),
                               style: TextStyle(
                                 color: Colors.grey,
-                                fontSize: 38.ssp,
+                                fontSize: 38,
                               ),
                             ),
                           ),
                         ],
                       ),
                     ),
-                    Html(
-                      data: widget.headLine.content,
-                      style: {
-                        "html": Style(
-                          fontFamily: 'serif',
-                          fontSize: FontSize(50.ssp),
-                        )
-                      },
+                    HtmlWidget(
+                      widget.headLine.Content!,
                     ),
                   ],
                 ),
@@ -116,7 +112,7 @@ class _InformationDetail extends State<InformationDetail> {
           ? null
           : FloatingActionButton(
               child: Icon(Icons.arrow_upward),
-              tooltip: S.of(context).BackToTop,
+              tooltip: AppLocalizations.of(context)!.backToTop,
               onPressed: () {
                 // 返回到顶部时执行动画
                 _controller.animateTo(.0,

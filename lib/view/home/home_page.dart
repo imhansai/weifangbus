@@ -2,27 +2,27 @@ import 'dart:async';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:weifangbus/entity/all_route_data_entity.dart';
-import 'package:weifangbus/entity/headline_entity.dart';
 import 'package:weifangbus/entity/menu_entity.dart';
 import 'package:weifangbus/entity/start_up_basic_info_entity.dart';
-import 'package:weifangbus/generated/l10n.dart';
 import 'package:weifangbus/util/dio_util.dart';
 import 'package:weifangbus/util/font_util.dart';
 import 'package:weifangbus/util/request_params_util.dart';
 import 'package:weifangbus/view/home/guide/guide.dart';
-import 'package:weifangbus/view/home/line/route_detail.dart';
 import 'package:weifangbus/view/home/news/news_detail.dart';
 import 'package:weifangbus/view/home/news/news_list.dart';
 import 'package:weifangbus/view/home/searchbar/search_bar.dart';
 import 'package:weifangbus/view/home/searchbar/search_input.dart';
 import 'package:weifangbus/view/store/news_model.dart';
+
+import '../../entity/head_line_entity.dart';
 
 /// 首页
 class HomePage extends StatefulWidget {
@@ -75,7 +75,7 @@ class _HomePageState extends State<HomePage>
     MenuEntity lineInquiry = MenuEntity(
       Colors.lightGreen,
       MyIcons.lineInquiry,
-      S.of(context).RouteQuery,
+      AppLocalizations.of(context)!.routeQuery,
       () {
         Navigator.push(
           context,
@@ -84,7 +84,7 @@ class _HomePageState extends State<HomePage>
               return Material(
                 child: MaterialSearch<String>(
                   barBackgroundColor: Theme.of(context).primaryColor,
-                  placeholder: S.of(context).SearchLine,
+                  placeholder: AppLocalizations.of(context)!.searchLine,
                   results: _allRouteList,
                   filter: (dynamic value, String criteria) {
                     return value.toLowerCase().trim().contains(
@@ -101,7 +101,7 @@ class _HomePageState extends State<HomePage>
     MenuEntity guide = MenuEntity(
       Colors.lightBlue,
       MyIcons.guide,
-      S.of(context).Guide,
+      AppLocalizations.of(context)!.guide,
       () {
         Navigator.push(
           context,
@@ -117,7 +117,7 @@ class _HomePageState extends State<HomePage>
     MenuEntity news = MenuEntity(
       Colors.orangeAccent,
       MyIcons.news,
-      S.of(context).News,
+      AppLocalizations.of(context)!.news,
       () {
         Navigator.push(
           context,
@@ -181,19 +181,7 @@ class _HomePageState extends State<HomePage>
         routeName: route.routename,
         routeNameExt: route.routenameext.substring(
             route.routenameext.indexOf('(') + 1, route.routenameext.length - 1),
-        onTap: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (BuildContext context) {
-                return RouteDetail(
-                  title: route.routenameext
-                      .substring(0, route.routenameext.indexOf('(')),
-                  routeId: route.routeid,
-                );
-              },
-            ),
-          );
-        },
+        onTap: () {},
       );
       materialSearchResultList.add(materialSearchResult);
     }
@@ -218,7 +206,7 @@ class _HomePageState extends State<HomePage>
     return Center(
       child: ElevatedButton(
         child: AutoSizeText(
-          S.of(context).RequestDataFailure,
+          AppLocalizations.of(context)!.requestDataFailure,
           maxLines: 2,
         ),
         onPressed: reTry,
@@ -273,14 +261,14 @@ class _HomePageState extends State<HomePage>
               child: Padding(
                 child: currentLocale == 'zh'
                     ? AutoSizeText(
-                        S.of(context).HomeNews,
+                        AppLocalizations.of(context)!.homeNews,
                         style: TextStyle(
                           color: Colors.white,
                         ),
                       )
                     : RotatedBox(
                         child: AutoSizeText(
-                          S.of(context).HomeNews,
+                          AppLocalizations.of(context)!.homeNews,
                           style: TextStyle(
                             color: Colors.white,
                           ),
@@ -297,51 +285,50 @@ class _HomePageState extends State<HomePage>
           Expanded(
             child: Padding(
               padding: EdgeInsets.only(right: 31),
-              child: Swiper(
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (BuildContext context, int index) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Expanded(
-                        child: _canShowHeadLine
-                            ? Text(
-                                _showNewsList.showNewsList[index].title,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 44,
-                                ),
-                              )
-                            : Text(S.of(context).NoNews),
+              child: CarouselSlider(
+                options: CarouselOptions(
+                  autoPlay: true,
+                ),
+                items: _showNewsList.showNewsList.map((i) {
+                  return Builder(builder: (context) {
+                    return GestureDetector(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Expanded(
+                            child: _canShowHeadLine
+                                ? Text(
+                                    i.Title!,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontSize: 44,
+                                    ),
+                                  )
+                                : Text(AppLocalizations.of(context)!.noNews),
+                          ),
+                        ],
                       ),
-                    ],
-                  );
-                },
-                scrollDirection: Axis.vertical,
-                itemCount: _showNewsList.showNewsList.length > 0
-                    ? _showNewsList.showNewsList.length
-                    : 1,
-                autoplay: _showNewsList.showNewsList.length > 1,
-                duration: 600,
-                autoplayDelay: 6000,
-                onTap: (int index) {
-                  // 进入资讯详情
-                  if (_showNewsList.showNewsList.length > 0) {
-                    final Headline headLine = _showNewsList.showNewsList[index];
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (BuildContext context) {
-                          return InformationDetail(
-                            headLine: headLine,
+                      onTap: () {
+                        // 进入资讯详情
+                        if (_showNewsList.showNewsList.length > 0) {
+                          final HeadLineEntity headLine = i;
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (BuildContext context) {
+                                return InformationDetail(
+                                  headLine: headLine,
+                                );
+                              },
+                            ),
                           );
-                        },
-                      ),
+                        } else {
+                          print('没有资讯信息，不响应点击事件');
+                        }
+                      },
                     );
-                  } else {
-                    print('没有资讯信息，不响应点击事件');
-                  }
-                },
+                  });
+                }).toList(),
               ),
             ),
           ),
@@ -358,31 +345,32 @@ class _HomePageState extends State<HomePage>
         bottom: 30,
       ),
       child: _canShowSlideShow
-          ? Swiper(
-              itemBuilder: (BuildContext context, int index) {
-                return ClipRRect(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
-                  ),
-                  child: CachedNetworkImage(
-                    placeholder: (context, url) => CircularProgressIndicator(),
-                    imageUrl:
-                        _startUpBasicInfoEntity.SlideShow![index].bannerurl,
-                    fadeInCurve: Curves.easeIn,
-                    fadeInDuration: Duration(seconds: 1),
-                    fit: BoxFit.fill,
-                  ),
+          ? CarouselSlider(
+              options: CarouselOptions(
+                autoPlay: true,
+              ),
+              items: _startUpBasicInfoEntity.SlideShow!.map((i) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return ClipRRect(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                      child: CachedNetworkImage(
+                        placeholder: (context, url) =>
+                            CircularProgressIndicator(),
+                        imageUrl: i.bannerurl,
+                        fadeInCurve: Curves.easeIn,
+                        fadeInDuration: Duration(seconds: 1),
+                        fit: BoxFit.fill,
+                      ),
+                    );
+                  },
                 );
-              },
-              itemCount: _startUpBasicInfoEntity.SlideShow!.length,
-              viewportFraction: 0.9,
-              scale: 0.95,
-              autoplay: true,
-              duration: 400,
-              autoplayDelay: 4000,
+              }).toList(),
             )
           : Center(
-              child: Text(S.of(context).NoPictures),
+              child: Text(AppLocalizations.of(context)!.noPictures),
             ),
     );
   }
