@@ -10,7 +10,7 @@ import 'package:weifangbus/util/dio_util.dart';
 Future main() async {
   try {
     Response response;
-    var uri = '/BusService/Query_AllSubRouteData/&${getSignString()}';
+    var uri = '/BusService/Query_AllSubRouteData?${getSignString()}';
     print(uri);
     response = await dio.get(uri);
     print(response.data);
@@ -30,7 +30,8 @@ getRandom() => (100 + Random().nextInt(900)).toString();
 getSignKey(timeStamp, random) {
   // 59485eebe12042cba33e972f77834b6b 聊城
   // 55b73c446e914785862966abf9a29416 潍坊
-  final appKey = "55b73c446e914785862966abf9a29416";
+  // adf0d9607ab24a3d88a5fb5413813e2a 潍坊新版本
+  final appKey = "adf0d9607ab24a3d88a5fb5413813e2a";
   var key = utf8.encode(appKey);
   var bytes = utf8.encode(timeStamp + random);
 
@@ -44,9 +45,14 @@ getSignKey(timeStamp, random) {
   return digest.toString();
 }
 
+getPackageName() {
+  return "com.hisense.wfbus2";
+}
+
 /// 获取参数
 getSignString() {
   var timeStamp = getTimeStamp();
   var random = getRandom();
-  return "PackageName=com.hisense.wfbus2&timeStamp=$timeStamp&Random=$random&SignKey=${getSignKey(timeStamp, random)}";
+  var packageName = getPackageName();
+  return "PackageName=$packageName&timeStamp=$timeStamp&Random=$random&SignKey=${getSignKey(timeStamp, random)}";
 }
