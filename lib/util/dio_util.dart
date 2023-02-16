@@ -2,20 +2,21 @@ import 'package:dio/dio.dart';
 
 var dio = new Dio(
   BaseOptions(
-    baseUrl: "http://122.4.254.30:7501",
+    baseUrl: "http://122.4.254.30:7501/BusService",
+    // responseType: ResponseType.plain,
   ),
 );
 
 /// error统一处理
 String getErrorMsg(DioError e, {String msg = ''}) {
   var errorMsg = msg;
-  if (e.type == DioErrorType.connectTimeout) {
+  if (e.type == DioErrorType.connectionTimeout) {
     errorMsg += '连接超时,请检查网络后重试';
   } else if (e.type == DioErrorType.sendTimeout) {
     errorMsg += '请求超时,请检查网络后重试';
   } else if (e.type == DioErrorType.receiveTimeout) {
     errorMsg += '响应超时,请检查网络后重试';
-  } else if (e.type == DioErrorType.response) {
+  } else if (e.type == DioErrorType.badResponse) {
     errorMsg += '出现异常,请稍后再试';
   } else if (e.type == DioErrorType.cancel) {
     errorMsg += '请求取消';

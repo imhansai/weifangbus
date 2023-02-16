@@ -11,6 +11,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:weifangbus/entity/all_route_data_entity.dart';
 import 'package:weifangbus/entity/menu_entity.dart';
+import 'package:weifangbus/entity/new_info_summary_entity.dart';
 import 'package:weifangbus/entity/start_up_basic_info_entity.dart';
 import 'package:weifangbus/util/dio_util.dart';
 import 'package:weifangbus/util/font_util.dart';
@@ -21,8 +22,6 @@ import 'package:weifangbus/view/home/news/news_list.dart';
 import 'package:weifangbus/view/home/searchbar/search_bar.dart';
 import 'package:weifangbus/view/home/searchbar/search_input.dart';
 import 'package:weifangbus/view/store/news_model.dart';
-
-import '../../entity/head_line_entity.dart';
 
 /// 首页
 class HomePage extends StatefulWidget {
@@ -140,7 +139,7 @@ class _HomePageState extends State<HomePage>
       try {
         // todo 应该作用线路搜索页上
         _getAllRoute();
-        var uri = "/BusService/Query_StartUpBasicInfo?" + getSignString();
+        var uri = "/Query_StartUpBasicInfo?" + getSignString();
         Response response = await dio.get(uri);
         var startUpBasicInfoEntity =
             StartUpBasicInfoEntity.fromJson(response.data);
@@ -163,24 +162,23 @@ class _HomePageState extends State<HomePage>
   /// 请求所有的路线
   _getAllRoute() async {
     Response response;
-    var uri = "/BusService/Require_AllRouteData/?" + getSignString();
+    var uri = "/Query_AllRouteData/?" + getSignString();
     // print('$uri');
     response = await dio.get(uri);
     AllRouteDataEntity allRouteDataEntity =
         AllRouteDataEntity.fromJson(response.data);
     print("请求 线路信息 完毕");
-    var routeList = allRouteDataEntity.RouteList;
+    var routeList = allRouteDataEntity.routeList;
     List<MaterialSearchResult<String>> materialSearchResultList =
         List.empty(growable: true);
     for (var i = 0; i < routeList!.length; ++i) {
       var route = routeList[i];
       var materialSearchResult = MaterialSearchResult<String>(
         index: i,
-        value: route.routename,
+        value: route.routeName!,
         // icon: Icons.directions_bus,
-        routeName: route.routename,
-        routeNameExt: route.routenameext.substring(
-            route.routenameext.indexOf('(') + 1, route.routenameext.length - 1),
+        routeName: route.routeName!,
+        routeNameExt: route.routeName!,
         onTap: () {},
       );
       materialSearchResultList.add(materialSearchResult);
@@ -312,7 +310,7 @@ class _HomePageState extends State<HomePage>
                       onTap: () {
                         // 进入资讯详情
                         if (_showNewsList.showNewsList.length > 0) {
-                          final HeadLineEntity headLine = i;
+                          final NewInfoSummaryEntity headLine = i;
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (BuildContext context) {

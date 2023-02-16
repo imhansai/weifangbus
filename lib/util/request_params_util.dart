@@ -10,7 +10,7 @@ import 'package:weifangbus/util/dio_util.dart';
 Future main() async {
   try {
     Response response;
-    var uri = '/BusService/Query_AllSubRouteData?${getSignString()}';
+    var uri = '/Query_AllRouteData?${getSignString()}';
     print(uri);
     response = await dio.get(uri);
     print(response.data);

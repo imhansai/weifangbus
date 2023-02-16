@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:intl/intl.dart';
-import 'package:weifangbus/entity/head_line_entity.dart';
+import 'package:weifangbus/entity/new_info_summary_entity.dart';
 
 class InformationDetail extends StatefulWidget {
-  final HeadLineEntity headLine;
+  final NewInfoSummaryEntity headLine;
 
   const InformationDetail({Key? key, required this.headLine}) : super(key: key);
 
@@ -86,7 +86,7 @@ class _InformationDetail extends State<InformationDetail> {
                                   DateFormat(AppLocalizations.of(context)!
                                           .newsDetailDate)
                                       .format(DateTime.parse(
-                                          widget.headLine.RealeaseDateTime!))
+                                          widget.headLine.RealeaseTime!))
                                       .toString(),
                               style: TextStyle(
                                 color: Colors.grey,
@@ -98,7 +98,7 @@ class _InformationDetail extends State<InformationDetail> {
                       ),
                     ),
                     HtmlWidget(
-                      widget.headLine.Content!,
+                      widget.headLine.Summary!,
                     ),
                   ],
                 ),

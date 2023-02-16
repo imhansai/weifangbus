@@ -4,14 +4,17 @@ part 'all_route_data_entity.g.dart';
 
 @JsonSerializable()
 class AllRouteDataEntity {
-  final String? TimeStamp;
-  final List<dynamic>? RouteList;
-  final String? IsNewData;
+  @JsonKey(name: 'TimeStamp')
+  final String? timeStamp;
+  @JsonKey(name: 'RouteList')
+  final List<RouteList>? routeList;
+  @JsonKey(name: 'IsNewData')
+  final String? isNewData;
 
   const AllRouteDataEntity({
-    this.TimeStamp,
-    this.RouteList,
-    this.IsNewData,
+    this.timeStamp,
+    this.routeList,
+    this.isNewData,
   });
 
   factory AllRouteDataEntity.fromJson(Map<String, dynamic> json) =>
@@ -21,19 +24,22 @@ class AllRouteDataEntity {
 }
 
 @JsonSerializable()
-class Routelist {
-  final int? RouteID;
-  final String? RouteName;
-  final String? RouteNameExt;
+class RouteList {
+  @JsonKey(name: 'RouteID')
+  final int? routeID;
+  @JsonKey(name: 'RouteName')
+  final String? routeName;
+  @JsonKey(name: 'Sortinfo')
+  final int? sortInfo;
 
-  const Routelist({
-    this.RouteID,
-    this.RouteName,
-    this.RouteNameExt,
+  const RouteList({
+    this.routeID,
+    this.routeName,
+    this.sortInfo,
   });
 
-  factory Routelist.fromJson(Map<String, dynamic> json) =>
-      _$RoutelistFromJson(json);
+  factory RouteList.fromJson(Map<String, dynamic> json) =>
+      _$RouteListFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RoutelistToJson(this);
+  Map<String, dynamic> toJson() => _$RouteListToJson(this);
 }

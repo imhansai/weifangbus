@@ -23,7 +23,7 @@ class _WeiFangBusApp extends State<WeiFangBusApp> {
   Appearance _appearance = Appearance.auto;
 
   /// 语言
-  late Locale? _locale;
+  Locale? _locale;
 
   /// 获取选择的外观
   _getAppearanceAndLanguage() async {
@@ -33,7 +33,7 @@ class _WeiFangBusApp extends State<WeiFangBusApp> {
     setState(() {
       _locale = locale;
     });
-    if (appearance != null && _appearance != appearance) {
+    if (_appearance != appearance) {
       setState(() {
         _appearance = appearance;
       });
