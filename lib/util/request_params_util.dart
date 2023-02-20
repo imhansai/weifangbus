@@ -10,7 +10,8 @@ import 'package:weifangbus/util/dio_util.dart';
 Future main() async {
   try {
     Response response;
-    var uri = '/Query_AllRouteData?${getSignString()}';
+    var uri = '/QueryBannerInfo?UseFor=4&${getSignString()}';
+    // [{"bannerid":"30200402152455397000","name":"掌上公交2.0启动图","title":null,"bannerurl":"http://122.4.254.30:3010/InfoIsland/App/banner管理_200619163050_11200619163050069301.png","linkurl":null,"bannerusefor":"4"}]
     print(uri);
     response = await dio.get(uri);
     print(response.data);

@@ -1,9 +1,6 @@
-import 'dart:async';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -12,7 +9,6 @@ import 'package:provider/provider.dart';
 import 'package:weifangbus/entity/all_route_data_entity.dart';
 import 'package:weifangbus/entity/menu_entity.dart';
 import 'package:weifangbus/entity/new_info_summary_entity.dart';
-import 'package:weifangbus/entity/start_up_basic_info_entity.dart';
 import 'package:weifangbus/util/dio_util.dart';
 import 'package:weifangbus/util/font_util.dart';
 import 'package:weifangbus/util/request_params_util.dart';
@@ -31,28 +27,22 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with AutomaticKeepAliveClientMixin {
-  /// 初始页json数据实体类
-  late Future<StartUpBasicInfoEntity> _startUpBasicInfoFuture;
-
   /// 所有线路
   List<MaterialSearchResult<String>> _allRouteList = List.empty(growable: true);
-
-  /// [_startUpBasicInfoFuture] 请求成功后的数据
-  late StartUpBasicInfoEntity _startUpBasicInfoEntity;
 
   /// 资讯信息列表(状态变更用)
   late NewsModel _showNewsList;
 
   /// 是否展示轮播图
-  var _canShowSlideShow = false;
+  var _canShowSlideShow = true;
 
   /// 是否展示资讯信息
-  var _canShowHeadLine = false;
+  var _canShowHeadLine = true;
 
   @override
   void initState() {
     super.initState();
-    _startUpBasicInfoFuture = _getStartUpBasicInfoFuture();
+    _getAllRoute();
   }
 
   @override
@@ -132,38 +122,10 @@ class _HomePageState extends State<HomePage>
     return menuEntityList;
   }
 
-  /// 请求首页数据
-  Future<StartUpBasicInfoEntity> _getStartUpBasicInfoFuture() async {
-    var connectivityResult = await (Connectivity().checkConnectivity());
-    if (connectivityResult != ConnectivityResult.none) {
-      try {
-        // todo 应该作用线路搜索页上
-        _getAllRoute();
-        var uri = "/Query_StartUpBasicInfo?" + getSignString();
-        Response response = await dio.get(uri);
-        var startUpBasicInfoEntity =
-            StartUpBasicInfoEntity.fromJson(response.data);
-        print("请求 轮播图 完毕");
-        if (startUpBasicInfoEntity == null) {
-          startUpBasicInfoEntity = StartUpBasicInfoEntity();
-        }
-        return startUpBasicInfoEntity;
-      } on DioError catch (e) {
-        print('请求首页数据出错::: $e');
-        showSnackBar('请求数据失败，请尝试切换网络后重试!');
-        return Future.error(e);
-      }
-    } else {
-      showSnackBar('设备未连接到任何网络,请连接网络后重试!');
-      return Future.value(null);
-    }
-  }
-
   /// 请求所有的路线
   _getAllRoute() async {
     Response response;
     var uri = "/Query_AllRouteData/?" + getSignString();
-    // print('$uri');
     response = await dio.get(uri);
     AllRouteDataEntity allRouteDataEntity =
         AllRouteDataEntity.fromJson(response.data);
@@ -176,7 +138,7 @@ class _HomePageState extends State<HomePage>
       var materialSearchResult = MaterialSearchResult<String>(
         index: i,
         value: route.routeName!,
-        // icon: Icons.directions_bus,
+        icon: Icons.directions_bus,
         routeName: route.routeName!,
         routeNameExt: route.routeName!,
         onTap: () {},
@@ -186,35 +148,6 @@ class _HomePageState extends State<HomePage>
     setState(() {
       _allRouteList = materialSearchResultList;
     });
-  }
-
-  /// 重试处理
-  reTry() {
-    setState(() {
-      _startUpBasicInfoFuture = _getStartUpBasicInfoFuture();
-      if (_showNewsList == null) {
-        Future.microtask(() => context.read<NewsModel>().refreshNewsList());
-      }
-      // getAllRoute();
-    });
-  }
-
-  /// 出现错误展示的控件
-  Widget reTryWidget() {
-    return Center(
-      child: ElevatedButton(
-        child: AutoSizeText(
-          AppLocalizations.of(context)!.requestDataFailure,
-          maxLines: 2,
-        ),
-        onPressed: reTry,
-      ),
-    );
-  }
-
-  /// 等待状态展示等待动画
-  Widget waitingWidget() {
-    return Text('Awaiting result...');
   }
 
   /// 轮播图 + 资讯
@@ -238,7 +171,6 @@ class _HomePageState extends State<HomePage>
   /// 资讯信息
   Widget infoShowWidget() {
     var currentLocale = Intl.getCurrentLocale();
-    // print('current locale: $currentLocale');
     return Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -270,9 +202,9 @@ class _HomePageState extends State<HomePage>
                           style: TextStyle(
                             color: Colors.white,
                           ),
-                          maxLines: 1,
+                          maxLines: 2,
                         ),
-                        quarterTurns: 3,
+                        quarterTurns: 4,
                       ),
                 padding: EdgeInsets.all(
                   12,
@@ -282,7 +214,7 @@ class _HomePageState extends State<HomePage>
           ),
           Expanded(
             child: Padding(
-              padding: EdgeInsets.only(right: 31),
+              padding: EdgeInsets.only(right: 25),
               child: CarouselSlider(
                 options: CarouselOptions(
                   autoPlay: true,
@@ -300,7 +232,7 @@ class _HomePageState extends State<HomePage>
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                      fontSize: 44,
+                                      fontSize: 20,
                                     ),
                                   )
                                 : Text(AppLocalizations.of(context)!.noNews),
@@ -347,7 +279,7 @@ class _HomePageState extends State<HomePage>
               options: CarouselOptions(
                 autoPlay: true,
               ),
-              items: _startUpBasicInfoEntity.SlideShow!.map((i) {
+              items: List.empty().map((i) {
                 return Builder(
                   builder: (BuildContext context) {
                     return ClipRRect(
@@ -378,61 +310,57 @@ class _HomePageState extends State<HomePage>
     /// 菜单项
     List<MenuEntity> menuEntityList = setMenuEntityList();
     return SliverPadding(
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.all(20),
       sliver: SliverGrid(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
-          mainAxisSpacing: 30,
-          crossAxisSpacing: 30,
+          mainAxisSpacing: 10,
+          crossAxisSpacing: 10,
           childAspectRatio: 1.0,
         ),
         delegate: SliverChildBuilderDelegate(
           (BuildContext context, int index) {
             return InkWell(
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      width: 180,
-                      height: 180,
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: menuEntityList[index].color,
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.black54,
-                                offset: Offset(
-                                  2,
-                                  2,
-                                ),
-                                blurRadius: 4.0),
-                          ],
-                        ),
-                        child: Center(
-                          child: Icon(
-                            menuEntityList[index].icon,
-                            size: 80,
-                            color: Colors.white,
-                          ),
+              child: Flex(
+                mainAxisAlignment: MainAxisAlignment.center,
+                direction: Axis.vertical,
+                children: <Widget>[
+                  Expanded(
+                    flex: 2,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: menuEntityList[index].color,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black54,
+                              offset: Offset(
+                                2,
+                                2,
+                              ),
+                              blurRadius: 4.0),
+                        ],
+                      ),
+                      child: Center(
+                        child: Icon(
+                          menuEntityList[index].icon,
+                          color: Colors.white,
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        top: 25,
-                      ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Center(
                       child: Text(
                         menuEntityList[index].menuText,
                         style: TextStyle(
-                          fontSize: 40,
+                          fontSize: 18,
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
               onTap: menuEntityList[index].function,
             );
@@ -445,8 +373,6 @@ class _HomePageState extends State<HomePage>
 
   /// 页面内容展示
   Widget contentWidget() {
-    _canShowSlideShow = _startUpBasicInfoEntity.SlideShow!.length > 0;
-    _canShowHeadLine = _showNewsList.showNewsList.length > 0;
     return Container(
       child: CustomScrollView(
         slivers: <Widget>[
@@ -466,31 +392,7 @@ class _HomePageState extends State<HomePage>
       appBar: AppBar(
         title: SearchBar(allRouteList: _allRouteList),
       ),
-      body: FutureBuilder<StartUpBasicInfoEntity>(
-        future: _startUpBasicInfoFuture,
-        builder: (BuildContext context,
-            AsyncSnapshot<StartUpBasicInfoEntity> snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.none:
-              return Text('Press button to start.');
-            case ConnectionState.active:
-            case ConnectionState.waiting:
-              return waitingWidget();
-            case ConnectionState.done:
-              if (snapshot.hasError) {
-                // return Text('Error: ${snapshot.error}');
-                return reTryWidget();
-              }
-              // return Text('Result: ${snapshot.data}');
-              if (snapshot.hasData) {
-                _startUpBasicInfoEntity = snapshot.data!;
-                return contentWidget();
-              }
-          }
-          // return null; // unreachable
-          return reTryWidget();
-        },
-      ),
+      body: contentWidget(),
     );
   }
 }
