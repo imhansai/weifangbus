@@ -29,7 +29,7 @@ dependencies:
   connectivity_plus: ^3.0.3
   dio: ^5.0.0
   crypto: ^3.0.2
-  intl: ^0.17.0
+  intl: any
   cached_network_image: ^3.2.3
   carousel_slider: ^4.2.1
   easy_refresh: ^3.3.0+1

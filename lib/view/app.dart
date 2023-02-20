@@ -85,32 +85,22 @@ class _WeiFangBusApp extends State<WeiFangBusApp> {
           _changeAppearance(appearance);
           var locale = context.watch<LocaleProvider>().locale;
           _changeLocale(locale);
-          return _appearance == Appearance.auto
-              ? MaterialApp(
-                  onGenerateTitle: (context) {
-                    return AppLocalizations.of(context)!.appName;
-                  },
-                  theme: ThemeData(),
-                  darkTheme: ThemeData.dark(),
-                  home: Home(),
-                  localizationsDelegates:
-                      AppLocalizations.localizationsDelegates,
-                  supportedLocales: AppLocalizations.supportedLocales,
-                  locale: _locale,
-                )
-              : MaterialApp(
-                  onGenerateTitle: (context) {
-                    return AppLocalizations.of(context)!.appName;
-                  },
-                  theme: _appearance == Appearance.dark
-                      ? ThemeData.dark()
-                      : ThemeData(),
-                  home: Home(),
-                  localizationsDelegates:
-                      AppLocalizations.localizationsDelegates,
-                  supportedLocales: AppLocalizations.supportedLocales,
-                  locale: _locale,
-                );
+          return MaterialApp(
+            onGenerateTitle: (context) {
+              return AppLocalizations.of(context)!.appName;
+            },
+            themeMode: _appearance == Appearance.auto
+                ? ThemeMode.system
+                : _appearance == Appearance.light
+                    ? ThemeMode.light
+                    : ThemeMode.dark,
+            theme: ThemeData(),
+            darkTheme: ThemeData.dark(),
+            home: Home(),
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            locale: _locale,
+          );
         },
       ),
     );
