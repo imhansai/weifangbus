@@ -25,8 +25,7 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>
-    with AutomaticKeepAliveClientMixin {
+class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   /// 所有线路
   List<MaterialSearchResult<String>> _allRouteList = List.empty(growable: true);
 
@@ -76,8 +75,7 @@ class _HomePageState extends State<HomePage>
                   placeholder: AppLocalizations.of(context)!.searchLine,
                   results: _allRouteList,
                   filter: (dynamic value, String criteria) {
-                    return value.toLowerCase().trim().contains(
-                        RegExp(r'' + criteria.toLowerCase().trim() + ''));
+                    return value.toLowerCase().trim().contains(RegExp(r'' + criteria.toLowerCase().trim() + ''));
                   },
                 ),
               );
@@ -127,12 +125,10 @@ class _HomePageState extends State<HomePage>
     Response response;
     var uri = "/Query_AllRouteData/?" + getSignString();
     response = await dio.get(uri);
-    AllRouteDataEntity allRouteDataEntity =
-        AllRouteDataEntity.fromJson(response.data);
+    AllRouteDataEntity allRouteDataEntity = AllRouteDataEntity.fromJson(response.data);
     print("请求 线路信息 完毕");
     var routeList = allRouteDataEntity.routeList;
-    List<MaterialSearchResult<String>> materialSearchResultList =
-        List.empty(growable: true);
+    List<MaterialSearchResult<String>> materialSearchResultList = List.empty(growable: true);
     for (var i = 0; i < routeList!.length; ++i) {
       var route = routeList[i];
       var materialSearchResult = MaterialSearchResult<String>(
@@ -287,8 +283,7 @@ class _HomePageState extends State<HomePage>
                         Radius.circular(10),
                       ),
                       child: CachedNetworkImage(
-                        placeholder: (context, url) =>
-                            CircularProgressIndicator(),
+                        placeholder: (context, url) => CircularProgressIndicator(),
                         imageUrl: i.bannerurl,
                         fadeInCurve: Curves.easeIn,
                         fadeInDuration: Duration(seconds: 1),

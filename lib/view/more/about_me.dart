@@ -30,7 +30,7 @@ class _AboutMeState extends State<AboutMe> {
                 ),
               ),
               title: Text(
-                "hanandjun",
+                "imhansai",
                 style: TextStyle(
                   fontSize: 50,
                 ),
@@ -148,13 +148,13 @@ class _AboutMeState extends State<AboutMe> {
                                   ),
                                 ),
                                 subtitle: Text(
-                                  'https://github.com/hanandjun',
+                                  'https://github.com/imhansai',
                                   style: TextStyle(
                                     color: Colors.white,
                                   ),
                                 ),
                                 onTap: () {
-                                  launch("https://github.com/hanandjun");
+                                  launch("https://github.com/imhansai");
                                 },
                               )
                             ],

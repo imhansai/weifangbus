@@ -28,7 +28,7 @@ class _AboutDialog extends StatelessWidget {
     final bodyTextStyle = textTheme.bodyText1;
 
     final name = AppLocalizations.of(context)!.softWare;
-    final legalese = '© 2019 hanandjun';
+    final legalese = '© 2019 imhansai';
     final seeSourceFirst = AppLocalizations.of(context)!.seeSource;
     final repoText = 'weifangbus GitHub ' + AppLocalizations.of(context)!.repo;
     final seeSourceSecond = '。';
@@ -72,7 +72,7 @@ class _AboutDialog extends StatelessWidget {
                     text: repoText,
                     recognizer: TapGestureRecognizer()
                       ..onTap = () async {
-                        final url = 'https://github.com/hanandjun/weifangbus';
+                        final url = 'https://github.com/imhansai/weifangbus';
                         if (await canLaunch(url)) {
                           await launch(
                             url,
