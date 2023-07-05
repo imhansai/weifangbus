@@ -63,41 +63,41 @@ class _InformationDetail extends State<InformationDetail> {
                   40,
                   10,
                   40,
-                  200,
+                  100,
                 ),
                 child: Column(
                   children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.all(70),
-                      child: Column(
-                        children: <Widget>[
-                          Text(
-                            widget.headLine.Title!,
+                    Column(
+                      children: <Widget>[
+                        Text(
+                          widget.headLine.Title!,
+                          style: TextStyle(
+                            fontSize: 25,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            vertical: 15.0,
+                          ),
+                          child: Text(
+                            AppLocalizations.of(context)!.releaseTime +
+                                DateFormat(AppLocalizations.of(context)!
+                                        .newsDetailDate)
+                                    .format(DateTime.parse(
+                                        widget.headLine.RealeaseTime!))
+                                    .toString(),
                             style: TextStyle(
-                              fontSize: 53,
+                              color: Colors.grey,
+                              fontSize: 13,
                             ),
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                              top: 31,
-                            ),
-                            child: Text(
-                              AppLocalizations.of(context)!.releaseTime +
-                                  DateFormat(AppLocalizations.of(context)!
-                                          .newsDetailDate)
-                                      .format(DateTime.parse(
-                                          widget.headLine.RealeaseTime!))
-                                      .toString(),
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 38,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                     HtmlWidget(
+                      textStyle: TextStyle(
+                        fontSize: 18,
+                      ),
                       widget.headLine.Summary!,
                     ),
                   ],

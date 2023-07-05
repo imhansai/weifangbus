@@ -34,12 +34,6 @@ class _HomePageState extends State<HomePage>
   /// 资讯信息列表(状态变更用)
   late NewsModel _showNewsList;
 
-  /// 是否展示轮播图
-  var _canShowSlideShow = true;
-
-  /// 是否展示资讯信息
-  var _canShowHeadLine = true;
-
   @override
   void initState() {
     super.initState();
@@ -156,10 +150,10 @@ class _HomePageState extends State<HomePage>
     return SliverList(
       delegate: SliverChildListDelegate(
         [
-          // Container(
-          //   height: 435,
-          //   child: slideShowWidget(),
-          // ),
+          Container(
+            height: 200,
+            child: slideShowWidget(),
+          ),
           Container(
             height: 60,
             child: infoShowWidget(),
@@ -176,9 +170,7 @@ class _HomePageState extends State<HomePage>
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: 25.0
-          ),
+          padding: EdgeInsets.symmetric(horizontal: 25.0),
           child: DecoratedBox(
             decoration: BoxDecoration(
               border: Border.all(color: Colors.deepOrangeAccent),
@@ -258,38 +250,32 @@ class _HomePageState extends State<HomePage>
   /// 轮播图
   Widget slideShowWidget() {
     return Padding(
-      padding: EdgeInsets.only(
-        top: 30,
-        bottom: 30,
+      padding: EdgeInsets.symmetric(
+        vertical: 30.0,
       ),
-      child: _canShowSlideShow
-          ? CarouselSlider(
-              options: CarouselOptions(
-                autoPlay: true,
-              ),
-              items: List.empty().map((i) {
-                return Builder(
-                  builder: (BuildContext context) {
-                    return ClipRRect(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
-                      ),
-                      child: CachedNetworkImage(
-                        placeholder: (context, url) =>
-                            CircularProgressIndicator(),
-                        imageUrl: i.bannerurl,
-                        fadeInCurve: Curves.easeIn,
-                        fadeInDuration: Duration(seconds: 1),
-                        fit: BoxFit.fill,
-                      ),
-                    );
-                  },
-                );
-              }).toList(),
-            )
-          : Center(
-              child: Text(AppLocalizations.of(context)!.noPictures),
-            ),
+      child: CarouselSlider(
+        options: CarouselOptions(
+          autoPlay: true,
+        ),
+        items: List.empty().map((i) {
+          return Builder(
+            builder: (BuildContext context) {
+              return ClipRRect(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10),
+                ),
+                child: CachedNetworkImage(
+                  placeholder: (context, url) => CircularProgressIndicator(),
+                  imageUrl: i.bannerurl,
+                  fadeInCurve: Curves.easeIn,
+                  fadeInDuration: Duration(seconds: 1),
+                  fit: BoxFit.fill,
+                ),
+              );
+            },
+          );
+        }).toList(),
+      ),
     );
   }
 

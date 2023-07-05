@@ -53,13 +53,13 @@ class _NewsListPageState extends State<NewsListPage> {
                     .toString(),
                 style: TextStyle(
                   color: Colors.orange,
-                  fontSize: 43,
+                  fontSize: 20,
                 ),
               ),
               subtitle: AutoSizeText(
                 e.Title!,
                 style: TextStyle(
-                  fontSize: 40,
+                  fontSize: 15,
                 ),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,

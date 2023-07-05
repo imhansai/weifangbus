@@ -16,7 +16,7 @@ class _AboutMeState extends State<AboutMe> {
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
-            expandedHeight: 600,
+            expandedHeight: 180,
             floating: false,
             pinned: true,
             snap: false,
@@ -25,14 +25,14 @@ class _AboutMeState extends State<AboutMe> {
                 child: ClipOval(
                   child: Image.asset(
                     "assets/images/avatar.jpeg",
-                    width: 260,
+                    width: 80,
                   ),
                 ),
               ),
               title: Text(
                 "imhansai",
                 style: TextStyle(
-                  fontSize: 50,
+                  fontSize: 25,
                 ),
               ),
               centerTitle: true,
