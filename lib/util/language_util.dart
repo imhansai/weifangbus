@@ -51,26 +51,24 @@ class LanguageUtil {
       BuildContext context, LanguagePreference languagePreference) {
     var str = languageString(context, languagePreference);
     print('语言切换至: $str');
+    var locale;
     switch (languagePreference) {
       case LanguagePreference.auto:
-        context.read<LocaleProvider>().setLocale(null);
+        locale = null;
         break;
       case LanguagePreference.en:
-        context
-            .read<LocaleProvider>()
-            .setLocale(Locale.fromSubtags(languageCode: 'en'));
+        locale = Locale.fromSubtags(languageCode: 'en');
         break;
       case LanguagePreference.zh:
-        context
-            .read<LocaleProvider>()
-            .setLocale(Locale.fromSubtags(languageCode: 'zh'));
+        locale = Locale.fromSubtags(languageCode: 'zh');
         break;
       case LanguagePreference.ja:
-        context
-            .read<LocaleProvider>()
-            .setLocale(Locale.fromSubtags(languageCode: 'ja'));
+        locale = Locale.fromSubtags(languageCode: 'ja');
         break;
     }
+    context
+        .read<LocaleProvider>()
+        .setLocale(locale);
   }
 
   /// 根据 [LanguagePreference] 获取 [Locale]
@@ -78,16 +76,12 @@ class LanguageUtil {
     switch (languagePreference) {
       case LanguagePreference.auto:
         return null;
-        break;
       case LanguagePreference.en:
         return Locale.fromSubtags(languageCode: 'en');
-        break;
       case LanguagePreference.zh:
         return Locale.fromSubtags(languageCode: 'zh');
-        break;
       case LanguagePreference.ja:
         return Locale.fromSubtags(languageCode: 'ja');
-        break;
       default:
         return null;
     }

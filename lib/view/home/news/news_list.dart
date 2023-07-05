@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_refresh/easy_refresh.dart';
+import 'package:easy_refresh_bubbles/easy_refresh_bubbles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
@@ -21,6 +22,8 @@ class _NewsListPageState extends State<NewsListPage> {
   @override
   void initState() {
     super.initState();
+    // 获取资讯信息
+
   }
 
   // 展示 SnackBar
@@ -82,13 +85,13 @@ class _NewsListPageState extends State<NewsListPage> {
         title: Text(AppLocalizations.of(context)!.news),
       ),
       body: EasyRefresh(
-        header: PhoenixHeader(),
-        footer: PhoenixFooter(),
+        header: BubblesHeader(),
+        footer: BubblesFooter(),
         onRefresh: () async {
           var connectivityResult = await (Connectivity().checkConnectivity());
           if (connectivityResult != ConnectivityResult.none) {
             try {
-              context.read<NewsModel>().refreshNewsList();
+              await context.read<NewsModel>().refreshNewsList();
               showSnackBar(AppLocalizations.of(context)!.refreshSuccess);
             } catch (e) {
               print('刷新资讯信息出错::: $e');
@@ -99,13 +102,8 @@ class _NewsListPageState extends State<NewsListPage> {
                 AppLocalizations.of(context)!.notConnectedToAnyNetwork);
           }
         },
-        child: SliverList(
-          delegate: SliverChildListDelegate(
-            ListTile.divideTiles(
-              tiles: tiles,
-              context: context,
-            ).toList(),
-          ),
+        child: ListView(
+          children: tiles,
         ),
       ),
     );

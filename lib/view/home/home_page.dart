@@ -15,7 +15,6 @@ import 'package:weifangbus/util/request_params_util.dart';
 import 'package:weifangbus/view/home/guide/guide.dart';
 import 'package:weifangbus/view/home/news/news_detail.dart';
 import 'package:weifangbus/view/home/news/news_list.dart';
-import 'package:weifangbus/view/home/searchbar/search_bar.dart';
 import 'package:weifangbus/view/home/searchbar/search_input.dart';
 import 'package:weifangbus/view/store/news_model.dart';
 
@@ -25,7 +24,10 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
+class _HomePageState extends State<HomePage>
+    with AutomaticKeepAliveClientMixin {
+  // final SearchController controller = SearchController();
+
   /// 所有线路
   List<MaterialSearchResult<String>> _allRouteList = List.empty(growable: true);
 
@@ -75,7 +77,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                   placeholder: AppLocalizations.of(context)!.searchLine,
                   results: _allRouteList,
                   filter: (dynamic value, String criteria) {
-                    return value.toLowerCase().trim().contains(RegExp(r'' + criteria.toLowerCase().trim() + ''));
+                    return value.toLowerCase().trim().contains(
+                        RegExp(r'' + criteria.toLowerCase().trim() + ''));
                   },
                 ),
               );
@@ -125,10 +128,12 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
     Response response;
     var uri = "/Query_AllRouteData/?" + getSignString();
     response = await dio.get(uri);
-    AllRouteDataEntity allRouteDataEntity = AllRouteDataEntity.fromJson(response.data);
+    AllRouteDataEntity allRouteDataEntity =
+        AllRouteDataEntity.fromJson(response.data);
     print("请求 线路信息 完毕");
     var routeList = allRouteDataEntity.routeList;
-    List<MaterialSearchResult<String>> materialSearchResultList = List.empty(growable: true);
+    List<MaterialSearchResult<String>> materialSearchResultList =
+        List.empty(growable: true);
     for (var i = 0; i < routeList!.length; ++i) {
       var route = routeList[i];
       var materialSearchResult = MaterialSearchResult<String>(
@@ -151,12 +156,12 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
     return SliverList(
       delegate: SliverChildListDelegate(
         [
+          // Container(
+          //   height: 435,
+          //   child: slideShowWidget(),
+          // ),
           Container(
-            height: 435, // 435 + 174
-            child: slideShowWidget(),
-          ),
-          Container(
-            height: 174, // 435 + 174
+            height: 60,
             child: infoShowWidget(),
           ),
         ],
@@ -166,100 +171,87 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
 
   /// 资讯信息
   Widget infoShowWidget() {
-    var currentLocale = Intl.getCurrentLocale();
-    return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(
-              left: 25,
-              right: 25,
-            ),
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.deepOrangeAccent),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5),
-                ),
-                color: Colors.deepOrangeAccent,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: 25.0
+          ),
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.deepOrangeAccent),
+              borderRadius: BorderRadius.all(
+                Radius.circular(5),
               ),
-              child: Padding(
-                child: currentLocale == 'zh'
-                    ? AutoSizeText(
-                        AppLocalizations.of(context)!.homeNews,
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      )
-                    : RotatedBox(
-                        child: AutoSizeText(
-                          AppLocalizations.of(context)!.homeNews,
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                          maxLines: 2,
-                        ),
-                        quarterTurns: 4,
-                      ),
-                padding: EdgeInsets.all(
-                  12,
+              color: Colors.deepOrangeAccent,
+            ),
+            child: Padding(
+              child: AutoSizeText(
+                AppLocalizations.of(context)!.homeNews,
+                style: TextStyle(
+                  color: Colors.white,
                 ),
+              ),
+              padding: EdgeInsets.symmetric(
+                horizontal: 12.0,
+                vertical: 6.0,
               ),
             ),
           ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(right: 25),
-              child: CarouselSlider(
-                options: CarouselOptions(
-                  autoPlay: true,
-                ),
-                items: _showNewsList.showNewsList.map((i) {
-                  return Builder(builder: (context) {
-                    return GestureDetector(
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(right: 25.0),
+            child: CarouselSlider(
+              options: CarouselOptions(
+                autoPlay: true,
+                viewportFraction: 1.0,
+              ),
+              items: _showNewsList.showNewsList.map((i) {
+                return Builder(builder: (context) {
+                  return GestureDetector(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
                           Expanded(
-                            child: _canShowHeadLine
-                                ? Text(
-                                    i.Title!,
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                    ),
-                                  )
-                                : Text(AppLocalizations.of(context)!.noNews),
+                            child: Text(
+                              i.Title!,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ],
                       ),
-                      onTap: () {
-                        // 进入资讯详情
-                        if (_showNewsList.showNewsList.length > 0) {
-                          final NewInfoSummaryEntity headLine = i;
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (BuildContext context) {
-                                return InformationDetail(
-                                  headLine: headLine,
-                                );
-                              },
-                            ),
-                          );
-                        } else {
-                          print('没有资讯信息，不响应点击事件');
-                        }
-                      },
-                    );
-                  });
-                }).toList(),
-              ),
+                    ),
+                    onTap: () {
+                      // 进入资讯详情
+                      if (_showNewsList.showNewsList.length > 0) {
+                        final NewInfoSummaryEntity headLine = i;
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (BuildContext context) {
+                              return InformationDetail(
+                                headLine: headLine,
+                              );
+                            },
+                          ),
+                        );
+                      } else {
+                        print('没有资讯信息，不响应点击事件');
+                      }
+                    },
+                  );
+                });
+              }).toList(),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -283,7 +275,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                         Radius.circular(10),
                       ),
                       child: CachedNetworkImage(
-                        placeholder: (context, url) => CircularProgressIndicator(),
+                        placeholder: (context, url) =>
+                            CircularProgressIndicator(),
                         imageUrl: i.bannerurl,
                         fadeInCurve: Curves.easeIn,
                         fadeInDuration: Duration(seconds: 1),
@@ -385,7 +378,9 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
     super.build(context);
     return Scaffold(
       appBar: AppBar(
-        title: SearchBar(allRouteList: _allRouteList),
+        title: Text(
+          AppLocalizations.of(context)!.appName,
+        ),
       ),
       body: contentWidget(),
     );

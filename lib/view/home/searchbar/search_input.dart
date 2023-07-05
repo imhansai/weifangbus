@@ -107,7 +107,6 @@ class _MaterialSearchInputState<T> extends State<MaterialSearchInput<T>> {
           hintText: AppLocalizations.of(context)!.searchLine,
           icon: Icon(
             Icons.search,
-            color: Theme.of(context).accentColor,
           ),
           border: InputBorder.none,
           enabled: false,

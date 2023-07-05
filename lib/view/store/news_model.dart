@@ -15,8 +15,6 @@ class NewsModel with ChangeNotifier {
 
   Future refreshNewsList() async {
     _showNewsList = await getNewsList();
-    // 测试状态管理
-    // _showNewsList = List();
     notifyListeners();
   }
 
@@ -31,10 +29,9 @@ class NewsModel with ChangeNotifier {
           .map((dynamic) => NewInfoSummaryEntity.fromJson(dynamic))
           .toList();
       print('请求 资讯信息 完毕');
-      newsList ?? List.empty(growable: true);
       return newsList;
-    } on DioError catch (e) {
-      print(getErrorMsg(e, msg: "请求 资讯信息"));
+    } on DioException catch (e) {
+      print(getErrorMsg(e, msg: "请求资讯信息"));
       return Future.error(e);
     }
   }

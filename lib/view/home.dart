@@ -81,12 +81,12 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   }
 
   /// 最近一次点击时间
-  late DateTime _lastTime;
+  late DateTime? _lastTime;
 
   /// 再点一次退出程序
   Future<bool> _onWillPop() {
     if (_lastTime == null ||
-        DateTime.now().difference(_lastTime) > Duration(milliseconds: 1500)) {
+        DateTime.now().difference(_lastTime!) > Duration(milliseconds: 1500)) {
       print('准备退出');
       _lastTime = DateTime.now();
       ScaffoldMessenger.of(context).showSnackBar(
