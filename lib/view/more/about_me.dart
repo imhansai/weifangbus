@@ -44,8 +44,9 @@ class _AboutMeState extends State<AboutMe> {
                 return Column(
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.all(
-                        28,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 28.0,
+                        vertical: 10.0,
                       ),
                       child: Card(
                           color: Colors.green,
@@ -110,7 +111,10 @@ class _AboutMeState extends State<AboutMe> {
                     ),
                     // 内容
                     Padding(
-                      padding: EdgeInsets.all(28),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 28.0,
+                        vertical: 10.0,
+                      ),
                       child: Card(
                           color: Colors.blue,
                           child: Column(
@@ -161,7 +165,10 @@ class _AboutMeState extends State<AboutMe> {
                           )),
                     ),
                     Padding(
-                      padding: EdgeInsets.all(28),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 28.0,
+                        vertical: 10.0,
+                      ),
                       child: Card(
                         color: Colors.teal,
                         child: Column(
