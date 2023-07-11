@@ -18,7 +18,7 @@
   "newsDate": "yyyy-MM-dd",
   "newsDetail": "News Detail",
   "releaseTime": "Release Time: ",
-  "newsDetailDate": "yyyy-MM-dd HH:mm:ss",
+  "newsDetailDate": "yyyy-MM-dd",
   "backToTop": "Back to top",
   "reversing": "Reversing",
   "reversingComplete": "Reversing Complete",
