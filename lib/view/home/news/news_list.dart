@@ -49,7 +49,7 @@ class _NewsListPageState extends State<NewsListPage> {
               trailing: Icon(Icons.keyboard_arrow_right),
               title: Text(
                 DateFormat(AppLocalizations.of(context)!.newsDate)
-                    .format(DateTime.parse(e.RealeaseTime!))
+                    .format(DateTime.parse(e.releaseTime!))
                     .toString(),
                 style: TextStyle(
                   color: Colors.orange,
@@ -57,7 +57,7 @@ class _NewsListPageState extends State<NewsListPage> {
                 ),
               ),
               subtitle: AutoSizeText(
-                e.Title!,
+                e.title!,
                 style: TextStyle(
                   fontSize: 15,
                 ),

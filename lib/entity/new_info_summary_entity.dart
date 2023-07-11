@@ -4,38 +4,53 @@ part 'new_info_summary_entity.g.dart';
 
 @JsonSerializable()
 class NewInfoSummaryEntity {
-  final String? ID;
-  final String? Title;
-  final String? Summary;
-  final String? RealeaseTime;
-  final String? UseFor;
-  final List<dynamic>? ImageList;
-  final dynamic RouteID;
-  final dynamic StationID;
-  final dynamic RouteName;
-  final dynamic StationName;
-  final String? StickIndex;
-  final String? HomePage;
-  final dynamic SubHeading;
-  final dynamic TitlePicUrl;
-  final String? NavigationUrl;
+  @JsonKey(name: 'ID')
+  final String? id;
+  @JsonKey(name: 'Title')
+  final String? title;
+  @JsonKey(name: 'Summary')
+  final String? summary;
+  @JsonKey(name: 'RealeaseTime')
+  final String? releaseTime;
+  @JsonKey(name: 'UseFor')
+  final String? useFor;
+  @JsonKey(name: 'ImageList')
+  final List<dynamic>? imageList;
+  @JsonKey(name: 'RouteID')
+  final dynamic routeID;
+  @JsonKey(name: 'StationID')
+  final dynamic stationID;
+  @JsonKey(name: 'RouteName')
+  final dynamic routeName;
+  @JsonKey(name: 'StationName')
+  final dynamic stationName;
+  @JsonKey(name: 'StickIndex')
+  final String? stickIndex;
+  @JsonKey(name: 'HomePage')
+  final String? homePage;
+  @JsonKey(name: 'SubHeading')
+  final dynamic subHeading;
+  @JsonKey(name: 'TitlePicUrl')
+  final dynamic titlePicUrl;
+  @JsonKey(name: 'NavigationUrl')
+  final String? navigationUrl;
 
   const NewInfoSummaryEntity({
-    this.ID,
-    this.Title,
-    this.Summary,
-    this.RealeaseTime,
-    this.UseFor,
-    this.ImageList,
-    this.RouteID,
-    this.StationID,
-    this.RouteName,
-    this.StationName,
-    this.StickIndex,
-    this.HomePage,
-    this.SubHeading,
-    this.TitlePicUrl,
-    this.NavigationUrl,
+    this.id,
+    this.title,
+    this.summary,
+    this.releaseTime,
+    this.useFor,
+    this.imageList,
+    this.routeID,
+    this.stationID,
+    this.routeName,
+    this.stationName,
+    this.stickIndex,
+    this.homePage,
+    this.subHeading,
+    this.titlePicUrl,
+    this.navigationUrl,
   });
 
   factory NewInfoSummaryEntity.fromJson(Map<String, dynamic> json) =>

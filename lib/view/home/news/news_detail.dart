@@ -70,7 +70,7 @@ class _InformationDetail extends State<InformationDetail> {
                     Column(
                       children: <Widget>[
                         Text(
-                          widget.headLine.Title!,
+                          widget.headLine.title!,
                           style: TextStyle(
                             fontSize: 25,
                           ),
@@ -84,7 +84,7 @@ class _InformationDetail extends State<InformationDetail> {
                                 DateFormat(AppLocalizations.of(context)!
                                         .newsDetailDate)
                                     .format(DateTime.parse(
-                                        widget.headLine.RealeaseTime!))
+                                        widget.headLine.releaseTime!))
                                     .toString(),
                             style: TextStyle(
                               color: Colors.grey,
@@ -98,7 +98,7 @@ class _InformationDetail extends State<InformationDetail> {
                       textStyle: TextStyle(
                         fontSize: 18,
                       ),
-                      widget.headLine.Summary!,
+                      widget.headLine.summary!,
                     ),
                   ],
                 ),

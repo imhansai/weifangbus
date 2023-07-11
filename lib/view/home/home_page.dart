@@ -212,7 +212,7 @@ class _HomePageState extends State<HomePage>
                         children: [
                           Expanded(
                             child: Text(
-                              i.Title!,
+                              i.title!,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),
