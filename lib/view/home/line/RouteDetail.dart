@@ -194,56 +194,20 @@ class _RouteDetailState extends State<RouteDetail>
       // print('${element.stationID}');
       if (element.stationID == stationID) {
         // print('找到 ${element.stationID}');
-        widget = Container(
-          child: Flex(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            direction: Axis.horizontal,
-            children: [
-              Expanded(
-                child: element.leaveOrStop != 0
-                    ? Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.bus_alert,
-                            color: Colors.green,
-                          ),
-                          AutoSizeText(
-                            AppLocalizations.of(context)!
-                                .arriveAtStation('${element.arriveStaInfo}'),
-                            style: TextStyle(
-                              fontSize: 10,
-                            ),
-                          ),
-                        ],
-                      )
-                    : Container(),
+        widget = Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.bus_alert,
+
+            ),
+            AutoSizeText(
+              '${element.busName}',
+              style: TextStyle(
+                fontSize: 10,
               ),
-              Expanded(
-                child: element.leaveOrStop != 0
-                    ? Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.bus_alert,
-                            color: Colors.red,
-                          ),
-                          AutoSizeText(
-                            AppLocalizations.of(context)!
-                                .awayFromTheStation('${element.nextStaInfo}'),
-                            style: TextStyle(
-                              fontSize: 10,
-                            ),
-                          ),
-                        ],
-                      )
-                    : Container(),
-              ),
-            ],
-          ),
+            ),
+          ],
         );
       }
     });

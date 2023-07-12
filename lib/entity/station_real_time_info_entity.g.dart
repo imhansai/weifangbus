@@ -70,7 +70,7 @@ RealtimeInfoList _$RealtimeInfoListFromJson(Map<String, dynamic> json) =>
       subRouteID: json['SubRouteID'] as int?,
       leaveOrStop: json['LeaveOrStop'] as int?,
       departureState: json['DepartureState'] as String?,
-      sortTime: json['SortTime'] as int?,
+      sortTime: (json['SortTime'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$RealtimeInfoListToJson(RealtimeInfoList instance) =>

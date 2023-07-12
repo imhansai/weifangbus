@@ -98,7 +98,7 @@ class RealtimeInfoList {
   @JsonKey(name: 'DepartureState')
   final String? departureState;
   @JsonKey(name: 'SortTime')
-  final int? sortTime;
+  final double? sortTime;
 
   const RealtimeInfoList({
     this.busID,
