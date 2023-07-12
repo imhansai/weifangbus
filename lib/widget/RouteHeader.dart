@@ -54,10 +54,11 @@ class _RouteHeaderState extends State<RouteHeader> {
             crossAxisAlignment: CrossAxisAlignment.start,
             direction: Axis.vertical,
             children: [
+              // 始发站 -> 终点站
               AutoSizeText(
                 '${widget.firstStationName} ➡️ ${widget.lastStationName}',
                 style: TextStyle(
-                  fontSize: 25.0,
+                  fontSize: 20.0,
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -69,17 +70,16 @@ class _RouteHeaderState extends State<RouteHeader> {
                   children: [
                     // 首末班
                     Expanded(
-                      child: AutoSizeText(
+                      child: Text(
                         widget.firstAndLastBus ?? '',
                       ),
                     ),
                     // 票价
                     Expanded(
                       child: AutoSizeText(
-                        '票价',
-                        // widget.routePrice.contains('票价')
-                        //     ? widget.routePrice
-                        //     : '票价: ${widget.routePrice} 元',
+                        widget.routePrice!.contains('票价')
+                            ? widget.routePrice!
+                            : '票价: ${widget.routePrice!} 元',
                       ),
                     )
                   ],
@@ -92,27 +92,22 @@ class _RouteHeaderState extends State<RouteHeader> {
       // 换向
       widget.transDirection ?? false
           ? Padding(
-              padding: EdgeInsets.all(
-                20.0,
+              padding: EdgeInsets.symmetric(
+                horizontal:  20.0,
               ),
-              // 正方形 200 - 20 - 20
               child: InkWell(
-                child: Container(
-                  width: 160.0,
-                  height: 160.0,
-                  child: Flex(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    direction: Axis.vertical,
-                    children: [
-                      Icon(
-                        Icons.swap_vert_sharp,
-                      ),
-                      AutoSizeText(
-                        AppLocalizations.of(context)!.reversing,
-                        maxLines: 1,
-                      ),
-                    ],
-                  ),
+                child: Flex(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  direction: Axis.vertical,
+                  children: [
+                    Icon(
+                      Icons.swap_vert_sharp,
+                    ),
+                    AutoSizeText(
+                      AppLocalizations.of(context)!.reversing,
+                      maxLines: 1,
+                    ),
+                  ],
                 ),
                 onTap: widget.transDirectionFun,
               ),
@@ -120,8 +115,7 @@ class _RouteHeaderState extends State<RouteHeader> {
           : SizedBox(),
     ];
     return Container(
-      // color: Colors.grey[200],
-      height: 200.0,
+      height: 130.0,
       child: Flex(
         direction: Axis.horizontal,
         children: widgets,
