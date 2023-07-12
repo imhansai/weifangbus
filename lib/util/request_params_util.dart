@@ -10,7 +10,10 @@ import 'package:weifangbus/util/dio_util.dart';
 Future main() async {
   try {
     Response response;
-    var uri = '/QueryBannerInfo?UseFor=4&${getSignString()}';
+    var routeId = encryptedString("17");
+    var segmentid = encryptedString("35505665");
+    var stationID = encryptedString("55160715165306818201");
+    var uri = '/QueryDetail_ByRouteID?RouteID=$routeId&Segmentid=$segmentid&${getSignString()}';
     // [{"bannerid":"30200402152455397000","name":"掌上公交2.0启动图","title":null,"bannerurl":"http://122.4.254.30:3010/InfoIsland/App/banner管理_200619163050_11200619163050069301.png","linkurl":null,"bannerusefor":"4"}]
     print(uri);
     response = await dio.get(uri);
@@ -56,4 +59,20 @@ getSignString() {
   var random = getRandom();
   var packageName = getPackageName();
   return "PackageName=$packageName&timeStamp=$timeStamp&Random=$random&SignKey=${getSignKey(timeStamp, random)}";
+}
+
+encryptedString(String param) {
+  DateTime now = DateTime.now();
+  int i = now.weekday;
+  int i2 = now.day;
+  int i3 = i2 - i;
+  if (i3 <= 10) {
+    i3 += 7;
+  }
+  String encryptedString = '';
+  for (int j = 0; j < param.length; j++) {
+    int charCode = param.codeUnitAt(j);
+    encryptedString += String.fromCharCode(charCode + i3);
+  }
+  return encryptedString;
 }

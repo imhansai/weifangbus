@@ -4,7 +4,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:weifangbus/entity/all_route_data_entity.dart';
 import 'package:weifangbus/entity/menu_entity.dart';
@@ -13,6 +12,7 @@ import 'package:weifangbus/util/dio_util.dart';
 import 'package:weifangbus/util/font_util.dart';
 import 'package:weifangbus/util/request_params_util.dart';
 import 'package:weifangbus/view/home/guide/guide.dart';
+import 'package:weifangbus/view/home/line/RouteDetail.dart';
 import 'package:weifangbus/view/home/news/news_detail.dart';
 import 'package:weifangbus/view/home/news/news_list.dart';
 import 'package:weifangbus/view/home/searchbar/search_input.dart';
@@ -136,7 +136,18 @@ class _HomePageState extends State<HomePage>
         icon: Icons.directions_bus,
         routeName: route.routeName!,
         routeNameExt: route.routeName!,
-        onTap: () {},
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (BuildContext context) {
+                return RouteDetail(
+                  title: route.routeName,
+                  routeId: route.routeID,
+                );
+              },
+            ),
+          );
+        },
       );
       materialSearchResultList.add(materialSearchResult);
     }
