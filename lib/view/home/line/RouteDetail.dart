@@ -199,7 +199,7 @@ class _RouteDetailState extends State<RouteDetail>
           children: [
             Icon(
               Icons.bus_alert,
-
+              color: Colors.blueAccent,
             ),
             AutoSizeText(
               '${element.busName}',
