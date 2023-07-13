@@ -107,7 +107,7 @@ class _RouteDetailState extends State<RouteDetail>
 
   /// 定时刷新车辆实时信息
   void _refreshRouteRealTimeInfo(String segmentID) {
-    _timer = Timer.periodic(Duration(seconds: 30), (timer) {
+    _timer = Timer.periodic(Duration(seconds: 20), (timer) {
       print('定时刷新车辆实时信息 ${DateTime.now()}');
       _immediatelyFlush(segmentID);
       if (_expandIndexList.isNotEmpty) {
