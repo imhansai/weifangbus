@@ -6,12 +6,17 @@ import 'package:weifangbus/util/appearance.dart';
 import 'package:weifangbus/util/language_util.dart';
 import 'package:weifangbus/util/theme_util.dart';
 import 'package:weifangbus/view/home.dart';
+import 'package:weifangbus/view/intro/Intro.dart';
 import 'package:weifangbus/view/store/appearance_provider.dart';
 import 'package:weifangbus/view/store/locale_provider.dart';
 import 'package:weifangbus/view/store/news_model.dart';
 
 /// 设置 Provider
 class WeiFangBusApp extends StatefulWidget {
+  final bool showIntro;
+
+  const WeiFangBusApp({super.key, required this.showIntro});
+
   @override
   State<StatefulWidget> createState() {
     return _WeiFangBusApp();
@@ -96,10 +101,13 @@ class _WeiFangBusApp extends State<WeiFangBusApp> {
                     : ThemeMode.dark,
             theme: ThemeData(),
             darkTheme: ThemeData.dark(),
-            home: Home(),
+            home: widget.showIntro ? IntroPage() : Home(),
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             locale: _locale,
+            routes: {
+              '/home': (context) => Home(),
+            },
           );
         },
       ),
