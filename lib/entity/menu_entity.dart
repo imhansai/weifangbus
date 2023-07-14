@@ -3,16 +3,21 @@ import 'package:flutter/material.dart';
 
 class MenuEntity {
   /// 颜色
-  Color color;
+  final Color color;
 
   /// 图标
-  IconData icon;
+  final IconData icon;
 
   /// 菜单名称
-  String menuText;
+  final String menuText;
 
   /// 功能
-  GestureTapCallback? function;
+  final GestureTapCallback? onTap;
 
-  MenuEntity(this.color, this.icon, this.menuText, this.function);
+  const MenuEntity({
+    required this.color,
+    required this.icon,
+    required this.menuText,
+    this.onTap,
+  });
 }

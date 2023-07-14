@@ -6,6 +6,8 @@ import 'package:weifangbus/util/appearance.dart';
 import 'package:weifangbus/util/language_util.dart';
 import 'package:weifangbus/util/theme_util.dart';
 import 'package:weifangbus/view/home.dart';
+import 'package:weifangbus/view/home/guide/guide.dart';
+import 'package:weifangbus/view/home/news/news_list.dart';
 import 'package:weifangbus/view/intro/Intro.dart';
 import 'package:weifangbus/view/store/appearance_provider.dart';
 import 'package:weifangbus/view/store/locale_provider.dart';
@@ -107,6 +109,8 @@ class _WeiFangBusApp extends State<WeiFangBusApp> {
             locale: _locale,
             routes: {
               '/home': (context) => Home(),
+              '/guide': (context) => Guide(),
+              '/newsList': (context) => NewsListPage(),
             },
           );
         },

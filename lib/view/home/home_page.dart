@@ -11,10 +11,8 @@ import 'package:weifangbus/entity/new_info_summary_entity.dart';
 import 'package:weifangbus/util/dio_util.dart';
 import 'package:weifangbus/util/font_util.dart';
 import 'package:weifangbus/util/request_params_util.dart';
-import 'package:weifangbus/view/home/guide/guide.dart';
 import 'package:weifangbus/view/home/line/RouteDetail.dart';
 import 'package:weifangbus/view/home/news/news_detail.dart';
-import 'package:weifangbus/view/home/news/news_list.dart';
 import 'package:weifangbus/view/home/searchbar/search_input.dart';
 import 'package:weifangbus/view/store/news_model.dart';
 
@@ -24,8 +22,7 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>
-    with AutomaticKeepAliveClientMixin {
+class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   // final SearchController controller = SearchController();
 
   /// 所有线路
@@ -57,10 +54,10 @@ class _HomePageState extends State<HomePage>
   setMenuEntityList() {
     List<MenuEntity> menuEntityList = List.empty(growable: true);
     MenuEntity lineInquiry = MenuEntity(
-      Colors.lightGreen,
-      MyIcons.lineInquiry,
-      AppLocalizations.of(context)!.routeQuery,
-      () {
+      color: Colors.lightGreen,
+      icon: MyIcons.lineInquiry,
+      menuText: AppLocalizations.of(context)!.routeQuery,
+      onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute<String>(
@@ -71,8 +68,7 @@ class _HomePageState extends State<HomePage>
                   placeholder: AppLocalizations.of(context)!.searchLine,
                   results: _allRouteList,
                   filter: (dynamic value, String criteria) {
-                    return value.toLowerCase().trim().contains(
-                        RegExp(r'' + criteria.toLowerCase().trim() + ''));
+                    return value.toLowerCase().trim().contains(RegExp(r'' + criteria.toLowerCase().trim() + ''));
                   },
                 ),
               );
@@ -83,34 +79,20 @@ class _HomePageState extends State<HomePage>
     );
     menuEntityList.add(lineInquiry);
     MenuEntity guide = MenuEntity(
-      Colors.lightBlue,
-      MyIcons.guide,
-      AppLocalizations.of(context)!.guide,
-      () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (BuildContext context) {
-              return Guide();
-            },
-          ),
-        );
+      color: Colors.lightBlue,
+      icon: MyIcons.guide,
+      menuText: AppLocalizations.of(context)!.guide,
+      onTap: () {
+        Navigator.pushNamed(context, '/guide');
       },
     );
     menuEntityList.add(guide);
     MenuEntity news = MenuEntity(
-      Colors.orangeAccent,
-      MyIcons.news,
-      AppLocalizations.of(context)!.news,
-      () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (BuildContext context) {
-              return NewsListPage();
-            },
-          ),
-        );
+      color: Colors.orangeAccent,
+      icon: MyIcons.news,
+      menuText: AppLocalizations.of(context)!.news,
+      onTap: () {
+        Navigator.pushNamed(context, '/newsList');
       },
     );
     menuEntityList.add(news);
@@ -122,12 +104,10 @@ class _HomePageState extends State<HomePage>
     Response response;
     var uri = "/Query_AllRouteData/?" + getSignString();
     response = await dio.get(uri);
-    AllRouteDataEntity allRouteDataEntity =
-        AllRouteDataEntity.fromJson(response.data);
+    AllRouteDataEntity allRouteDataEntity = AllRouteDataEntity.fromJson(response.data);
     print("请求 线路信息 完毕");
     var routeList = allRouteDataEntity.routeList;
-    List<MaterialSearchResult<String>> materialSearchResultList =
-        List.empty(growable: true);
+    List<MaterialSearchResult<String>> materialSearchResultList = List.empty(growable: true);
     for (var i = 0; i < routeList!.length; ++i) {
       var route = routeList[i];
       var materialSearchResult = MaterialSearchResult<String>(
@@ -347,7 +327,7 @@ class _HomePageState extends State<HomePage>
                   ),
                 ],
               ),
-              onTap: menuEntityList[index].function,
+              onTap: menuEntityList[index].onTap,
             );
           },
           childCount: menuEntityList.length,
