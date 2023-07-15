@@ -53,60 +53,64 @@ class _InformationDetail extends State<InformationDetail> {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.newsDetail),
       ),
-      body: Container(
+      body: SingleChildScrollView(
+        padding: EdgeInsets.fromLTRB(
+          40,
+          10,
+          40,
+          100,
+        ),
         child: Column(
           children: <Widget>[
-            // 利用 Expanded 使用剩余全部空间，然后里面使用 SingleChildScrollView 防止溢出
-            Expanded(
-              child: SingleChildScrollView(
-                padding: EdgeInsets.fromLTRB(
-                  40,
-                  10,
-                  40,
-                  100,
+            Column(
+              children: <Widget>[
+                Text(
+                  widget.headLine.title!,
+                  style: TextStyle(
+                    fontSize: 25,
+                  ),
                 ),
-                child: Column(
-                  children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        Text(
-                          widget.headLine.title!,
-                          style: TextStyle(
-                            fontSize: 25,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                            vertical: 15.0,
-                          ),
-                          child: Text(
-                            AppLocalizations.of(context)!.releaseTime +
-                                DateFormat(AppLocalizations.of(context)!
-                                        .newsDetailDate)
-                                    .format(DateTime.parse(
-                                        widget.headLine.releaseTime!))
-                                    .toString(),
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 13,
-                            ),
-                          ),
-                        ),
-                      ],
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 15.0,
+                  ),
+                  child: Text(
+                    AppLocalizations.of(context)!.releaseTime +
+                        DateFormat(AppLocalizations.of(context)!
+                                .newsDetailDate)
+                            .format(DateTime.parse(
+                                widget.headLine.releaseTime!))
+                            .toString(),
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 13,
                     ),
-                    HtmlWidget(
-                      textStyle: TextStyle(
-                        fontSize: 18,
-                      ),
-                      widget.headLine.summary!,
-                    ),
-                  ],
+                  ),
                 ),
-                controller: _controller,
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 13.0),
+              child: HtmlWidget(
+                textStyle: TextStyle(
+                  fontSize: 18,
+                ),
+                widget.headLine.summary!,
+              ),
+            ),
+            Visibility(
+              visible: widget.headLine.imageList!.length > 0,
+              child: Container(
+                child: ListView(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  children: widget.headLine.imageList!.map((imageUrl) => Image.network(imageUrl)).toList(),
+                ),
               ),
             ),
           ],
         ),
+        controller: _controller,
       ),
       floatingActionButton: !showToTopBtn
           ? null
