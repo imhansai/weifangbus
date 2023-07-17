@@ -82,14 +82,12 @@ class _MaterialSearchInputState<T> extends State<MaterialSearchInput<T>> {
       context,
       MaterialPageRoute(
         builder: (BuildContext context) {
-          return Material(
-            child: MaterialSearch<T>(
-              barBackgroundColor: Theme.of(context).primaryColor,
-              placeholder: widget.placeholder,
-              results: widget.results,
-              filter: widget.filter,
-              sort: widget.sort,
-            ),
+          return MaterialSearch<T>(
+            barBackgroundColor: Theme.of(context).primaryColor,
+            placeholder: widget.placeholder,
+            results: widget.results,
+            filter: widget.filter,
+            sort: widget.sort,
           );
         },
       ),
@@ -176,6 +174,7 @@ class _MaterialSearchState<T> extends State<MaterialSearch> {
       return SingleChildScrollView(
         child: ListView(
           shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
           children: ListTile.divideTiles(
             tiles: results,
             context: context,

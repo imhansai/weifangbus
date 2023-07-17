@@ -65,15 +65,13 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
           context,
           MaterialPageRoute<String>(
             builder: (BuildContext context) {
-              return Material(
-                child: MaterialSearch<String>(
-                  barBackgroundColor: Theme.of(context).primaryColor,
-                  placeholder: AppLocalizations.of(context)!.searchLine,
-                  results: _allRouteList,
-                  filter: (dynamic value, String criteria) {
-                    return value.toLowerCase().trim().contains(RegExp(r'' + criteria.toLowerCase().trim() + ''));
-                  },
-                ),
+              return MaterialSearch<String>(
+                barBackgroundColor: Theme.of(context).primaryColor,
+                placeholder: AppLocalizations.of(context)!.searchLine,
+                results: _allRouteList,
+                filter: (dynamic value, String criteria) {
+                  return value.toLowerCase().trim().contains(RegExp(r'' + criteria.toLowerCase().trim() + ''));
+                },
               );
             },
           ),
