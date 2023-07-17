@@ -14,7 +14,7 @@ class MaterialSearchResult<T> extends StatelessWidget {
       this.icon,
       required this.onTap,
       required this.routeName,
-      required this.routeNameExt,
+      this.routeNameExt,
       required this.index})
       : super(key: key);
 
@@ -31,7 +31,7 @@ class MaterialSearchResult<T> extends StatelessWidget {
   final String routeName;
 
   /// 起点-终点
-  final String routeNameExt;
+  final String? routeNameExt;
 
   /// 显示图标(暂时没用上)
   final IconData? icon;
@@ -39,14 +39,11 @@ class MaterialSearchResult<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      // leading: Icon(icon),
+      leading: Icon(icon),
       trailing: Icon(Icons.keyboard_arrow_right),
       onTap: this.onTap,
       title: AutoSizeText(
         routeName,
-      ),
-      subtitle: AutoSizeText(
-        routeNameExt,
       ),
     );
   }
@@ -158,20 +155,8 @@ class _MaterialSearchState<T> extends State<MaterialSearch> {
   // 文本编辑控制器
   TextEditingController _controller = TextEditingController();
 
-  // 如果 widget.results 为空，那么启用该空列表
-  List<MaterialSearchResult<T>> _results = [];
-
   // 用户输入的字符
   String _criteria = '';
-
-  // 如果 widget.filter 为空，那么启用该过滤器
-  _filter(dynamic v, String c) {
-    return v
-        .toString()
-        .toLowerCase()
-        .trim()
-        .contains(RegExp(r'' + c.toLowerCase().trim() + ''));
-  }
 
   @override
   void initState() {
@@ -206,14 +191,8 @@ class _MaterialSearchState<T> extends State<MaterialSearch> {
   @override
   Widget build(BuildContext context) {
     // 被选项
-    var results =
-        (widget.results ?? _results).where((MaterialSearchResult result) {
-      if (widget.filter != null) {
-        return widget.filter(result.value, _criteria);
-      } else if (widget.results != null) {
-        return _filter(result.value, _criteria);
-      }
-      return true;
+    var results = (widget.results).where((MaterialSearchResult result) {
+      return widget.filter(result.value, _criteria);
     }).toList();
 
     // 排序

@@ -118,7 +118,6 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
         value: route.routeName!,
         icon: Icons.directions_bus,
         routeName: route.routeName!,
-        routeNameExt: route.routeName!,
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(

@@ -4,6 +4,7 @@ var dio = new Dio(
   BaseOptions(
     baseUrl: "http://122.4.254.30:7501/BusService",
     connectTimeout: Duration(seconds: 60),
+    sendTimeout: Duration(seconds: 60),
     receiveTimeout: Duration(seconds: 60),
     // responseType: ResponseType.plain,
   ),
