@@ -31,6 +31,11 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
   /// 资讯信息列表(状态变更用)
   late NewsModel _showNewsList;
 
+  List<Image> _banners = [
+    // Image.asset('assets/images/home/ad.png'),
+    Image.asset('assets/images/home/banner.png'),
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -246,22 +251,16 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
       ),
       child: CarouselSlider(
         options: CarouselOptions(
-          autoPlay: true,
+          autoPlay: false,
         ),
-        items: List.empty().map((i) {
+        items: _banners.map((banner) {
           return Builder(
             builder: (BuildContext context) {
               return ClipRRect(
                 borderRadius: BorderRadius.all(
                   Radius.circular(10),
                 ),
-                child: CachedNetworkImage(
-                  placeholder: (context, url) => CircularProgressIndicator(),
-                  imageUrl: i.bannerurl,
-                  fadeInCurve: Curves.easeIn,
-                  fadeInDuration: Duration(seconds: 1),
-                  fit: BoxFit.fill,
-                ),
+                child: banner,
               );
             },
           );
@@ -338,13 +337,11 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
 
   /// 页面内容展示
   Widget contentWidget() {
-    return Container(
-      child: CustomScrollView(
-        slivers: <Widget>[
-          swiperAndInfoWidget(),
-          menuWidget(),
-        ],
-      ),
+    return CustomScrollView(
+      slivers: <Widget>[
+        swiperAndInfoWidget(),
+        menuWidget(),
+      ],
     );
   }
 
