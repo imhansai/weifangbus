@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:weifangbus/entity/new_info_summary_entity.dart';
+import 'package:weifangbus/view/home/news/photo_view.dart';
 
 class InformationDetail extends StatefulWidget {
   final NewInfoSummaryEntity headLine;
@@ -101,10 +102,20 @@ class _InformationDetail extends State<InformationDetail> {
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   children: widget.headLine.imageList!
-                      .map((imageUrl) => CachedNetworkImage(
-                            imageUrl: imageUrl,
-                            placeholder: (context, url) => Center(child: CircularProgressIndicator()),
-                            errorWidget: (context, url, error) => Icon(Icons.error),
+                      .map((imageUrl) => GestureDetector(
+                            child: CachedNetworkImage(
+                              imageUrl: imageUrl,
+                              placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                              errorWidget: (context, url, error) => Icon(Icons.error),
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => PhotoViewPage(imageUrl: imageUrl),
+                                ),
+                              );
+                            },
                           ))
                       .toList(),
                 ),
