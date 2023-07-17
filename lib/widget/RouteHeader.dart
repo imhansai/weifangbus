@@ -46,6 +46,7 @@ class _RouteHeaderState extends State<RouteHeader> {
     var widgets = <Widget>[
       // xxx -> xxx; 首末班、票价
       Expanded(
+        flex: 3,
         child: Padding(
           padding: EdgeInsets.all(
             20.0,
@@ -77,9 +78,7 @@ class _RouteHeaderState extends State<RouteHeader> {
                     // 票价
                     Expanded(
                       child: AutoSizeText(
-                        widget.routePrice!.contains('票价')
-                            ? widget.routePrice!
-                            : '票价: ${widget.routePrice!} 元',
+                        widget.routePrice!.contains('票价') ? widget.routePrice! : '票价: ${widget.routePrice!} 元',
                       ),
                     )
                   ],
@@ -90,29 +89,30 @@ class _RouteHeaderState extends State<RouteHeader> {
         ),
       ),
       // 换向
-      widget.transDirection ?? false
-          ? Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal:  20.0,
-              ),
-              child: InkWell(
-                child: Flex(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  direction: Axis.vertical,
-                  children: [
-                    Icon(
-                      Icons.swap_vert_sharp,
-                    ),
-                    AutoSizeText(
-                      AppLocalizations.of(context)!.reversing,
-                      maxLines: 1,
-                    ),
-                  ],
+      Visibility(
+        visible: widget.transDirection ?? false,
+        child: InkWell(
+          onTap: widget.transDirectionFun,
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: 20.0,
+            ),
+            child: Flex(
+              mainAxisAlignment: MainAxisAlignment.center,
+              direction: Axis.vertical,
+              children: [
+                Icon(
+                  Icons.swap_vert_sharp,
                 ),
-                onTap: widget.transDirectionFun,
-              ),
-            )
-          : SizedBox(),
+                AutoSizeText(
+                  AppLocalizations.of(context)!.reversing,
+                  maxLines: 1,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     ];
     return Container(
       height: 130.0,
