@@ -1,5 +1,4 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +12,7 @@ import 'package:weifangbus/util/font_util.dart';
 import 'package:weifangbus/util/request_params_util.dart';
 import 'package:weifangbus/view/home/line/RouteDetail.dart';
 import 'package:weifangbus/view/home/news/news_detail.dart';
+import 'package:weifangbus/view/home/searchbar/search_bar.dart';
 import 'package:weifangbus/view/home/searchbar/search_input.dart';
 import 'package:weifangbus/view/store/news_model.dart';
 
@@ -23,8 +23,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
-  // final SearchController controller = SearchController();
-
   /// 所有线路
   List<MaterialSearchResult<String>> _allRouteList = List.empty(growable: true);
 
@@ -352,9 +350,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
     super.build(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          AppLocalizations.of(context)!.appName,
-        ),
+        title: LineSearchBar(allRouteList: _allRouteList),
       ),
       body: contentWidget(),
     );
