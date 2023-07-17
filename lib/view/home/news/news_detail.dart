@@ -1,7 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
-import 'package:intl/intl.dart';
 import 'package:weifangbus/entity/new_info_summary_entity.dart';
 
 class InformationDetail extends StatefulWidget {
@@ -49,6 +49,7 @@ class _InformationDetail extends State<InformationDetail> {
 
   @override
   Widget build(BuildContext context) {
+    var releaseTime = AppLocalizations.of(context)!.releaseTime + widget.headLine.releaseTime!;
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.newsDetail),
@@ -75,12 +76,7 @@ class _InformationDetail extends State<InformationDetail> {
                     vertical: 15.0,
                   ),
                   child: Text(
-                    AppLocalizations.of(context)!.releaseTime +
-                        DateFormat(AppLocalizations.of(context)!
-                                .newsDetailDate)
-                            .format(DateTime.parse(
-                                widget.headLine.releaseTime!))
-                            .toString(),
+                    '$releaseTime',
                     style: TextStyle(
                       color: Colors.grey,
                       fontSize: 13,
@@ -104,7 +100,13 @@ class _InformationDetail extends State<InformationDetail> {
                 child: ListView(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  children: widget.headLine.imageList!.map((imageUrl) => Image.network(imageUrl)).toList(),
+                  children: widget.headLine.imageList!
+                      .map((imageUrl) => CachedNetworkImage(
+                            imageUrl: imageUrl,
+                            placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                            errorWidget: (context, url, error) => Icon(Icons.error),
+                          ))
+                      .toList(),
                 ),
               ),
             ),
@@ -112,17 +114,17 @@ class _InformationDetail extends State<InformationDetail> {
         ),
         controller: _controller,
       ),
-      floatingActionButton: !showToTopBtn
-          ? null
-          : FloatingActionButton(
-              child: Icon(Icons.arrow_upward),
-              tooltip: AppLocalizations.of(context)!.backToTop,
-              onPressed: () {
-                // 返回到顶部时执行动画
-                _controller.animateTo(.0,
-                    duration: Duration(milliseconds: 200), curve: Curves.ease);
-              },
-            ),
+      floatingActionButton: Visibility(
+        visible: showToTopBtn,
+        child: FloatingActionButton(
+          child: Icon(Icons.arrow_upward),
+          tooltip: AppLocalizations.of(context)!.backToTop,
+          onPressed: () {
+            // 返回到顶部时执行动画
+            _controller.animateTo(.0, duration: Duration(milliseconds: 200), curve: Curves.ease);
+          },
+        ),
+      ),
     );
   }
 }
