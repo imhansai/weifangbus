@@ -12,7 +12,7 @@ Future main() async {
     Response response;
     var routeId = encryptedString("17");
     var segmentid = encryptedString("35505665");
-    var stationID = encryptedString("55160715165306818201");
+    // var stationID = encryptedString("55160715165306818201");
     var uri = '/QueryDetail_ByRouteID?RouteID=$routeId&Segmentid=$segmentid&${getSignString()}';
     // [{"bannerid":"30200402152455397000","name":"掌上公交2.0启动图","title":null,"bannerurl":"http://122.4.254.30:3010/InfoIsland/App/banner管理_200619163050_11200619163050069301.png","linkurl":null,"bannerusefor":"4"}]
     print(uri);

@@ -28,9 +28,7 @@ class _SettingsState extends State<Settings> {
     var locale = context.watch<LocaleProvider>().locale;
     if (locale != null) {
       var languagePreference = LanguageUtil.getLanguage(locale);
-      if (languagePreference != null) {
-        _languagePreference = languagePreference;
-      }
+      _languagePreference = languagePreference;
     } else {
       if (LocaleProvider.manuallyChangeLanguage) {
         _languagePreference = LanguagePreference.auto;
@@ -63,8 +61,7 @@ class _SettingsState extends State<Settings> {
                   ),
                 );
               },
-              trailing:
-                  Text(AppearanceUtil.appearanceStr(context, _appearance)),
+              trailing: Text(AppearanceUtil.appearanceStr(context, _appearance)),
             ),
             ListTile(
               leading: Icon(
@@ -82,8 +79,7 @@ class _SettingsState extends State<Settings> {
                   ),
                 );
               },
-              trailing: Text(
-                  LanguageUtil.languageString(context, _languagePreference)),
+              trailing: Text(LanguageUtil.languageString(context, _languagePreference)),
             ),
           ],
         ).toList(),

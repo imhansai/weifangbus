@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 /// 关于软件
 void showAboutSoftWareDialog(BuildContext context) {
@@ -25,7 +25,7 @@ class _AboutDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
-    final bodyTextStyle = textTheme.bodyText1;
+    final bodyTextStyle = textTheme.bodyLarge;
 
     final name = AppLocalizations.of(context)!.softWare;
     final legalese = '© 2019-2023 imhansai';
@@ -44,7 +44,7 @@ class _AboutDialog extends StatelessWidget {
               future: getVersionNumber(),
               builder: (context, snapshot) => Text(
                 snapshot.hasData ? '$name ${snapshot.data}' : '$name',
-                style: textTheme.headline5,
+                style: textTheme.headlineSmall,
               ),
             ),
             const SizedBox(height: 24),
@@ -73,11 +73,8 @@ class _AboutDialog extends StatelessWidget {
                     recognizer: TapGestureRecognizer()
                       ..onTap = () async {
                         final url = 'https://github.com/imhansai/weifangbus';
-                        if (await canLaunch(url)) {
-                          await launch(
-                            url,
-                            forceSafariVC: false,
-                          );
+                        if (await canLaunchUrlString(url)) {
+                          await launchUrlString(url);
                         }
                       },
                   ),

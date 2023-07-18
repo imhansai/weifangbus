@@ -40,8 +40,8 @@ class _NewsListPageState extends State<NewsListPage> {
   Widget build(BuildContext context) {
     // 随着资讯信息的变化而变化
     var _showNewsList = context.watch<NewsModel>();
-    // 是否有数据
-    var noData = _showNewsList.showNewsList.isEmpty;
+    // // 是否有数据
+    // var noData = _showNewsList.showNewsList.isEmpty;
 
     var showNewsList = _showNewsList.showNewsList;
     var tiles = showNewsList

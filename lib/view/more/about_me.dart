@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:weifangbus/util/font_util.dart';
 
 /// 关于我
@@ -158,7 +158,7 @@ class _AboutMeState extends State<AboutMe> {
                                   ),
                                 ),
                                 onTap: () {
-                                  launch("https://github.com/imhansai");
+                                  launchUrlString("https://github.com/imhansai");
                                 },
                               )
                             ],
@@ -191,7 +191,7 @@ class _AboutMeState extends State<AboutMe> {
                                 ),
                               ),
                               onTap: () {
-                                launch("tel:15553665833");
+                                launchUrlString("tel:15553665833");
                               },
                             ),
                             ListTile(
@@ -212,7 +212,7 @@ class _AboutMeState extends State<AboutMe> {
                                 ),
                               ),
                               onTap: () {
-                                launch(
+                                launchUrlString(
                                     "mailto:imhansai@foxmail.com?subject=WeiFang-Bus-Feedback");
                               },
                             )
@@ -236,7 +236,7 @@ class _AboutMeState extends State<AboutMe> {
     const url =
         "mqqwpa://im/chat?chat_type=wpa&uin=724149270&version=1&src_type=web&web_src=qietu.cn";
     try {
-      await launch(url);
+      await launchUrlString(url);
     } catch (e) {
       showDialog(
         context: context,
