@@ -16,39 +16,26 @@ class _AboutMeState extends State<AboutMe> {
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
-            expandedHeight: 180,
-            floating: false,
-            pinned: true,
-            snap: false,
+            pinned: true, // 滑动到顶端时会固定住
+            expandedHeight: 250.0,
             flexibleSpace: FlexibleSpaceBar(
-              background: Center(
-                child: ClipOval(
-                  child: Image.asset(
-                    "assets/images/avatar.jpeg",
-                    width: 80,
-                  ),
-                ),
+              background: Image.asset(
+                "assets/images/author.jpg",
+                fit: BoxFit.cover,
               ),
-              title: Text(
-                "imhansai",
-                style: TextStyle(
-                  fontSize: 25,
-                ),
-              ),
-              centerTitle: true,
             ),
           ),
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) {
-                return Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 28.0,
-                        vertical: 10.0,
-                      ),
-                      child: Card(
+                return Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 18.0,
+                    vertical: 18.0,
+                  ),
+                  child: Column(
+                    children: <Widget>[
+                      Card(
                           color: Colors.green,
                           child: Column(
                             children: <Widget>[
@@ -108,14 +95,8 @@ class _AboutMeState extends State<AboutMe> {
                               )
                             ],
                           )),
-                    ),
-                    // 内容
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 28.0,
-                        vertical: 10.0,
-                      ),
-                      child: Card(
+                      // 内容
+                      Card(
                           color: Colors.blue,
                           child: Column(
                             children: <Widget>[
@@ -163,13 +144,7 @@ class _AboutMeState extends State<AboutMe> {
                               )
                             ],
                           )),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 28.0,
-                        vertical: 10.0,
-                      ),
-                      child: Card(
+                      Card(
                         color: Colors.teal,
                         child: Column(
                           children: <Widget>[
@@ -212,15 +187,14 @@ class _AboutMeState extends State<AboutMe> {
                                 ),
                               ),
                               onTap: () {
-                                launchUrlString(
-                                    "mailto:imhansai@foxmail.com?subject=WeiFang-Bus-Feedback");
+                                launchUrlString("mailto:imhansai@foxmail.com?subject=WeiFang-Bus-Feedback");
                               },
                             )
                           ],
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 );
               },
               childCount: 1,
@@ -233,8 +207,7 @@ class _AboutMeState extends State<AboutMe> {
 
   /// 加入QQ群
   _joinQQ(BuildContext context) async {
-    const url =
-        "mqqwpa://im/chat?chat_type=wpa&uin=724149270&version=1&src_type=web&web_src=qietu.cn";
+    const url = "mqqwpa://im/chat?chat_type=wpa&uin=724149270&version=1&src_type=web&web_src=qietu.cn";
     try {
       await launchUrlString(url);
     } catch (e) {

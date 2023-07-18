@@ -24,7 +24,7 @@ class LineSearchBarContent extends StatefulWidget {
   _LineSearchBarContentState createState() => _LineSearchBarContentState();
 }
 
-class _LineSearchBarContentState<T> extends State<LineSearchBarContent> {
+class _LineSearchBarContentState extends State<LineSearchBarContent> {
   /// 调整到线路列表搜索页
   _showMaterialSearch(BuildContext context) {
     Navigator.push(

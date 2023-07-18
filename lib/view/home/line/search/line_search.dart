@@ -26,7 +26,7 @@ class LineSearch extends StatefulWidget {
   _LineSearchState createState() => _LineSearchState();
 }
 
-class _LineSearchState<T> extends State<LineSearch> {
+class _LineSearchState extends State<LineSearch> {
   // 文本编辑控制器
   TextEditingController _controller = TextEditingController();
 
