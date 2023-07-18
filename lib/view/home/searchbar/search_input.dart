@@ -4,7 +4,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 typedef bool MaterialSearchFilter<T>(T v, String c);
 typedef int MaterialSearchSort<T>(T a, T b, String c);
-typedef void OnSubmit(String value);
 
 /// 线路组件
 class MaterialSearchResult<T> extends StatelessWidget {
@@ -119,7 +118,6 @@ class MaterialSearch<T> extends StatefulWidget {
     required this.results,
     required this.filter,
     this.sort,
-    this.onSubmit,
     this.barBackgroundColor = Colors.white,
     this.iconColor = Colors.black,
   }) : super(key: key);
@@ -135,9 +133,6 @@ class MaterialSearch<T> extends StatefulWidget {
 
   /// 排序
   final MaterialSearchSort<T>? sort;
-
-  /// 输入法点击完成时的处理函数
-  final OnSubmit? onSubmit;
 
   /// appBar 的背景色
   final Color barBackgroundColor;
@@ -206,11 +201,6 @@ class _MaterialSearchState<T> extends State<MaterialSearch> {
           controller: _controller,
           autofocus: true,
           decoration: InputDecoration.collapsed(hintText: widget.placeholder),
-          onSubmitted: (String value) {
-            if (widget.onSubmit != null) {
-              widget.onSubmit!(value);
-            }
-          },
         ),
         actions: _criteria.length == 0
             ? []
