@@ -12,6 +12,7 @@ class AboutMe extends StatefulWidget {
 class _AboutMeState extends State<AboutMe> {
   @override
   Widget build(BuildContext context) {
+    var age = DateTime.now().year - 1995;
     return Scaffold(
       body: CustomScrollView(
         slivers: <Widget>[
@@ -69,7 +70,7 @@ class _AboutMeState extends State<AboutMe> {
                                   ),
                                 ),
                                 subtitle: Text(
-                                  AppLocalizations.of(context)!.ageDesc,
+                                  age.toString() + AppLocalizations.of(context)!.ageDesc,
                                   style: TextStyle(
                                     color: Colors.white,
                                   ),
