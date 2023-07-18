@@ -1,10 +1,9 @@
 import 'dart:io';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:weifangbus/util/font_util.dart';
 import 'package:weifangbus/view/more/about_me.dart';
 import 'package:weifangbus/view/more/about_software.dart';
@@ -15,8 +14,7 @@ class MorePage extends StatefulWidget {
   _MorePageState createState() => _MorePageState();
 }
 
-class _MorePageState extends State<MorePage>
-    with AutomaticKeepAliveClientMixin {
+class _MorePageState extends State<MorePage> with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     super.initState();
@@ -27,6 +25,8 @@ class _MorePageState extends State<MorePage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     var tiles = <Widget>[
       ListTile(
         trailing: Icon(Icons.keyboard_arrow_right),
@@ -88,7 +88,7 @@ class _MorePageState extends State<MorePage>
         },
       ),
     ];
-    super.build(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.more),
@@ -112,7 +112,7 @@ class _MorePageState extends State<MorePage>
     const ios_url =
         "mqqapi://card/show_pslcard?src_type=internal&version=1&uin=543279223&key=bc939c2996f276c67ab381417dc8440edf516db850e48138b07f3d39a5e7d18f&card_type=group&source=external";
     try {
-      Platform.isAndroid ? await launch(android_url) : await launch(ios_url);
+      Platform.isAndroid ? await launchUrlString(android_url) : await launchUrlString(ios_url);
     } catch (e) {
       showDialog(
         context: context,
