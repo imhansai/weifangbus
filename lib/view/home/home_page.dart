@@ -10,10 +10,10 @@ import 'package:weifangbus/entity/new_info_summary_entity.dart';
 import 'package:weifangbus/util/dio_util.dart';
 import 'package:weifangbus/util/font_util.dart';
 import 'package:weifangbus/util/request_params_util.dart';
-import 'package:weifangbus/view/home/line/RouteDetail.dart';
+import 'package:weifangbus/view/home/line/route_detail.dart';
+import 'package:weifangbus/view/home/line/search/line_search.dart';
+import 'package:weifangbus/view/home/line/search/search_bar.dart';
 import 'package:weifangbus/view/home/news/news_detail.dart';
-import 'package:weifangbus/view/home/searchbar/search_bar.dart';
-import 'package:weifangbus/view/home/searchbar/search_input.dart';
 import 'package:weifangbus/view/store/news_model.dart';
 
 /// 首页
@@ -24,7 +24,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   /// 所有线路
-  List<MaterialSearchResult<String>> _allRouteList = List.empty(growable: true);
+  List<LineSearchValues> _allRouteList = List.empty(growable: true);
 
   /// 资讯信息列表(状态变更用)
   late NewsModel _showNewsList;
@@ -65,11 +65,10 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
           context,
           MaterialPageRoute<String>(
             builder: (BuildContext context) {
-              return MaterialSearch<String>(
-                barBackgroundColor: Theme.of(context).primaryColor,
+              return LineSearch(
                 placeholder: AppLocalizations.of(context)!.searchLine,
                 results: _allRouteList,
-                filter: (dynamic value, String criteria) {
+                filter: (String value, String criteria) {
                   return value.toLowerCase().trim().contains(RegExp(r'' + criteria.toLowerCase().trim() + ''));
                 },
               );
@@ -108,13 +107,11 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
     AllRouteDataEntity allRouteDataEntity = AllRouteDataEntity.fromJson(response.data);
     print("请求 线路信息 完毕");
     var routeList = allRouteDataEntity.routeList;
-    List<MaterialSearchResult<String>> materialSearchResultList = List.empty(growable: true);
+    List<LineSearchValues> materialSearchResultList = List.empty(growable: true);
     for (var i = 0; i < routeList!.length; ++i) {
       var route = routeList[i];
-      var materialSearchResult = MaterialSearchResult<String>(
+      var materialSearchResult = LineSearchValues(
         index: i,
-        value: route.routeName!,
-        icon: Icons.directions_bus,
         routeName: route.routeName!,
         onTap: () {
           Navigator.of(context).push(

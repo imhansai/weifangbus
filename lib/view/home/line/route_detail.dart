@@ -10,7 +10,7 @@ import 'package:weifangbus/entity/route_station_data_entity.dart';
 import 'package:weifangbus/entity/station_real_time_info_entity.dart';
 import 'package:weifangbus/util/dio_util.dart';
 import 'package:weifangbus/util/request_params_util.dart';
-import 'package:weifangbus/widget/RouteHeader.dart';
+import 'package:weifangbus/view/home/line/route_header.dart';
 
 /// 线路详情
 class RouteDetail extends StatefulWidget {

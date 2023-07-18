@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:weifangbus/view/home/searchbar/search_input.dart';
+import 'package:weifangbus/view/home/line/search/line_search.dart';
+import 'package:weifangbus/view/home/line/search/line_search_bar_content.dart';
 
 /// 搜索栏
 class LineSearchBar extends StatefulWidget {
-  final List<MaterialSearchResult<String>> allRouteList;
+  final List<LineSearchValues> allRouteList;
 
   const LineSearchBar({Key? key, required this.allRouteList}) : super(key: key);
 
@@ -24,7 +25,7 @@ class _LineSearchBarState extends State<LineSearchBar> {
         padding: EdgeInsets.symmetric(
           horizontal: 20.0,
         ),
-        child: MaterialSearchInput(
+        child: LineSearchBarContent(
           placeholder: AppLocalizations.of(context)!.searchLine,
           results: widget.allRouteList,
           filter: (dynamic value, String criteria) {
