@@ -1,15 +1,13 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:weifangbus/api/ApiService.dart';
 import 'package:weifangbus/entity/all_route_data_entity.dart';
 import 'package:weifangbus/entity/menu_entity.dart';
 import 'package:weifangbus/entity/new_info_summary_entity.dart';
-import 'package:weifangbus/util/dio_util.dart';
 import 'package:weifangbus/util/font_util.dart';
-import 'package:weifangbus/util/request_params_util.dart';
 import 'package:weifangbus/view/home/line/route_detail.dart';
 import 'package:weifangbus/view/home/line/search/line_search.dart';
 import 'package:weifangbus/view/home/line/search/search_bar.dart';
@@ -23,6 +21,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
+  // API 服务
+  final ApiService apiService = ApiService();
+
   /// 所有线路
   List<LineSearchValues> _allRouteList = List.empty(growable: true);
 
@@ -101,11 +102,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
 
   /// 请求所有的路线
   _getAllRoute() async {
-    Response response;
-    var uri = "/Query_AllRouteData/?" + getSignString();
-    response = await dio.get(uri);
-    AllRouteDataEntity allRouteDataEntity = AllRouteDataEntity.fromJson(response.data);
-    print("请求 线路信息 完毕");
+    AllRouteDataEntity allRouteDataEntity = await apiService.fetchAllRouteData();
     var routeList = allRouteDataEntity.routeList;
     List<LineSearchValues> materialSearchResultList = List.empty(growable: true);
     for (var i = 0; i < routeList!.length; ++i) {
@@ -118,8 +115,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
             MaterialPageRoute(
               builder: (BuildContext context) {
                 return RouteDetail(
-                  title: route.routeName,
-                  routeId: route.routeID,
+                  title: route.routeName!,
+                  routeId: route.routeID!,
                 );
               },
             ),
