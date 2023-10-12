@@ -11,10 +11,12 @@ class ApiService {
   /// 获取所有路线数据
   Future<AllRouteDataEntity> fetchAllRouteData() async {
     try {
-      var uri = "/Query_AllRouteData/?${getSignString()}";
+      var uri = "/Query_AllSubRouteData/?${getSignString()}";
       Response response = await dio.get(uri);
-      // print("请求 所有路线数据 完毕");
-      return AllRouteDataEntity.fromJson(response.data);
+      var data = response.data;
+      // print("请求 所有路线数据 完毕!");
+      // print(data);
+      return AllRouteDataEntity.fromJson(data);
     } on DioException catch (e) {
       print(getErrorMsg(e, msg: "请求所有路线数据"));
       return Future.error(e);
