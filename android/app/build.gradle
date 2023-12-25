@@ -26,6 +26,12 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
     compileSdkVersion(33)
     ndkVersion "25.1.8937393"
 
@@ -56,6 +62,7 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+    namespace 'com.imhansai.weifangbus'
 }
 
 flutter {
@@ -64,7 +71,7 @@ flutter {
 
 dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.22'
-    implementation "androidx.annotation:annotation:1.6.0"
+    implementation 'androidx.annotation:annotation:1.7.1'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
