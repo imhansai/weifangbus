@@ -46,7 +46,7 @@
   "light": "Light",
   "dark": "Dark",
   "appDesc": "This App was made by the technique of Flutter after personal work. The purpose is to run a bit more modern, I hope you like it\uD83D\uDE1C。",
-  "specialInstructions": "Special note: The interface is provided by [Weifang Zhangshangbus]. If there is any infringement, please contact me。",
+  "specialInstructions": "Special note: The API is provided by [Weifang Zhangshangbus]. If there is any infringement, please contact me。",
   "viewLicenses": "View Licenses",
   "close": "Close",
   "seeSource": "To view the source code for this application, visit: ",

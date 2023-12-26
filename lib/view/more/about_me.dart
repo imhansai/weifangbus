@@ -14,18 +14,11 @@ class _AboutMeState extends State<AboutMe> {
   Widget build(BuildContext context) {
     var age = DateTime.now().year - 1995;
     return Scaffold(
+      appBar: AppBar(
+        title: Text("关于作者"),
+      ),
       body: CustomScrollView(
         slivers: <Widget>[
-          SliverAppBar(
-            pinned: true, // 滑动到顶端时会固定住
-            expandedHeight: 250.0,
-            flexibleSpace: FlexibleSpaceBar(
-              background: Image.asset(
-                "assets/images/author.jpg",
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) {

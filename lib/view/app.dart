@@ -101,8 +101,12 @@ class _WeiFangBusApp extends State<WeiFangBusApp> {
                 : _appearance == Appearance.light
                     ? ThemeMode.light
                     : ThemeMode.dark,
-            theme: ThemeData(),
-            darkTheme: ThemeData.dark(),
+            theme: ThemeData(
+              useMaterial3: true,
+            ),
+            darkTheme: ThemeData.dark(
+              useMaterial3: true,
+            ),
             home: widget.showIntro ? IntroPage() : Home(),
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,

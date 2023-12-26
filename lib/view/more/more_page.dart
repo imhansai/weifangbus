@@ -96,10 +96,7 @@ class _MorePageState extends State<MorePage> with AutomaticKeepAliveClientMixin 
       ),
       body: Container(
         child: ListView(
-          children: ListTile.divideTiles(
-            tiles: tiles,
-            context: context,
-          ).toList(),
+          children: tiles,
         ),
       ),
     );

@@ -49,10 +49,7 @@ class _LanguageSettingsState extends State<LanguageSettings> {
         title: Text(AppLocalizations.of(context)!.languageSettings),
       ),
       body: ListView(
-        children: ListTile.divideTiles(
-          context: context,
-          tiles: tiles,
-        ).toList(),
+        children: tiles,
       ),
     );
   }

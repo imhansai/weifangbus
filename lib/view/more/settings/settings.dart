@@ -42,47 +42,44 @@ class _SettingsState extends State<Settings> {
         title: Text(AppLocalizations.of(context)!.settings),
       ),
       body: ListView(
-        children: ListTile.divideTiles(
-          context: context,
-          tiles: [
-            ListTile(
-              leading: Icon(
-                Icons.nights_stay,
-                color: Colors.blue,
-              ),
-              title: Text(AppLocalizations.of(context)!.appearanceManagement),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (BuildContext context) {
-                      return AppearanceManager();
-                    },
-                  ),
-                );
-              },
-              trailing: Text(AppearanceUtil.appearanceStr(context, _appearance)),
+        children: <Widget>[
+          ListTile(
+            leading: Icon(
+              Icons.nights_stay,
+              color: Colors.blue,
             ),
-            ListTile(
-              leading: Icon(
-                Icons.language,
-                color: Colors.teal,
-              ),
-              title: Text(AppLocalizations.of(context)!.languageSettings),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (BuildContext context) {
-                      return LanguageSettings();
-                    },
-                  ),
-                );
-              },
-              trailing: Text(LanguageUtil.languageString(context, _languagePreference)),
+            title: Text(AppLocalizations.of(context)!.appearanceManagement),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) {
+                    return AppearanceManager();
+                  },
+                ),
+              );
+            },
+            trailing: Text(AppearanceUtil.appearanceStr(context, _appearance)),
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.language,
+              color: Colors.teal,
             ),
-          ],
-        ).toList(),
+            title: Text(AppLocalizations.of(context)!.languageSettings),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) {
+                    return LanguageSettings();
+                  },
+                ),
+              );
+            },
+            trailing: Text(LanguageUtil.languageString(context, _languagePreference)),
+          ),
+        ],
       ),
     );
   }

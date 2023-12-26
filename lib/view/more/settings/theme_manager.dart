@@ -48,9 +48,7 @@ class _AppearanceManagerState extends State<AppearanceManager> {
               onTap: () {
                 _showAndSetAppearance(context, e);
               },
-              trailing: _appearance == e
-                  ? Text(AppLocalizations.of(context)!.selected)
-                  : SizedBox(),
+              trailing: _appearance == e ? Text(AppLocalizations.of(context)!.selected) : SizedBox(),
             ))
         .toList();
     return Scaffold(
@@ -58,10 +56,7 @@ class _AppearanceManagerState extends State<AppearanceManager> {
         title: Text('外观管理'),
       ),
       body: ListView(
-        children: ListTile.divideTiles(
-          context: context,
-          tiles: tiles,
-        ).toList(),
+        children: tiles,
       ),
     );
   }
