@@ -78,6 +78,29 @@ class _LineSearchState extends State<LineSearch> {
       return widget.filter(result.routeName, _criteria);
     }).toList();
 
+    // 对搜索结果进行排序
+    results.sort((a, b) {
+      // 提取数字和非数字部分进行比较
+      Match? aMatch = RegExp(r'(\d+)(\D*)').firstMatch(a.routeName);
+      Match? bMatch = RegExp(r'(\d+)(\D*)').firstMatch(b.routeName);
+
+      // 提取数字部分进行比较
+      int aValue = int.tryParse(aMatch?.group(1) ?? '0') ?? 0;
+      int bValue = int.tryParse(bMatch?.group(1) ?? '0') ?? 0;
+
+      // 提取非数字部分进行比较
+      String aNonNumericPart = aMatch?.group(2) ?? '';
+      String bNonNumericPart = bMatch?.group(2) ?? '';
+
+      // 先按数字部分升序排序，然后按非数字部分升序排序
+      int valueComparison = aValue.compareTo(bValue);
+      if (valueComparison == 0) {
+        return aNonNumericPart.compareTo(bNonNumericPart);
+      } else {
+        return valueComparison;
+      }
+    });
+
     return Scaffold(
       appBar: AppBar(
         title: TextField(
