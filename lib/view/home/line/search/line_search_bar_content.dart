@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:weifangbus/generated/l10n/app_localizations.dart';
 import 'package:weifangbus/view/home/line/search/line_search.dart';
 
 /// 搜索框，点击跳往搜索页

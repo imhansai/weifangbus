@@ -3,7 +3,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_refresh/easy_refresh.dart';
 import 'package:easy_refresh_bubbles/easy_refresh_bubbles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:weifangbus/generated/l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:weifangbus/view/home/news/news_detail.dart';

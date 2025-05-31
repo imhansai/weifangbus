@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:weifangbus/generated/l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:weifangbus/util/font_util.dart';
 import 'package:weifangbus/view/more/about_me.dart';

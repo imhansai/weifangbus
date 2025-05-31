@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:weifangbus/generated/l10n/app_localizations.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -28,7 +28,7 @@ class _AboutDialog extends StatelessWidget {
     final bodyTextStyle = textTheme.bodyLarge;
 
     final name = AppLocalizations.of(context)!.softWare;
-    final legalese = '© 2019-2023 imhansai';
+    final legalese = '© 2019-2025 imhansai';
     final seeSourceFirst = AppLocalizations.of(context)!.seeSource;
     final repoText = 'weifangbus GitHub ' + AppLocalizations.of(context)!.repo;
     final seeSourceSecond = '。';

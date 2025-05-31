@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:weifangbus/generated/l10n/app_localizations.dart';
 
 /// 线路详情头部信息
 class RouteHeader extends StatefulWidget {

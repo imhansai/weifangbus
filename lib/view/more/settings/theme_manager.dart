@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:weifangbus/generated/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:weifangbus/util/appearance.dart';
 import 'package:weifangbus/util/theme_util.dart';
