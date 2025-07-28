@@ -84,3 +84,6 @@ app.*.map.json
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 
 /ios/Flutter/Flutter.podspec
+
+**/android/app/.cxx/
+**/android/build/

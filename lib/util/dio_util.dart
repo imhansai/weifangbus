@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-var dio = new Dio(
+var dio = Dio(
   BaseOptions(
     baseUrl: "http://122.4.254.30:8088/BusService",
     connectTimeout: Duration(seconds: 60),

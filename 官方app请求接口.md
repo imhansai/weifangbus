@@ -12,4 +12,6 @@
    GET /BusService/Query_LinemomentNP/?PackageName=com.hisense.wfbus2&Random=175&RouteID=%40E?%40&SignKey=03f1dbe310ae40d38421f1a7c22da3fe03fa4262e8c35596ac1ff5c806f4232b&timeStamp=20231012140425 HTTP/1.1
 7. 计划时刻
    GET /BusService/Query_LinemomentDisplan/?PackageName=com.hisense.wfbus2&Random=186&RouteID=%40E?%40&SignKey=3f45302a0d29a3e022211abba41ec7cc61d30dcaaabc369177e4a650d58fd4ee&timeStamp=20231012140449 HTTP/1.1
-8. 
+8. “潍坊公交”用户协议
+   https://mobile.wfsmk.cn:900/weifangpublic/h5/useragreement.html
+9. 

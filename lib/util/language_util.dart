@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:weifangbus/l10n/app_localizations.dart';
 import 'package:weifangbus/util/sp_util.dart';
 import 'package:weifangbus/view/store/locale_provider.dart';
 
@@ -82,9 +82,7 @@ class LanguageUtil {
         return Locale.fromSubtags(languageCode: 'zh');
       case LanguagePreference.ja:
         return Locale.fromSubtags(languageCode: 'ja');
-      default:
-        return null;
-    }
+      }
   }
 
   /// 根据 [Locale] 获取 [LanguagePreference]
